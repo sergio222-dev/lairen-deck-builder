@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Qwik City App ⚡️
 
 - [Qwik Docs](https://qwik.dev/)
@@ -64,6 +63,3 @@ The production build will generate client and server modules by running both cli
 ```shell
 pnpm build # or `pnpm build`
 ```
-=======
-# lairen-deck-builder
->>>>>>> 7825d8a7a5675beac8e6465e24162c2c966900ec

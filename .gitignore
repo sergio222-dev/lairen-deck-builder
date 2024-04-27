@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Build
 /dist
 /lib
@@ -15,15 +14,12 @@ node_modules
 .rollup.cache
 tsconfig.tsbuildinfo
 
-=======
->>>>>>> 7825d8a7a5675beac8e6465e24162c2c966900ec
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
 pnpm-debug.log*
 lerna-debug.log*
 
@@ -43,9 +39,6 @@ lerna-debug.log*
 # Yarn
 .yarn/*
 !.yarn/releases
-=======
-lerna-debug.log*
-.pnpm-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -168,4 +161,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
->>>>>>> 7825d8a7a5675beac8e6465e24162c2c966900ec
