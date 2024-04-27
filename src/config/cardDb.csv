@@ -1,0 +1,291 @@
+image,name,cost,text,set,rarity,type,supertype,subtype,subtype2
+ADNAN-ASESINO-ELITE,"ADNAN, ASESINO ELITE",3,"Frenesí. Temible. Siempre que esta unidad ataque, gana +1/+0 por cada desertor que controlas hasta el final del turno.",FUNDAMENTOS,PLATA,UNIDAD,-,DESERTOR,-
+ AFMID-LA-MANO-DERECHA,"AFMID, LA MANO DERECHA",3,Frenesí. Aparición en juego: Hace 1 punto de daño por cada desertor que controlas a la unidad objetivo.,FUNDAMENTOS,PLATA,UNIDAD,-,DESERTOR,-
+ AGUA-EN-EL-DESIERTO,AGUA EN EL DESIERTO,1,El jugador objetivo gana 5 vidas.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ AIXA-LA-GUERRERA,"AIXA, LA GUERRERA",5, Aparición en juego: Hasta tres unidades objetivo no pueden atacar ni bloquear hasta la próxima fase final de su controlador.,FUNDAMENTOS,ORO,UNIDAD,-,SOLDADO,-
+ AIXA-TRONO-COMPARTIDO-COPIA,"AIXA, TRONO COMPARTIDO",3,"Aparición en juego: Puedes pagar 1 oro. Si lo haces, mira las primeras cuatro cartas de tu Reino. Puedes poner una carta de desertor o monje en tu mano. Pon el resto en el fondo.",TRONO COMPARTIDO,PLATA,UNIDAD,REALEZA,SOLDADO,-
+ ALMIRANTE-FREDERICK,ALMIRANTE FREDERICK,4,"Dureza. Al principio de tu fase de combate, puedes descartar una carta de soldado o pirata para que esta unidad gane un contador +1/+1. Luego cada oponente puede descartar una carta. Si no lo hacen, gana Frenesí hasta el final del turno.",PACTO SECRETO,PLATA,UNIDAD,-,SOLDADO,PIRATA
+ ALTAR-DE-IRIS-COPIA,ALTAR DE IRIS,2,"DURANTE TU TURNO, SI GANASTE 3 O MÁS VIDAS ESTE TURNO, PUEDES EROSIONAR PARA CREAR UNA FICHA ÁNGEL 3/3 CON EVASIÓN. EROSIÓN 2.",TRONO COMPARTIDO,ORO,MONUMENTO,-,MONJE,-
+ ALUCA-CONDENADORA-COPIA,ALUCA CONDENADORA,3,"Aparición en juego: Puedes condenar hasta una otra unidad aliada objetivo. Si lo haces, Predicción 1, luego roba una carta. Siempre que una unidad aliada sea condenada, ganas 2 vidas.",TRONO COMPARTIDO,ORO,UNIDAD,-,DEMONIO,BRUJA
+ ALUMNO-INESPERADO-COPIA,ALUMNO INESPERADO,4,Roba una carta por cada contador -1/-1 entre las unidades rivales.,TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,INSECTO
+ AMIGA-DE-LOS-ARBOLES,AMIGA DE LOS ARBOLES,2," Frenesí. Siempre que esta unidad haga daño de combate a un jugador, crea una copia de esta unidad.",PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ ANCIANA-MAESTRA,ANCIANA MAESTRA,5,Aparición en juego: Pon en el campo de batalla hasta dos cartas de bruja objetivo de tu descarte con dos contadores +1/+1. Ganan Frenesí hasta el final del turno.,PACTO SECRETO,DIAMANTE,UNIDAD,-,BRUJA,-
+ ANTIGUO-APRENDIZ-DE-KYLE-COPIA,ANTIGUO APRENDIZ DE KYLE,2,Curar. Aparición en juego: Condena otra unidad objetivo. Regrésala al campo de inicio de la próxima fase final.,TRONO COMPARTIDO,PLATA,UNIDAD,-,MONJE,-
+ ARACNOBAJO-COPIA,ARACNOBAJO,2,"Envenena (Siempre que haga daño a otra unidad, la envenena).",TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ ARBOL-ANCIANO,ARBOL ANCIANO,5,"Indestructible. Siempre que otra unidad entre al campo de batalla bajo tu control, convierte esa unidad en un elemental 5/5 con todas sus habilidades.",PACTO SECRETO,DIAMANTE,UNIDAD,-,ELEMENTAL,-
+ ARBOL-DE-SALVIA-VIGORIZANTE-COPIA,ARBOL DE SALVIA VIGORIZANTE,3,"Una vez por turno, puedes erosionar para que los insectos aliados ganen +1/+0 y Envenena hasta el final del turno. Erosión 2.",TRONO COMPARTIDO,BRONCE,MONUMENTO,-,INSECTO,-
+ ARLEQUIN-DE-LA-CORONA,ARLEQUIN DE LA CORONA,2,(Esta carta es todos los subtipos de unidad en todo momento). Aparición en juego: Elige 1: - El jugador objetivo descarta una carta. - Roba una carta.,PACTO SECRETO,PLATA,UNIDAD,-,MIMETICO,-
+ ASESINO-CONTRATADO,ASESINO CONTRATADO,1,Frenesí. (Esta unidad puede atacar el mismo turno que entra bajo tu control).,FUNDAMENTOS,BRONCE,UNIDAD,-,DESERTOR,-
+ ASESINO-DE-ALMAS-COPIA,ASESINO DE ALMAS,4,"Arrollar. Aparición en juego: La unidad rival objetivo gana -X/-X hasta el final del turno, siendo X la cantidad de cartas de unidad demonio en tu Averno.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ ASESINO-DE-LOS-MARES,ASESINO DE LOS MARES,2,"Aparición en juego: Si un oponente recibió daño este turno, ese oponente descarta  una carta.",PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ ATRAPACUERPOS-COPIA,ATRAPACUERPOS,2,Atracción. Envenena.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ AUGUSTUS-CONSPIRADOR,"AUGUSTUS, CONSPIRADOR",3,"Al principio de tu turno, puedes poner las primeras cinco cartas de tu Reino en el averno para hacer 2 puntos de daño a cualquier objetivo.",PACTO SECRETO,ORO,UNIDAD,REALEZA,SOLDADO,SOLDADO
+ AUGUSTUS-EL-HEREDERO,"AUGUSTUS, EL HEREDERO",4,"Aparición en juego: Ganas 1 vida por cada soldado que controlas. Busca a ""Maximus, el general"" en tu Reino y ponlo en tu mano.",FUNDAMENTOS,PLATA,UNIDAD,REALEZA,SOLDADO,-
+ AUGUSTUS-TRONO-COMPARTIDO-COPIA,"AUGUSTUS, TRONO COMPARTIDO",3,"Aparición en juego: Puedes pagar 1 oro. Si lo haces, destruye el desertor o monje objetivo de coste 3 o menos.",TRONO COMPARTIDO,PLATA,UNIDAD,REALEZA,SOLDADO,-
+ AURA-LLAMEANTE,AURA LLAMEANTE,2,Derrotado: Busca en tu Reino una carta de acción de coste 2 o menos y ponla en tu mano.,PACTO SECRETO,PLATA,UNIDAD,-,ELEMENTAL,-
+ AVE-MAJESTUOSA,AVE MAJESTUOSA,2,Evasión. (Esta unidad solo puede ser bloqueada por unidades con Evasión o Vigía).,PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ Mesa-de-trabajo-1,"AZAHARA, LIDER DE LA GUARDIA",2,Frenesí. Destruye esta unidad al final de tu turno.,FUNDAMENTOS,PLATA,UNIDAD,-,DESERTOR,-
+ AZOTE-DE-LOS-MARES,AZOTE DE LOS MARES,2,"Siempre que un oponente descarte una carta, ese jugador pierde 2 vidas.",PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ BALANZA-DE-CADAVERES,BALANZA DE CADAVERES,4,Destruye todas las unidades.,PACTO SECRETO,ORO,ACCION,-,RAPIDA,-
+ BANQUETE-FRUSTRADO-COPIA,BANQUETE FRUSTRADO,3,Envenena todas las unidades.,TRONO COMPARTIDO,ORO,ACCION,-,-,-
+ BENDICION-DE-LA-REINA,BENDICION DE LA REINA,0,Agotar: Ganas 2 vidas.,PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ BENDICION-DEL-ANGEL,BENDICION DEL ANGEL,0,Aparición en juego: Roba una carta.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ BIENVENIDO-AL-AVERNO-COPIA,BIENVENIDO AL AVERNO,3,Condena la unidad objetivo (Envía la unidad al Averno).,TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,-
+ BLOQUEO-COMERCIAL,BLOQUEO COMERCIAL,0,"Agotar: Durante el próximo turno del jugador objetivo, su primera orden de unidad cuesta 1 más.",PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ Mesa-de-trabajo-9,BOLA DE FUEGO,2,Hace 2 puntos de daño a cualquier objetivo.,FUNDAMENTOS,BRONCE,ACCION,-,RAPIDA,-
+ BRISA-DANZANTE,BRISA DANZANTE,1,Evasión. (Esta unidad solo puede ser bloqueada por unidades con Evasión o Vigía). Derrotado: Ganas 3 vidas.,PACTO SECRETO,BRONCE,UNIDAD,-,ELEMENTAL,-
+ BUSCANDO-A-LA-LIEBRE,BUSCANDO A LA LIEBRE,0,Destruir: Busca en tu Reino una carta de animal de coste 2 o menos y ponla en tu mano.,PACTO SECRETO,PLATA,TESORO,-,SAGRADO,-
+ CABALLERIA-REAL,CABALLERIA REAL,4,"Frenesí. Siempre que esta unidad ataque, las unidades que controlas ganan +1/+0 hasta el final del turno.",FUNDAMENTOS,PLATA,UNIDAD,-,SOLDADO,-
+ CABALLERIZA-FUGAZ,CABALLERIZA FUGAZ,2,"Destruir: Las unidades que controlas ganan Frenesí, Arrollar e Indestructible hasta el final de turno.",PACTO SECRETO,DIAMANTE,MONUMENTO,-,-,-
+ CACERIA-DE-BRUJAS,CACERIA DE BRUJAS,0,Aparición en juego: El jugador objetivo muestra su mano. Elige una carta. Ese jugador descarta esa carta.,FUNDAMENTOS,PLATA,TESORO,-,COMUN,-
+ CADENAS-ROTAS-COPIA,CADENAS ROTAS,0,Destruir: Puedes jugar la carta de unidad objetivo de tu Averno este turno.,TRONO COMPARTIDO,PLATA,TESORO,-,SAGRADO,-
+ CAIDA-DEL-REINO,CAIDA DEL REINO,5,Las unidades del jugador objetivo ganan -3/-3 hasta el final del turno.,PACTO SECRETO,PLATA,ACCION,-,RAPIDA,-
+ CAIDO-EN-BATALLA,CAIDO EN BATALLA,2,Destruye la unidad objetivo.,FUNDAMENTOS,PLATA,ACCION,-,RAPIDA,-
+ CALAM-EL-TIRA-PIEDRAS,"CALAM, EL TIRA PIEDRAS",2,Aparición en juego: Hace 2 puntos de daño a la unidad objetivo.,PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ CALDERO-NEGRO,CALDERO NEGRO,3,Hace 2 puntos de daño a cualquier objetivo por cada carta de bruja en tu descarte.,PACTO SECRETO,DIAMANTE,ACCION,-,COMUN,-
+ CALI-LA-GRIMORISTA,"CALI, LA GRIMORISTA",3,"Al principio de tu fase final, si controlas otra bruja, puedes perder 1 vida y robar una carta.",PACTO SECRETO,PLATA,UNIDAD,-,BRUJA,-
+ CAMPO-DE-ENTRENAMIENTO,CAMPO DE ENTRENAMIENTO,3," Una vez por turno, puedes erosionar para que las unidades que controlas ganen +1/+1 hasta el final del turno. Erosión 3.",PACTO SECRETO,BRONCE,MONUMENTO,-,-,-
+ CANCELACION,CANCELACION,1,Cancela el efecto en juego objetivo.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ CAOS-EN-BERIN-COPIA,CAOS EN BERIN,4,"Elige 2: -Crea dos fichas demonio 2/2. -El jugador objetivo condena una carta de su mano. -Si controlas un demonio, interrumpe la orden de acción de coste 3 o menos. -Sentencia la unidad objetivo.",TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,DEMONIO
+ CAPULLO-DE-ARBOL-INFESTADO-COPIA,CAPULLO DE ARBOL INFESTADO,0,"Aparición en juego: Crea una ficha insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"".",TRONO COMPARTIDO,PLATA,TESORO,-,COMUN,-
+ CAPULLO-DESCONOCIDO-COPIA,CAPULLO DESCONOCIDO,1,Derrotado: Crea una ficha insecto 3/2.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ CARCELERO,CARCELERO,2,Derrotado: Hace 1 punto de daño al jugador objetivo.,FUNDAMENTOS,BRONCE,UNIDAD,-,DESERTOR,-
+ CARNADA-DE-TIBURONES,CARNADA DE TIBURONES,1,Derrotado: Crea una ficha animal 2/2.,PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ CARNE-EXPLOSIVA,CARNE EXPLOSIVA,1,"Siempre que esta unidad reciba daño de combate de otra unidad, destruye ambas unidades.",PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ CARNE-FRESCA,CARNE FRESCA,2, Los animales que controlas ganan +1/+1 hasta el final del turno.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ CARTA-DE-CONDENA-COPIA,CARTA DE CONDENA,0,"Aparición en juego: Puedes condenar una carta de tu mano. Si lo haces, cada oponente condena una carta de su mano.",TRONO COMPARTIDO,ORO,TESORO,-,COMUN,-
+ CASCABUFALO-COPIA,CASCABUFALO,1,Destruir: Cancela el efecto en juego objetivo. Derrotado: Drena 1.,TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,ANIMAL
+ CASCADA-DE-LA-SABIDURIA,CASCADA DE LA SABIDURIA,2,"Si controlas al menos dos unidades soldado o animal, una vez durante tu turno, puedes erosionar para robar una carta. Erosión 2.",PACTO SECRETO,PLATA,MONUMENTO,-,-,-
+ CASCARABAJO-VOLADOR-COPIA,CASCARABAJO VOLADOR,3,"Evasión. Aparición en juego: Envenena otra unidad objetivo. Siempre que otro insecto aliado muera, Drena 1.",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,-
+ CASTIGO-MALDITO-COPIA,CASTIGO MALDITO,1,"(Como coste adicional, pierdes 2 vidas). La unidad objetivo gana -X/-X hasta el final del turno, siendo X la cantidad de vidas que has perdido este turno.",TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,-
+ Centinela-del-castillo-copia,CENTINELA DEL CASTILLO,3,"Vigía. Siempre que bloquee a una unidad con Evasión, esta unidad gana +0/+1 hasta el final del turno.",PACTO SECRETO,BRONCE,UNIDAD,-,SOLDADO,-
+ CENTINELA-DEL-PALACIO,CENTINELA DEL PALACIO,3,Frenesí. (Esta unidad puede atacar el mismo turno que entra bajo tu control).,FUNDAMENTOS,BRONCE,UNIDAD,-,DESERTOR,-
+ CERRANDO-PORTALES-COPIA,CERRANDO PORTALES,3,Interrumpe la orden objetivo. Predicción 2.,TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,-
+ CIUDAD-EN-LLAMAS,CIUDAD EN LLAMAS,3,Hace 4 puntos de daño al jugador objetivo y 2 puntos de daño a las unidades que controla.,FUNDAMENTOS,ORO,ACCION,-,RAPIDA,-
+ COCRONGOSTA-COPIA,COCRONGOSTA,2,"Aparición en juego: Puedes destruir otro insecto aliado objetivo. Si lo haces, Drena 2.",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,-
+ COLMILLO-DE-PLATA-COPIA,COLMILLO DE PLATA,1,"Siempre que otro animal aliado entre al campo, esta unidad gana +1/+1 hasta el final del turno. Si es la segunda vez que esta habilidad resuelve este turno, gana un contador +1/+1 en su lugar.",TRONO COMPARTIDO,PLATA,UNIDAD,-,ANIMAL,-
+ COMANDANTE-AIXA,COMANDANTE AIXA,2,Frenesí. Temible. Aparición en juego: Los otros soldados que controlas ganan +1/+1 hasta el final del turno.,PACTO SECRETO,DIAMANTE,UNIDAD,REALEZA,SOLDADO,-
+ COMANDANTE-CONDENADO-COPIA,COMANDANTE CONDENADO,2,"Los otros demonios aliados ganan +1/+1. Siempre que ataques, la unidad rival objetivo gana -X/-X hasta el final del turno, siendo X la cantidad de unidades atacantes.",TRONO COMPARTIDO,PLATA,UNIDAD,-,SOLDADO,DEMONIO
+ CONSTRUCTOR-DE-ALTARES-COPIA,CONSTRUCTOR DE ALTARES,1,"Aparición en juego: Crea una ficha de monumento con ""Erosionar: Ganas 2 vidas."" y ""Erosión 1"".",TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ CONTRABANDISTA,CONTRABANDISTA,2,Aparición en juego: Roba una carta.,PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ CORREDOR-DE-LOS-BOSQUES,CORREDOR DE LOS BOSQUES,2,"Siempre que un Corredor de los  bosques entre al campo de batalla bajo tu control, crea una ficha animal 1/1.",PACTO SECRETO,PLATA,UNIDAD,-,ANIMAL,-
+ CREADORA-DE-TORMENTAS,CREADORA DE TORMENTAS,2,"Siempre que otro elemental entre al campo de batalla bajo tu control, roba una carta.",PACTO SECRETO,ORO,UNIDAD,-,ELEMENTAL,-
+ CRIADERO-DE-MADERA-COPIA,CRIADERO DE MADERA,2,"Crea dos fichas insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"".",TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,INSECTO
+ CRIATURA-DE-LA-AVANZADA-COPIA,CRIATURA DE LA AVANZADA,2,"(Como coste adicional, pierdes 2 vidas). Puede ser jugado desde el Averno.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ CUMULO-DE-HONGOS-COPIA,CUMULO DE HONGOS,1,"Aparición en juego: Crea una ficha insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"". 1 de oro y Destruir: Drena 1.",TRONO COMPARTIDO,BRONCE,MONUMENTO,-,-,-
+ CURANDERA-DE-LA-ALIANZA,CURANDERA DE LA ALIANZA,2,"Una vez durante tu turno, puedes descartar una carta para ganar 2 vidas.",PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ DANA-MEDICA-BRUJA,"DANA, MEDICA BRUJA",2,"Siempre que juegues una carta de  acción o unidad, ganas 1 vida.",PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,SOLDADO
+ DEMONIO-MEJOR-COPIA,DEMONIO MENOR,2,Aparición en juego: Cada jugador pierde 2 vidas. Derrotado: Condena esta unidad.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ DESECHOS-DE-LA-BRUJULA-PIRATA-COPIA,DESECHOS DE LA BRUJULA PIRATA,0,"Agotar: Hasta el final del turno, si un jugador fuera a buscar cartas en su Reino, busca en las primeras cinco cartas en su lugar.",TRONO COMPARTIDO,PLATA,TESORO,-,COMUN,-
+ DEVORADOR-DE-ALMAS-COPIA,DEVORADOR DE ALMAS,1,Aparición en juego: El jugador objetivo condena dos cartas de su Reino.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ DICTADO-EQUITATIVO-COPIA,DICTADO EQUITATIVO,2,"Cada jugador condena una carta de su mano. Crea una ficha demonio 0/3 con ""Derrotado: Roba un carta"".",TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,DEMONIO
+ DISCIPULO-CONVERTIDO-COPIA,DISCIPULO CONVERTIDO,2,"Cuando fueras a perder vidas por una orden o efecto que controlas, ganas esa cantidad de vidas en su lugar.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,DEMONIO
+ DISCURSO-DEL-REY,DISCURSO DEL REY,1,Mueve la unidad objetivo a la zona de formación.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ DOJO-DE-ENTRENAMIENTO-COPIA,DOJO DE ENTRENAMIENTO,2,Puedes erosionar para poner un contador +1/+1 en la unidad aliada que entró al campo este turno. Activa esta habilidad solo una vez por turno. Erosión 3.,TRONO COMPARTIDO,BRONCE,MONUMENTO,-,-,-
+ DORIAN-MAULLIDO-INFERNAL-COPIA,"DORIAN, MAULLIDO INFERNAL",5,"Sorpresivo. Aparición en juego: Condena tres cartas de tu Reino. Siempre que condenes una carta de unidad de tu Reino, puedes pagar 2 vidas. Si lo haces, crea una ficha demonio 2/2. Gana +1/+1 y Frenesí hasta el final del turno.",TRONO COMPARTIDO,PLATA,UNIDAD,-,DEMONIO,ANIMAL
+ DRAKE-EL-VETERANO,"DRAKE, EL VETERANO",4,"Hurto. Siempre que un pirata entre al campo de batalla bajo tu control, el jugador objetivo descarta una carta. Esta habilidad dispara solo una vez por turno.",PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ DUELO-DE-ESPADAS,DUELO DE ESPADAS,2,La unidad objetivo que controlas lucha con la unidad objetivo que no controlas.,FUNDAMENTOS,PLATA,ACCION,-,RAPIDA,-
+ EJECUCION,EJECUCION,0,Destruir: Destruye la unidad objetivo.,FUNDAMENTOS,PLATA,TESORO,-,COMUN,-
+ EL-GURRANO-LEYENDA-DE-HAMRRA-COPIA,"EL GARRUANO, LEYENDA DE HAMRRA",6,Dureza. Cuesta 1 oro menos por cada insecto aliado. El coste no puede ser menor que 1.,TRONO COMPARTIDO,ORO,UNIDAD,-,INSECTO,-
+ EL-MAESTRO,EL MAESTRO,2,Arrollar. Frenesí. Aparición en juego: Hace 1 punto de daño a las unidades que no controlas.,FUNDAMENTOS,ORO,UNIDAD,-,DESERTOR,-
+ EL-OJO-QUE-TODO-LO-VE,EL OJO QUE TODO LO VE,0,"Aparición en juego: Mira las primeras tres cartas de tu Reino, luego pon una en tu mano y el resto en el fondo. Destruir: Mezcla este tesoro en tu Bóveda.",FUNDAMENTOS,PLATA,TESORO,-,COMUN,-
+ ELI-PEQUE-A-MASCOTA,"ELI, PEQUEÑA MASCOTA",3,"Arrollar. Aparición en juego: Si controlas dos o más desertores, gana dos contadores +1/+1.",PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ EMBOSCADA-DE-LA-MANADA-COPIA,EMBOSCADA DE LA MANADA,1,Derrotado: La unidad aliada objetivo lucha con la unidad rival objetivo. (Las unidades que luchan hacen daño a la otra igual a su fuerza).,TRONO COMPARTIDO,BRONCE,UNIDAD,-,ANIMAL,-
+ ENTERRADOS-JUNTOS-COPIA,ENTERRADOS JUNTOS,1,"(Como coste adicional, destruye una unidad aliada). Destruye la unidad objetivo.",TRONO COMPARTIDO,BRONCE,ACCION,-,BRUJA,-
+ ERODON-CAPITAN-DEL-OJO-COPIA,"ERODON, CAPITAN DEL OJO",4,"Aparición en juego: Crea dos fichas de monumento con ""Erosionar: Ganas 2 vidas"" y ""Erosión 1"". Siempre que ganes vidas, hace esa misma cantidad de daño a la unidad rival objetivo. Esta habilidad dispara solo una vez por turno. ",TRONO COMPARTIDO,DIAMANTE,UNIDAD,REALEZA,DESERTOR,MONJE
+ ERODON-MONJE-GENERAL,"ERODON, MONJE GENERAL",3,Aparición en juego y Derrotado: Crea una ficha tesoro en tu reserva con “Agotar: Genera 1 Oro y destruye este tesoro”.,PACTO SECRETO,ORO,UNIDAD,-,SOLDADO,-
+ ERRANTE-DEL-DESIERTO,ERRANTE DEL DESIERTO,2,Fantasmal. (Esta unidad solo puede ser bloqueada por unidades con Fantasmal).,PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ ESCARANTULA-COPIA,ESCARANTULA,2,"Aparición en juego: Crea una ficha insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"".",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,-
+ ESCORNOGUZANO-COPIA,ESCORNOGUZANO,5,"Aparición en juego: Puedes destruir hasta tres unidades aliadas. Si lo haces, Drena 1 por cada una.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ ESENCIA-ANIMAL-COPIA,ESENCIA ANIMAL,5,"Aparición en juego y siempre que se descarte por una orden o efecto rival: Crea dos fichas animal 1/1 y ganas 2 vidas. Si una orden o efecto rival pudiera elegir descartar esta carta, debe descartar esta carta.",TRONO COMPARTIDO,PLATA,UNIDAD,-,ELEMENTAL,ANIMAL
+ ESMERALDA-MAGICA,ESMERALDA MAGICA,0,"Aparición en juego: Si controlas al menos una unidad bruja o elemental, busca en tu Reino una carta de unidad de coste 2 o menos del mismo subtipo y ponla en tu mano.",PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ ESPIRITU-ANIMAL,ESPIRITU ANIMAL,3,Aparición en juego: Busca en tu Reino una carta de animal de coste 3 o menos y ponla en tu mano. Los animales que controlas ganan +1/+1.,PACTO SECRETO,ORO,UNIDAD,-,BRUJA,-
+ ESPIRITU-DEL-VIENTO-COPIA,ESPIRITU DEL VIENTO,4,Aparición en juego: Crea una ficha espíritu 5/5 con Arrollar.,TRONO COMPARTIDO,ORO,UNIDAD,-,ELEMENTAL,-
+ ESPIRITU-MARINO,ESPIRITU MARINO,3,"Siempre que otra unidad que no sea ficha que controlas muera, o descartes una carta de unidad, crea una ficha elemental 2/2.",PACTO SECRETO,ORO,UNIDAD,REALEZA,BRUJA,-
+ ESPIRITU_MINERAL_COPIA,ESPIRITU MINERAL,3,"Aparición en juego: Naturaliza el tesoro objetivo mientras controles esta unidad. Los elementales aliados ganan ""Resguardo: 1 oro"".",TRONO COMPARTIDO,BRONCE,UNIDAD,-,ELEMENTAL,-
+ ESTATUA_DEL_ANGEL_PROMETIDO_COPIA,ESTATUA DEL ANGEL PROMETIDO,0,"Siempre que ganes vidas, puedes poner un contador de invocación sobre este tesoro. Cuando tengas tres, destrúyelo para crear una ficha ángel 3/3 con Evasión.",TRONO COMPARTIDO,ORO,TESORO,-,SAGRADO,-
+ ENBOSCADA-DEMONIACA-COPIA,ESTOCADA DEMONIACA,1,"Hace 2 daños a la unidad objetivo. Si fuera a morir, condénala en su lugar.",TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,-
+ ESTUDIANTE_DE_MALDICIONES_COPIA,ESTUDIANTE DE MALDICIONES,2,"Derrotado: Si controlas un monje, Predicción 2. Siempre que otra unidad entra al campo, pacifícala. Esta habilidad dispara solo una vez por turno.",TRONO COMPARTIDO,PLATA,UNIDAD,REALEZA,BRUJA,MONJE
+ ETER_RENACIENTE_COPIA,ETER RENACIENTE,3,"Entra al campo con X contadores +1/+1, siendo X la cantidad de vidas que ganaste este turno.",TRONO COMPARTIDO,ORO,UNIDAD,-,MONJE,ELEMENTAL
+ FAJID-REY-DESERTOR,"FAJID, REY DESERTOR",4,"Arrollar. Frenesí. Aparición en juego: Hace 3 puntos de daño a las unidades que no controlas, luego hace 2 puntos de daño al jugador objetivo por cada unidad que murió por esta habilidad.",FUNDAMENTOS,DIAMANTE,UNIDAD,REALEZA,DESERTOR,-
+ FANATICO-DEL-ORO,FANATICO DEL ORO,2,"Una vez durante tu turno, puedes 1 de Oro: Elige 1: - El jugador objetivo descarta una carta. - Hace 2 puntos de daño al jugador objetivo.",PACTO SECRETO,PLATA,UNIDAD,-,DESERTOR,PIRATA
+ FELINO-DE-LA-MONTA-A,FELINO DE LA MONTAÑA,2,Sorpresivo. Aparición en juego: Pon dos contadores +1/+1 repartidos entre una o dos unidades objetivo.,PACTO SECRETO,ORO,UNIDAD,-,ANIMAL,-
+ FERVOR-DE-LA-BATALLA,FERVOR DE LA BATALLA,0,Agotar: La unidad objetivo gana Frenesí hasta el final del turno.,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ FLOR_DE_HIEDRA_VENENOSA_COPIA,FLOR DE HIEDRA VENENOSA,0,Agotar: Pon un contador -1/-1 sobre la unidad objetivo.,TRONO COMPARTIDO,ORO,TESORO,-,COMUN,-
+ FOSA-DE-LA-CREACION,FOSA DE LA CREACION,3,Destruye una bruja que controlas. Busca en tu Reino una carta de unidad bruja de coste 3 o menos y juégala sin pagar su coste. Esa unidad gana un contador +1/+1.,PACTO SECRETO,ORO,ACCION,-,COMUN,-
+ FRENTE-DE-ATAQUE,FRENTE DE ATAQUE,1,Dureza. (Esta unidad recibe 1 punto menos de daño de cualquier fuente durante la fase de combate).,FUNDAMENTOS,BRONCE,UNIDAD,-,SOLDADO,-
+ FRUTA-FRESCA,FRUTA FRESCA,0,Aparición en juego: Ganas 3 vidas.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ FUEGO-A-DISCRECION,FUEGO A DISCRECION,0,Agotar: Hace 2 puntos de daño al jugador objetivo.,FUNDAMENTOS,ORO,TESORO,-,SAGRADO,-
+ FUEGO_RITUAL_COPIA,FUEGO RITUAL,0,"Aparición en juego: Reaparece hasta una unidad aliada objetivo. (Envía la unidad al Averno, luego regrésala al campo bajo el control del propietario).",TRONO COMPARTIDO,ORO,TESORO,-,COMUN,-
+ FUENTE-DE-LOS-ETERNOS,FUENTE DE LOS ETERNOS,2, Una vez por turno puedes  erosionar para ganar 2 vidas. Erosión 3.,PACTO SECRETO,BRONCE,MONUMENTO,-,-,-
+ FUERZA-CAUTIVA,FUERZA CAUTIVA,0,Agotar: La unidad objetivo no puede atacar ni bloquear hasta la próxima fase final de su controlador.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ FUERZA-DE-CHOQUE,FUERZA DE CHOQUE,1,"Frenesí. Hurto. (Siempre que esta unidad haga daño de combate a un jugador, ese jugador descarta una carta).",PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ FURIA_DE_FUEGO_COPIA,FURIA DE FUEGO,3,"(Como coste adicional, destruye otro insecto aliado). Envenena. Derrotado: Drena 2.",TRONO COMPARTIDO,ORO,UNIDAD,-,INSECTO,-
+ FURIA_VENGADORA_COPIA,FURIA VENGADORA,1,"Si una unidad fue condenada este turno, entra con dos contadores +1/+1.",TRONO COMPARTIDO,PLATA,UNIDAD,-,MONJE,-
+ GARRAS-FULMINANTES,GARRAS FULMINANTES,4,"Temible. Siempre que esta unidad reciba daño, gana un contador +1/+1.",PACTO SECRETO,ORO,UNIDAD,-,ANIMAL,-
+ GATITOS-DE-BRUJA,GATITOS DE BRUJA,1,"Sorpresivo. Aparición en juego: Si controlas otra bruja o animal, interrumpe la orden de acción objetivo de coste 2 o menos.",PACTO SECRETO,PLATA,UNIDAD,-,ANIMAL,BRUJA
+ GENERAL-DE-COMBATE,GENERAL DE COMBATE,3,"Dureza. Siempre que esta unidad ataque, las otras unidades que controlas ganan Dureza hasta el final del turno.",FUNDAMENTOS,PLATA,UNIDAD,-,SOLDADO,-
+ GIGANTE_CONDENADO_COPIA,GIGANTE CONDENADO,3,(Sólo puede ser jugado desde el Averno). Arrollar. Resguardo: Condena una carta de tu mano.,TRONO COMPARTIDO,ORO,UNIDAD,-,DEMONIO,-
+ GOTA_TOXICA_COPIA,GOTA TOXICA,1,Envenena la unidad objetivo.,TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,INSECTO
+ GRADEN_REY_CORROMPIDO_COPIA,"GRADEN, REY CORROMPIDO",4,"Resguardo: Descarta una carta. Las ordenes de unidad rivales cuestan 1 de oro más. Mientras que un oponente controle una unidad ""Aixa, trono compartido"" o ""Augustus, trono compartido"", gana +2/+2 y Dureza.",TRONO COMPARTIDO,DIAMANTE,UNIDAD,REALEZA,SOLDADO,-
+ GRIETA_AL_AVERNO_COPIA,GRIETA AL AVERNO,1,"Una vez durante tu turno, puedes erosionar para que el jugador objetivo condene dos cartas de su Reino. Erosión 2.",TRONO COMPARTIDO,BRONCE,MONUMENTO,-,-,-
+ GRUMETE-IRREVERENTE,GRUMETE IRREVERENTE,1,Fantasmal. (Esta unidad solo puede ser bloqueada por unidades con fantasmal).,PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ GRUPO-DE-ASALTO,GRUPO DE ASALTO,3,"Hurto. Aparición en juego: Si tienes Grupo de asalto en tu mano, puedes jugarlo sin pagar su coste.",PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ GUARDIAN_DE_LA_VITALIDAD_1_COPIA,GUARDIAN DE LA VITALIDAD,3,"Aparición en juego: Cada jugador gana 2 vidas. Siempre que ganes vidas, por cada tipo de contador en la unidad objetivo, puedes remover o añadir otro.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ GUARDIANA_DEL_ALTAR_COPIA,GUARDIANA DEL ALTAR,1,Curar (Siempre que una unidad con Curar haga daño ganas esa misma cantidad de vidas).,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ GUARDIANA-DEL-MAR,GUARDIANA DEL MAR,1,Sorpresivo. (Puedes jugar esta carta como si fuera una acción rápida). Derrotado: Ganas 2 vidas.,PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ GUARDIANES-DE-LA-MURALLA,GUARDIANES DE LA MURALLA,1,Centinela. (Esta unidad no puede atacar).,PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ GUIA_ESPIRITUAL_DEL_OJO_COPIA,GUIA ESPIRITUAL DEL OJO,1,Derrotado: Reaparece el monje aliado objetivo.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ HADARIPOSA_COPIA,HADARIPOSA,2,"Siempre que pongas un contador -1/-1, Predicción 1. Los otros insectos aliados ganan +0/+1.",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,BRUJA
+ HAMIRA-LA-PRINCESA,"HAMIRA, LA PRINCESA",1,Destruir: Cancela el efecto disparado en juego objetivo.,FUNDAMENTOS,BRONCE,UNIDAD,-,DESERTOR,-
+ HECHICERA-DE-SANGRE,HECHICERA DE SANGRE,4,"Predicción 2. Si controlas al menos otras dos brujas, gana Indestructible. Al principio de tu turno, los oponentes pierden 2 vidas.",PACTO SECRETO,PLATA,UNIDAD,-,BRUJA,-
+ HECHICERA-ELEMENTAL,HECHICERA ELEMENTAL,2,"Siempre que juegues una orden, hace 1 punto de daño a los  oponentes.",PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ HERMANAS-SIRENE,HERMANAS SIRENE,4,Atracción. Hurto. Aparición en juego: Toma el control de otra unidad objetivo hasta el final del turno. Esa unidad gana Frenesí.,PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ HERMANAS-VENENO,HERMANAS VENENO,2,"Aparición en juego: El jugador objetivo toma el control de esta unidad. Siempre que robes una carta, o una unidad que controles muera, pierdes 1 vida.",PACTO SECRETO,PLATA,UNIDAD,-,BRUJA,-
+ HERMANO_CORRECTOR_COPIA,HERMANO CORRECTOR,1,Derrotado: Naturaliza el tesoro objetivo. (El permanente naturalizado pierde todas las habilidades).,TRONO COMPARTIDO,BRONCE,UNIDAD,-,ELEMENTAL,-
+ HERMANO_CREADOR_COPIA,HERMANO CREADOR,1,Derrotado: Crea una ficha de tesoro.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,ELEMENTAL,-
+ HEMANO_DISEÑADOR_COPIA,HERMANO DISEÑADOR,1,Aparición en juego: Mira las primeras dos cartas de tu Bóveda. Pon cualquier cantidad en el tope y el resto en el fondo.,TRONO COMPARTIDO,PLATA,UNIDAD,-,ELEMENTAL,-
+ HERRERO-DE-BATALLA,HERRERO DE BATALLA,2,"Siempre que otro soldado entre al campo de batalla bajo tu control, esa unidad gana un contador +1/+1. ",FUNDAMENTOS,PLATA,UNIDAD,-,SOLDADO,-
+ HUEVO-DE-DRAGON,HUEVO DE DRAGON,0,"Al principio de tu turno, si tiene 3 o menos contadores de incubación, pon un contador de incubación sobre esta tesoro. Cuando tenga 3 contadores de incubación, destruyelo y crea una ficha dragón 3/3 con Frenesí y Evasión y ""Cuando muere, mezcla Huevo de dragón en tu bóveda"".",PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ HUEVOS_DE_PANTANO_COPIA,HUEVOS DE PANTANO,0,"Al inicio de tu turno, puedes poner un contador de incubación sobre este tesoro. Cuando tenga tres, destrúyelo y crea dos fichas de insecto 3/2.",TRONO COMPARTIDO,PLATA,TESORO,-,COMUN,-
+ INCUBADORA_ASESINA_COPIA,INCUBADORA ASESINA,4,"Envenena. Aparición en juego: Crea dos fichas insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"".",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,-
+ INCUBADORA_DEL_ENJAMBRE_COPIA,INCUBADORA DEL ENJAMBRE,3,"Los otros insectos aliados ganan +1/+0. Siempre que un insecto aliado que no sea ficha muera, crea una ficha insecto 1/1 con ""Derrotado: Envenena la unidad objetivo"".",TRONO COMPARTIDO,DIAMANTE,UNIDAD,REALEZA,INSECTO,-
+ INSTIGADOR_DE_LA_MORAL_COPIA,INSTIGADOR DE LA MORAL,2,Guardián. Aparición en juego: El monje objetivo gana un contador +1/+1.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ INSTRUCTOR_NOVICIOS_COPIA,INSTRUCTOR NOVICIOS,2,Aparición en juego: Crea una ficha monje 1/1 con Curar.,TRONO COMPARTIDO,PLATA,UNIDAD,-,MONJE,-
+ INVIERNO-ATROZ,INVIERNO ATROZ,0,Agotar: Las unidades del jugador objetivo ganan -1/-0 hasta el final del turno.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ IRIS-ECOS-ETERNOS,"IRIS, ECOS ETERNOS",3,"Renacer 4. Sorpresivo. Aparición en juego: Interrumpe la orden de unidad objetivo.  Los oponentes no pueden buscar cartas a menos que paguen 4 vidas. Al principio de tu turno, pierdes 2 vidas.",PACTO SECRETO,ESMERALDA,UNIDAD,REALEZA,ETERNO,ETERNO
+ JAULA-DE-PAJAROS,JAULA DE PAJAROS,1, Las unidades pierden la habilidad de Evasión hasta el final del turno.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ JAV-LA-TRAIDORA,"JAV, LA TRAIDORA",3,"Frenesí. Siempre que otra unidad con Frenesí entre al campo de batalla bajo tu control, esa unidad gana un contador +1/+1.",PACTO SECRETO,PLATA,UNIDAD,-,SOLDADO,DESERTOR
+ JUDIT-LA-CAUTIVA,"JUDIT, LA CAUTIVA",3,"Atracción. Siempre que esta unidad reciba daño, hace esa misma cantidad de daño al jugador objetivo.",PACTO SECRETO,PLATA,UNIDAD,-,BRUJA,-
+ JUEZ_DE_LA_CORTE_DEL_TEMPLO_COPIA,JUEZ DE LA CORTE DEL TEMPLO,5,"Aparición en juego: Condena X otras unidades aliadas objetivo de coste 3 o menos, siendo X la cantidad de monjes aliados. Regresa esas unidades al campo al inicio de tu casa próxima fase final.",TRONO COMPARTIDO,PLATA,UNIDAD,-,MONJE,-
+ JUEZ_INJUSTO_COPIA,JUEZ INJUSTO,1,"Derrotado: Sentencia la unidad objetivo. (La unidad sentenciada gana ""Al comienzo de tu próxima fase final, destruye esta unidad"").",TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ KENDAL-LIDER-DEL-SINDICATO-ASESINO,"KENDAL, LIDER DEL SINDICATO ASESINO",3,"Frenesí. Siempre que esta unidad ataque, crea una ficha desertor asesino 1/1 atacando.",PACTO SECRETO,DIAMANTE,UNIDAD,-,DESERTOR,-
+ kyle,"KYLE, LEYENDA VIVIENTE",4,"Si esta unidad fuera a dejar el campo, condénala en su lugar. Si lo haces, condena la unidad rival objetivo. Siempre que una unidad rival entre al campo desde el Averno, puedes pagar 4 oros. Si lo haces, regresa esta unidad del Averno al campo.",TRONO COMPARTIDO,ESMERALDA,UNIDAD,REALEZA,MAGO,MONJE
+ LA-SUBOFICIAL,LA SUBOFICIAL,4,Frenesí. Hurto. Aparición en juego: Mira las primeras tres cartas de tu Reino. Puedes mostrar una carta de pirata entre ellas y ponerla en tu mano. Pon el resto en el fondo.,PACTO SECRETO,ORO,UNIDAD,-,PIRATA,-
+ LANGORPION_COPIA,LANGORPION,3,Aparición en juego: Cada jugador destruye una unidad que controla.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ LARIK_ENVIADA_DE_LA_CORONA_COPIA,"LARIK, ENVIADA DE LA CORONA",4,"Aparición en juego: Crea dos fichas monje 1/1 con Curar. Siempre que una o más fichas aliadas ataquen, pacifica la unidad objetivo.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,SOLDADO,MONJE
+ LAS-MINAS-DE-RAFET,LAS MINAS DE RAFET,2,"Al principio de tu turno, erosiona y crea una ficha de tesoro con  “Agotar: Genera 1 de Oro y destruye este tesoro”. Erosión 2.",PACTO SECRETO,ORO,MONUMENTO,-,-,-
+ LIBROS_DEL_JUEZ_INJUSTO_COPIA,LIBROS DEL JUEZ INJUSTO,0,Destruir: Sentencia la unidad objetivo.,TRONO COMPARTIDO,ORO,TESORO,-,SAGRADO,-
+ LIDER_DE_LA_MANADA_COPIA,LIDER DE LA MANADA,2,"Ataca cada turno si puede. Siempre que ataque, lucha con la unidad rival objetivo, luego pierdes vidas igual al daño recibido de esta forma.",TRONO COMPARTIDO,ORO,UNIDAD,-,ANIMAL,-
+ LIDER_DE_LA_PLEBE_INFERNAL_COPIA,LIDER DE LA PLEBE INFERNAL,4,Arrollar. Aparición en juego: Crea una ficha demonio 2/2.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ LIDER_DEL_ENJAMBRE_COPIA,LIDER DEL ENJAMBRE,4,"Aparición en juego: Los insectos aliados ganan +1/+0, ""1 de oro: Destruye esta unidad"" y ""Derrotado: Drena 1"". Hasta el final del turno.",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,-
+ LLAVE-MAESTRA,LLAVE MAESTRA,0,"Una vez durante tu turno, puedes descartar una carta para robar una carta.",FUNDAMENTOS,PLATA,TESORO,-,COMUN,-
+ LLUVIA-DE-ORO,LLUVIA DE ORO,0,Destruir: Genera 2 de Oro.,PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ LUCHADOR_DEL_TEMPLO_COPIA,LUCHADOR DEL TEMPLO,2,"Siempre que ganes vidas, gana un contador +1/+1.",TRONO COMPARTIDO,ORO,UNIDAD,-,MONJE,-
+ LUZION_FURIA_DEL_AVERNO_COPIA,"LUZION, FURIA DEL AVERNO",3,"Atracción. Aparición en juego: Sentencia otra unidad objetivo. Pierdes 2 vidas. Si entró al campo desde el Averno, sentencia hasta otras unidades objetivo y ganas 2 vidas en su lugar.",TRONO COMPARTIDO,DIAMANTE,UNIDAD,REALEZA,DEMONIO,-
+ MADAME-SYRA,MADAME SYRA,5,"Aparición en juego: Puedes destruir una bruja que controlas. Cuando destruyes una bruja por este efecto, puedes tomar el control de la unidad objetivo que no controlas.",PACTO SECRETO,ORO,UNIDAD,-,BRUJA,-
+ MADRE_DE_DEMONIOS_COPIA,MADRE DE DEMONIOS,2,"Siempre que esta carta sea condenada desde cualquier parte, crea una ficha demonio 2/2. Derrotado: Condena esta unidad.",TRONO COMPARTIDO,ORO,UNIDAD,-,DEMONIO,-
+ MAGISTRADO_INFERNAL_COPIA,MAGISTRADO INFERNAL,3,"Aparición en juego: Condena dos cartas de tu Reino, luego pon el campo una carta de unidad de tu Averno de coste 2 o menos. Si es un demonio, cada jugador condena una carta de su mano.",TRONO COMPARTIDO,ORO,UNIDAD,-,DEMONIO,-
+ MAGO-DE-LA-CORONA,MAGO DE LA CORONA,4,Atracción. Centinela. 3 de Oro: Interrumpe la orden de unidad objetivo.,PACTO SECRETO,ORO,UNIDAD,-,SOLDADO,MAGO
+ MALAKHAR_LA_INFAME_COPIA,"MALAKHAR, LA INFAME",4,"Evasión. Guardián. Aparición en juego: Condena hasta dos cartas de unidad objetivo de un Descarte. Una vez por turno, puedes jugar una carta de unidad demonio de tu Averno.",TRONO COMPARTIDO,PLATA,UNIDAD,-,DEMONIO,-
+ MANADA-FELINA,MANADA FELINA,3,Sorpresivo. (Puedes jugar esta carta como si fuera una acción rápida). Aparición en juego: Crea dos fichas animal 1/1.,PACTO SECRETO,PLATA,UNIDAD,-,ANIMAL,-
+ MANIPULADOR_DE_PORTALES_COPIA,MANIPULADOR DE PORTALES,3,Aparición en juego: Condena otra unidad objetivo hasta que esta unidad deje el campo.,TRONO COMPARTIDO,PLATA,UNIDAD,-,MONJE,-
+ MANUSCRITO-DEMONIACO,MANUSCRITO DEMONIACO,0,"Agotar: Hasta el final del turno, siempre que una unidad muera, envíala al averno en su lugar.",PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ MARAVILLA_ATERRADORA_COPIA,MARAVILLA ATERRADORA,5,Evasión. Aparición en juego: Envenena las otras unidades.,TRONO COMPARTIDO,ORO,UNIDAD,REALEZA,INSECTO,-
+ MAREA-CORPOREA,MAREA CORPOREA,5,Aparición en juego: Mezcla tres tesoros objetivo de cada jugador en su respectiva Bóveda. Cada jugador gana 3 vidas.,PACTO SECRETO,DIAMANTE,UNIDAD,-,ELEMENTAL,-
+ MASCARA-TRIBAL,MASCARA TRIBAL,0,Agotar: La unidad objetivo gana Temible hasta el final del turno.,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ MAXIMUS-EL-GENERAL,"MAXIMUS, EL GENERAL",5,Arrollar. Frenesí. Aparición en juego: Las unidades que controlas ganan dos contadores +1/+1. Las unidades que controlas ganan Arrollar.,FUNDAMENTOS,DIAMANTE,UNIDAD,REALEZA,SOLDADO,-
+ MECARAÑA_PROTECTORA_COPIA,MECARAÑA PROTECTORA,2,"Dureza. Siempre que reciba daño de combate de una unidad, la envenena.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,SOLDADO,INSECTO
+ MEDICO-DE-GUERRA,MEDICO DE GUERRA,3,Las otras unidades que controlas ganan +1/+1.,FUNDAMENTOS,ORO,UNIDAD,-,SOLDADO,-
+ MENTE-ILUMINADA,MENTE ILUMINADA,0,Agotar: La unidad objetivo gana Indestructible hasta el final del turno.,FUNDAMENTOS,PLATA,TESORO,-,COMUN,-
+ MIGRACION,MIGRACION,1,Regresa la unidad objetivo a la mano de su propietario.,FUNDAMENTOS,BRONCE,ACCION,-,RAPIDA,-
+ MINERAL_CONDENADO_COPIA,MINERAL CONDENADO,3,Guardián. Aparición en juego: Elige 1: -Crea una ficha de tesoro. -Condena el Descarte del jugador objetivo. -Ganas 3 vidas.,TRONO COMPARTIDO,PLATA,UNIDAD,-,ELEMENTAL,DEMONIO
+ MINERO-VOLUNTARIO,MINERO VOLUNTARIO,1,"Si un oponente controla al menos un soldado, esta unidad gana +1/+1. ",PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ MIRK_BORNIANO_COLERICO_COPIA,MIRK BORNIANO COLERICO,9,Curar. Guardián. Resguardo: 1 de oro. Cuesta 1 menos de oro por cada vida que ganaste este turno. El coste no puede ser menos que 1.,TRONO COMPARTIDO,DIAMANTE,UNIDAD,-,MONJE,-
+ GUARDIAN_DE_LA_VITALIDAD_COPIA,MISIONERO DEL OJO,2,"Aparición en juego: Si ganaste vidas este turno, el oponente objetivo descarta una carta.",TRONO COMPARTIDO,BRONCE,UNIDAD,-,PIRATA,MONJE
+ MONTAÑA_DE_LA_INVOCACION_COPIA,MONTAÑA DE LA INVOCACION,3,"Aparición en juego: Crea una ficha demonio 2/2. Siempre que una ficha de unidad aliada entre al campo, puedes condenar otra unidad aliada que no sea ficha. Si lo haces, crea una copia de esa ficha.",TRONO COMPARTIDO,ORO,UNIDAD,REALEZA,DEMONIO,ELEMENTAL
+ MORGAN-TERROR-DE-LOS-MARES,"MORGAN, TERROR DE LOS MARES",5,Frenesí. Hurto. Aparición en juego: El jugador objetivo descarta tres cartas.,PACTO SECRETO,DIAMANTE,UNIDAD,REALEZA,PIRATA,-
+ MUERTE-INMINENTE,MUERTE INMINENTE,1,"Como coste adicional, pierdes 2 vidas. Destruye la unidad objetivo de fuerza 3 o menos.",PACTO SECRETO,ORO,ACCION,-,RAPIDA,-
+ MULTIPLICAR-LOS-PANES,MULTIPLICAR LOS PANES,0,Destruir: Crea una copia de la unidad objetivo. Destruye dicha copia al final de tu turno.,FUNDAMENTOS,ORO,TESORO,-,COMUN,-
+ MURALLA-IMPENETRABLE,MURALLA IMPENETRABLE,3,"Al principio de tu turno, erosiona. Las unidades que no controlas ganan -1/-0. Erosion 4.",PACTO SECRETO,BRONCE,MONUMENTO,-,-,-
+ NATA-MADRE-DEL-BOSQUE,"NATA, MADRE DEL BOSQUE",4,Aparición en juego: Busca en tu Reino a Árbol anciano y ponlo en la parte superior de tu Reino.,PACTO SECRETO,PLATA,UNIDAD,-,ELEMENTAL,-
+ NICOL-LA-APRENDIZ,"NICOL, LA APRENDIZ",2,Aparición en juego: El jugador objetivo muestra su mano. Elige una carta de acción. Ese jugador descarta esa carta.,PACTO SECRETO,PLATA,UNIDAD,-,BRUJA,-
+ ORACULO-DEL-DESTINO,ORACULO DEL DESTINO,2,"Roba dos cartas de tu Reino, luego descarta una carta.",PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ ORDEN-DE-SALVACION,ORDEN DE SALVACION,3,Ganas 1 vida por cada unidad que controlas en la zona de formación.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ ORDENANDO_LA_CONDENA_COPIA,ORDENANDO LA CONDENA,1,"Pacifica la unidad objetivo. Si ganaste vidas este turno, condénala en su lugar. El controlador gana vidas igual a su fuerza.",TRONO COMPARTIDO,ORO,ACCION,-,COMUN,MONJE
+ ORNAMENTA-MARAVILLOSA,ORNAMENTA MARAVILLOSA,3,Arrollar. Gana +1/+1 por cada otra Ornamenta maravillosa que controlas.,PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ PACIFICADOR_COPIA,PACIFICADOR,1,Guardián. Aparición en juego: Pacifica la unidad objetivo.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ PAGO-ADELANTADO,PAGO ADELANTADO,0,Agotar: Mueve el tesoro objetivo a la zona de tesoros agotados.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ PANTANO_DE_BORNIS_COPIA,PANTANO DE BORNIS,0,"Destruir: Hasta el final del turno, siempre que una unidad aliada muera, cada oponente pierde 1 vida.",TRONO COMPARTIDO,DIAMANTE,TESORO,-,SAGRADO,-
+ PEDRUSCO-INTIMIDANTE,PEDRUSCO INTIMIDANTE,3,Las unidades de fuerza 4 o más  que no controlas no pueden atacar.,PACTO SECRETO,PLATA,UNIDAD,REALEZA,ELEMENTAL,-
+ PET-PERRO-LADRON,"PET, PERRO LADRON",5,Temible. Hurto. Cuesta 1 menos por cada pirata que controlas. El coste no puede ser menor que 1.,PACTO SECRETO,PLATA,UNIDAD,-,PIRATA,-
+ PHILL-EL-MEJOR-AMIGO,"PHILL, EL MEJOR AMIGO",2,"Si controlas a Tim, el valiente esta unidad gana +1/+1.",PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ PLANES-FRUSTRADOS,PLANES FRUSTRADOS,2,Interrumpe la orden objetivo.,FUNDAMENTOS,ORO,ACCION,-,RAPIDA,-
+ PORTA-ESTANDARTE,PORTA ESTANDARTE,1,Destruir: Las unidades que controlas ganan +0/+2 hasta el final del turno.,FUNDAMENTOS,BRONCE,UNIDAD,-,SOLDADO,-
+ PORTACION,PORTACION,0,Agotar: La unidad objetivo gana +1/+1 hasta el final del turno.,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ Mesa_de_trabajo_121_copia,PORTAL AL AVERNO,0,Agotar:  Crea una ficha demonio 1/1.,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ PORTAL_EN_EL_CASTILLO_COPIA,PORTAL EN EL CASTILLO,3,"Aparición en juego: Condena la unidad rival objetivo y la unidad aliada objetivo. Derrotado: Cada jugador crea una ficha demonio 0/3 con ""Derrotado: Roba una carta"". Al inicio de tu fase final, erosiona. Erosión 1.",TRONO COMPARTIDO,PLATA,MONUMENTO,-,DEMONIO,-
+ PREPARACION,PREPARACION,2,La unidad objetivo gana +2/+2 y Arrollar hasta el final del turno.,FUNDAMENTOS,BRONCE,ACCION,-,RAPIDA,-
+ PRIMER_ENCUENTRO_COPIA,PRIMER ENCUENTRO,2,Elige 2: -Crea una ficha monje 1/1 con Curar. -Pacifica la unidad objetivo. -Remueve hasta dos contadores de la unidad objetivo. -Ganas 2 vidas.,TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,MONJE
+ PRIMERA_LINEA_COPIA,PRIMERA LINEA,3,Curar. Guardián.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ PRISIONERO-DE-GUERRA,PRISIONERO DE GUERRA,1,Derrotado: Busca una carta en tu Reino de coste 2 o menos y puedes jugarla sin pagar su coste hasta el final del turno.,FUNDAMENTOS,BRONCE,UNIDAD,-,SOLDADO,-
+ PROMESA-DE-PAGO,PROMESA DE PAGO,0,Agotar y poner este tesoro en el fondo de tu bóveda: Revela un tesoro adicional en tu próxima fase de revelación.,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ PROTECCION-DIVINA,PROTECCION DIVINA,2,Previene todo el daño de combate que se fuera a hacer este turno.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ PROTECTOR-DE-MINERALES,PROTECTOR DE MINERALES,3,Los oponentes solo pueden generar Oro con la habilidad de Agotar.,PACTO SECRETO,BRONCE,UNIDAD,-,ELEMENTAL,-
+ RAIZ_DE_CURACION_COPIA,RAIZ DE CURACION PROVISORIA,1,"La unidad objetivo gana +2/+2 hasta el final del turno. Si está envenenada, roba una carta.",TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,-
+ RAMAPUA_OCULTA,RAMAPUA OCULTA,1,Derrotado: Envenena la unidad objetivo.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,-
+ RANGEL-DANZANTE,RANGEL DANZANTE,3,Sorpresivo. Aparición en juego: Interrumpe la orden de unidad objetivo.,PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ RASCAL-EL-OSCURO,"RASCAL, EL OSCURO",3,Frenesí. Al principio de tu primera fase central hace 1 punto de daño al jugador objetivo.,FUNDAMENTOS,PLATA,UNIDAD,-,DESERTOR,-
+ RECLUTAMIENTO_FRUCTIFERO_COPIA,RECLUTAMIENTO FRUCTIFERO,3,"Hasta el final del turno, siempre que una unidad aliada entre al campo, roba una carta.",TRONO COMPARTIDO,BRONCE,ACCION,-,COMUN,-
+ RECUERDO-AMOROSO,RECUERDO AMOROSO,0,"Una vez durante tu turno, si controlas cinco o más tesoros, puedes pagar 3 vidas para robar una carta.",PACTO SECRETO,DIAMANTE,TESORO,-,SAGRADO,-
+ RECURSOS-HUMANOS,RECURSOS HUMANOS,0,Agotar y destruir una unidad que controlas: Los otros jugadores derrumban tres cartas de su Reino (ponen las primeras 3 cartas de su Reino en el descarte).,PACTO SECRETO,PLATA,TESORO,-,COMUN,-
+ REFUERZO-METALICO,REFUERZO METALICO,0,Agotar: Hasta dos unidades objetivo ganan +0/+2 hasta el final del turno.,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ REFUERZOS,REFUERZOS,4,Crea cuatro fichas de soldado 1/1.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ REINA_DE_LA_INFECCION_COPIA,REINA DE LA INFECCION,4,"Aparición en juego: Reparte tres contadores -1/-1 entre cualquier cantidad de unidades objetivo. Siempre que pongas un contador -1/-1 en una unidad rival, crea una ficha insecto 1/1 con ""Derrotado: Envenena la mitad objetivo"".",TRONO COMPARTIDO,ORO,UNIDAD,REALEZA,INSECTO,-
+ REPRODUCTOR_FEROZ_COPIA,REPRODUCTOR FEROZ,6,Aparición en juego: Crea una ficha insecto 3/2. Aparición en juego: Los animales e insectos aliadas ganan +1/+1 y Frenesí hasta el final del turno.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,INSECTO,ANIMAL
+ RESERVAS_DE_ORO_COPIA,RESERVAS DE ORO,2,"Una vez por turno, puedes erosionar para mirar las primeras dos cartas de tu Bóveda. Pon cualquier cantidad en el tope y el resto en el fondo. Erosión 2.",TRONO COMPARTIDO,BRONCE,MONUMENTO,-,-,-
+ RESURGIMIENTO_COPIA,RESURGIMIENTO,3,"(Como coste adicional, pierdes 2 vidas). Pon en el campo la carta de unidad objetivo de tu Averno de coste 3 o menos. Si es un demonio, entra con un contador +1/+1.",TRONO COMPARTIDO,ORO,ACCION,-,RAPIDA,DEMONIO
+ RESURRECCION,RESURRECCION,2,Pon en el campo de batalla la carta de unidad objetivo de tu descarte de coste 2 o menos.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ RETIRADA,RETIRADA,0,Agotar: Mueve la unidad objetivo a la zona de formación. ,FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ REVOLUCION-DEL-DESTIERRO,REVOLUCION DEL DESTIERRO,2, Hace 1 punto de daño por cada desertor que controlas a cualquier objetivo.,FUNDAMENTOS,PLATA,ACCION,-,COMUN,-
+ REY-GRADEN,REY GRADEN,3,Las órdenes de unidad que juegues cuestan 1 menos. El coste no puede ser menor que 1.,PACTO SECRETO,DIAMANTE,UNIDAD,REALEZA,SOLDADO,-
+ RIO_VIVIENTE_COPIA,RIO VIVIENTE,2,"Aparición en juego: Mira la primera carta de tu Bóveda. Si es un tesoro genérico, puedes revelarlo y ponerlo en Tesoros Agotados.",TRONO COMPARTIDO,PLATA,UNIDAD,-,ELEMENTAL,-
+ RITUAL_DE_INVOCACION_COPIA,RITUAL DE INVOCACION,4,Crea una ficha espíritu 5/5 con Arrollar.,TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,ELEMENTAL
+ RITUAL-DE-NEGACION,RITUAL DE NEGACION,1,Como coste adicional descarta una carta. Elige 1: - Cancela el efecto en juego objetivo. - Interrumpe la orden de acción o unidad objetivo de coste 3 o menos.,PACTO SECRETO,ORO,ACCION,-,RAPIDA,-
+ ROEDOR-INFECTADO,ROEDOR INFECTADO,1,"Si controlas un Roedor infectado, puedes jugar esta carta sin pagar su coste.",PACTO SECRETO,BRONCE,UNIDAD,-,ANIMAL,-
+ ROJO-FUGAZ,ROJO FUGAZ,1,Frenesí. (Esta unidad puede atacar el mismo turno que entra bajo tu control). Los animales que controlas ganan Frenesí.,PACTO SECRETO,ORO,UNIDAD,-,ANIMAL,-
+ ROMPIENDO-PUERTAS,ROMPIENDO PUERTAS,3,Elige 1: - Destruye la unidad objetivo. - Destruye el monumento objetivo.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ RUBI-MAGICO,RUBI MAGICO,0,"Aparición en juego: Si controlas al menos una unidad desertor o soldado, roba una carta y hace 1 punto de daño al jugador objetivo.",PACTO SECRETO,ORO,TESORO,-,SAGRADO,-
+ RUGIDO-ANIMAL,RUGIDO ANIMAL,3,Hace 1 punto de daño por cada animal que controlas repartido entre cualquier cantidad de objetivos.,PACTO SECRETO,PLATA,ACCION,-,COMUN,-
+ RUNA_DE_PACIFICACION_COPIA,RUNA DE PACIFICACION,0,Aparición en juego: Pacifica la unidad objetivo.,TRONO COMPARTIDO,PLATA,TESORO,-,COMUN,-
+ SABLON-CAMINANTE,SABLON CAMINANTE,4,"Frenesí. Arrollar. Siempre que esta unidad haga daño de combate a un jugador,  crea una ficha elemental 2/2.",PACTO SECRETO,PLATA,UNIDAD,-,ELEMENTAL,-
+ SACRIFICAR-AL-INOCENTE,SACRIFICAR AL INOCENTE,0,"Una vez durante tu turno, puedes descartar una carta de unidad para ganar 3 vidas.",FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ SALAH-CONSEJERO-REAL,"SALAH, CONSEJERO REAL",3,"Aparición en juego: Hace 2 puntos de daño al jugador objetivo. Busca a ""Fajid, rey desertor"" en tu Reino y ponlo en tu mano.",FUNDAMENTOS,PLATA,UNIDAD,-,DESERTOR,-
+ SALTADOR_DE_MART_COPIA,SALTADOR DE MAR,4,Hurto. Aparición en juego: Cada oponente descarta una carta por cada unidad envenenada que controla.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,PIRATA,INSECTO
+ Sam-celoso-del-oro,"SAM, CELOSO DEL ORO",3,Hurto. Aparición en juego: Mezcla el tesoro objetivo en la Reserva en la Bóveda de su controlador.,PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ SANTUARIO-DEL-BOSQUE,SANTUARIO DEL BOSQUE,2, Puedes erosionar para que la unidad objetivo gane Indesctructible hasta el final del turno. Erosión 2.,PACTO SECRETO,ORO,MONUMENTO,-,-,-
+ SARIB-LA-BAILARINA,"SARIB, LA BAILARINA",1,Aparición en juego: La unidad objetivo no puede atacar ni bloquear hasta la próxima fase final de su controlador.,FUNDAMENTOS,BRONCE,UNIDAD,-,DESERTOR,-
+ SARIB_VENGANZA_DANSANTE_COPIA,"SARIB, VENGANZA DANZANTE",7,Arrollar. Frenesí. Resguardo: 1 de oro. Cuesta 1 menos por cada carta de unidad en tu Averno. El coste no puede ser menor que 1.,TRONO COMPARTIDO,PLATA,UNIDAD,-,DESERTOR,DEMONIO
+ SATIRA-EMBRUJADA,SATIRA EMBRUJADA,1,Atracción. (Esta unidad puede bloquear hasta dos unidades).,PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ SENTENSIA_COMPARTIDA_COPIA,SENTENCIA COMPARTIDA,2,"Sentencia hasta dos unidades objetivo. (La unidad sentenciada gana ""Al inicio de tu próxima fase final, destruye esta unidad"").",TRONO COMPARTIDO,BRONCE,ACCION,-,COMUN,-
+ SERAFICA_PACIFICADORA_COPIA,SERAFICA PACIFICADORA,3,"Aparición en juego: Crea una ficha ángel 3/3 con Evasión. Siempre que una ficha de unidad aliada entre al campo, pacifica la unidad rival objetivo. Esta habilidad dispara solo una vez por turno.",TRONO COMPARTIDO,ORO,UNIDAD,-,MONJE,-
+ SEVERUS_DEMONIO_OCULTO_COPIA,"SEVERUS, DEMONIO OCULTO",5,"Evasión. Guardián. Aparición en juego: Sentencia las otras unidades, luego crea dos fichas demonio 0/3 con ""Derrotado: Roba una carta"".",TRONO COMPARTIDO,DIAMANTE,UNIDAD,REALEZA,DEMONIO,-
+ SEVERUS-EL-CONSEJERO,"SEVERUS, EL CONSEJERO",5,Aparición en juego: Roba una carta por cada unidad que controlas.,FUNDAMENTOS,BRONCE,UNIDAD,-,SOLDADO,-
+ SLIME_POSESIVO_COPIA,SLIME POSESIVO,3,"Aparición en juego: Puedes destruir otro insecto aliado objetivo. Si lo haces, revela un tesoro y muévelo a Tesoros Agotados.",TRONO COMPARTIDO,PLATA,UNIDAD,-,INSECTO,ELEMENTAL
+ SOLDADO-ELITE,SOLDADO ELITE,2,Dureza. (Esta unidad recibe 1 punto menos de daño de cualquier fuente durante la fase de combate).,FUNDAMENTOS,BRONCE,UNIDAD,-,SOLDADO,-
+ SOMBRA-DEL-DESIERTO,SOMBRA DEL DESIERTO,2,"Siempre que otra unidad entre al campo de batalla bajo tu control, el jugador objetivo pierde 1 vida.",PACTO SECRETO,ORO,UNIDAD,REALEZA,DESERTOR,BRUJA
+ SOSTENIENDO-EL-MUNDO,SOSTENIENDO EL MUNDO,0,"Mientras este tesoro se encuentre en tu reserva, las unidades que controlas ganan +1/+0.",FUNDAMENTOS,BRONCE,TESORO,-,COMUN,-
+ SUCUBO_DESCENDENTE_COPIA,SUCUBO DESCENDENTE,1,"Sorpresivo. Aparición en juego: La unidad rival gana -X/-X hasta el final del turno, siendo X la cantidad de demonios aliados. Derrotado: Condena esta unidad.",TRONO COMPARTIDO,PLATA,UNIDAD,-,DEMONIO,-
+ SUPREMA_CORTE_INFERNAL_COPIA,SUPREMA CORTE INFERNAL,0,Agotar: El jugador objetivo condena la primera carta de su Reino.,TRONO COMPARTIDO,ORO,TESORO,-,COMUN,-
+ SUSTO_PERTURBADOR_COPIA,SUSTO PERTURBADOR,3,Derrotado: Sentencia la unidad objetivo y condena esta unidad.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ TACTICAS-DE-BATALLA,TACTICAS DE BATALLA,1,La unidad objetivo no puede bloquear este turno.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ TESORO-ESCONDIDO,TESORO ESCONDIDO,2,Revela un tesoro y muévelo a la zona de tesoros agotados.,PACTO SECRETO,PLATA,ACCION,-,COMUN,-
+ Ficha,TESORO GENERICO,0,Agotar: Genera 1 oro.,PACTO SECRETO,BRONCE,TESORO,-,-,-
+ TIM-EL-VALIENTE,"TIM, EL VALIENTE",1,"Si controlas a Phill, el mejor amigo, esta unidad gana +1/+1.",PACTO SECRETO,BRONCE,UNIDAD,-,SOLDADO,-
+ TIMONEL-SIN-RUMBO,TIMONEL SIN RUMBO,2,Aparición en juego: El jugador objetivo descarta  una carta.,PACTO SECRETO,BRONCE,UNIDAD,-,PIRATA,-
+ TIRADOR-DE-HAMRRA,TIRADOR DE HAMRRA,3,"Vigía. Siempre que bloquee a una unidad con Evasión, esta unidad gana +1/+0 hasta el final del turno.",PACTO SECRETO,BRONCE,UNIDAD,-,DESERTOR,-
+ TORMENTA-DE-ARENA,TORMENTA DE ARENA,3,Hace 3 puntos de daño a cada unidad y a cada jugador.,FUNDAMENTOS,ORO,ACCION,-,COMUN,-
+ TORMENTA-DE-FUEGO,TORMENTA DE FUEGO,0,Agotar: Hace 1 punto de daño a las unidades que controla el jugador objetivo.,PACTO SECRETO,PLATA,TESORO,-,SAGRADO,-
+ TOTEM-DE-ESPIRITU-ANIMAL,TOTEM DE ESPIRITU ANIMAL,1,Una vez durante tu turno puedes erosionar para crear una ficha animal 1/1. Erosión 3.,PACTO SECRETO,PLATA,MONUMENTO,-,-,-
+ TRAMPA-DE-ESPINAS,TRAMPA DE ESPINAS,1,Destruir: Hasta tres unidades objetivo sin Evasión no puedan atacar este turno.,PACTO SECRETO,BRONCE,MONUMENTO,-,-,-
+ TRIPULACION-EN-CAMINO,TRIPULACION EN CAMINO,3,Busca en tu Reino dos cartas de unidad de coste 2 o menos y juégalas sin pagar su coste. Esas órdenes no pueden ser interrumpidas.,FUNDAMENTOS,ORO,ACCION,-,RAPIDA,-
+ UNION-DE-BRUJAS,UNION DE BRUJAS,2,Interrumpe la orden de acción objetivo.,PACTO SECRETO,BRONCE,ACCION,-,RAPIDA,-
+ URLAMOK_GUARDIAN_DEL_ORO_COPIA,"URLAMOK, GUARDIAN DEL ORO",7,Ininterrumpible. Evasión. Guardián. Resguardo: 2 de oro. Aparición en juego: Elige 2: -Crea una ficha espíritu 5/5 con Arrollar. -Naturaliza la unidad o tesoro rival objetivo. -Ganas 7 vidas. -Roba una carta.,TRONO COMPARTIDO,DIAMANTE,UNIDAD,-,ELEMENTAL,DRAGON
+ VENGANZA_DE_ERODON_COPIA,VENGANZA DE ERODON,5,Condena las unidades con contadores.,TRONO COMPARTIDO,PLATA,ACCION,-,RAPIDA,-
+ VERDUGO_INFERNAL_COPIA,VERDUGO INFERNAL,1,Aparición en juego: Condena la carta de unidad objetivo de un Descarte.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,DEMONIO,-
+ VIDENTE-DEL-BOSQUE,VIDENTE DEL BOSQUE,2,"Predicción 1. Durante tu turno, Destruir: Roba una carta.",PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ VIDENTE-EFECTIVA,VIDENTE EFECTIVA,1,"Predicción 2. (Mira las primeras X cartas de tu Reino, dónde X es el número de Predicción, luego pon cualquier cantidad en la parte superior y el resto en el fondo).",PACTO SECRETO,BRONCE,UNIDAD,-,BRUJA,-
+ VIGILANTE_DEL_PORTAL_COPIA,VIGILANTE DEL PORTAL,2,Aparición en juego: Cada jugador condena una carta de su mano.,TRONO COMPARTIDO,PLATA,UNIDAD,-,DEMONIO,-
+ VINO_VIGOTIZANTE_COPIA,VINO VIGORIZANTE DE MONJE,0,Agotar: Remueve hasta un contador de la unidad objetivo.,TRONO COMPARTIDO,PLATA,TESORO,-,COMUN,-
+ VOLUNTARIO_PARA_SACRIFICIO_COPIA,VOLUNTARIO PARA SACRIFICIO,4,Derrotado: Crea una ficha ángel 3/3 con Evasión.,TRONO COMPARTIDO,BRONCE,UNIDAD,-,MONJE,-
+ VOLVIENDO_DEL_PASEO,VOLVIENDO DEL PASEO,1,"Reaparece la unidad objetivo. Si controlas un monje, ganas 2 vidas.",TRONO COMPARTIDO,BRONCE,ACCION,-,RAPIDA,MONJE
