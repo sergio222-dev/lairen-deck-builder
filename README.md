@@ -1,5 +1,8 @@
 # Qwik City App ⚡️
 
+<img height="200" src="https://github.com/SAWARATSUKI/ServiceLogos/blob/main/Qwik.js/Qwik.png?raw=true" width="400"/>
+<img height="200" src="https://github.com/SAWARATSUKI/ServiceLogos/blob/main/TypeScript/TypeScript.png?raw=true" width="400"/>
+
 - [Qwik Docs](https://qwik.dev/)
 - [Discord](https://qwik.dev/chat)
 - [Qwik GitHub](https://github.com/BuilderIO/qwik)

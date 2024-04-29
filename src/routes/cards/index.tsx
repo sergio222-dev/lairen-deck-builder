@@ -1,10 +1,9 @@
-import { component$, useSignal, useStore }  from '@builder.io/qwik';
-import { routeAction$, routeLoader$, zod$ } from '@builder.io/qwik-city';
-import { CardFilter }                          from '~/features/cardFilter/CardFilter';
-import { CardList }                                from '~/features/cardList/CardList';
-import { Card } from '~/models/Card';
-import { cardGetScheme }                                 from '~/models/schemes/cardGet';
-import { CardRepository }                          from '~/providers/repositories/CardRepository';
+import { component$, useComputed$, useContext, useTask$ } from '@builder.io/qwik';
+import { routeAction$, routeLoader$, zod$ }               from '@builder.io/qwik-city';
+import { CardFilter, CardList }                           from '~/features/cards';
+import { cardGetScheme }                                  from '~/models/schemes/cardGet';
+import { CardRepository }                                 from '~/providers/repositories/CardRepository';
+import { FilterContext }                                  from '~/stores/filterContext';
 
 export const useCardsLoader = routeLoader$(async () => {
   try {
@@ -63,13 +62,18 @@ export const useFetchCards = routeAction$(async (data) => {
 }, zod$(cardGetScheme));
 
 export default component$(() => {
+  const c = useContext(FilterContext)
   const preLoadCards = useCardsLoader();
 
-  const filteredCards = useSignal(preLoadCards.value.cards);
+  useTask$(() => {
+    c.cards = preLoadCards.value.cards;
+    c.count = preLoadCards.value.count;
+  });
+
   return (
     <>
       <CardFilter />
-      <CardList cards={filteredCards.value} />
+      <CardList cards={c.cards} />
     </>
   );
 });
