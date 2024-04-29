@@ -1,4 +1,4 @@
-import { component$, useComputed$, useContext, useTask$ } from '@builder.io/qwik';
+import { component$, useContext, useTask$ }               from '@builder.io/qwik';
 import { routeAction$, routeLoader$, zod$ }               from '@builder.io/qwik-city';
 import { CardFilter, CardList }                           from '~/features/cards';
 import { cardGetScheme }                                  from '~/models/schemes/cardGet';
