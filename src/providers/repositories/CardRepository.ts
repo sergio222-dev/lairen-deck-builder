@@ -1,4 +1,3 @@
-import { number }           from 'zod';
 import type { Card }        from '~/models/Card';
 import { SupabaseProvider } from '~/providers/supabaseProvider';
 
@@ -18,9 +17,9 @@ export class CardRepository {
     const { count, error } = await supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
-      // .or(`name.ilike.%${filter.desc}%, text.ilike.%${filter.desc}%`)
+      .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size)));
+      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size) - 1));
 
     if (error) {
       console.error(`qxc error`, error);
@@ -36,9 +35,9 @@ export class CardRepository {
     const { data, error } = await supabase.schema('public')
       .from('cards')
       .select()
-      // .or(`name.ilike.%${filter.desc}%, text.ilike.%${filter.desc}%`)
+      .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size)));
+      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size) - 1));
 
     if (error) {
       console.error(`qxc error`, error);

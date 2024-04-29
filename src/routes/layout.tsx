@@ -17,7 +17,7 @@ export default component$(() => {
   return (
     <>
       <Appbar />
-      <main>
+      <main class="container mx-auto">
         <Slot />
       </main>
     </>
