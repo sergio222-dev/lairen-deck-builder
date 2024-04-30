@@ -1,27 +1,30 @@
-import type { QRL }        from '@builder.io/qwik';
-import { createContextId } from '@builder.io/qwik';
-import type { Card }       from '~/models/Card';
+import type { QRL}                                                                             from '@builder.io/qwik';
+import { createContextId }                                                                     from '@builder.io/qwik';
+import type { Card }                                                                           from '~/models/Card';
 
-interface CardFilters {
-  sortBy       : string;
+export interface CardFilters{
+  sortBy: string;
   sortDirection: 'asc' | 'desc';
-  name         : string;
-    // page: number;
-    // size: number;
+  name: string;
+  types: string[];
+  // page: number;
+  // size: number;
 }
 
 export interface FilterContextState {
-  sortBy       : string;
+  sortBy: string;
   sortDirection: 'asc' | 'desc';
-  name         : string;
-  page         : number;
-  size         : number;
-  cards        : Card[],
-  count        : number,
+  name: string;
+  page: number;
+  size: number;
+  types: string[];
+  cards: Card[],
+  count: number,
+  selectedSubtypes: string[],
   updateFilters: QRL<(this: FilterContextState, filters: CardFilters) => Promise<void>>;
   updateName: QRL<(this: FilterContextState, name: string) => Promise<void>>;
-  setPage      : QRL<(this: FilterContextState, page: number) => Promise<void>>;
-  setSize      : QRL<(this: FilterContextState, size: number) => Promise<void>>;
+  setPage: QRL<(this: FilterContextState, page: number) => Promise<void>>;
+  setSize: QRL<(this: FilterContextState, size: number) => Promise<void>>;
 }
 
 export const FilterContext = createContextId<FilterContextState>('filter-context');

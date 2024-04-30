@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      card_collection: {
+        Row: {
+          card_id: number
+          collection_id: number
+          id: number
+          quantity: number
+        }
+        Insert: {
+          card_id: number
+          collection_id: number
+          id?: number
+          quantity: number
+        }
+        Update: {
+          card_id?: number
+          collection_id?: number
+          id?: number
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_collection_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "card_collection_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections_decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cards: {
         Row: {
           cost: string
@@ -57,9 +93,68 @@ export type Database = {
         }
         Relationships: []
       }
+      collections_decks: {
+        Row: {
+          deck_id: number
+          id: number
+          type: string
+        }
+        Insert: {
+          deck_id: number
+          id?: number
+          type: string
+        }
+        Update: {
+          deck_id?: number
+          id?: number
+          type?: string
+        }
+        Relationships: []
+      }
+      decks: {
+        Row: {
+          created_at: string
+          id: number
+          isPublic: boolean
+          likes: number
+          name: string
+          owner: string
+          type1: string | null
+          type2: string | null
+          updated_aat: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          isPublic?: boolean
+          likes: number
+          name: string
+          owner: string
+          type1?: string | null
+          type2?: string | null
+          updated_aat?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          isPublic?: boolean
+          likes?: number
+          name?: string
+          owner?: string
+          type1?: string | null
+          type2?: string | null
+          updated_aat?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      deck_types: {
+        Row: {
+          subtype: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

@@ -10,9 +10,11 @@ export default component$(() => {
         count: 0,
         sortBy: 'name',
         sortDirection: 'asc',
+        types: [],
         name: '',
         page: 1,
         size: 20,
+        selectedSubtypes: [],
         updateName: $(async function (this, name) {
             this.name = name;
             this.page = 1;
@@ -63,6 +65,7 @@ export default component$(() => {
             this.sortBy = cardListFilter.sortBy;
             this.sortDirection = cardListFilter.sortDirection;
             this.name = cardListFilter.name;
+            this.types = cardListFilter.types;
             this.page = 1;
 
             const payload = {
