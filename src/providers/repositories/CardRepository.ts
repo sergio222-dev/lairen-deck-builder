@@ -37,7 +37,7 @@ export class CardRepository {
       .select()
       .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size) - 1));
+      .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) -1);
 
     if (error) {
       console.error(`qxc error`, error);
