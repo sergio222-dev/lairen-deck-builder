@@ -47,6 +47,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
+    "@qwik-ui/headless": "^0.3.8",
     "@supabase/supabase-js": "^2.42.7",
     "remix-params-helper": "^0.5.1",
     "supabase-auth-helpers-qwik": "^0.0.3",

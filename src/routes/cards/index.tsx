@@ -1,5 +1,5 @@
 import { component$, useContext, useTask$ }               from '@builder.io/qwik';
-import { routeAction$, routeLoader$, zod$ }               from '@builder.io/qwik-city';
+import { routeLoader$ }                                   from '@builder.io/qwik-city';
 import { CardFilter, CardList }                           from '~/features/cards';
 import { cardGetScheme }                                  from '~/models/schemes/cardGet';
 import { CardRepository }                                 from '~/providers/repositories/CardRepository';
@@ -13,6 +13,7 @@ export const useCardsLoader = routeLoader$(async () => {
       size: '20',
       sortBy: 'name',
       sortDirection: 'asc',
+      types: [],
       name: '',
     };
 
@@ -37,6 +38,20 @@ export const useCardsLoader = routeLoader$(async () => {
   }
 });
 
+export const useSubtypeLoader = routeLoader$(async () => {
+  const cardRepo = new CardRepository();
+  const subtypes = await cardRepo.getCardSubtype();
+
+  function removeEmptyAndNull<T>(v: T | null): v is T {
+    return v !== null && v !== undefined && v !== '-';
+  }
+
+//   function onlyUnitTypes(v: string ) {
+//     return !['RAPIDA', 'COMUN', 'SAGRADO'].includes(v);
+//   }
+
+  return subtypes.map(s => s.subtype).filter(removeEmptyAndNull);
+});
 
 export default component$(() => {
   const c = useContext(FilterContext)
