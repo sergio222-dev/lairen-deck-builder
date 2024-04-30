@@ -37,29 +37,6 @@ export const useCardsLoader = routeLoader$(async () => {
   }
 });
 
-export const useFetchCards = routeAction$(async (data) => {
-  const cardRepo = new CardRepository();
-  console.log(data);
-
-  const filter = {
-    page: data.page,
-    size: data.size,
-    sortBy: data.sortBy,
-    sortDirection: data.sortDirection,
-    name: data.name,
-  }
-
-  const cards = await cardRepo.getCardList(filter);
-  const count = await cardRepo.getCount(filter);
-
-  console.log(`qxc cards`, cards, count);
-
-  return {
-    cards,
-    count,
-  }
-
-}, zod$(cardGetScheme));
 
 export default component$(() => {
   const c = useContext(FilterContext)
