@@ -27,7 +27,7 @@ export const MenuTw = component$<MenuProps>(({ onChange, form }) => {
     useTask$(({ track }) => {
         track(() => selected.value);
 
-        if (onChange) onChange(selected.value);
+        if (onChange) void onChange(selected.value);
 
         if (typeof window === "undefined") return;
         if (form) form.dispatchEvent(new Event('change'));
