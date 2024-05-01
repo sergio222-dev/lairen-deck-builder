@@ -15,12 +15,19 @@ export class CardRepository {
   public async getCount(filter: CardListFilter): Promise<number> {
     const supabase = SupabaseProvider.getSupabaseClient();
 
-    const { count, error } = await supabase
+    let query = supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
       .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      .range(Number(filter.page) - 1, Number(filter.page) - 1 + (Number(filter.size) - 1));
+      .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) -1);
+
+    if (filter.types.length > 0) {
+      query = query.in('subtype', filter.types);
+    }
+
+
+    const { count, error } = await query;
 
     if (error) {
       console.error(`qxc error`, error);

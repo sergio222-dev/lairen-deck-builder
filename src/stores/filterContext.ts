@@ -1,12 +1,18 @@
 import type { QRL}                                                                             from '@builder.io/qwik';
 import { createContextId }                                                                     from '@builder.io/qwik';
+import {
+  z
+}                                                                                              from '@builder.io/qwik-city';
 import type { Card }                                                                           from '~/models/Card';
+import {
+  cardGetScheme
+}                                                                                              from '~/models/schemes/cardGet';
 
-export interface CardFilters{
-  sortBy: string;
-  sortDirection: 'asc' | 'desc';
-  name: string;
-  types: string[];
+export interface CardFilters extends z.infer<typeof cardGetScheme>{
+  // sortBy: string;
+  // sortDirection: 'asc' | 'desc';
+  // name: string;
+  // types: string[];
   // page: number;
   // size: number;
 }
