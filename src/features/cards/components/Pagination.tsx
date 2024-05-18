@@ -34,7 +34,8 @@ export const Pagination = component$(() => {
         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div class="px-2">
             <p class="text-sm text-gray-400">
-              Showing {(c.page - 1) * c.size + 1} to {!isLastPage.value ? c.page * c.size : c.count} results of {c.count}
+              Showing {(c.page - 1) * c.size + 1} to {!isLastPage.value ? c.page * c.size : c.count} results
+              of {c.count}
             </p>
           </div>
           <div>
@@ -42,13 +43,14 @@ export const Pagination = component$(() => {
               <a
                 preventdefault:click
                 onClick$={async () => {
-                  console.log('qxc executed')
                   if (!isFirstPage.value) {
                     void c.setPage(1);
                   }
                 }}
                 href="#"
-                class={`${isFirstPage.value ? 'pointer-events-none' : 'hover:bg-gray-50'} relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0`}
+                class={`${isFirstPage.value ?
+                  'pointer-events-none' :
+                  'hover:bg-gray-50'} relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0`}
               >
                 <span class="sr-only">First</span>
                 <svg
@@ -70,7 +72,9 @@ export const Pagination = component$(() => {
                     void c.setPage(c.page - 1);
                   }
                 }}
-                class={`${isFirstPage.value ? 'pointer-events-none' : 'hover:bg-gray-50' } relative inline-flex items-center  px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
+                class={`${isFirstPage.value ?
+                  'pointer-events-none' :
+                  'hover:bg-gray-50'} relative inline-flex items-center  px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
                 <span class="sr-only">Previous</span>
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
@@ -108,7 +112,9 @@ export const Pagination = component$(() => {
                   }
                 }}
                 href="#"
-                class={`${isLastPage.value ? 'pointer-events-none' : 'hover:bg-gray-50'} relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
+                class={`${isLastPage.value ?
+                  'pointer-events-none' :
+                  'hover:bg-gray-50'} relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
                 <span class="sr-only">Next</span>
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
@@ -125,7 +131,9 @@ export const Pagination = component$(() => {
                     void c.setPage(totalPages);
                   }
                 }}
-                class={`${ isLastPage.value ? 'pointer-events-none' : 'hover:bg-gray-50'} relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}
+                class={`${isLastPage.value ?
+                  'pointer-events-none' :
+                  'hover:bg-gray-50'} relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}
               >
                 <span class="sr-only">Last</span>
                 <svg

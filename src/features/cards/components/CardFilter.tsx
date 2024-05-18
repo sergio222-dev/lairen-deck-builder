@@ -6,6 +6,7 @@ import { cardFilter, sortDirection }                     from '~/config/cardFilt
 import { useSubtypeLoader }                              from '~/routes/cards';
 import type { CardFilters }                              from '~/stores/filterContext';
 import { FilterContext }                                 from '~/stores/filterContext';
+import { getDefaultFilter }                              from '~/utils/cardFilters';
 import { useDebounce }                                   from '~/utils/useDebounce';
 import { Pagination }                                    from './Pagination';
 
@@ -17,14 +18,7 @@ export const CardFilter = component$(() => {
   const c = useContext(FilterContext);
 
   // State
-  const filters = useStore<CardFilters>({
-    sortBy:        'name',
-    size:          1,
-    page:          1,
-    sortDirection: 'asc',
-    name:          '',
-    types:         []
-  });
+  const filters = useStore<CardFilters>(getDefaultFilter(1));
 
   // Side effects
   useTask$(({ track }) => {

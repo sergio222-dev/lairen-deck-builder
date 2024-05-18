@@ -114,36 +114,39 @@ export type Database = {
       decks: {
         Row: {
           created_at: string
+          description: string | null
           id: number
-          isPublic: boolean
+          is_public: boolean
           likes: number
           name: string
           owner: string
           type1: string | null
           type2: string | null
-          updated_aat: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: number
-          isPublic?: boolean
+          is_public?: boolean
           likes: number
           name: string
           owner: string
           type1?: string | null
           type2?: string | null
-          updated_aat?: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: number
-          isPublic?: boolean
+          is_public?: boolean
           likes?: number
           name?: string
           owner?: string
           type1?: string | null
           type2?: string | null
-          updated_aat?: string
+          updated_at?: string
         }
         Relationships: []
       }

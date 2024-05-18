@@ -1,19 +1,20 @@
-import { server$, z } from "@builder.io/qwik-city";
+import { RequestEventBase, server$, ServerFunction, z } from '@builder.io/qwik-city';
+import { Card }                                         from '~/models/Card';
 import { cardGetScheme } from "~/models/schemes/cardGet";
 import { CardRepository } from "~/providers/repositories/CardRepository";
 
-export const serverCard = server$(async function (filters: z.infer<typeof cardGetScheme>) {
+interface ServerCardResponse {
+    cards: Card[];
+    count: number;
+}
 
-    const result = cardGetScheme.safeParse(filters);
+type ServerCardRequest = (this: RequestEventBase,filters: z.infer<typeof cardGetScheme>) => Promise<ServerCardResponse>
 
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
+export const serverCard = server$<ServerCardRequest>(async function (filters: z.infer<typeof cardGetScheme>) {
+    const cardRepo = new CardRepository(this);
 
-    const cardRepo = new CardRepository();
-
-    const cards = await cardRepo.getCardList(result.data);
-    const count = await cardRepo.getCount(result.data);
+    const cards = await cardRepo.getCardList(filters);
+    const count = await cardRepo.getCount(filters);
 
     return {
         cards,

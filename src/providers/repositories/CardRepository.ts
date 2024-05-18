@@ -1,5 +1,7 @@
-import type { Card }        from '~/models/Card';
-import { SupabaseProvider } from '~/providers/supabaseProvider';
+import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
+import { Logger }                                    from '~/lib/logger';
+import { createClientServer }                        from '~/lib/supabase-qwik';
+import type { Card }                                 from '~/models/Card';
 
 interface CardListFilter {
   sortBy: string;
@@ -12,25 +14,30 @@ interface CardListFilter {
 
 export class CardRepository {
 
+  private readonly request: RequestEventLoader | RequestEventBase;
+
+  constructor(request: RequestEventLoader | RequestEventBase) {
+    this.request = request;
+  }
+
   public async getCount(filter: CardListFilter): Promise<number> {
-    const supabase = SupabaseProvider.getSupabaseClient();
+    const supabase = createClientServer(this.request);
 
     let query = supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
       .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) -1);
+      .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
     if (filter.types.length > 0) {
       query = query.in('subtype', filter.types);
     }
 
-
     const { count, error } = await query;
 
     if (error) {
-      console.error(`qxc error`, error);
+      Logger.error(error, `${CardRepository.name} ${this.getCount.name}`);
       return 0;
     }
 
@@ -38,16 +45,14 @@ export class CardRepository {
   }
 
   public async getCardList(filter: CardListFilter): Promise<Card[]> {
-    const supabase = SupabaseProvider.getSupabaseClient();
-
-
+    const supabase = createClientServer(this.request);
 
     let query = supabase
-    .from('cards')
-    .select()
-    .or(`name.ilike.%${filter.name}%`)
-    .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-    .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) -1);
+      .from('cards')
+      .select()
+      .or(`name.ilike.%${filter.name}%`)
+      .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
+      .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
     if (filter.types.length > 0) {
       query = query.in('subtype', filter.types);
@@ -56,7 +61,7 @@ export class CardRepository {
     const { data, error } = await query;
 
     if (error) {
-      console.error(`qxc error`, error);
+      Logger.error(error, `${CardRepository.name} ${this.getCardList.name}`);
     }
 
     if (!data) {
@@ -73,26 +78,26 @@ export class CardRepository {
 
   public async getCardSubtype() {
 
-    const supabase = SupabaseProvider.getSupabaseClient();
+    const supabase = createClientServer(this.request);
 
     const { data, error } = await supabase
       .from('deck_types')
       .select();
 
     if (error) {
-      console.error(`qxc error`, error);
+      Logger.error(error, `${CardRepository.name} ${this.getCardSubtype.name}`);
     }
 
     if (!data) {
       return [];
     }
 
-    return data
+    return data;
 
   }
 
   public getCardImageUrl(imageName: string): string {
-    const supabase = SupabaseProvider.getSupabaseClient();
+    const supabase = createClientServer(this.request);
 
     const { data } = supabase.storage.from('CardImages/cards').getPublicUrl(imageName);
 

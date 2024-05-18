@@ -21,8 +21,8 @@ export const Appbar = component$(() => {
                  class="flex items-center px-4 -mb-1 border-b-2">Cards</Link>
             </li>
             <li class="flex">
-              <a rel="noopener noreferrer" href="#"
-                 class="flex items-center px-4 -mb-1 border-b-2">Decks</a>
+              <Link rel="noopener noreferrer" href="/decks"
+                 class="flex items-center px-4 -mb-1 border-b-2">Decks</Link>
             </li>
           </ul>
         </div>
