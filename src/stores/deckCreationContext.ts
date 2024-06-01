@@ -2,11 +2,12 @@ import { $, createContextId, QRL, useStore } from '@builder.io/qwik';
 import { z }                                 from '@builder.io/qwik-city';
 import { saveDeck }                          from '~/features/decks/server/saveDeck';
 import { Card }                              from '~/models/Card';
-import { Deck }                              from '~/models/Deck';
+import { Deck, DeckPreview }                 from '~/models/Deck';
 import { createDeckRequest }                 from '~/models/schemes/createDeckRequest';
 
 export interface DeckCreationContextState {
   deckData: Deck,
+  previewData: DeckPreview,
   addCard: QRL<(this: DeckCreationContextState, card: Card, side?: boolean) => Promise<void>>;
   removeCard: QRL<(this: DeckCreationContextState, card: Card, side?: boolean) => Promise<void>>;
   createDeck: QRL<(this: DeckCreationContextState) => Promise<void>>;
@@ -32,6 +33,12 @@ const initialDeckData: Deck = {
   }
 };
 
+const initialPreviewData: DeckPreview = {
+  masterDeck: [],
+  sideDeck: [],
+  treasureDeck: []
+};
+
 export const useDeckCreationStore = (deckData?: Deck) => {
   return useStore<DeckCreationContextState>({
     deckData:   {
@@ -44,7 +51,13 @@ export const useDeckCreationStore = (deckData?: Deck) => {
         if (index !== -1) {
           this.deckData.sideDeck.cards[index].quantity++;
         } else {
-          this.deckData.sideDeck.cards.push({ id: card.id, quantity: 1 });
+          this.deckData.sideDeck.cards.push({
+            id:       card.id,
+            quantity: 1,
+            image:    card.image,
+            name:     card.name,
+            type:     card.type
+          });
         }
       } else {
         // if the card is a treasure, add to treasures
@@ -54,7 +67,13 @@ export const useDeckCreationStore = (deckData?: Deck) => {
           if (index !== -1) {
             this.deckData.treasureDeck.cards[index].quantity++;
           } else {
-            this.deckData.treasureDeck.cards.push({ id: card.id, quantity: 1 });
+            this.deckData.treasureDeck.cards.push({
+              id:       card.id,
+              quantity: 1,
+              image:    card.image,
+              name:     card.name,
+              type:     card.type
+            });
           }
         } else {
           // check if the card is already in the deck
@@ -62,7 +81,13 @@ export const useDeckCreationStore = (deckData?: Deck) => {
           if (index !== -1) {
             this.deckData.masterDeck.cards[index].quantity++;
           } else {
-            this.deckData.masterDeck.cards.push({ id: card.id, quantity: 1 });
+            this.deckData.masterDeck.cards.push({
+              id:       card.id,
+              quantity: 1,
+              image:    card.image,
+              name:     card.name,
+              type:     card.type
+            });
           }
         }
       }

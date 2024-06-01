@@ -44,6 +44,28 @@ export class CardRepository {
     return count || 0;
   }
 
+  public async getCard(id: string): Promise<Card | null> {
+    const supabase = createClientServer(this.request);
+
+    let query = supabase
+      .from('cards')
+      .select()
+      .eq('id', id);
+
+    const { data, error } = await query;
+
+    if (error) {
+      Logger.error(error, `${CardRepository.name} ${this.getCard.name}`);
+      return null;
+    }
+
+    if (!data) {
+      return null;
+    }
+
+    return data[0];
+  }
+
   public async getCardList(filter: CardListFilter): Promise<Card[]> {
     const supabase = createClientServer(this.request);
 

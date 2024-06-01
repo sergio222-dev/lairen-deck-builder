@@ -31,7 +31,7 @@ export const CardFilter = component$(() => {
   });
 
   // Handlers
-  const debounceUpdateName = useDebounce(1000, $((event: Event) => {
+  const debounceUpdateName = useDebounce(250, $((event: Event) => {
     const value = (event.target as HTMLInputElement).value;
 
     void c.updateName(value);

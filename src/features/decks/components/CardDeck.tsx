@@ -33,7 +33,7 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
 
   return (
     <div
-      class="transition-all hover:bg-[length:100%_auto] hover:ring-4 ring-2 h-[80px] bg-no-repeat bg-[length:120%_auto] bg-[50%_25%] relative"
+      class="md:w-[calc(33%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(20%-1.5rem)] 2xl:w-[calc(16.33%-1.5rem)] w-full transition-all hover:bg-[length:100%_auto] hover:ring-4 ring-2 h-[80px] bg-no-repeat bg-[length:120%_auto] bg-[50%_25%] relative"
       key={card.id}
       style={{
         backgroundImage: `url(${card.image})`
