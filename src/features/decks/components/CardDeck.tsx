@@ -37,7 +37,7 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
       }}
     >
       <div
-        class="absolute bg-[linear-gradient(180deg,rgba(0,0,0,0)0%,rgba(0,0,0,0.8)40%,rgba(0,0,0,0.8)60%,rgba(0,0,0,0)100%)] w-full h-full"/>
+        class="absolute bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_40%,rgba(0,0,0,0.8)_60%,rgba(0,0,0,0)_100%)] w-full h-full"/>
       {/*<div class="absolute w-full h-full" />*/}
       <div class="flex-[5] grid grid-cols-[minmax(40px,_1fr)_4fr_minMax(40px,_1fr)] h-full relative ">
 
