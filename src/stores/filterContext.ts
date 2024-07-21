@@ -1,15 +1,16 @@
-import { $, QRL, useStore } from '@builder.io/qwik';
-import { createContextId }  from '@builder.io/qwik';
-import {
+import type { QRL }        from '@builder.io/qwik';
+import { $, useStore }     from '@builder.io/qwik';
+import { createContextId } from '@builder.io/qwik';
+import type {
   z
-}                                                                                              from '@builder.io/qwik-city';
-import { serverCard } from '~/features/cards/server/fetchCards';
-import type { Card }                                                                           from '~/models/Card';
-import {
+}                          from '@builder.io/qwik-city';
+import { serverCard }      from '~/features/cards/server/fetchCards';
+import type { Card }       from '~/models/Card';
+import type {
   cardGetScheme
-}                                                                                              from '~/models/schemes/cardGet';
+}                          from '~/models/schemes/cardGet';
 
-export interface CardFilters extends z.infer<typeof cardGetScheme>{
+export interface CardFilters extends z.infer<typeof cardGetScheme> {
 }
 
 export interface FilterContextState {
@@ -39,7 +40,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
     page:             1,
     size,
     selectedSubtypes: [],
-    updateName:       $(async function(this, name) {
+    updateName:       $(async function (this, name) {
       this.name                  = name;
       this.page                  = 1;
       const payload: CardFilters = {
@@ -56,7 +57,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
       this.cards = cards;
       this.count = count;
     }),
-    setPage:          $(async function(this, page) {
+    setPage:          $(async function (this, page) {
       this.page                  = page;
       const payload: CardFilters = {
         page,
@@ -72,7 +73,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
       this.cards = cards;
       this.count = count;
     }),
-    setSize:          $(async function(this, size) {
+    setSize:          $(async function (this, size) {
       this.size                  = size;
       const payload: CardFilters = {
         page:          this.page,
@@ -88,7 +89,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
       this.cards = cards;
       this.count = count;
     }),
-    updateFilters:    $(async function(this, cardListFilter) {
+    updateFilters:    $(async function (this, cardListFilter) {
       this.sortBy        = cardListFilter.sortBy;
       this.sortDirection = cardListFilter.sortDirection;
       this.name          = cardListFilter.name;
