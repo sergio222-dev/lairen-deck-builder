@@ -1,5 +1,4 @@
 import { component$, useComputed$ } from "@builder.io/qwik";
-import { CardDeckControl }          from "~/features/decks/components/CardDeckControl";
 import { CardDeckControlPreview }   from "~/features/decks/components/CardDeckControlPreview";
 import { CARD_TYPES }               from "~/models/CardTypes";
 import type { DeckState }                from "~/models/Deck";
