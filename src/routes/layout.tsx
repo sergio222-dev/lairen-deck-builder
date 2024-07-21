@@ -1,17 +1,23 @@
 import type { Signal } from "@builder.io/qwik";
 import { component$, createContextId, Slot, useContextProvider, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import type { RequestEvent } from "@builder.io/qwik-city";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import type {
+  RequestEvent
+} from "@builder.io/qwik-city";
+import {
+  routeLoader$
+} from "@builder.io/qwik-city";
 import { Appbar } from '~/features/appbar';
-import type { User } from "supabase-auth-helpers-qwik";
+import type {
+  User
+} from "supabase-auth-helpers-qwik";
 import { createClientBrowser, createClientServer } from "~/lib/supabase-qwik";
 
-export const useUser = routeLoader$(async (request) => {
-    const client = createClientServer(request as unknown as RequestEvent);
+export const useUserLoader = routeLoader$(async (request) => {
+  const client = createClientServer(request as unknown as RequestEvent);
 
-    const { data } = await client.auth.getUser();
+  const { data } = await client.auth.getUser();
 
-    return data.user;
+  return data.user;
 });
 
 type UserSupabase = User | null
@@ -19,31 +25,30 @@ type UserSupabase = User | null
 export const UserContext = createContextId<Signal<UserSupabase>>('user-context');
 
 export default component$(() => {
+  const userPreloaded = useUserLoader();
 
-    const userPreloaded = useUser();
+  const user = useSignal<UserSupabase>(userPreloaded.value);
 
-    const user = useSignal<UserSupabase>(userPreloaded.value);
+  useContextProvider(UserContext, user);
 
-    useContextProvider(UserContext, user);
+  useVisibleTask$(() => {
+    const client = createClientBrowser();
 
-    useVisibleTask$(() => {
-        const client = createClientBrowser();
+    const { data: { subscription } } = client.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        user.value = null;
+      }
+    });
 
-        const { data: { subscription } } = client.auth.onAuthStateChange((event) => {
-            if (event === 'SIGNED_OUT') {
-                user.value = null;
-            }
-        });
+    return () => subscription.unsubscribe();
+  })
 
-        return () => subscription.unsubscribe();
-    })
-
-    return (
-        <>
-            <Appbar />
-            <main class="container mx-auto">
-                <Slot />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <Appbar/>
+      <main class="container mx-auto">
+        <Slot/>
+      </main>
+    </>
+  );
 });
