@@ -78,7 +78,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
           <p class="text-center">Tesoros</p>
           <div class="flex flex-wrap">
             {orderedTreasureCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
             ))}
           </div>
         </div>
