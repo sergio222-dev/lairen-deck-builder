@@ -1,5 +1,7 @@
-<<<<<<< HEAD
 # Qwik City App ⚡️
+
+<img height="200" src="https://github.com/SAWARATSUKI/ServiceLogos/blob/main/Qwik.js/Qwik.png?raw=true" width="400"/>
+<img height="200" src="https://github.com/SAWARATSUKI/ServiceLogos/blob/main/TypeScript/TypeScript.png?raw=true" width="400"/>
 
 - [Qwik Docs](https://qwik.dev/)
 - [Discord](https://qwik.dev/chat)
@@ -64,6 +66,13 @@ The production build will generate client and server modules by running both cli
 ```shell
 pnpm build # or `pnpm build`
 ```
-=======
-# lairen-deck-builder
->>>>>>> 7825d8a7a5675beac8e6465e24162c2c966900ec
+
+## Fastify Server
+
+This app has a minimal [Fastify server](https://fastify.dev/) implementation. After running a full build, you can preview the build using the command:
+
+```
+pnpm serve
+```
+
+Then visit [http://localhost:3000/](http://localhost:3000/)

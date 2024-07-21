@@ -1,38 +1,49 @@
-import { component$, Slot, useStyles$ } from "@builder.io/qwik";
+import type { Signal } from "@builder.io/qwik";
+import { component$, createContextId, Slot, useContextProvider, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import type { RequestEvent } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import type { RequestHandler } from "@builder.io/qwik-city";
+import { Appbar } from '~/features/appbar';
+import type { User } from "supabase-auth-helpers-qwik";
+import { createClientBrowser, createClientServer } from "~/lib/supabase-qwik";
 
-import Header from "../components/starter/header/header";
-import Footer from "../components/starter/footer/footer";
+export const useUser = routeLoader$(async (request) => {
+    const client = createClientServer(request as unknown as RequestEvent);
 
-import styles from "./styles.css?inline";
+    const { data } = await client.auth.getUser();
 
-export const onGet: RequestHandler = async ({ cacheControl }) => {
-  // Control caching for this request for best performance and to reduce hosting costs:
-  // https://qwik.dev/docs/caching/
-  cacheControl({
-    // Always serve a cached response by default, up to a week stale
-    staleWhileRevalidate: 60 * 60 * 24 * 7,
-    // Max once every 5 seconds, revalidate on the server to get a fresh version of this page
-    maxAge: 5,
-  });
-};
-
-export const useServerTimeLoader = routeLoader$(() => {
-  return {
-    date: new Date().toISOString(),
-  };
+    return data.user;
 });
 
+type UserSupabase = User | null
+
+export const UserContext = createContextId<Signal<UserSupabase>>('user-context');
+
 export default component$(() => {
-  useStyles$(styles);
-  return (
-    <>
-      <Header />
-      <main>
-        <Slot />
-      </main>
-      <Footer />
-    </>
-  );
+
+    const userPreloaded = useUser();
+
+    const user = useSignal<UserSupabase>(userPreloaded.value);
+
+    useContextProvider(UserContext, user);
+
+    useVisibleTask$(() => {
+        const client = createClientBrowser();
+
+        const { data: { subscription } } = client.auth.onAuthStateChange((event) => {
+            if (event === 'SIGNED_OUT') {
+                user.value = null;
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    })
+
+    return (
+        <>
+            <Appbar />
+            <main class="container mx-auto">
+                <Slot />
+            </main>
+        </>
+    );
 });
