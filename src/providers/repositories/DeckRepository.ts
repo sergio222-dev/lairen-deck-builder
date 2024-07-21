@@ -1,19 +1,23 @@
-import { RequestEventBase, RequestEventLoader, z } from '@builder.io/qwik-city';
-import { SupabaseClient, createClient }            from '@supabase/supabase-js';
-import { CollectionTypes }                         from '~/config/collectionTypes';
-import { DeckNotFoundException }                   from '~/exceptions/DeckNotFoundException';
-import { UnauthorizedException }                   from '~/exceptions/UnauthorizedException';
-import { Logger }                                  from '~/lib/logger';
-import { createClientServer }                                 from '~/lib/supabase-qwik';
-import { CardDeck, Deck, MasterDeck, SideDeck, TreasureDeck } from '~/models/Deck';
-import { createDeckRequest }                                  from '~/models/schemes/createDeckRequest';
-import { Database }                                from '../../../database.types';
+import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
+import type { SupabaseClient }                       from '@supabase/supabase-js';
+import { createClient }                              from '@supabase/supabase-js';
+import { CollectionTypes }                           from '~/config/collectionTypes';
+import { Logger }                                    from '~/lib/logger';
+import { createClientServer }                        from '~/lib/supabase-qwik';
+import type { DeckCard, DeckItem, DeckState }        from '~/models/Deck';
+import { getCardImageUrl }                           from "~/utils/cardImage";
+import { on }                                        from "~/utils/go";
+import type { NormalizedModel }                      from "~/utils/normalize";
+import { denormalizeEntity, normalizeArray }         from "~/utils/normalize";
+import type { Database }                             from '../../../database.types';
 
 export class DeckRepository {
   private readonly supabase: SupabaseClient<Database>;
   private readonly supabaseClient: SupabaseClient<Database>;
+  private readonly request: RequestEventLoader | RequestEventBase;
 
   constructor(request: RequestEventLoader | RequestEventBase) {
+    this.request  = request;
     this.supabase = createClientServer(request);
     const url     = request.env.get('SB_API_URL');
     const secret  = request.env.get('SB_SECRET_ROLE');
@@ -32,7 +36,7 @@ export class DeckRepository {
     });
   }
 
-  public async saveDeck(data: z.infer<typeof createDeckRequest>): Promise<number> {
+  public async saveDeck(data: DeckState): Promise<number> {
 
     const supabase       = this.supabase;
     const supabaseClient = this.supabaseClient;
@@ -70,20 +74,20 @@ export class DeckRepository {
       return 0;
     }
 
-    const deck      = data.deck;
-    const side      = data.side;
-    const treasures = data.treasures;
+    const deck      = data.masterDeck;
+    const side      = data.sideDeck;
+    const treasures = data.treasureDeck;
 
     const deckId = dataDeck[0].id;
 
-    await this.insertDeckCollection(deckId, CollectionTypes.DECK, deck);
-    await this.insertDeckCollection(deckId, CollectionTypes.SIDE, side);
-    await this.insertDeckCollection(deckId, CollectionTypes.TREASURE, treasures);
+    await this.insertDeckCollection(deckId, CollectionTypes.DECK, denormalizeEntity(deck));
+    await this.insertDeckCollection(deckId, CollectionTypes.SIDE, denormalizeEntity(side));
+    await this.insertDeckCollection(deckId, CollectionTypes.TREASURE, denormalizeEntity(treasures));
 
     return deckId;
   }
 
-  public async getDeck(deckId: number, ownerId: string): Promise<Deck | undefined> {
+  public async getDeck(deckId: number, ownerId: string): Promise<DeckState | undefined> {
     const supabase = this.supabaseClient;
 
     // get the deck by id and check if the user is the owner
@@ -98,35 +102,82 @@ export class DeckRepository {
       return undefined;
     }
 
-    if (!data) {
-      throw new DeckNotFoundException("Deck not found");
+    // get the collections
+    const [deck, errorConvertion] = await on(this.convertDataToDeck(data[0]));
+
+    if (errorConvertion) {
+      Logger.error(errorConvertion, `${DeckRepository.name} ${this.getDeck.name}`);
+      return undefined;
+
     }
 
-    const deck = data[0];
+    return deck;
+  }
+
+  public async getPublicDeck(deckId: string): Promise<DeckState> {
+    const supabase = this.supabaseClient;
+
+    const { data, error } = await supabase
+      .from('decks')
+      .select()
+      .eq('id', deckId)
+      .eq('is_public', true);
+
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.getPublicDeck.name}`);
+      throw new Error('Deck not found', { cause: error });
+    }
+
+    const [deck, errorConversion] = await on(this.convertDataToDeck(data[0]));
+
+    if (errorConversion) {
+      Logger.error(errorConversion, `${DeckRepository.name} ${this.getPublicDeck.name}`);
+      throw new Error('Error converting deck', { cause: errorConversion });
+    }
+
+    return deck;
+  }
+
+  public async listPublicDecks(): Promise<DeckItem[]> {
+    const supabase = this.supabaseClient;
+
+    const { data, error } = await supabase
+      .from('decks')
+      .select('id, name, description, likes')
+      .eq('is_public', true)
+
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.listPublicDecks.name}`);
+      return [];
+    }
+
+    return data.map(d => ({
+      id:          d.id,
+      name:        d.name,
+      description: d.description,
+      likes:       d.likes,
+    }));
+
+  }
+
+  private async convertDataToDeck(data: Database['public']['Tables']['decks']['Row']): Promise<DeckState> {
+
+    const supabase = this.supabaseClient;
 
     // get the collections
-    const { data: deckCollectionData } = await supabase
+    const { data: deckCollectionData, error } = await supabase
       .from('collections_decks')
       .select()
-      .eq('deck_id', deckId);
+      .eq('deck_id', data.id);
 
-    if (!deckCollectionData) {
-      return undefined;
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.convertDataToDeck.name}`);
+      throw new Error('Deck not found', { cause: error });
     }
 
-    let masterDeck: MasterDeck = {
-      id:       0,
-      cards:    []
-    };
-    let sideDeck: SideDeck = {
-      id:       0,
-      cards:    []
-    };
-    let treasureDeck: TreasureDeck = {
-      id:       0,
-      cards:    []
-    };
-
+    let masterDeck: NormalizedModel<DeckCard>   = {};
+    let sideDeck: NormalizedModel<DeckCard>     = {};
+    let treasureDeck: NormalizedModel<DeckCard> = {};
 
     // get the main deck collection cards
     for (const deck of deckCollectionData) {
@@ -134,36 +185,34 @@ export class DeckRepository {
 
       const { data: cards } = await supabase
         .from('card_collection')
-        .select()
+        .select('*, cards(*)')
         .eq('collection_id', deck.id);
 
       if (!cards) continue;
 
-      const cardsData = cards.map<CardDeck>(c => {
-        return {
-          id:       c.card_id,
-          quantity: c.quantity
-        };
+      const cardsData: DeckCard[] = [];
+
+      cards.forEach(c => {
+        const { cards: card } = c;
+
+        if (card) {
+          cardsData.push({
+            ...card,
+            image:    getCardImageUrl(card.image + '.webp', this.request),
+            quantity: c.quantity,
+          })
+        }
       });
 
       switch (type) {
         case CollectionTypes.DECK:
-          masterDeck = {
-            id:       deck.id,
-            cards:    cardsData
-          };
+          masterDeck = normalizeArray(cardsData);
           break;
         case CollectionTypes.SIDE:
-          sideDeck = {
-            id:       deck.id,
-            cards:    cardsData
-          };
+          sideDeck = normalizeArray(cardsData);
           break;
         case CollectionTypes.TREASURE:
-          treasureDeck = {
-            id:       deck.id,
-            cards:    cardsData
-          };
+          treasureDeck = normalizeArray(cardsData);
           break;
         default:
           break;
@@ -171,16 +220,15 @@ export class DeckRepository {
     }
 
     return {
-      id:       deck.id,
-      name:     deck.name,
-      description: deck.description ?? undefined,
-      isPrivate: deck.is_public,
-      likes:    deck.likes,
+      id:          data.id,
+      name:        data.name,
+      description: data.description ?? undefined,
+      isPrivate:   data.is_public,
+      likes:       data.likes,
       masterDeck,
       sideDeck,
       treasureDeck
-    }
-
+    };
   }
 
   private async insertDeckCollection(
@@ -202,7 +250,7 @@ export class DeckRepository {
       };
     });
 
-    await this.insertCards(cards, collectionId);
+    await this.insertCards(cards);
   }
 
   private async insertCollection(deckId: number, type: CollectionTypes): Promise<number> {
@@ -223,7 +271,7 @@ export class DeckRepository {
     return dekCollectionData[0].id;
   }
 
-  private async insertCards(cards: Database['public']['Tables']['card_collection']['Insert'][], collectionId: number) {
+  private async insertCards(cards: Database['public']['Tables']['card_collection']['Insert'][]) {
     const supabase = this.supabaseClient;
 
     const { error } = await supabase

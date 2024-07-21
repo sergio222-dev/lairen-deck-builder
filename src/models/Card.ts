@@ -1,4 +1,6 @@
-export interface Card {
+import type { Entity } from "~/utils/normalize";
+
+export interface Card extends Entity {
   id: number;
   name: string;
   rarity: string;

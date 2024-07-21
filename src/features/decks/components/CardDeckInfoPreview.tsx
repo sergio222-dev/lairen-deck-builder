@@ -1,41 +1,43 @@
-import { component$, useComputed$, useContext } from '@builder.io/qwik';
-import { CardDeckControl }                      from '~/features/decks/components/CardDeckControl';
-import { CARD_TYPES }                           from '~/models/CardTypes';
-import { DeckCreationContext }                  from '~/stores/deckCreationContext';
+import { component$, useComputed$ } from "@builder.io/qwik";
+import { CardDeckControl }          from "~/features/decks/components/CardDeckControl";
+import { CardDeckControlPreview }   from "~/features/decks/components/CardDeckControlPreview";
+import { CARD_TYPES }               from "~/models/CardTypes";
+import type { DeckState }                from "~/models/Deck";
 
-export const CardDeckInfo = component$(() => {
-  const d = useContext(DeckCreationContext);
+interface CardDeckInfoProps {
+  deck: DeckState;
+}
 
-  const deckData = d.deckData;
+export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
 
   const deckTotalCards = useComputed$(() => {
-    return Object.entries(deckData.masterDeck)
+    return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
       .reduce((acc, c) => acc + c.quantity, 0);
   });
 
   const orderedUnitCards = useComputed$(() => {
-    return Object.entries(deckData.masterDeck)
+    return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
       .filter(c => c.type === CARD_TYPES.UNIT)
       .toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
   const orderedActionCards = useComputed$(() => {
-    return Object.entries(deckData.masterDeck)
+    return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
       .filter(c => c.type === CARD_TYPES.ACTION)
       .toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
   const orderedTreasureCards = useComputed$(() => {
-    return Object.entries(deckData.treasureDeck)
+    return Object.entries(deck.treasureDeck)
       .map(([, c]) => c)
       .toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
   const orderedMonumentCards = useComputed$(() => {
-    return Object.entries(deckData.masterDeck)
+    return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
       .filter(c => c.type === CARD_TYPES.MONUMENTO)
       .toSorted((a, b) => a.name.localeCompare(b.name))
@@ -52,7 +54,7 @@ export const CardDeckInfo = component$(() => {
           <p class="text-center">Unidades</p>
           <div class="flex flex-wrap">
             {orderedUnitCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
             ))}
           </div>
         </div>
@@ -60,7 +62,7 @@ export const CardDeckInfo = component$(() => {
           <p class="text-center">Acciones</p>
           <div class="flex flex-wrap">
             {orderedActionCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
             ))}
           </div>
         </div>
@@ -68,7 +70,7 @@ export const CardDeckInfo = component$(() => {
           <p class="text-center">Monumentos</p>
           <div class="flex flex-wrap">
             {orderedMonumentCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
             ))}
           </div>
         </div>

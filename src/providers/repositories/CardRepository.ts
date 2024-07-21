@@ -2,6 +2,7 @@ import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city
 import { Logger }                                    from '~/lib/logger';
 import { createClientServer }                        from '~/lib/supabase-qwik';
 import type { Card }                                 from '~/models/Card';
+import { getCardImageUrl }                           from '~/utils/cardImage';
 
 interface CardListFilter {
   sortBy: string;
@@ -47,7 +48,7 @@ export class CardRepository {
   public async getCard(id: string): Promise<Card | null> {
     const supabase = createClientServer(this.request);
 
-    let query = supabase
+    const query = supabase
       .from('cards')
       .select()
       .eq('id', id);
@@ -56,10 +57,6 @@ export class CardRepository {
 
     if (error) {
       Logger.error(error, `${CardRepository.name} ${this.getCard.name}`);
-      return null;
-    }
-
-    if (!data) {
       return null;
     }
 
@@ -93,7 +90,7 @@ export class CardRepository {
     return data.map(c => {
       return {
         ...c,
-        image: this.getCardImageUrl(c.image + '.webp')
+        image: getCardImageUrl(c.image + '.webp', this.request)
       };
     });
   }
@@ -115,15 +112,6 @@ export class CardRepository {
     }
 
     return data;
-
-  }
-
-  public getCardImageUrl(imageName: string): string {
-    const supabase = createClientServer(this.request);
-
-    const { data } = supabase.storage.from('CardImages/cards').getPublicUrl(imageName);
-
-    return data.publicUrl;
 
   }
 }

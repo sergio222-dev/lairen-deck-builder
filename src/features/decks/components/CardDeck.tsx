@@ -1,11 +1,6 @@
-import {
-  $,
-  component$,
-  useComputed$,
-  useContext, useStylesScoped$, useStylesScopedQrl
-} from '@builder.io/qwik';
-import { Card }                from '~/models/Card';
-import { DeckCreationContext } from '~/stores/deckCreationContext';
+import { component$, useComputed$, useContext, useStylesScoped$ } from '@builder.io/qwik';
+import type { Card }                                              from '~/models/Card';
+import { DeckCreationContext }                                    from '~/stores/deckCreationContext';
 
 interface CardDeckProps {
   card: Card;
@@ -14,13 +9,16 @@ interface CardDeckProps {
 export const CardDeck = component$<CardDeckProps>(({ card }) => {
   const d = useContext(DeckCreationContext);
 
+  const deckData = d.deckData;
+
   const deckQuantity = useComputed$(() => {
-    return (d.deckData.masterDeck.cards.find(c => c.id === card.id)?.quantity ?? 0) +
-      (d.deckData.treasureDeck.cards.find(c => c.id === card.id)?.quantity ?? 0);
+    const masterDeckQuantity = Object.entries(deckData.masterDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
+    const treasureDeckQuantity = Object.entries(deckData.treasureDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
+    return masterDeckQuantity + treasureDeckQuantity;
   });
 
   const sideQuantity = useComputed$(() => {
-    return d.deckData.sideDeck.cards.find(c => c.id === card.id)?.quantity ?? 0;
+    return Object.entries(deckData.sideDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
   });
 
   useStylesScoped$(`
@@ -30,7 +28,6 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
   `);
 
 
-
   return (
     <div
       class="md:w-[calc(33%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(20%-1.5rem)] 2xl:w-[calc(16.33%-1.5rem)] w-full transition-all hover:bg-[length:100%_auto] hover:ring-4 ring-2 h-[80px] bg-no-repeat bg-[length:120%_auto] bg-[50%_25%] relative"
@@ -38,18 +35,9 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
       style={{
         backgroundImage: `url(${card.image})`
       }}
-      // style={
-      //   deckQuantity.value > 0 || sideQuantity.value > 0 ? {
-      //     backgroundImage: `url(${card.image})`
-      //   } : {
-      //     backgroundImage: `url(${card.image})`,
-      //     // backgroundImage:     `linear-gradient(black, black), url(${card.image})`,
-      //     backgroundBlendMode: 'hue'
-      //   }
-      // }
     >
       <div
-        class="absolute bg-[linear-gradient(180deg,rgba(0,0,0,0)0%,rgba(0,0,0,0.8)40%,rgba(0,0,0,0.8)60%,rgba(0,0,0,0)100%)] w-full h-full" />
+        class="absolute bg-[linear-gradient(180deg,rgba(0,0,0,0)0%,rgba(0,0,0,0.8)40%,rgba(0,0,0,0.8)60%,rgba(0,0,0,0)100%)] w-full h-full"/>
       {/*<div class="absolute w-full h-full" />*/}
       <div class="flex-[5] grid grid-cols-[minmax(40px,_1fr)_4fr_minMax(40px,_1fr)] h-full relative ">
 

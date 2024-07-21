@@ -1,8 +1,9 @@
-import { component$, useContext, useContextProvider, useTask$ } from '@builder.io/qwik';
-import { useCardsLoader }                                       from '~/routes/cards';
-import { CardFilter }                                           from './components/CardFilter';
-import { CardList }                                             from './components/CardList';
-import { FilterContext, FilterContextState, useFilterStore }    from '~/stores/filterContext';
+import { component$, useContextProvider } from '@builder.io/qwik';
+import { useCardsLoader }                 from '~/routes/cards';
+import { CardFilter }                     from './components/CardFilter';
+import { CardList }                       from './components/CardList';
+import type { FilterContextState }        from '~/stores/filterContext';
+import { FilterContext, useFilterStore }  from '~/stores/filterContext';
 
 export const Card = component$(() => {
   const preloadedCards = useCardsLoader();
@@ -12,8 +13,8 @@ export const Card = component$(() => {
 
   return (
     <>
-      <CardFilter />
-      <CardList />
+      <CardFilter/>
+      <CardList/>
     </>
   );
 });

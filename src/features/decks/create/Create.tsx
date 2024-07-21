@@ -1,4 +1,5 @@
 import { $, component$, useContextProvider, useSignal } from '@builder.io/qwik';
+import { useLocation, useNavigate }                     from "@builder.io/qwik-city";
 import { CardFilter }                                   from '~/features/cards';
 import { CardDeckInfo }                                 from '~/features/decks/components/CardDeckInfo';
 import { CardListDeck }                              from '~/features/decks/components/CardListDeck';
@@ -10,6 +11,8 @@ import { FilterContext, useFilterStore }             from '~/stores/filterContex
 
 export const Create = component$(() => {
   const buttonDisabled = useSignal(false);
+  const location = useLocation();
+  const navigation = useNavigate();
 
   const preloadedCards = useCardDeckLoader();
   const preloadedDeck = useDeckLoader();
@@ -31,8 +34,12 @@ export const Create = component$(() => {
         disabled={buttonDisabled.value}
         onClick$={$(async () => {
           buttonDisabled.value = true;
-          await deckStore.createDeck();
+          const result = await deckStore.createDeck();
           buttonDisabled.value = false;
+
+          if (location.params['id'] === '' && result > 0) {
+            void navigation(`/decks/create/${result}`);
+          }
         })}
       >CREATE/UPDATE
       </button>

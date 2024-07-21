@@ -1,9 +1,10 @@
-import { routeLoader$ }   from '@builder.io/qwik-city';
-import { Logger }         from '~/lib/logger';
-import { cardGetScheme }  from '~/models/schemes/cardGet';
-import { CardRepository } from '~/providers/repositories/CardRepository';
+import { routeLoader$ }     from '@builder.io/qwik-city';
+import { Logger }           from '~/lib/logger';
+import { cardGetScheme }    from '~/models/schemes/cardGet';
+import { CardRepository }   from '~/providers/repositories/CardRepository';
 import { getDefaultFilter } from '~/utils/cardFilters';
 
+// eslint-disable-next-line qwik/loader-location
 export const useSubtypeLoader = routeLoader$(async (request) => {
   const cardRepo = new CardRepository(request);
   const subtypes = await cardRepo.getCardSubtype();
@@ -15,6 +16,7 @@ export const useSubtypeLoader = routeLoader$(async (request) => {
   return subtypes.map(s => s.subtype).filter(removeEmptyAndNull);
 });
 
+// eslint-disable-next-line qwik/loader-location
 export const useCardsLoader = routeLoader$(async (requestEnv) => {
   try {
     const cardRepo = new CardRepository(requestEnv);
@@ -42,6 +44,7 @@ export const useCardsLoader = routeLoader$(async (requestEnv) => {
   }
 });
 
+// eslint-disable-next-line qwik/loader-location
 export const useCardDeckLoader = routeLoader$(async (requestEnv) => {
   try {
     const cardRepo = new CardRepository(requestEnv);
