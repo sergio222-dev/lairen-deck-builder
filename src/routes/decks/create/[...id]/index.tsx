@@ -2,7 +2,7 @@ import { component$ }            from '@builder.io/qwik';
 import type { RequestHandler }   from '@builder.io/qwik-city';
 import { routeLoader$ }          from '@builder.io/qwik-city';
 import { DeckNotFoundException } from '~/exceptions/DeckNotFoundException';
-import { Create }                from '~/features/decks/create/Create';
+import { Create }                from '~/features/createDeck';
 import { Logger }                from '~/lib/logger';
 import { createClientServer }    from '~/lib/supabase-qwik';
 import type { DeckState }        from "~/models/Deck";

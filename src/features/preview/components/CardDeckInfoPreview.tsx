@@ -1,7 +1,7 @@
 import { component$, useComputed$ } from "@builder.io/qwik";
-import { CardDeckControlPreview }   from "~/features/decks/components/CardDeckControlPreview";
+import { CardDeckControlPreview }   from "~/features/preview/components/CardDeckControlPreview";
 import { CARD_TYPES }               from "~/models/CardTypes";
-import type { DeckState }                from "~/models/Deck";
+import type { DeckState }           from "~/models/Deck";
 
 interface CardDeckInfoProps {
   deck: DeckState;
@@ -42,6 +42,12 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
       .toSorted((a, b) => a.name.localeCompare(b.name))
   });
 
+  const orderedSideCards = useComputed$(() => {
+    return Object.entries(deck.sideDeck)
+      .map(([, c]) => c)
+      .toSorted((a, b) => a.name.localeCompare(b.name))
+  });
+
   return (
     <div class="p-4 shadow-lg m-4">
       <div class="flex justify-center">
@@ -65,23 +71,37 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
             ))}
           </div>
         </div>
-        <div>
+      </div>
+
+      {orderedMonumentCards.value.length > 0 &&
+        <div class="p-4">
           <p class="text-center">Monumentos</p>
           <div class="flex flex-wrap">
             {orderedMonumentCards.value.map(c => (
-              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
+              <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>
             ))}
           </div>
         </div>
-        <div>
-          <p class="text-center">Tesoros</p>
-          <div class="flex flex-wrap">
-            {orderedTreasureCards.value.map(c => (
-              <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
-            ))}
-          </div>
+      }
+      <div class="p-4">
+        <p class="text-center">Tesoros</p>
+        <div class="flex flex-wrap">
+          {orderedTreasureCards.value.map(c => (
+            <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>
+          ))}
         </div>
       </div>
+
+      {orderedSideCards.value.length > 0 &&
+        <div class="p-4">
+          <p class="text-center">Side</p>
+          <div class="flex flex-wrap">
+            {orderedSideCards.value.map(c => (
+              <CardDeckControlPreview orientation="horizontal" isSide key={c.id} card={c} deck={deck}/>
+            ))}
+          </div>
+        </div>
+      }
     </div>
   );
 });

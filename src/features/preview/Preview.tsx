@@ -1,5 +1,5 @@
-import { component$ } from "@builder.io/qwik";
-import { CardDeckInfoPreview } from "~/features/decks/components/CardDeckInfoPreview";
+import { component$ }          from "@builder.io/qwik";
+import { CardDeckInfoPreview } from "~/features/preview/components/CardDeckInfoPreview";
 import { usePublicDeckLoader } from "~/providers/loaders/decks";
 
 export const PreviewDeck = component$(() => {
