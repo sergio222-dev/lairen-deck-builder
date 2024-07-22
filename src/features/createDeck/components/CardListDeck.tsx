@@ -1,5 +1,5 @@
 import { component$, useContext } from '@builder.io/qwik';
-import { CardDeck }               from '~/features/decks/components/CardDeck';
+import { CardDeck }               from '~/features/createDeck/components/CardDeck';
 import { FilterContext }          from '~/stores/filterContext';
 
 export const CardListDeck = component$(() => {

@@ -10,6 +10,7 @@ import { getDefaultFilter }                              from '~/utils/cardFilte
 import { useDebounce }                                   from '~/utils/useDebounce';
 import { Pagination }                                    from './Pagination';
 
+// TODO: refactor this components, move to common components folder and remove all loaders and context
 export const CardFilter = component$(() => {
   // Loaders
   const subtypes = useSubtypeLoader();
