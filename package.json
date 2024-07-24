@@ -56,8 +56,8 @@
   },
   "dependencies": {
     "@qwik-ui/headless": "^0.3.8",
-    "@supabase/ssr": "^0.3.0",
-    "@supabase/supabase-js": "^2.42.7",
+    "@supabase/ssr": "^0.4.0",
+    "@supabase/supabase-js": "^2.44.4",
     "await-on": "^0.1.4",
     "pino": "^9.0.0",
     "remix-params-helper": "^0.5.1",

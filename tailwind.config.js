@@ -2,7 +2,12 @@
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: 'var(--qwik-primary)',
+        secondary: 'var(--qwik-secondary)',
+      }
+    },
   },
   plugins: [],
 };

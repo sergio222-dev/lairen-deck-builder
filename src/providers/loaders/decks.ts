@@ -21,6 +21,22 @@ export const useListPublicDeckLoader = routeLoader$(async (requestEnv) => {
   }
 })
 
+export const useListMyDeckLoader = routeLoader$(async (requestEnv) => {
+  const deckRepo = new DeckRepository(requestEnv);
+
+  const [decks, ok] = await on(deckRepo.listUserDecks());
+
+  if (ok) {
+    return {
+      decks: []
+    }
+  }
+
+  return {
+    decks,
+  }
+})
+
 // eslint-disable-next-line qwik/loader-location
 export const usePublicDeckLoader = routeLoader$<DeckState | undefined>(async (requestEnv) => {
   const deckRepo = new DeckRepository(requestEnv);

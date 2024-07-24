@@ -6,6 +6,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.theme-dark {
+    --qwik-primary: rgb(33 37 41);
+    --qwik-secondary: #E7AE32;
+}
+
+.theme-light {
+    --qwik-primary: #E7AE32;
+    --qwik-secondary: rgb(33 37 41);
+}
+
 /**
  * WHAT IS THIS FILE?
  *

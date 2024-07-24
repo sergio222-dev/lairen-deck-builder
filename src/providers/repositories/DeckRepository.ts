@@ -160,6 +160,35 @@ export class DeckRepository {
 
   }
 
+  public async listUserDecks(): Promise<DeckItem[]> {
+
+    const { data: user , error: errorAuth } = await this.supabase.auth.getUser();
+
+    if (errorAuth) {
+      Logger.error(errorAuth, `${DeckRepository.name} ${this.listUserDecks.name}`);
+      throw new Error('User not authenticated');
+    }
+
+    const supabase = this.supabaseClient;
+
+    const { data, error } = await supabase
+      .from('decks')
+      .select()
+      .eq('owner', user.user!.id);
+
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.listUserDecks.name}`);
+      return [];
+    }
+
+    return data.map(d => ({
+      id:          d.id,
+      name:        d.name,
+      description: d.description,
+      likes:       d.likes,
+    }));
+  }
+
   private async convertDataToDeck(data: Database['public']['Tables']['decks']['Row']): Promise<DeckState> {
 
     const supabase = this.supabaseClient;
