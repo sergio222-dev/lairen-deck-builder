@@ -1,4 +1,4 @@
-import { Signal, useTask$ }                                                                  from "@builder.io/qwik";
+import type { Signal }                                                                  from "@builder.io/qwik";
 import { component$, createContextId, Slot, useContextProvider, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type {
   RequestEvent
