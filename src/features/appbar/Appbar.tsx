@@ -6,6 +6,7 @@ export const Appbar = component$(() => {
   const location = useLocation();
 
   const user = useContext(UserContext);
+  console.log('rendered');
 
   return (
     <>

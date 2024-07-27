@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@qwik-ui/headless':
         specifier: ^0.3.8
-        version: 0.3.8(@builder.io/qwik@1.5.2(@types/node@20.12.7)(undici@6.14.1))
+        version: 0.3.8(@builder.io/qwik@1.5.2(@types/node@20.12.7)(sass@1.77.8)(undici@6.14.1))
       '@supabase/ssr':
         specifier: ^0.4.0
         version: 0.4.0(@supabase/supabase-js@2.44.4)
@@ -35,10 +35,10 @@ importers:
     devDependencies:
       '@builder.io/qwik':
         specifier: ^1.5.2
-        version: 1.5.2(@types/node@20.12.7)(undici@6.14.1)
+        version: 1.5.2(@types/node@20.12.7)(sass@1.77.8)(undici@6.14.1)
       '@builder.io/qwik-city':
         specifier: ^1.5.2
-        version: 1.5.2(@types/node@20.12.7)(rollup@4.16.4)
+        version: 1.5.2(@types/node@20.12.7)(rollup@4.16.4)(sass@1.77.8)
       '@fastify/compress':
         specifier: ^6.2.1
         version: 6.5.0
@@ -87,6 +87,9 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.5.4
         version: 0.5.14(prettier@3.2.5)
+      sass:
+        specifier: ^1.77.8
+        version: 1.77.8
       supabase:
         specifier: ^1.163.2
         version: 1.163.2
@@ -101,10 +104,10 @@ importers:
         version: 6.14.1
       vite:
         specifier: ^5.1.6
-        version: 5.2.10(@types/node@20.12.7)
+        version: 5.2.10(@types/node@20.12.7)(sass@1.77.8)
       vite-tsconfig-paths:
         specifier: ^4.2.1
-        version: 4.3.2(typescript@5.3.3)(vite@5.2.10(@types/node@20.12.7))
+        version: 4.3.2(typescript@5.3.3)(vite@5.2.10(@types/node@20.12.7)(sass@1.77.8))
 
 packages:
 
@@ -1455,6 +1458,9 @@ packages:
     resolution: {integrity: sha512-N1qs5qn7u9nR3kboISkYuvJm8MohiphCfBa+wx1UOropVaFis9/mh6wuDPLHJNhl6/64C7q2Pch5NASVKAaSrg==}
     engines: {node: '>=12.0.0'}
 
+  immutable@4.3.7:
+    resolution: {integrity: sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==}
+
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2240,6 +2246,11 @@ packages:
     resolution: {integrity: sha512-e2bDA2WJT0wxseVd4lsDP4+3ONX6HpMXQa1ZhFQ7SU+GjvORCmShbCMltrtIDfkYhVHrOcPtj+KhmDBdPdZD1g==}
     engines: {node: '>=10'}
 
+  sass@1.77.8:
+    resolution: {integrity: sha512-4UHg6prsrycW20fqLGPShtEvo/WyHRVRHwOP4DzkUrObWoWI05QBSfzU71TVB7PFaL104TwNaHpjlWXAZbQiNQ==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+
   secure-json-parse@2.7.0:
     resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
 
@@ -2658,7 +2669,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@builder.io/qwik-city@1.5.2(@types/node@20.12.7)(rollup@4.16.4)':
+  '@builder.io/qwik-city@1.5.2(@types/node@20.12.7)(rollup@4.16.4)(sass@1.77.8)':
     dependencies:
       '@mdx-js/mdx': 3.0.1
       '@types/mdx': 2.0.13
@@ -2666,7 +2677,7 @@ snapshots:
       svgo: 3.2.0
       undici: 6.14.1
       vfile: 6.0.1
-      vite: 5.2.10(@types/node@20.12.7)
+      vite: 5.2.10(@types/node@20.12.7)(sass@1.77.8)
       vite-imagetools: 6.2.9(rollup@4.16.4)
       zod: 3.23.4
     transitivePeerDependencies:
@@ -2680,11 +2691,11 @@ snapshots:
       - supports-color
       - terser
 
-  '@builder.io/qwik@1.5.2(@types/node@20.12.7)(undici@6.14.1)':
+  '@builder.io/qwik@1.5.2(@types/node@20.12.7)(sass@1.77.8)(undici@6.14.1)':
     dependencies:
       csstype: 3.1.3
       undici: 6.14.1
-      vite: 5.2.10(@types/node@20.12.7)
+      vite: 5.2.10(@types/node@20.12.7)(sass@1.77.8)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -2999,9 +3010,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.5.2(@types/node@20.12.7)(undici@6.14.1))':
+  '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.5.2(@types/node@20.12.7)(sass@1.77.8)(undici@6.14.1))':
     dependencies:
-      '@builder.io/qwik': 1.5.2(@types/node@20.12.7)(undici@6.14.1)
+      '@builder.io/qwik': 1.5.2(@types/node@20.12.7)(sass@1.77.8)(undici@6.14.1)
 
   '@rollup/pluginutils@5.1.0(rollup@4.16.4)':
     dependencies:
@@ -4160,6 +4171,8 @@ snapshots:
     dependencies:
       sharp: 0.33.3
 
+  immutable@4.3.7: {}
+
   import-fresh@3.3.0:
     dependencies:
       parent-module: 1.0.1
@@ -5095,6 +5108,12 @@ snapshots:
 
   safe-stable-stringify@2.4.3: {}
 
+  sass@1.77.8:
+    dependencies:
+      chokidar: 3.6.0
+      immutable: 4.3.7
+      source-map-js: 1.2.0
+
   secure-json-parse@2.7.0: {}
 
   semver@7.6.0:
@@ -5491,18 +5510,18 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  vite-tsconfig-paths@4.3.2(typescript@5.3.3)(vite@5.2.10(@types/node@20.12.7)):
+  vite-tsconfig-paths@4.3.2(typescript@5.3.3)(vite@5.2.10(@types/node@20.12.7)(sass@1.77.8)):
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 3.0.3(typescript@5.3.3)
     optionalDependencies:
-      vite: 5.2.10(@types/node@20.12.7)
+      vite: 5.2.10(@types/node@20.12.7)(sass@1.77.8)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@5.2.10(@types/node@20.12.7):
+  vite@5.2.10(@types/node@20.12.7)(sass@1.77.8):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
@@ -5510,6 +5529,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.12.7
       fsevents: 2.3.3
+      sass: 1.77.8
 
   web-streams-polyfill@3.3.3: {}
 

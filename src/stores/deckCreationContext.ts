@@ -11,7 +11,8 @@ const initialDeckData: DeckState = {
   likes:        0,
   masterDeck:   {},
   sideDeck:     {},
-  treasureDeck: {}
+  treasureDeck: {},
+  splashArt:    '',
 }
 
 export const useDeckCreationStore = (deckData?: DeckState) => {
@@ -61,6 +62,9 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           }
         }
       }
+    }),
+    setSplashArt: $(async function (this, splashArt) {
+      this.deckData.splashArt = splashArt;
     }),
     removeCard: $(async function (this, card, side = false) {
       // just remove one copy
