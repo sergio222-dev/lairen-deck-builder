@@ -70,22 +70,6 @@ export const CardDeckInfo = component$(() => {
             ))}
           </div>
         </div>
-        {/*<div>*/}
-        {/*  <p class="text-center">Monumentos</p>*/}
-        {/*  <div class="flex flex-wrap">*/}
-        {/*    {orderedMonumentCards.value.map(c => (*/}
-        {/*      <CardDeckControl key={c.id} card={c}/>*/}
-        {/*    ))}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*  <p class="text-center">Tesoros</p>*/}
-        {/*  <div class="flex flex-wrap">*/}
-        {/*    {orderedTreasureCards.value.map(c => (*/}
-        {/*      <CardDeckControl key={c.id} card={c}/>*/}
-        {/*    ))}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
       </div>
 
       {orderedMonumentCards.value.length > 0 &&

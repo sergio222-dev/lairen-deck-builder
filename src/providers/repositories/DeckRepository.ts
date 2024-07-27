@@ -248,6 +248,22 @@ export class DeckRepository {
       }
     }
 
+    let deckFace: string | undefined = undefined;
+
+    if (data.deck_face) {
+      const { data: face, error: errorDeckFace } = await supabase
+        .from('cards')
+        .select()
+        .eq('id', data.deck_face);
+
+      if (errorDeckFace) {
+        Logger.error(errorDeckFace, `${DeckRepository.name} ${this.convertDataToDeck.name}`);
+
+      } else {
+        deckFace = face[0].image;
+      }
+    }
+
     return {
       id:          data.id,
       name:        data.name,
@@ -256,7 +272,8 @@ export class DeckRepository {
       likes:       data.likes,
       masterDeck,
       sideDeck,
-      treasureDeck
+      treasureDeck,
+      splashArt:   deckFace
     };
   }
 

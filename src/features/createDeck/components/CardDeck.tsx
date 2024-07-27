@@ -1,6 +1,11 @@
-import { component$, useComputed$, useContext, useStylesScoped$ } from '@builder.io/qwik';
-import type { Card }                                              from '~/models/Card';
-import { DeckCreationContext }                                    from '~/stores/deckCreationContext';
+import { component$, useComputed$, useContext, useSignal, useStylesScoped$ } from '@builder.io/qwik';
+import {
+  PopoverCard
+}                                                                            from "~/components/popoverCard/PopoverCard";
+import type { Card }                                                         from '~/models/Card';
+import {
+  DeckCreationContext
+}                                                                            from '~/stores/deckCreationContext';
 
 interface CardDeckProps {
   card: Card;
@@ -11,9 +16,16 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
 
   const deckData = d.deckData;
 
+  const showPreview = useSignal(false);
+  const previewRef  = useSignal<HTMLDivElement>();
+
   const deckQuantity = useComputed$(() => {
-    const masterDeckQuantity = Object.entries(deckData.masterDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
-    const treasureDeckQuantity = Object.entries(deckData.treasureDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
+    const masterDeckQuantity   = Object.entries(deckData.masterDeck)
+      .map(([, c]) => c)
+      .find(c => c.id === card.id)?.quantity ?? 0;
+    const treasureDeckQuantity = Object.entries(deckData.treasureDeck)
+      .map(([, c]) => c)
+      .find(c => c.id === card.id)?.quantity ?? 0;
     return masterDeckQuantity + treasureDeckQuantity;
   });
 
@@ -35,11 +47,13 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
       style={{
         backgroundImage: `url(${card.image})`
       }}
+
     >
+      <PopoverCard show={showPreview.value} image={card.image} ref={previewRef}/>
       <div
         class="absolute bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_40%,rgba(0,0,0,0.8)_60%,rgba(0,0,0,0)_100%)] w-full h-full"/>
-      {/*<div class="absolute w-full h-full" />*/}
-      <div class="flex-[5] grid grid-cols-[minmax(40px,_1fr)_4fr_minMax(40px,_1fr)] h-full relative ">
+      <div
+        class="flex-[5] grid grid-cols-[minmax(40px,_1fr)_4fr_minMax(40px,_1fr)] h-full relative ">
 
         <div
           class="absolute text-white bottom-[-12px] left-[40px] bg-pink-800 px-2 rounded-[50%] border-2 border-black"
@@ -71,8 +85,33 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
             -
           </div>
         </div>
-        <p
-          class="flex-[4] px-[24px]  self-center text-center break-words text-[10px] text-white font-semibold">{card.name}</p>
+        <div
+          class="flex align-center"
+          onMouseEnter$={() => showPreview.value = true}
+          onMouseLeave$={() => showPreview.value = false}
+          onMouseMove$={(e: MouseEvent) => {
+            if (!previewRef.value) return;
+            // check if mouse bellow the half of the screen
+            if (e.clientY > window.innerHeight / 2) {
+              previewRef.value.style.top = `${e.clientY - 24 - ((400 * 4) / 3)}px`;
+            } else {
+              previewRef.value.style.top = `${e.clientY - 24}px`;
+            }
+
+            // check if mouse after the half of the screen horizontally
+            if (e.clientX > window.innerWidth / 2) {
+              previewRef.value.style.left = `${e.clientX - 24 - 400}px`;
+            } else {
+              previewRef.value.style.left = `${e.clientX + 24}px`;
+            }
+          }}
+        >
+          <p
+            class="flex-[4] px-[24px] select-none self-center text-center break-words text-[10px] text-white font-semibold"
+          >
+            {card.name}
+          </p>
+        </div>
         <div class="flex flex-col gap-1 p-[4px]">
           <div
             class="flex select-none items-center bg-orange-600 flex-1 w-full border-2 border-black rounded justify-center hover:cursor-pointer"
