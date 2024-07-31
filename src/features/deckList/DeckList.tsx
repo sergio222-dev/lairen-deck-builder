@@ -1,31 +1,17 @@
-import { $, component$ }           from "@builder.io/qwik";
-import { Link }                    from "@builder.io/qwik-city";
-import type { ColumnDefinition }   from "~/components/dataGrid/DataGrid";
-import { DataGrid }                from "~/components/dataGrid/DataGrid";
+import { component$ }              from "@builder.io/qwik";
+import { DeckCard }                from "~/components/deckCard";
 import { useListPublicDeckLoader } from "~/providers/loaders/decks";
-
-const columns: ColumnDefinition[] = [
-  {
-    id:    'name',
-    label: 'Name',
-    cell:  $((row) => <Link href={`/decks/preview/${row.id}`}>{row.name}</Link>)
-  },
-  {
-    id:    'description',
-    label: 'Description'
-  },
-  {
-    id:    'likes',
-    label: 'Likes'
-  }
-];
 
 export const DeckList = component$(() => {
   const decks = useListPublicDeckLoader();
 
   return (
-    <div>
-      <DataGrid columns={columns} rows={decks.value.decks}/>
+    <div class="flex flex-wrap gap-[0.5rem]">
+      {decks.value.decks.map(d => {
+        return (
+          <DeckCard id={d.id} name={d.name} splashArt={d.splashArt} key={d.id}/>
+        );
+      })}
     </div>
   )
 });

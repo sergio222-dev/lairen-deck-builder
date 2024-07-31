@@ -65,6 +65,7 @@ export class DeckRepository {
       owner:       auth.user.id,
       is_public:   data.isPrivate, // TODO: change the column name to is_private
       likes:       0,
+      ...data.splashArtId ? { deck_face: data.splashArtId } : { },
       ...data.id ? { id: data.id } : { created_at: (new Date()).toISOString() }
     })
       .select('id'); // get the id inserted
@@ -93,9 +94,10 @@ export class DeckRepository {
     // get the deck by id and check if the user is the owner
     const { data, error } = await supabase
       .from('decks')
-      .select()
+      .select(`*, cards ( image )`)
       .eq('id', deckId)
-      .eq('owner', ownerId);
+      .eq('owner', ownerId)
+      .single();
 
     if (error) {
       Logger.error(error, `${DeckRepository.name} ${this.getDeck.name}`);
@@ -103,7 +105,7 @@ export class DeckRepository {
     }
 
     // get the collections
-    const [deck, errorConvertion] = await on(this.convertDataToDeck(data[0]));
+    const [deck, errorConvertion] = await on(this.convertDataToDeck(data));
 
     if (errorConvertion) {
       Logger.error(errorConvertion, `${DeckRepository.name} ${this.getDeck.name}`);
@@ -111,7 +113,11 @@ export class DeckRepository {
 
     }
 
-    return deck;
+    return {
+      ...deck,
+      splashArt: deck.splashArt ?? undefined,
+      splashArtId: data.deck_face ?? undefined
+    };
   }
 
   public async getPublicDeck(deckId: string): Promise<DeckState> {
@@ -119,7 +125,7 @@ export class DeckRepository {
 
     const { data, error } = await supabase
       .from('decks')
-      .select()
+      .select(`*, cards ( image )`)
       .eq('id', deckId)
       .eq('is_public', true);
 
@@ -135,7 +141,10 @@ export class DeckRepository {
       throw new Error('Error converting deck', { cause: errorConversion });
     }
 
-    return deck;
+    return {
+      ...deck,
+      splashArt: deck.splashArt ?? undefined
+    };
   }
 
   public async listPublicDecks(): Promise<DeckItem[]> {
@@ -143,7 +152,7 @@ export class DeckRepository {
 
     const { data, error } = await supabase
       .from('decks')
-      .select('id, name, description, likes')
+      .select('id, name, description, likes, cards ( image )')
       .eq('is_public', true)
 
     if (error) {
@@ -151,18 +160,21 @@ export class DeckRepository {
       return [];
     }
 
-    return data.map(d => ({
-      id:          d.id,
-      name:        d.name,
-      description: d.description,
-      likes:       d.likes,
-    }));
+    return data.map(d => {
+      return {
+        id:          d.id,
+        name:        d.name,
+        description: d.description,
+        likes:       d.likes,
+        splashArt:   d.cards?.image ?? undefined
+      };
+    });
 
   }
 
   public async listUserDecks(): Promise<DeckItem[]> {
 
-    const { data: user , error: errorAuth } = await this.supabase.auth.getUser();
+    const { data: user, error: errorAuth } = await this.supabase.auth.getUser();
 
     if (errorAuth) {
       Logger.error(errorAuth, `${DeckRepository.name} ${this.listUserDecks.name}`);
@@ -173,7 +185,7 @@ export class DeckRepository {
 
     const { data, error } = await supabase
       .from('decks')
-      .select()
+      .select(`*, cards ( image )`)
       .eq('owner', user.user!.id);
 
     if (error) {
@@ -186,6 +198,7 @@ export class DeckRepository {
       name:        d.name,
       description: d.description,
       likes:       d.likes,
+      splashArt:   d.cards?.image ?? undefined,
     }));
   }
 
@@ -273,7 +286,8 @@ export class DeckRepository {
       masterDeck,
       sideDeck,
       treasureDeck,
-      splashArt:   deckFace
+      splashArt:   deckFace,
+      splashArtId: data.deck_face ?? undefined
     };
   }
 

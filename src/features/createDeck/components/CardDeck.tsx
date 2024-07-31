@@ -1,11 +1,12 @@
-import { component$, useComputed$, useContext, useSignal, useStylesScoped$ } from '@builder.io/qwik';
+import { component$, useContext, useSignal, useStylesScoped$ } from '@builder.io/qwik';
 import {
   PopoverCard
-}                                                                            from "~/components/popoverCard/PopoverCard";
-import type { Card }                                                         from '~/models/Card';
+}                                                              from "~/components/popoverCard/PopoverCard";
+import { useDeckQuantity }                                     from "~/hooks/useDeckQuantity";
+import type { Card }                                           from '~/models/Card';
 import {
   DeckCreationContext
-}                                                                            from '~/stores/deckCreationContext';
+}                                                              from '~/stores/deckCreationContext';
 
 interface CardDeckProps {
   card: Card;
@@ -19,26 +20,15 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
   const showPreview = useSignal(false);
   const previewRef  = useSignal<HTMLDivElement>();
 
-  const deckQuantity = useComputed$(() => {
-    const masterDeckQuantity   = Object.entries(deckData.masterDeck)
-      .map(([, c]) => c)
-      .find(c => c.id === card.id)?.quantity ?? 0;
-    const treasureDeckQuantity = Object.entries(deckData.treasureDeck)
-      .map(([, c]) => c)
-      .find(c => c.id === card.id)?.quantity ?? 0;
-    return masterDeckQuantity + treasureDeckQuantity;
-  });
+  const [deckQuantity] = useDeckQuantity(deckData, card.id);
 
-  const sideQuantity = useComputed$(() => {
-    return Object.entries(deckData.sideDeck).map(([, c]) => c).find(c => c.id === card.id)?.quantity ?? 0;
-  });
+  const [sideQuantity] = useDeckQuantity(deckData, card.id, true);
 
   useStylesScoped$(`
   .card-text-shadow {
     text-shadow: -1px 1px 0 #FFF, 1px 1px 0 #FFF, 1px -1px 0 #FFF;
    }
   `);
-
 
   return (
     <div

@@ -10,6 +10,7 @@ export interface DeckItem {
   name: string;
   description: string | null;
   likes: number;
+  splashArt?: string;
 }
 
 export interface DeckState {
@@ -22,4 +23,5 @@ export interface DeckState {
   isPrivate: boolean;
   likes: number;
   splashArt?: string;
+  splashArtId?: number;
 }

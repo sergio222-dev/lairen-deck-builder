@@ -6,6 +6,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    box-sizing: border-box;
+}
+
 .theme-dark {
     --qwik-primary: rgb(33 37 41);
     --qwik-secondary: #E7AE32;

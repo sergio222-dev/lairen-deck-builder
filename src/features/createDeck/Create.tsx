@@ -26,6 +26,7 @@ export const Create = component$(() => {
 
   return (
     <div>
+
       <CreateForm/>
       <CardFilter/>
       <CardListDeck/>
