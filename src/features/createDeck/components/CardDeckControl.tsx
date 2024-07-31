@@ -1,8 +1,10 @@
-import { component$, useComputed$, useContext, useSignal } from '@builder.io/qwik';
-import { Icon }                                            from "~/components/icons/Icon";
-import { PopoverCard }                                     from "~/components/popoverCard/PopoverCard";
-import type { DeckCard }                                   from '~/models/Deck';
-import { DeckCreationContext }                             from "~/stores/deckCreationContext";
+import { component$, useContext, useSignal } from '@builder.io/qwik';
+import { ButtonIcon }                        from "~/components/button/ButtonIcon";
+import { Icon }                              from "~/components/icons/Icon";
+import { PopoverCard }                       from "~/components/popoverCard/PopoverCard";
+import { useDeckQuantity }                   from "~/hooks/useDeckQuantity";
+import type { DeckCard }                     from '~/models/Deck';
+import { DeckCreationContext }               from "~/stores/deckCreationContext";
 
 interface CardDeckControlProps {
   card: DeckCard;
@@ -18,30 +20,20 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
 
   const deckData = d.deckData;
 
-  const deckQuantity = useComputed$(() => {
-    const masterDeckQuantity   = Object.entries(deckData.masterDeck)
-      .map(([, c]) => c)
-      .find(c => c.id === card.id)?.quantity ?? 0;
-    const treasureDeckQuantity = Object.entries(deckData.treasureDeck)
-      .map(([, c]) => c)
-      .find(c => c.id === card.id)?.quantity ?? 0;
-    const sideDeckQuantity     = Object.entries(deckData.sideDeck)
-      .map(([, c]) => c)
-      .find(c => c.id === card.id)?.quantity ?? 0;
-
-    return isSide ? sideDeckQuantity : masterDeckQuantity + treasureDeckQuantity;
-  });
+  const [deckQuantity] = useDeckQuantity(deckData, card.id, isSide);
 
   return (
     <div
-      class={`aspect-[3/4] ${orientation === 'horizontal' ?
+      class={`aspect-[3/4] bg-cover ${d.deckData.splashArtId === card.id ?
+        'border-secondary' :
+        'border-primary'} border-4 ${orientation === 'horizontal' ?
         'md:w-[12.5%] sm:w-[25%] w-1/4 lg:w-[10%] xl:w-[8%] 2xl:w-[6%]' :
         'md:w-[25%] sm:w-[25%] w-1/4 lg:w-[20%] xl:w-[16%] 2xl:w-[16.6%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
       style={{
         backgroundImage: `url(${card.image})`
       }}
     >
-      <PopoverCard show={showPreview.value} image={card.image} ref={previewRef} />
+      <PopoverCard show={showPreview.value} image={card.image} ref={previewRef}/>
 
       <div
         class={`absolute text-white select-none top-[5%] left-[5%] ${isSide ?
@@ -52,8 +44,11 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
         <span>{deckQuantity.value}</span>
       </div>
 
-      <div class="top-[5%] cursor-pointer inline right-[5%] select-none text-white absolute bg-orange-600 rounded-[50%] border-2 border-black p-1">
-        <Icon name="art" width={16} fill="white"/>
+      <div class="top-[5%] inline right-[5%] absolute">
+        <ButtonIcon disabled={d.deckData.splashArt === card.image}
+                    onClick$={() => d.setSplashArt(card.image, card.id)}>
+          <Icon name="art" width={16} height={16} class="fill-primary"/>
+        </ButtonIcon>
       </div>
 
       <div
