@@ -23,11 +23,9 @@ export const useCardsLoader = routeLoader$(async (requestEnv) => {
 
     const filter = getDefaultFilter();
 
-    const filterParse = cardGetScheme.parse(filter)
+    const cards = await cardRepo.getCardList(filter);
 
-    const cards = await cardRepo.getCardList(filterParse);
-
-    const count = await cardRepo.getCount(filterParse);
+    const count = await cardRepo.getCount(filter);
 
     return {
       cards,
@@ -51,11 +49,9 @@ export const useCardDeckLoader = routeLoader$(async (requestEnv) => {
 
     const filter = getDefaultFilter(24);
 
-    const filterParse = cardGetScheme.parse(filter)
+    const cards = await cardRepo.getCardList(filter);
 
-    const cards = await cardRepo.getCardList(filterParse);
-
-    const count = await cardRepo.getCount(filterParse);
+    const count = await cardRepo.getCount(filter);
 
     return {
       cards,

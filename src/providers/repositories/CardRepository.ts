@@ -2,16 +2,9 @@ import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city
 import { Logger }                                    from '~/lib/logger';
 import { createClientServer }                        from '~/lib/supabase-qwik';
 import type { Card }                                 from '~/models/Card';
+import { convertToFilter }                           from "~/models/filters/Filter";
+import type { FetchCardsPayload }                    from "~/models/infrastructure/FetchCardsPayload";
 import { getCardImageUrl }                           from '~/utils/cardImage';
-
-interface CardListFilter {
-  sortBy: string;
-  sortDirection: 'asc' | 'desc';
-  types: string[];
-  page: number;
-  size: number;
-  name: string;
-}
 
 export class CardRepository {
 
@@ -21,19 +14,19 @@ export class CardRepository {
     this.request = request;
   }
 
-  public async getCount(filter: CardListFilter): Promise<number> {
+  public async getCount(filter: FetchCardsPayload): Promise<number> {
     const supabase = createClientServer(this.request);
 
     let query = supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
-      .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    if (filter.types.length > 0) {
-      query = query.in('subtype', filter.types);
-    }
+    filter.filters.forEach(f => {
+      const [field, operator, value] = convertToFilter(f);
+      query                          = query.filter(field, operator, value);
+    })
 
     const { count, error } = await query;
 
@@ -63,19 +56,28 @@ export class CardRepository {
     return data[0];
   }
 
-  public async getCardList(filter: CardListFilter): Promise<Card[]> {
+  public async getCardList(filter: FetchCardsPayload): Promise<Card[]> {
     const supabase = createClientServer(this.request);
+
 
     let query = supabase
       .from('cards')
       .select()
-      .or(`name.ilike.%${filter.name}%`)
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    if (filter.types.length > 0) {
-      query = query.in('subtype', filter.types);
-    }
+    const disjunctiveFilters = filter.filters.filter(f => f.isDisjunctive);
+
+    disjunctiveFilters.forEach(f => {
+      const [field, operator, value] = convertToFilter(f);
+      query                          = query.or(`${field}.${operator}.${value}`);
+    })
+
+    filter.filters.filter(f => !f.isDisjunctive).forEach(f => {
+      const [field, operator, value] = convertToFilter(f);
+      query                          = query.filter(field, operator, value);
+    })
+
 
     const { data, error } = await query;
 
@@ -90,7 +92,7 @@ export class CardRepository {
     return data.map(c => {
       return {
         ...c,
-        image: getCardImageUrl(c.image + '.webp', this.request)
+        image: getCardImageUrl(c.image, this.request)
       };
     });
   }

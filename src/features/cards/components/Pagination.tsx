@@ -33,7 +33,7 @@ export const Pagination = component$(() => {
         </div>
         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div class="px-2">
-            <p class="text-sm text-gray-400">
+            <p class="text-sm text-gray-400 min-w-max">
               Showing {(c.page - 1) * c.size + 1} to {!isLastPage.value ? c.page * c.size : c.count} results
               of {c.count}
             </p>

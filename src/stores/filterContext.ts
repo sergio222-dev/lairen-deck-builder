@@ -1,30 +1,21 @@
-import type { QRL }        from '@builder.io/qwik';
-import { $, useStore }     from '@builder.io/qwik';
-import { createContextId } from '@builder.io/qwik';
-import type {
-  z
-}                          from '@builder.io/qwik-city';
-import { serverCard }      from '~/features/cards/server/fetchCards';
-import type { Card }       from '~/models/Card';
-import type {
-  cardGetScheme
-}                          from '~/models/schemes/cardGet';
-
-export interface CardFilters extends z.infer<typeof cardGetScheme> {
-}
+import type { QRL }               from '@builder.io/qwik';
+import { $, useStore }            from '@builder.io/qwik';
+import { createContextId }        from '@builder.io/qwik';
+import { serverFetchCards }       from '~/features/cards/server/fetchCards';
+import type { Card }              from '~/models/Card';
+import type { Filter }            from "~/models/filters/Filter";
+import type { FetchCardsPayload } from "~/models/infrastructure/FetchCardsPayload";
 
 export interface FilterContextState {
   sortBy: string;
+  filters: Filter[];
   sortDirection: 'asc' | 'desc';
-  name: string;
   page: number;
   size: number;
-  types: string[];
   cards: Card[],
   count: number,
-  selectedSubtypes: string[],
-  updateFilters: QRL<(this: FilterContextState, filters: CardFilters) => Promise<void>>;
-  updateName: QRL<(this: FilterContextState, name: string) => Promise<void>>;
+  addFilter: QRL<(this: FilterContextState, filter: Filter) => Promise<void>>;
+  removeFilter: QRL<(this: FilterContextState, id: string) => Promise<void>>;
   setPage: QRL<(this: FilterContextState, page: number) => Promise<void>>;
   setSize: QRL<(this: FilterContextState, size: number) => Promise<void>>;
 }
@@ -33,81 +24,73 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
   return useStore<FilterContextState>({
     cards,
     count,
-    sortBy:           'name',
-    sortDirection:    'asc',
-    types:            [],
-    name:             '',
-    page:             1,
+    sortBy:        'name',
+    sortDirection: 'asc',
+    page:          1,
     size,
-    selectedSubtypes: [],
-    updateName:       $(async function (this, name) {
-      this.name                  = name;
-      this.page                  = 1;
-      const payload: CardFilters = {
-        page:          1,
-        size:          this.size,
-        sortBy:        this.sortBy,
-        types:         this.types,
-        sortDirection: this.sortDirection,
-        name
-      };
-
-      const { cards, count } = await serverCard(payload);
-
-      this.cards = cards;
-      this.count = count;
-    }),
-    setPage:          $(async function (this, page) {
-      this.page                  = page;
-      const payload: CardFilters = {
+    filters:       [],
+    setPage:       $(async function (this, page) {
+      this.page                        = page;
+      const payload: FetchCardsPayload = {
         page,
-        types:         this.types,
         size:          this.size,
         sortBy:        this.sortBy,
         sortDirection: this.sortDirection,
-        name:          this.name
+        filters:       this.filters
       };
 
-      const { cards, count } = await serverCard(payload);
+      const { cards, count } = await serverFetchCards(payload);
 
       this.cards = cards;
       this.count = count;
     }),
-    setSize:          $(async function (this, size) {
-      this.size                  = size;
-      const payload: CardFilters = {
+    setSize:       $(async function (this, size) {
+      this.size                        = size;
+      const payload: FetchCardsPayload = {
         page:          this.page,
         size,
-        types:         this.types,
         sortBy:        this.sortBy,
         sortDirection: this.sortDirection,
-        name:          this.name
+        filters:       this.filters
       };
 
-      const { cards, count } = await serverCard(payload);
+      const { cards, count } = await serverFetchCards(payload);
 
       this.cards = cards;
       this.count = count;
     }),
-    updateFilters:    $(async function (this, cardListFilter) {
-      this.sortBy        = cardListFilter.sortBy;
-      this.sortDirection = cardListFilter.sortDirection;
-      this.name          = cardListFilter.name;
-      this.types         = cardListFilter.types;
-      this.page          = 1;
-
-      const payload: CardFilters = {
-        ...cardListFilter,
-        page: 1,
-        size: this.size
+    addFilter:     $(async function (this, filter) {
+      this.filters.push(filter);
+      const payload: FetchCardsPayload = {
+        page:          this.page,
+        size:          this.size,
+        sortBy:        this.sortBy,
+        sortDirection: this.sortDirection,
+        filters:       this.filters
       };
 
-
-      const { cards, count } = await serverCard(payload);
+      const { cards, count } = await serverFetchCards(payload);
 
       this.cards = cards;
       this.count = count;
-    })
+    }),
+    removeFilter:  $(async function (this, id) {
+      this.filters = this.filters.filter(f => f.id !== id);
+      this.page    = 1;
+
+      const payload: FetchCardsPayload = {
+        page:          this.page,
+        size:          this.size,
+        sortBy:        this.sortBy,
+        sortDirection: this.sortDirection,
+        filters:       this.filters
+      };
+
+      const { cards, count } = await serverFetchCards(payload);
+
+      this.cards = cards;
+      this.count = count;
+    }),
   });
 }
 
