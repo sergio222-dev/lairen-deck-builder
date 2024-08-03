@@ -1,6 +1,5 @@
 import { routeLoader$ }     from '@builder.io/qwik-city';
 import { Logger }           from '~/lib/logger';
-import { cardGetScheme }    from '~/models/schemes/cardGet';
 import { CardRepository }   from '~/providers/repositories/CardRepository';
 import { getDefaultFilter } from '~/utils/cardFilters';
 
