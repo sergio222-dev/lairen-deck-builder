@@ -1,5 +1,6 @@
 import { RequestEventBase, server$, ServerFunction, z } from '@builder.io/qwik-city';
 import { Card }                                         from '~/models/Card';
+import { FetchCardsPayload }                            from "~/models/infrastructure/FetchCardsPayload";
 import { cardGetScheme } from "~/models/schemes/cardGet";
 import { CardRepository } from "~/providers/repositories/CardRepository";
 
@@ -8,9 +9,9 @@ interface ServerCardResponse {
     count: number;
 }
 
-type ServerCardRequest = (this: RequestEventBase,filters: z.infer<typeof cardGetScheme>) => Promise<ServerCardResponse>
+type ServerCardRequest = (this: RequestEventBase,filters: FetchCardsPayload) => Promise<ServerCardResponse>
 
-export const serverCard = server$<ServerCardRequest>(async function (filters: z.infer<typeof cardGetScheme>) {
+export const serverFetchCards = server$<ServerCardRequest>(async function (filters ) {
     const cardRepo = new CardRepository(this);
 
     const cards = await cardRepo.getCardList(filters);

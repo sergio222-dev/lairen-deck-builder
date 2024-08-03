@@ -240,7 +240,7 @@ export class DeckRepository {
         if (card) {
           cardsData.push({
             ...card,
-            image:    getCardImageUrl(card.image + '.webp', this.request),
+            image:    getCardImageUrl(card.image, this.request),
             quantity: c.quantity,
           })
         }
