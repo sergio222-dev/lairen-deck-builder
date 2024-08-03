@@ -1,6 +1,5 @@
 import { component$, useComputed$, useContext } from '@builder.io/qwik';
 import { useLogin, useLogout }                  from '~/actions/user';
-import { FilterField }                          from "~/components/filterField/FilterField";
 import { createClientBrowser }                  from '~/lib/supabase-qwik';
 import { UserContext }                          from './layout';
 

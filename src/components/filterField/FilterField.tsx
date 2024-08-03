@@ -1,10 +1,10 @@
-import type { HTMLAttributes, InputHTMLAttributes, JSXOutput, QRL } from "@builder.io/qwik";
-import { $, useSignal }                                             from "@builder.io/qwik";
-import { Slot }                                                     from "@builder.io/qwik";
-import { component$ }                                               from "@builder.io/qwik";
-import { ButtonIcon }                                               from "~/components/button";
-import { Chip }                                                     from "~/components/chip/Chip";
-import { Icon }                                                     from "~/components/icons/Icon";
+import type { HTMLAttributes, JSXOutput, QRL } from "@builder.io/qwik";
+import { $, useSignal }                        from "@builder.io/qwik";
+import { Slot }                                from "@builder.io/qwik";
+import { component$ }                          from "@builder.io/qwik";
+import { ButtonIcon }                          from "~/components/button";
+import { Chip }                                from "~/components/chip/Chip";
+import { Icon }                                from "~/components/icons/Icon";
 
 interface FilterChipProps extends HTMLAttributes<HTMLDivElement> {
 }
