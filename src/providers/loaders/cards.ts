@@ -6,7 +6,25 @@ import { getDefaultFilter } from '~/utils/cardFilters';
 // eslint-disable-next-line qwik/loader-location
 export const useSubtypeLoader = routeLoader$<string[]>(async (request) => {
   const cardRepo = new CardRepository(request);
-  return await cardRepo.getCardSubtype()
+  return await cardRepo.getViewCard("card_subtypes")
+});
+
+// eslint-disable-next-line qwik/loader-location
+export const useTypeLoader = routeLoader$<string[]>(async (request) => {
+  const cardRepo = new CardRepository(request);
+  return await cardRepo.getViewCard("card_types")
+});
+
+// eslint-disable-next-line qwik/loader-location
+export const useRarityLoader = routeLoader$<string[]>(async (request) => {
+  const cardRepo = new CardRepository(request);
+  return await cardRepo.getViewCard("card_rarity")
+});
+
+// eslint-disable-next-line qwik/loader-location
+export const useSetLoader = routeLoader$<string[]>(async (request) => {
+  const cardRepo = new CardRepository(request);
+  return await cardRepo.getViewCard("card_sets")
 });
 
 // eslint-disable-next-line qwik/loader-location

@@ -8,7 +8,7 @@ import { createClientServer }    from '~/lib/supabase-qwik';
 import type { DeckState }        from "~/models/Deck";
 import { DeckRepository }        from '~/providers/repositories/DeckRepository';
 
-export { useSubtypeLoader, useCardDeckLoader } from '~/providers/loaders/cards';
+export { useSubtypeLoader, useCardDeckLoader, useTypeLoader, useRarityLoader, useSetLoader } from '~/providers/loaders/cards';
 
 export const onRequest: RequestHandler = async (r) => {
   const supabase = createClientServer(r);
