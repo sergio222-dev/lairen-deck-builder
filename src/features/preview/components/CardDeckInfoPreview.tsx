@@ -22,6 +22,10 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
       .toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
+  const unitCardsQuantity = useComputed$(() => {
+    return orderedUnitCards.value.reduce((acc, c) => acc + c.quantity, 0);
+  });
+
   const orderedActionCards = useComputed$(() => {
     return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
@@ -29,10 +33,18 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
       .toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
+  const actionCardsQuantity = useComputed$(() => {
+    return orderedActionCards.value.reduce((acc, c) => acc + c.quantity, 0);
+  });
+
   const orderedTreasureCards = useComputed$(() => {
     return Object.entries(deck.treasureDeck)
       .map(([, c]) => c)
       .toSorted((a, b) => a.name.localeCompare(b.name));
+  });
+
+  const treasureCardsQuantity = useComputed$(() => {
+    return orderedTreasureCards.value.reduce((acc, c) => acc + c.quantity, 0);
   });
 
   const orderedMonumentCards = useComputed$(() => {
@@ -42,21 +54,29 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
       .toSorted((a, b) => a.name.localeCompare(b.name))
   });
 
+  const monumentCardsQuantity = useComputed$(() => {
+    return orderedMonumentCards.value.reduce((acc, c) => acc + c.quantity, 0);
+  });
+
   const orderedSideCards = useComputed$(() => {
     return Object.entries(deck.sideDeck)
       .map(([, c]) => c)
       .toSorted((a, b) => a.name.localeCompare(b.name))
   });
 
+  const sideCardsQuantity = useComputed$(() => {
+    return orderedSideCards.value.reduce((acc, c) => acc + c.quantity, 0);
+  });
+
   return (
     <div class="p-4 shadow-lg m-4">
-      <div class="flex justify-center">
+      <div class="flex justify-center gap-4">
         <p class="text-center">Total number of cards in deck:<br/>{deckTotalCards.value}</p>
       </div>
 
       <div class="p-4 grid md:grid-cols-2 gap-4">
         <div>
-          <p class="text-center">Unidades</p>
+          <p class="text-center">Unidades ({unitCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedUnitCards.value.map(c => (
               <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
@@ -64,7 +84,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
           </div>
         </div>
         <div>
-          <p class="text-center">Acciones</p>
+          <p class="text-center">Acciones ({actionCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedActionCards.value.map(c => (
               <CardDeckControlPreview key={c.id} card={c} deck={deck}/>
@@ -75,7 +95,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
 
       {orderedMonumentCards.value.length > 0 &&
         <div class="p-4">
-          <p class="text-center">Monumentos</p>
+          <p class="text-center">Monumentos ({monumentCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedMonumentCards.value.map(c => (
               <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>
@@ -84,7 +104,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
         </div>
       }
       <div class="p-4">
-        <p class="text-center">Tesoros</p>
+        <p class="text-center">Tesoros ({treasureCardsQuantity})</p>
         <div class="flex flex-wrap">
           {orderedTreasureCards.value.map(c => (
             <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>
@@ -94,7 +114,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
 
       {orderedSideCards.value.length > 0 &&
         <div class="p-4">
-          <p class="text-center">Side</p>
+          <p class="text-center">Side ({sideCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedSideCards.value.map(c => (
               <CardDeckControlPreview orientation="horizontal" isSide key={c.id} card={c} deck={deck}/>
