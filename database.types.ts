@@ -196,6 +196,24 @@ export type Database = {
       }
     }
     Views: {
+      card_rarity: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      card_sets: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      card_subtypes: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
       card_types: {
         Row: {
           name: string | null

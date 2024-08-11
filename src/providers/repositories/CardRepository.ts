@@ -8,6 +8,8 @@ import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Fi
 import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
 import { getCardImageUrl }                             from '~/utils/cardImage';
 
+type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity";
+
 export class CardRepository {
 
   private readonly request: RequestEventLoader | RequestEventBase;
@@ -86,32 +88,51 @@ export class CardRepository {
     });
   }
 
-  public async getCardSubtype(): Promise<string[]> {
-
+  public async getViewCard(view: View): Promise<string[]>{
     const supabase = createClientServer(this.request);
 
+    let table: View;
+
+    switch (view) {
+      case "card_types":
+        table = "card_types";
+        break;
+      case "card_subtypes":
+        table = "card_subtypes";
+        break;
+      case "card_sets":
+        table = "card_sets";
+        break;
+      case "card_rarity":
+        table = "card_rarity";
+        break;
+      default:
+        table = "card_types";
+        break;
+    }
+
     const { data, error } = await supabase
-      .from('card_types')
+      .from(table)
       .select();
 
     if (error) {
-      Logger.error(error, `${CardRepository.name} ${this.getCardSubtype.name}`);
+      Logger.error(error, `${CardRepository.name} ${this.getViewCard.name}`);
     }
 
     if (!data) {
       return [];
     }
 
-    const subtypes = data.map(c => c.name);
-    const subtypesWithoutNull: string[] = [];
+    const values = data.map(c => c.name);
+    const valuesWithoutNull: string[] = [];
     // remove null values
-    subtypes.forEach(c => {
+    values.forEach(c => {
       if (c !== null) {
-        subtypesWithoutNull.push(c);
+        valuesWithoutNull.push(c);
       }
     });
 
-    return subtypesWithoutNull;
+    return valuesWithoutNull;
   }
 
   private addFilters(query: PostgrestTransformBuilder, filter: FetchCardsPayload) {
@@ -129,6 +150,7 @@ export class CardRepository {
     const mapFilters = convertFiltersToExpression(inFilters);
 
     [...mapFilters, ...containsFiltersExpression].forEach(e => {
+      console.log(e);
       query = query.or(e);
     });
   }
