@@ -16,7 +16,7 @@ export const Pagination = component$(() => {
 
   return (
     <div>
-      <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div class="flex items-center justify-between border-t border-gray-200 bg-white py-2">
         <div class="flex flex-1 justify-between sm:hidden">
           <a
             href="#"

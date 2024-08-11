@@ -1,10 +1,12 @@
-import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
-import { Logger }                                    from '~/lib/logger';
-import { createClientServer }                        from '~/lib/supabase-qwik';
-import type { Card }                                 from '~/models/Card';
-import { convertToFilter }                           from "~/models/filters/Filter";
-import type { FetchCardsPayload }                    from "~/models/infrastructure/FetchCardsPayload";
-import { getCardImageUrl }                           from '~/utils/cardImage';
+import type { RequestEventBase, RequestEventLoader }   from '@builder.io/qwik-city';
+// @ts-ignore
+import type PostgrestTransformBuilder                  from "@supabase/postgrest-js/src/PostgrestTransformBuilder";
+import { Logger }                                      from '~/lib/logger';
+import { createClientServer }                          from '~/lib/supabase-qwik';
+import type { Card }                                   from '~/models/Card';
+import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Filter";
+import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
+import { getCardImageUrl }                             from '~/utils/cardImage';
 
 export class CardRepository {
 
@@ -17,16 +19,13 @@ export class CardRepository {
   public async getCount(filter: FetchCardsPayload): Promise<number> {
     const supabase = createClientServer(this.request);
 
-    let query = supabase
+    const query = supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    filter.filters.forEach(f => {
-      const [field, operator, value] = convertToFilter(f);
-      query                          = query.filter(field, operator, value);
-    })
+    this.addFilters(query, filter);
 
     const { count, error } = await query;
 
@@ -59,25 +58,15 @@ export class CardRepository {
   public async getCardList(filter: FetchCardsPayload): Promise<Card[]> {
     const supabase = createClientServer(this.request);
 
-
-    let query = supabase
+    const query = supabase
       .from('cards')
       .select()
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
+      // .or(`subtype.in.(MAGO,ANIMAL), subtype2.in.(MAGO,ANIMAL)`)
+      // .or(`cost.in.(1)`)
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    const disjunctiveFilters = filter.filters.filter(f => f.isDisjunctive);
-
-    disjunctiveFilters.forEach(f => {
-      const [field, operator, value] = convertToFilter(f);
-      query                          = query.or(`${field}.${operator}.${value}`);
-    })
-
-    filter.filters.filter(f => !f.isDisjunctive).forEach(f => {
-      const [field, operator, value] = convertToFilter(f);
-      query                          = query.filter(field, operator, value);
-    })
-
+    this.addFilters(query, filter);
 
     const { data, error } = await query;
 
@@ -97,12 +86,12 @@ export class CardRepository {
     });
   }
 
-  public async getCardSubtype() {
+  public async getCardSubtype(): Promise<string[]> {
 
     const supabase = createClientServer(this.request);
 
     const { data, error } = await supabase
-      .from('deck_types')
+      .from('card_types')
       .select();
 
     if (error) {
@@ -113,7 +102,34 @@ export class CardRepository {
       return [];
     }
 
-    return data;
+    const subtypes = data.map(c => c.name);
+    const subtypesWithoutNull: string[] = [];
+    // remove null values
+    subtypes.forEach(c => {
+      if (c !== null) {
+        subtypesWithoutNull.push(c);
+      }
+    });
 
+    return subtypesWithoutNull;
+  }
+
+  private addFilters(query: PostgrestTransformBuilder, filter: FetchCardsPayload) {
+    if (filter.filters.length === 0) return;
+    const containsFilters = filter.filters.filter(f => f.isContains);
+    const inFilters       = filter.filters.filter(f => !f.isContains);
+
+    const containsFiltersExpression: string[] = [];
+    containsFilters.forEach(f => {
+      const [, , value] = convertToFilter(f);
+      // query             = query.or(`name.ilike.%${value}%, text.ilike.%${value}%`);
+      containsFiltersExpression.push(`name.ilike.%${value}%, text.ilike.%${value}%`);
+    })
+
+    const mapFilters = convertFiltersToExpression(inFilters);
+
+    [...mapFilters, ...containsFiltersExpression].forEach(e => {
+      query = query.or(e);
+    });
   }
 }

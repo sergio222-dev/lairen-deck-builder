@@ -36,7 +36,6 @@ export default component$(() => {
 
       if (event === 'SIGNED_IN') {
         user.value = session?.user
-        console.log('user', user.value);
       }
     });
 

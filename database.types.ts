@@ -196,9 +196,9 @@ export type Database = {
       }
     }
     Views: {
-      deck_types: {
+      card_types: {
         Row: {
-          subtype: string | null
+          name: string | null
         }
         Relationships: []
       }
