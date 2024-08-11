@@ -1,6 +1,6 @@
 import { RequestEvent, RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
 import { createBrowserClient, createServerClient }            from '@supabase/ssr';
-import { Database }                                           from '../../database.types';
+import { Database }                                           from "../../database.types";
 
 export function createClientBrowser() {
   return createBrowserClient<Database>(

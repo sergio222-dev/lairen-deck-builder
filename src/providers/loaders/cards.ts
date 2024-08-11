@@ -4,15 +4,9 @@ import { CardRepository }   from '~/providers/repositories/CardRepository';
 import { getDefaultFilter } from '~/utils/cardFilters';
 
 // eslint-disable-next-line qwik/loader-location
-export const useSubtypeLoader = routeLoader$(async (request) => {
+export const useSubtypeLoader = routeLoader$<string[]>(async (request) => {
   const cardRepo = new CardRepository(request);
-  const subtypes = await cardRepo.getCardSubtype();
-
-  function removeEmptyAndNull<T>(v: T | null): v is T {
-    return v !== null && v !== undefined && v !== '-';
-  }
-
-  return subtypes.map(s => s.subtype).filter(removeEmptyAndNull);
+  return await cardRepo.getCardSubtype()
 });
 
 // eslint-disable-next-line qwik/loader-location

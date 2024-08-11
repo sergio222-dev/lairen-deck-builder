@@ -21,13 +21,15 @@ export const ChipFilter = component$<FilterChipProps>(({ ...props }) => {
 });
 
 interface FilterFieldProps {
-  onSubmit?: QRL<(this: FilterFieldProps, value: string | undefined) => Promise<void>>;
+  onSubmit?: QRL<(value: string | undefined) => Promise<void>>;
   children?: JSXOutput[];
+  onClear?: QRL<() => Promise<void>>;
 }
 
 export const FilterField = component$<FilterFieldProps>(
   ({
      onSubmit,
+     onClear,
    }) => {
     const r = useSignal<HTMLFormElement>();
 
@@ -40,12 +42,18 @@ export const FilterField = component$<FilterFieldProps>(
       onSubmit?.(value?.toString());
     })
 
+    const handleClear = $((e: KeyboardEvent) => {
+      if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '') {
+        onClear && onClear();
+      }
+    })
+
     return (
       <div class="relative w-full rounded-3xl p-2 ring-primary ring-4 focus-within:ring-secondary flex gap-2 flex-wrap">
         <Slot/>
         <form
           ref={r}
-          class="w-full flex-1 min-w-[200px]"
+          class="w-full flex-1 min-w-[200px] items-center flex"
           onSubmit$={handleSubmit}
           preventdefault:submit>
           <input
@@ -53,6 +61,7 @@ export const FilterField = component$<FilterFieldProps>(
             autocomplete="off"
             class="focus:outline-none flex-1 w-full"
             type="text"
+            onKeyDown$={handleClear}
           />
         </form>
       </div>
