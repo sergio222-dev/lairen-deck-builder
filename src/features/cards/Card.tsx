@@ -13,7 +13,9 @@ export const Card = component$(() => {
 
   return (
     <>
-      <CardFilter/>
+      <div class="p-2">
+        <CardFilter/>
+      </div>
       <CardList/>
     </>
   );

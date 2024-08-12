@@ -149,16 +149,18 @@ export const CardFilter = component$(() => {
 
   // Render
   return (
-    <div class="flex justify-between items-center gap-2">
-      <FilterField onSubmit={addContainsFilter} onClear={handleClearLastFilter}>
-        {c.filters.map(f => (
-          <ChipFilter key={f.id} onClick$={() => c.removeFilter(f.id)}>{f.label}</ChipFilter>
-        ))}
-      </FilterField>
-      <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline gap-2">
-        Filters
-        <Icon name="art" width={16} height={16} class="fill-primary"/>
-      </Button>
+    <div class="">
+      <div class="flex w-full gap-2">
+        <FilterField onSubmit={addContainsFilter} onClear={handleClearLastFilter}>
+          {c.filters.map(f => (
+            <ChipFilter key={f.id} onClick$={() => c.removeFilter(f.id)}>{f.label}</ChipFilter>
+          ))}
+        </FilterField>
+        <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline gap-2">
+          Filters
+          <Icon name="art" width={16} height={16} class="fill-primary"/>
+        </Button>
+      </div>
       <dialog ref={refDialog} class="p-4 container max-w-xl">
         <div class="flex gap-2">
           <h2 class="text-xl flex-1">Filter</h2>
