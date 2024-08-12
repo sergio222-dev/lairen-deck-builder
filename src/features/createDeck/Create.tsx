@@ -32,7 +32,7 @@ export const Create = component$(() => {
       <CardListDeck/>
       <CardDeckInfo/>
       <button
-        class="hover:bg-pink-800 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="hover:bg-pink-800 bg-white opacity-50 hover:opacity-100 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={buttonDisabled.value}
         onClick$={$(async () => {
           buttonDisabled.value = true;
