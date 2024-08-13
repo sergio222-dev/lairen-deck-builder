@@ -11,7 +11,7 @@ export default component$(() => {
   const user = useContext(UserContext);
 
   return (
-    <div class="overflow-y-auto">
+    <div class="overflow-y-auto w-full">
       <div class="flex w-full justify-between py-4 px-2">
         <h1 class="text-2xl font-bold">Decks List</h1>
         {user.value && (
