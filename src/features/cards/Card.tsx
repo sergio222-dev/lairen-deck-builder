@@ -12,11 +12,13 @@ export const Card = component$(() => {
   useContextProvider<FilterContextState>(FilterContext, storeCards);
 
   return (
-    <>
+    <div class="flex flex-col h-full">
       <div class="p-2">
         <CardFilter/>
       </div>
-      <CardList/>
-    </>
+      <div class="flex-1 overflow-y-auto">
+        <CardList/>
+      </div>
+    </div>
   );
 });

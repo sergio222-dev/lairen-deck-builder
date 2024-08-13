@@ -32,8 +32,8 @@ export const CardDeckControlPreview = component$<CardDeckControlProps>(({ card, 
   return (
     <div
       class={`aspect-[3/4] ${orientation === 'horizontal' ?
-        'md:w-[12.5%] sm:w-[25%] w-1/4 lg:w-[10%] xl:w-[8%] 2xl:w-[6%]' :
-        'md:w-[25%] sm:w-[25%] w-1/4 lg:w-[20%] xl:w-[16%] 2xl:w-[16.6%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
+        'md:w-[25%] sm:w-[33%] w-1/2 lg:w-[16.6%] xl:w-[12.5%] 2xl:w-[10%]' :
+        'md:w-[50%] sm:w-[33%] w-1/2 lg:w-[33%] xl:w-[25%] 2xl:w-[20%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
       style={{
         backgroundImage: `url(${card.image})`
       }}
