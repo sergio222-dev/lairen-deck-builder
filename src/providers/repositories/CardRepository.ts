@@ -150,7 +150,6 @@ export class CardRepository {
     const mapFilters = convertFiltersToExpression(inFilters);
 
     [...mapFilters, ...containsFiltersExpression].forEach(e => {
-      console.log(e);
       query = query.or(e);
     });
   }

@@ -49,7 +49,7 @@ export const FilterField = component$<FilterFieldProps>(
     })
 
     return (
-      <div class="relative items-center w-full rounded-3xl px-4 h-[40px] ring-primary ring-4 focus-within:ring-secondary flex gap-2 flex-wrap">
+      <div class="relative items-center w-full rounded-3xl px-4 py-2 min-h-[40px] ring-primary ring-4 focus-within:ring-secondary flex gap-2 flex-wrap">
         <Slot/>
         <form
           ref={r}

@@ -43,11 +43,11 @@ export default component$(() => {
   })
 
   return (
-    <>
+    <div class="flex flex-col h-screen overflow-hidden">
       <Appbar/>
-      <main class="mx-auto mt-[96px] h-[calc(100vh-100px)] overflow-hidden">
+      <main class="flex-auto overflow-hidden">
         <Slot/>
       </main>
-    </>
+    </div>
   );
 });
