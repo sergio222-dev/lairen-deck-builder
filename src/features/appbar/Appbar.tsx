@@ -57,7 +57,7 @@ export const Appbar = component$(() => {
           </ul>
         </div>
       </header>
-      <div class={`h-1 w-full ${location.isNavigating ? ` bg-secondary animate-pulse` : ''}`}></div>
+      <div class={`fixed top-0 left-0 h-1 w-full ${location.isNavigating ? ` bg-secondary animate-pulse` : ''}`}></div>
     </>
   );
 });

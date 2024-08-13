@@ -21,7 +21,11 @@ export const Pagination = component$(() => {
           <a
             href="#"
             preventdefault:click
-            class={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${isFirstPage.value ? 'bg-gray-400 pointer-events-none' : ''}`}
+            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            style={{
+              backgroundColor: isFirstPage.value ? 'gray' : '',
+              pointerEvents: isFirstPage.value ? 'none' : undefined
+            }}
             onClick$={async () => {
               if (!isFirstPage.value) {
                 void c.setPage(c.page - 1);
@@ -33,7 +37,11 @@ export const Pagination = component$(() => {
           <a
             preventdefault:click
             href="#"
-            class={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${isLastPage.value ? 'text-gray-400 pointer-events-none' : ''}`}
+            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            style={{
+              backgroundColor: isLastPage.value ? 'gray' : '',
+              pointerEvents: isLastPage.value ? 'none' : undefined
+            }}
             onClick$={async () => {
               if (!isLastPage.value) {
                 void c.setPage(c.page + 1);

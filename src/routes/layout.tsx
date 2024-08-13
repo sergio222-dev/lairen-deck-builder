@@ -43,9 +43,9 @@ export default component$(() => {
   })
 
   return (
-    <div class="flex flex-col h-screen overflow-hidden">
+    <div class="flex flex-col h-full overflow-hidden">
       <Appbar/>
-      <main class="flex-auto overflow-hidden">
+      <main class="flex flex-auto overflow-hidden">
         <Slot/>
       </main>
     </div>

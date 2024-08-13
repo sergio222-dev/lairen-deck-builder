@@ -49,24 +49,24 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
 
       </div>
 
-      <div class="flex justify-between overflow-hidden"
+      <div class="flex justify-between overflow-x-auto"
       >
-        <div class="flex gap-1 p-[4px]">
+        <div class="flex gap-1 p-[4px] items-center">
           <div
-            class="bg-pink-800 select-none w-[1.5rem] h-[1.5rem] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer"
+            class="bg-pink-800 select-none w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer"
             style={sideQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
             onClick$={() => d.removeCard(card, true)}
           >
             -
           </div>
           <div
-            class="text-white w-[1.5rem] h-[1.5rem] flex items-center justify-center bg-pink-800 px-2 rounded-[50%] border-2 border-black"
+            class="text-white w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] flex items-center justify-center bg-pink-800 px-2 rounded-[50%] border-2 border-black"
             style={sideQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
           >
             <span>{sideQuantity.value}</span>
           </div>
           <div
-            class="flex select-none items-center bg-pink-800 w-[1.5rem] h-[1.5rem] border-2 border-black rounded justify-center hover:cursor-pointer"
+            class="flex select-none items-center bg-pink-800 w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] border-2 border-black rounded justify-center hover:cursor-pointer"
             style={sideQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
             onClick$={() => d.addCard(card, true)}
           >
@@ -102,20 +102,20 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
         {/*</div>*/}
         <div class="flex gap-1 p-[4px]">
           <div
-            class="bg-orange-600 select-none w-[1.5rem] h-[1.5rem] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer"
+            class="bg-orange-600 select-none w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer"
             style={deckQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
             onClick$={() => d.removeCard(card, false)}
           >
             -
           </div>
           <div
-            class="text-white w-[1.5rem] h-[1.5rem] flex items-center justify-center bg-orange-600 px-2 rounded-[50%] border-2 border-black"
+            class="text-white w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] flex items-center justify-center bg-orange-600 px-2 rounded-[50%] border-2 border-black"
             style={deckQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
           >
             <span>{deckQuantity.value}</span>
           </div>
           <div
-            class="flex select-none items-center bg-orange-600 w-[1.5rem] h-[1.5rem] border-2 border-black rounded justify-center hover:cursor-pointer"
+            class="flex select-none items-center bg-orange-600 w-[calc(1rem+1vw)] h-[calc(1rem+1vw)] border-2 border-black rounded justify-center hover:cursor-pointer"
             style={deckQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
             onClick$={() => d.addCard(card, false)}
           >

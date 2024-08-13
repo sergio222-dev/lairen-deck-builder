@@ -1,9 +1,9 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useVisibleTask$ } from "@builder.io/qwik";
 import {
   QwikCityProvider,
   RouterOutlet,
   ServiceWorkerRegister,
-} from "@builder.io/qwik-city";
+}                                      from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
@@ -16,6 +16,13 @@ export default component$(() => {
    * Don't remove the `<head>` and `<body>` elements.
    */
 
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(() => {
+    const vh = window.innerHeight * 0.01;
+
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  });
+
   return (
     <QwikCityProvider>
       <head>
@@ -25,7 +32,7 @@ export default component$(() => {
         <RouterHead />
         <ServiceWorkerRegister />
       </head>
-      <body lang="en" class="theme-dark overflow-hidden">
+      <body lang="en" class="theme-dark">
         <RouterOutlet />
       </body>
     </QwikCityProvider>
