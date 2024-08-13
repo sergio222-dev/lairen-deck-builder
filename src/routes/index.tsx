@@ -12,7 +12,7 @@ export default component$(() => {
   const login  = useLogin();
 
   return (
-    <>
+    <div class="p-4">
       {!isLoggedIn.value && (
         <div class="shadow-md w-fit hover:shadow-xl transition-shadow duration-300">
           <a onClick$={async () => {
@@ -45,6 +45,6 @@ export default component$(() => {
         logout.submit();
 
       }}>Logout</button>}
-    </>
+    </div>
   );
 });
