@@ -149,8 +149,8 @@ export const CardFilter = component$(() => {
 
   // Render
   return (
-    <div class="">
-      <div class="flex w-full gap-2">
+    <div>
+      <div class="flex items-center w-full gap-2">
         <FilterField onSubmit={addContainsFilter} onClear={handleClearLastFilter}>
           {c.filters.map(f => (
             <ChipFilter key={f.id} onClick$={() => c.removeFilter(f.id)}>{f.label}</ChipFilter>

@@ -1,5 +1,5 @@
-import { $, component$, useContextProvider, useSignal } from '@builder.io/qwik';
-import { useLocation, useNavigate }                     from "@builder.io/qwik-city";
+import { component$, useContextProvider, useSignal } from '@builder.io/qwik';
+import { Button }                                    from "~/components/button";
 
 import { CardFilter }                                from '~/features/cards';
 import { CardDeckInfo }                              from '~/features/createDeck/components/CardDeckInfo';
@@ -11,9 +11,7 @@ import { DeckCreationContext, useDeckCreationStore } from '~/stores/deckCreation
 import { FilterContext, useFilterStore }             from '~/stores/filterContext';
 
 export const Create = component$(() => {
-  const buttonDisabled = useSignal(false);
-  const location       = useLocation();
-  const navigation     = useNavigate();
+  const selectedSection = useSignal(0);
 
   const preloadedCards = useCardDeckLoader();
   const preloadedDeck  = useDeckLoader();
@@ -25,26 +23,27 @@ export const Create = component$(() => {
   useContextProvider(DeckCreationContext, deckStore);
 
   return (
-    <div>
-
-      <CreateForm/>
-      <CardFilter/>
-      <CardListDeck/>
-      <CardDeckInfo/>
-      <button
-        class="hover:bg-pink-800 bg-white opacity-50 hover:opacity-100 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={buttonDisabled.value}
-        onClick$={$(async () => {
-          buttonDisabled.value = true;
-          const result         = await deckStore.createDeck();
-          buttonDisabled.value = false;
-
-          if (location.params['id'] === '' && result > 0) {
-            void navigation(`/decks/create/${result}`);
-          }
-        })}
-      >CREATE/UPDATE
-      </button>
+    <div class="h-full flex flex-col md:flex-row">
+      {/*<div hidden={selectedSection.value !== 0} class="p-2 md:block md:col-span-4 md:row-span-1">*/}
+      {/*</div>*/}
+      <div hidden={selectedSection.value !== 0} class="h-full overflow-y-auto md:flex-1 md:block ">
+        <CardFilter/>
+        <CardListDeck/>
+      </div>
+      <div hidden={selectedSection.value !== 1} class="h-full overflow-y-auto md:flex-1 md:block">
+        <div class="">
+          <CreateForm/>
+        </div>
+        <CardDeckInfo/>
+      </div>
+      <div class="flex items-stretch flex-1 md:hidden">
+        <div class="flex-1 p-4 bg-primary">
+          <Button onClick$={() => selectedSection.value = 0} class="w-full h-full">Cartas</Button>
+        </div>
+        <div class="flex-1 p-4 bg-primary">
+          <Button onClick$={() => selectedSection.value = 1} class="w-full h-full">Deck</Button>
+        </div>
+      </div>
     </div>
   );
 });

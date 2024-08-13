@@ -1,5 +1,6 @@
 import { component$ }          from "@builder.io/qwik";
 import { Link }                from "@builder.io/qwik-city";
+import { Icon }                from "~/components/icons/Icon";
 import { createClientBrowser } from "~/lib/supabase-qwik";
 
 interface DeckCardProps {
@@ -7,9 +8,10 @@ interface DeckCardProps {
   splashArt?: string;
   name: string;
   path?: string;
+  likes?: number;
 }
 
-export const DeckCard = component$<DeckCardProps>(({ id, splashArt, name, path = '/decks/preview' }) => {
+export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, name, path = '/decks/preview' }) => {
   const supabase = createClientBrowser();
 
   return (
@@ -30,13 +32,13 @@ export const DeckCard = component$<DeckCardProps>(({ id, splashArt, name, path =
           }
         } : {})}
       >
-        <div class="font-bold">
-          {name}
+        <div>
+          <p class="font-bold sm:text-3xl text-[calc(1.5rem+2vmin)]">{name}</p>
         </div>
-        <div class="hidden mt-auto justify-between">
-          <p>
-            {/*{d.description}*/}
-          </p>
+        <div class="mt-auto justify-between text-white  w-full">
+          <div class="flex items-center gap-2 justify-end">
+            <Icon class="cursor-pointer fill-white" name="heart" width={16} height={16} /> {likes}
+          </div>
         </div>
       </div>
     </Link>

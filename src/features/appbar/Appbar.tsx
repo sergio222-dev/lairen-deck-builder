@@ -11,8 +11,8 @@ export const Appbar = component$(() => {
 
   return (
     <>
-      <header class="p-4 bg-primary text-white">
-        <div class="container mx-auto flex justify-between h-16 items-center">
+      <header class="fixed top-0 w-full z-10 p-4 bg-primary text-white">
+        <div class="flex justify-between h-16 items-center">
           <div class="flex items-center">
             <Link rel="noopener noreferrer" href="/" aria-label="Back to homepage" class="flex items-center p-2">
               <h2 class="font-bold text-2xl">LDB</h2>

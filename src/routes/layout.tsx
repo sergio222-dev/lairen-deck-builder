@@ -45,7 +45,7 @@ export default component$(() => {
   return (
     <>
       <Appbar/>
-      <main class="container mx-auto">
+      <main class="mx-auto mt-[96px] h-[calc(100vh-100px)] overflow-hidden">
         <Slot/>
       </main>
     </>

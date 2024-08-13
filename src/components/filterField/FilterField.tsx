@@ -11,7 +11,7 @@ interface FilterChipProps extends HTMLAttributes<HTMLDivElement> {
 
 export const ChipFilter = component$<FilterChipProps>(({ ...props }) => {
   return (
-    <Chip class="flex gap-1 hover:bg-red-500 cursor-pointer px-3 py-2 text-white text-sm" {...props}>
+    <Chip class="flex gap-1 hover:bg-red-500 cursor-pointer px-3 py-1 text-white text-sm" {...props}>
       <ButtonIcon class="bg-transparent">
         <Icon name={'close'} width={8} height={8}/>
       </ButtonIcon>
@@ -49,11 +49,11 @@ export const FilterField = component$<FilterFieldProps>(
     })
 
     return (
-      <div class="relative w-full rounded-3xl p-2 ring-primary ring-4 focus-within:ring-secondary flex gap-2 flex-wrap">
+      <div class="relative items-center w-full rounded-3xl px-4 h-[40px] ring-primary ring-4 focus-within:ring-secondary flex gap-2 flex-wrap">
         <Slot/>
         <form
           ref={r}
-          class="w-full flex-1 min-w-[200px] items-center flex"
+          class="w-full flex-1 items-center flex"
           onSubmit$={handleSubmit}
           preventdefault:submit>
           <input
@@ -61,6 +61,7 @@ export const FilterField = component$<FilterFieldProps>(
             autocomplete="off"
             class="focus:outline-none flex-1 w-full"
             type="text"
+            placeholder="Type to filter..."
             onKeyDown$={handleClear}
           />
         </form>

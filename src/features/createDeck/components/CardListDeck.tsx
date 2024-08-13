@@ -8,7 +8,7 @@ export const CardListDeck = component$(() => {
   return (
     <>
       {/*<div class="p-4 shadow-lg m-4 grid lg:grid-cols-5 md:grid-cols-4 gap-6">*/}
-      <div class="p-4 shadow-lg m-4 flex justify-around flex-wrap gap-6">
+      <div class="shadow-lg flex justify-around flex-wrap gap-2">
         {c.cards.map((card) => (
           <CardDeck key={card.id} card={card}/>
         ))}

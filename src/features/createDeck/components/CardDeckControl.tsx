@@ -27,8 +27,8 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
       class={`aspect-[3/4] bg-cover ${d.deckData.splashArtId === card.id ?
         'border-secondary' :
         'border-primary'} border-4 ${orientation === 'horizontal' ?
-        'md:w-[12.5%] sm:w-[25%] w-1/4 lg:w-[10%] xl:w-[8%] 2xl:w-[6%]' :
-        'md:w-[25%] sm:w-[25%] w-1/4 lg:w-[20%] xl:w-[16%] 2xl:w-[16.6%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
+        'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[16.6%]' :
+        'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[16.6%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
       style={{
         backgroundImage: `url(${card.image})`
       }}
@@ -78,7 +78,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
         <div
           class={`flex select-none items-center ${isSide ?
             'bg-pink-800' :
-            ' bg-orange-600'} w-[32px] border-2 border-black rounded justify-center hover:cursor-pointer`}
+            ' bg-orange-600'} w-[calc(32px+2vw)] border-2 border-black rounded justify-center hover:cursor-pointer`}
           style={deckQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
           onClick$={() => d.addCard(card, isSide)}
         >
@@ -87,7 +87,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
         <div
           class={`${isSide ?
             'bg-pink-800' :
-            ' bg-orange-600'} select-none w-[32px] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer`}
+            ' bg-orange-600'} select-none w-[calc(32px+2vw)] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer`}
           style={deckQuantity.value === 0 ? { backgroundColor: 'gray' } : {}}
           onClick$={() => d.removeCard(card, isSide)}
         >
