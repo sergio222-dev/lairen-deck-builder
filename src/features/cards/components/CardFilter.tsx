@@ -31,7 +31,7 @@ const useTypeFilters = (types: string[]) => {
   const typeFilters: Filter[] = types.map(t => {
     return {
       id:         `type-${t}`,
-      label:      `Type: ${t}`,
+      label:      `${t}`,
       value:      t,
       field:      ['type'],
       filterType: FILTERS_TYPES.IN,
@@ -45,7 +45,7 @@ const useRarityFilters = (rarities: string[]) => {
   const rarityFilters: Filter[] = rarities.map(t => {
     return {
       id:         `rarity-${t}`,
-      label:      `Rarity: ${t}`,
+      label:      `${t}`,
       value:      t,
       field:      ['rarity'],
       filterType: FILTERS_TYPES.IN,
@@ -59,7 +59,7 @@ const useSetFilters = (sets: string[]) => {
   const setFilters: Filter[] = sets.map(t => {
     return {
       id:         `set-${t}`,
-      label:      `Set: ${t}`,
+      label:      `${t}`,
       value:      t,
       field:      ['set'],
       filterType: FILTERS_TYPES.IN,

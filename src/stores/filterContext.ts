@@ -61,6 +61,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
     }),
     addFilter:     $(async function (this, filter) {
       this.filters.push(filter);
+      this.page    = 1;
       const payload: FetchCardsPayload = {
         page:          this.page,
         size:          this.size,

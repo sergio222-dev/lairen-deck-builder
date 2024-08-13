@@ -26,7 +26,7 @@ export const Create = component$(() => {
     <div class="h-full flex flex-col md:flex-row">
       {/*<div hidden={selectedSection.value !== 0} class="p-2 md:block md:col-span-4 md:row-span-1">*/}
       {/*</div>*/}
-      <div hidden={selectedSection.value !== 0} class="h-full overflow-y-auto md:flex-1 md:block ">
+      <div hidden={selectedSection.value !== 0} class="h-full overflow-y-auto md:flex-1 md:block p-2">
         <CardFilter/>
         <CardListDeck/>
       </div>

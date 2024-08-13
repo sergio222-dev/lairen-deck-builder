@@ -6,7 +6,7 @@ export const DeckList = component$(() => {
   const decks = useListPublicDeckLoader();
 
   return (
-    <div class="flex flex-wrap gap-[0.5rem]">
+    <div class="flex px-2 flex-wrap gap-[0.5rem]">
       {decks.value.decks.map(d => {
         return (
           <DeckCard id={d.id} name={d.name} splashArt={d.splashArt} key={d.id}/>

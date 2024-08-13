@@ -12,7 +12,7 @@ export default component$(() => {
 
   return (
     <div>
-      <div class="flex w-full justify-between py-4">
+      <div class="flex w-full justify-between py-4 px-2">
         <h1 class="text-2xl font-bold">Decks List</h1>
         {user.value && (
           <Link href="/decks/create/">
