@@ -1,38 +1,71 @@
-import { $, component$, useContext } from '@builder.io/qwik';
-// import { MenuTw, MenuTwItem }        from '~/components/menuTw';
-import { Switch }                    from '~/components/switch/Switch';
-import { Text }                      from '~/components/text';
-import { DeckCreationContext }       from '~/stores/deckCreationContext';
+import { $, component$, useContext, useSignal } from '@builder.io/qwik';
+import { useLocation, useNavigate }             from "@builder.io/qwik-city";
+import { Button }                               from "~/components/button";
+import { Switch }                               from '~/components/switch/Switch';
+import { Text }                                 from '~/components/text';
+import { DeckCreationContext }                  from '~/stores/deckCreationContext';
 
 export const CreateForm = component$(() => {
-  const c = useContext(DeckCreationContext);
+  const buttonDisabled = useSignal(false);
+  const location       = useLocation();
+  const navigation     = useNavigate();
 
-  const handleChange = $<(v: boolean) => void>((v) => c.deckData.isPrivate = v);
+  const deckStore = useContext(DeckCreationContext);
+
+  const handleChange = $<(v: boolean) => void>((v) => deckStore.deckData.isPrivate = v);
 
   const handleNameChange = $((e: Event) => {
-    c.deckData.name = (e.target as HTMLInputElement).value;
+    deckStore.deckData.name = (e.target as HTMLInputElement).value;
   });
 
   const handleDescriptionName = $((e: Event) => {
-    c.deckData.description = (e.target as HTMLInputElement).value;
+    deckStore.deckData.description = (e.target as HTMLInputElement).value;
   });
 
   return (
-    <div class="py-2">
-      <div class="flex justify-center items-center gap-2 p-2 flex-wrap">
-        <Text value={c.deckData.name} placeholder="Deck Name" onInput$={handleNameChange}/>
+    <div class="p-2">
+      <div class="flex justify-between items-center flex-wrap py-2">
+        <Text value={deckStore.deckData.name} placeholder="Deck Name" onInput$={handleNameChange}/>
         {/*<MenuTw>*/}
         {/*  <MenuTwItem label="sergio" value="sergio"/>*/}
         {/*</MenuTw>*/}
         <div>
-          <Switch id="public" name="sergio" value={c.deckData.isPrivate} onChange={handleChange}/>
+          <Switch id="public" name="sergio" value={deckStore.deckData.isPrivate} onChange={handleChange}/>
           is public?
         </div>
       </div>
-      <div class="flex gap-2 p-2">
-        <Text value={c.deckData.description} placeholder="Description" class="w-full" type="text"
+      <div class="flex py-2">
+        <Text value={deckStore.deckData.description} placeholder="Description" class="w-full" type="text"
               onInput$={handleDescriptionName}/>
       </div>
+      <Button
+        class="bg-primary ring-2 ring-pink-800 p-4 disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={buttonDisabled.value}
+        onClick$={$(async () => {
+          buttonDisabled.value = true;
+          const result         = await deckStore.createDeck();
+          buttonDisabled.value = false;
+
+          if (location.params['id'] === '' && result > 0) {
+            void navigation(`/decks/create/${result}`);
+          }
+        })}
+      >Create Deck
+      </Button>
+      <button
+        class="hidden hover:bg-pink-800 bg-white opacity-50 hover:opacity-100 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={buttonDisabled.value}
+        onClick$={$(async () => {
+          buttonDisabled.value = true;
+          const result         = await deckStore.createDeck();
+          buttonDisabled.value = false;
+
+          if (location.params['id'] === '' && result > 0) {
+            void navigation(`/decks/create/${result}`);
+          }
+        })}
+      >CREATE/UPDATE
+      </button>
     </div>
   )
 });

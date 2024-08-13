@@ -194,6 +194,36 @@ export type Database = {
           },
         ]
       }
+      users_likes: {
+        Row: {
+          deck_id: number
+          user_id: string
+        }
+        Insert: {
+          deck_id: number
+          user_id: string
+        }
+        Update: {
+          deck_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_likes_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_likes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       card_rarity: {

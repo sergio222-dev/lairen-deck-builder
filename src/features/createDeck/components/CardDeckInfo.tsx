@@ -83,26 +83,26 @@ export const CardDeckInfo = component$(() => {
   });
 
   return (
-    <div class="p-4 shadow-lg m-4">
+    <div class="p-2 shadow-lg">
       <div>Presupuesto: <span style={{ color: colorLevelDeck.value }}> {costLevelDeck.value}</span></div>
       <div class="flex justify-center">
         <p class="text-center">Total number of cards in deck:<br/>{deckTotalCards.value}</p>
       </div>
 
-      <div class="p-4 grid md:grid-cols-2 gap-4">
+      <div class="gap-4">
         <div>
-          <p class="text-center">Unidades ({unitCardsQuantity})</p>
+          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Unidades ({unitCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedUnitCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
             ))}
           </div>
         </div>
         <div>
-          <p class="text-center">Acciones ({actionCardsQuantity})</p>
+          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Acciones ({actionCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedActionCards.value.map(c => (
-              <CardDeckControl key={c.id} card={c}/>
+              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
             ))}
           </div>
         </div>
@@ -110,7 +110,7 @@ export const CardDeckInfo = component$(() => {
 
       {orderedMonumentCards.value.length > 0 &&
         <div class="p-4">
-          <p class="text-center">Monumentos ({monumentCardsQuantity})</p>
+          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos ({monumentCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedMonumentCards.value.map(c => (
               <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
@@ -120,7 +120,7 @@ export const CardDeckInfo = component$(() => {
       }
 
       <div class="p-4">
-        <p class="text-center">Tesoros ({treasureCardsQuantity})</p>
+        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity})</p>
         <div class="flex flex-wrap">
           {orderedTreasureCards.value.map(c => (
             <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
@@ -130,7 +130,7 @@ export const CardDeckInfo = component$(() => {
 
       {orderedSideCards.value.length > 0 &&
         <div class="p-4">
-          <p class="text-center">Side ({sideCardsQuantity})</p>
+          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Side ({sideCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedSideCards.value.map(c => (
               <CardDeckControl orientation="horizontal" isSide key={c.id} card={c}/>
