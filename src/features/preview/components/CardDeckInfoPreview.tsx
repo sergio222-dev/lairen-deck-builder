@@ -47,6 +47,10 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
     return orderedTreasureCards.value.reduce((acc, c) => acc + c.quantity, 0);
   });
 
+  const treasureTotalCost = useComputed$(() => {
+    return orderedTreasureCards.value.reduce((acc, c) => acc + parseInt(c.cost), 0);
+  });
+
   const orderedMonumentCards = useComputed$(() => {
     return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
@@ -104,7 +108,7 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
         </div>
       }
       <div class="p-4">
-        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity})</p>
+        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity}) Puntos: {treasureTotalCost}</p>
         <div class="flex flex-wrap">
           {orderedTreasureCards.value.map(c => (
             <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>

@@ -12,7 +12,7 @@ export const Card = component$(() => {
   useContextProvider<FilterContextState>(FilterContext, storeCards);
 
   return (
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full w-full">
       <div class="p-2">
         <CardFilter/>
       </div>
