@@ -6,7 +6,6 @@ import { createClientServer }                          from '~/lib/supabase-qwik
 import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Filter";
 import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
-import { getCardImageUrl }                             from '~/utils/cardImage';
 
 type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity";
 
@@ -83,7 +82,7 @@ export class CardRepository {
     return data.map(c => {
       return {
         ...c,
-        image: getCardImageUrl(c.image, this.request)
+        image: c.image
       };
     });
   }

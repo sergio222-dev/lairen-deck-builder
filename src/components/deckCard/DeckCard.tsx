@@ -27,8 +27,7 @@ export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, n
               `}
         {...(splashArt ? {
           style: {
-            backgroundImage: `radial-gradient(transparent, rgb(0, 0, 0)), url(${supabase.storage.from(
-              'CardImages/cards').getPublicUrl(splashArt).data.publicUrl})`
+            backgroundImage: `radial-gradient(transparent, rgb(0, 0, 0)), url(${splashArt}`
           }
         } : {})}
       >

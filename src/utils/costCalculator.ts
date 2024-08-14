@@ -5,14 +5,14 @@ const COST_LEVELS = {
   BASIC:        'Basico',
   AFFORDABLE:   'Accesible',
   ECONOMICAL:   'Ecnómico',
-  INTERMEDIATE: 'Intermedio',
-  ADVANCED:     'Avanzado',
-  COMPETITIVE:  'Competitivo',
+  INTERMEDIATE: 'Moderado',
+  ADVANCED:     'Costoso',
+  COMPETITIVE:  'Caro',
   PREMIUM:      'Premium',
   EXCLUSIVE:    'Exclusivo',
 }
 
-const COST_LEVEL_BREAKPOINTS = 158;
+const COST_LEVEL_BREAKPOINTS = 180;
 
 function getCostPoints(rarity: string): number {
   switch (rarity) {

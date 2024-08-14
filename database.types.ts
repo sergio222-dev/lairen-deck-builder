@@ -91,7 +91,7 @@ export type Database = {
           created_at?: string
           id?: number
           image?: string
-          name?: string
+          name: string
           rarity?: string
           set?: string
           subtype?: string

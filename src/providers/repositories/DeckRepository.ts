@@ -5,7 +5,6 @@ import { CollectionTypes }                           from '~/config/collectionTy
 import { Logger }                                    from '~/lib/logger';
 import { createClientServer }                        from '~/lib/supabase-qwik';
 import type { DeckCard, DeckItem, DeckState }        from '~/models/Deck';
-import { getCardImageUrl }                           from "~/utils/cardImage";
 import { on }                                        from "~/utils/go";
 import type { NormalizedModel }                      from "~/utils/normalize";
 import { denormalizeEntity, normalizeArray }         from "~/utils/normalize";
@@ -240,7 +239,7 @@ export class DeckRepository {
         if (card) {
           cardsData.push({
             ...card,
-            image:    getCardImageUrl(card.image, this.request),
+            image:    card.image,
             quantity: c.quantity,
           })
         }

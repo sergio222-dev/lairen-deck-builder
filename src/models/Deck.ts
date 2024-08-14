@@ -4,6 +4,7 @@ import type { NormalizedModel } from "~/utils/normalize";
 export interface DeckCard extends Card {
   quantity: number;
   rarity: string;
+  cost: string;
 }
 
 export interface DeckItem {
