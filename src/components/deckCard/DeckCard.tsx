@@ -1,7 +1,6 @@
 import { component$ }          from "@builder.io/qwik";
 import { Link }                from "@builder.io/qwik-city";
 import { Icon }                from "~/components/icons/Icon";
-import { createClientBrowser } from "~/lib/supabase-qwik";
 
 interface DeckCardProps {
   id: number;
@@ -12,7 +11,6 @@ interface DeckCardProps {
 }
 
 export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, name, path = '/decks/preview' }) => {
-  const supabase = createClientBrowser();
 
   return (
     <Link
