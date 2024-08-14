@@ -1,9 +1,11 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { useLocation, useNavigate }             from "@builder.io/qwik-city";
 import { Button }                               from "~/components/button";
+import { Icon }                                 from "~/components/icons/Icon";
 import { Switch }                               from '~/components/switch/Switch';
 import { Text }                                 from '~/components/text';
 import { DeckCreationContext }                  from '~/stores/deckCreationContext';
+import { parseToText }                          from "~/utils/parser";
 
 export const CreateForm = component$(() => {
   const buttonDisabled = useSignal(false);
@@ -38,20 +40,25 @@ export const CreateForm = component$(() => {
         <Text value={deckStore.deckData.description} placeholder="Description" class="w-full" type="text"
               onInput$={handleDescriptionName}/>
       </div>
-      <Button
-        class="bg-primary ring-2 ring-pink-800 p-4 disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={buttonDisabled.value}
-        onClick$={$(async () => {
-          buttonDisabled.value = true;
-          const result         = await deckStore.createDeck();
-          buttonDisabled.value = false;
+      <div class="flex items-center gap-2">
+        <Button
+          class="bg-primary ring-2 ring-pink-800 p-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={buttonDisabled.value}
+          onClick$={$(async () => {
+            buttonDisabled.value = true;
+            const result         = await deckStore.createDeck();
+            buttonDisabled.value = false;
 
-          if (location.params['id'] === '' && result > 0) {
-            void navigation(`/decks/create/${result}`);
-          }
-        })}
-      >Create Deck
-      </Button>
+            if (location.params['id'] === '' && result > 0) {
+              void navigation(`/decks/create/${result}`);
+            }
+          })}
+        >Create Deck
+        </Button>
+        <Button class="active:ring-2 ring-red-600" onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
+          <Icon name="copy" width={24} height={24} class="fill-primary"/>
+        </Button>
+      </div>
       <button
         class="hidden hover:bg-pink-800 bg-white opacity-50 hover:opacity-100 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={buttonDisabled.value}
