@@ -19,8 +19,8 @@ export class DeckRepository {
   constructor(request: RequestEventLoader | RequestEventBase) {
     this.request  = request;
     this.supabase = createClientServer(request);
-    const url     = request.env.get('SB_API_URL');
-    const secret  = request.env.get('SB_SECRET_ROLE');
+    const url     = request.platform?.env?.['SB_API_URL'];
+    const secret  = request.platform?.env?.['SB_SECRET_ROLE'];
 
     if (!url || !secret) {
       Logger.error('The ENV variables SB_API_URL and SB_SECRET_ROLE are not setted');
