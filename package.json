@@ -15,16 +15,16 @@
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
-    "build.server": "vite build -c adapters/fastify/vite.config.ts",
+    "build.server": "vite build -c adapters/cloudflare-pages/vite.config.ts",
     "build.types": "tsc --incremental --noEmit",
-    "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
+    "deploy": "wrangler pages deploy ./dist",
     "dev": "vite --mode ssr --host | npx pino-pretty",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
-    "serve": "node server/entry.fastify",
+    "serve": "wrangler pages dev ./dist --compatibility-flags=nodejs_als",
     "start": "vite --open --mode ssr",
     "qwik": "qwik"
   },
@@ -53,7 +53,8 @@
     "typescript": "5.3.3",
     "undici": "*",
     "vite": "^5.1.6",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-tsconfig-paths": "^4.2.1",
+    "wrangler": "^3.0.0"
   },
   "dependencies": {
     "@qwik-ui/headless": "^0.3.8",
