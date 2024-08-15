@@ -4,6 +4,7 @@ import { createClient }                              from '@supabase/supabase-js
 import { CollectionTypes }                           from '~/config/collectionTypes';
 import { Logger }                                    from '~/lib/logger';
 import { createClientServer }                        from '~/lib/supabase-qwik';
+import type { ImportDeckRequest }                    from "~/models/application/ImportCardItem";
 import type { DeckCard, DeckItem, DeckState }        from '~/models/Deck';
 import { on }                                        from "~/utils/go";
 import type { NormalizedModel }                      from "~/utils/normalize";
@@ -64,7 +65,7 @@ export class DeckRepository {
       owner:       auth.user.id,
       is_public:   data.isPrivate, // TODO: change the column name to is_private
       likes:       0,
-      ...data.splashArtId ? { deck_face: data.splashArtId } : { },
+      ...data.splashArtId ? { deck_face: data.splashArtId } : {},
       ...data.id ? { id: data.id } : { created_at: (new Date()).toISOString() }
     })
       .select('id'); // get the id inserted
@@ -114,7 +115,7 @@ export class DeckRepository {
 
     return {
       ...deck,
-      splashArt: deck.splashArt ?? undefined,
+      splashArt:   deck.splashArt ?? undefined,
       splashArtId: data.deck_face ?? undefined
     };
   }
@@ -199,6 +200,93 @@ export class DeckRepository {
       likes:       d.likes,
       splashArt:   d.cards?.image ?? undefined,
     }));
+  }
+
+  public async getDeckByImport(importData: ImportDeckRequest): Promise<DeckState> {
+    const supabase = this.supabaseClient;
+
+    // fetch realm
+    const { data: realm, error } = await supabase
+      .from('cards')
+      .select()
+      .in('name', importData.realm.map(c => c.name))
+
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.getDeckByImport.name}`);
+      throw new Error('Deck not found', { cause: error });
+    }
+
+    // fetch treasure
+    const { data: treasure, error: errorTreasure } = await supabase
+      .from('cards')
+      .select()
+      .in('name', importData.treasure.map(c => c.name))
+
+    if (errorTreasure) {
+      Logger.error(errorTreasure, `${DeckRepository.name} ${this.getDeckByImport.name}`);
+      throw new Error('Deck not found', { cause: errorTreasure });
+    }
+
+    // fetch side
+    const { data: side, error: errorSide } = await supabase
+      .from('cards')
+      .select()
+      .in('name', importData.side.map(c => c.name))
+
+    if (errorSide) {
+      Logger.error(errorSide, `${DeckRepository.name} ${this.getDeckByImport.name}`);
+      throw new Error('Deck not found', { cause: errorSide });
+    }
+
+    const masterDeck: NormalizedModel<DeckCard>   = {};
+    const sideDeck: NormalizedModel<DeckCard>     = {};
+    const treasureDeck: NormalizedModel<DeckCard> = {};
+
+    realm.forEach(c => {
+      const card = importData.realm.find(i => i.name === c.name);
+
+      if (card) {
+        masterDeck[c.id] = {
+          ...c,
+          quantity: card.quantity
+        }
+      }
+    });
+
+    treasure.forEach(c => {
+      const card = importData.treasure.find(i => i.name === c.name);
+
+      if (card) {
+        treasureDeck[c.id] = {
+          ...c,
+          quantity: card.quantity
+        }
+      }
+    });
+
+    side.forEach(c => {
+      const card = importData.side.find(i => i.name === c.name);
+
+      if (card) {
+        sideDeck[c.id] = {
+          ...c,
+          quantity: card.quantity
+        }
+      }
+    });
+
+    return {
+      masterDeck,
+      sideDeck,
+      treasureDeck,
+      id:          0,
+      name:        '',
+      description: undefined,
+      isPrivate:   false,
+      likes:       0,
+      splashArt:   undefined,
+      splashArtId: undefined
+    }
   }
 
   private async convertDataToDeck(data: Database['public']['Tables']['decks']['Row']): Promise<DeckState> {

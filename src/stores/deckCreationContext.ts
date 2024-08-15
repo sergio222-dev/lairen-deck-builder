@@ -1,7 +1,9 @@
 import { $, createContextId, useStore }  from '@builder.io/qwik';
 import { saveDeck }                      from '~/features/createDeck/server/saveDeck';
+import { fetchDeckImport }               from "~/features/importer/server/fetchDeckImport";
 import type { DeckState }                from "~/models/Deck";
 import type { DeckCreationContextState } from "~/stores/models/DeckCrationModels";
+import { parseToImportCardsItem }        from "~/utils/parser";
 
 const initialDeckData: DeckState = {
   id:           0,
@@ -16,10 +18,10 @@ const initialDeckData: DeckState = {
 
 export const useDeckCreationStore = (deckData?: DeckState) => {
   return useStore<DeckCreationContextState>({
-    deckData:   {
+    deckData:     {
       ...(deckData ?? initialDeckData)
     },
-    addCard:    $(async function (this, card, side = false) {
+    addCard:      $(async function (this, card, side = false) {
       if (side) {
         // check if the card is already in the side
         const cardInSideDeck = this.deckData.sideDeck[card.id];
@@ -63,10 +65,10 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       }
     }),
     setSplashArt: $(async function (this, splashArt, cardId) {
-      this.deckData.splashArt = splashArt;
+      this.deckData.splashArt   = splashArt;
       this.deckData.splashArtId = cardId;
     }),
-    removeCard: $(async function (this, card, side = false) {
+    removeCard:   $(async function (this, card, side = false) {
       // just remove one copy
       if (side) {
         const cardInSideDeck = this.deckData.sideDeck[card.id];
@@ -103,7 +105,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         }
       }
     }),
-    createDeck: $(async function (this) {
+    createDeck:   $(async function (this) {
       const payload: DeckState = {
         ...this.deckData,
       };
@@ -115,7 +117,25 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       }
 
       return result;
-    })
+    }),
+    cleanDeck:    $(async function (this) {
+      this.deckData = {
+        ...this.deckData,
+        masterDeck:   {},
+        sideDeck:     {},
+        treasureDeck: {},
+      };
+    }),
+    importDeck:   $(async function (this, deckString) {
+      const deck = await fetchDeckImport(parseToImportCardsItem(deckString));
+
+      this.deckData = {
+        ...this.deckData,
+        masterDeck:   deck.masterDeck,
+        sideDeck:     deck.sideDeck,
+        treasureDeck: deck.treasureDeck,
+      };
+    }),
   });
 };
 
