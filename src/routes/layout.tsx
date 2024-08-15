@@ -5,25 +5,18 @@ import type {
   User
 }                                                                                            from "supabase-auth-helpers-qwik";
 import { createClientBrowser }                                                               from "~/lib/supabase-qwik";
-
-// export const useUserLoader = routeLoader$(async (request) => {
-//   const client = createClientServer(request as unknown as RequestEvent);
-//
-//   const { data } = await client.auth.getSession();
-//
-//   return data.session?.user;
-// });
+import { AppContext, useAppStore }                                                           from "~/stores/appContext";
 
 type UserSupabase = User | null
 
 export const UserContext = createContextId<Signal<UserSupabase>>('user-context');
 
 export default component$(() => {
-  // const userPreloaded = useUserLoader();
-
   const user = useSignal<UserSupabase | undefined>(undefined);
+  const app  = useAppStore();
 
   useContextProvider(UserContext, user);
+  useContextProvider(AppContext, app);
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {

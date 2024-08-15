@@ -4,15 +4,22 @@ import { Button }                               from "~/components/button";
 import { Icon }                                 from "~/components/icons/Icon";
 import { Switch }                               from '~/components/switch/Switch';
 import { Text }                                 from '~/components/text';
+import { DeckImporter }                         from "~/features/importer/DeckImporter";
+import { AppContext }                           from "~/stores/appContext";
 import { DeckCreationContext }                  from '~/stores/deckCreationContext';
 import { parseToText }                          from "~/utils/parser";
 
 export const CreateForm = component$(() => {
-  const buttonDisabled = useSignal(false);
+  const isImportOpen   = useSignal(false);
   const location       = useLocation();
   const navigation     = useNavigate();
 
   const deckStore = useContext(DeckCreationContext);
+  const app       = useContext(AppContext);
+
+  const handleCloseImportDialog = $(() => {
+    isImportOpen.value = false;
+  })
 
   const handleChange = $<(v: boolean) => void>((v) => deckStore.deckData.isPrivate = v);
 
@@ -28,9 +35,6 @@ export const CreateForm = component$(() => {
     <div class="p-2">
       <div class="flex justify-between items-center flex-wrap py-2">
         <Text value={deckStore.deckData.name} placeholder="Deck Name" onInput$={handleNameChange}/>
-        {/*<MenuTw>*/}
-        {/*  <MenuTwItem label="sergio" value="sergio"/>*/}
-        {/*</MenuTw>*/}
         <div>
           <Switch id="public" name="sergio" value={deckStore.deckData.isPrivate} onChange={handleChange}/>
           is public?
@@ -42,37 +46,33 @@ export const CreateForm = component$(() => {
       </div>
       <div class="flex items-center gap-2">
         <Button
-          class="bg-primary ring-2 ring-pink-800 p-4 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={buttonDisabled.value}
+          class="bg-primary p-4 disabled:opacity-50 disabled:cursor-not-allowed active:ring-2 ring-red-600"
+          disabled={app.isLoading}
           onClick$={$(async () => {
-            buttonDisabled.value = true;
-            const result         = await deckStore.createDeck();
-            buttonDisabled.value = false;
+            app.isLoading = true;
+            let result = 0;
+
+            try {
+              result = await deckStore.createDeck();
+            } finally {
+              app.isLoading = false;
+            }
 
             if (location.params['id'] === '' && result > 0) {
               void navigation(`/decks/create/${result}`);
             }
           })}
-        >Create Deck
+        >Create/Update Deck
         </Button>
-        <Button class="active:ring-2 ring-red-600" onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
+        <Button class="active:ring-2 ring-red-600"
+                onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
           <Icon name="copy" width={24} height={24} class="fill-primary"/>
         </Button>
+        <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
+          <Icon name="import" width={24} height={24} class="fill-primary"/>
+        </Button>
       </div>
-      <button
-        class="hidden hover:bg-pink-800 bg-white opacity-50 hover:opacity-100 hover:text-white ring-2 ring-pink-800 fixed bottom-[1%] right-[1%] p-4 disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={buttonDisabled.value}
-        onClick$={$(async () => {
-          buttonDisabled.value = true;
-          const result         = await deckStore.createDeck();
-          buttonDisabled.value = false;
-
-          if (location.params['id'] === '' && result > 0) {
-            void navigation(`/decks/create/${result}`);
-          }
-        })}
-      >CREATE/UPDATE
-      </button>
+      <DeckImporter isOpen={isImportOpen.value} onClose={handleCloseImportDialog}/>
     </div>
   )
 });
