@@ -14,13 +14,11 @@ import type { Database }                             from '../../../database.typ
 export class DeckRepository {
   private readonly supabase: SupabaseClient<Database>;
   private readonly supabaseClient: SupabaseClient<Database>;
-  private readonly request: RequestEventLoader | RequestEventBase;
 
   constructor(request: RequestEventLoader | RequestEventBase) {
-    this.request  = request;
     this.supabase = createClientServer(request);
-    const url     = request.platform?.env?.['SB_API_URL'];
-    const secret  = request.platform?.env?.['SB_SECRET_ROLE'];
+    const url     = request.platform?.env?.['SB_API_URL'] ?? request.env.get('SB_API_URL');
+    const secret  = request.platform?.env?.['SB_SECRET_ROLE'] ?? request.env.get('SB_SECRET_ROLE');
 
     if (!url || !secret) {
       Logger.error('The ENV variables SB_API_URL and SB_SECRET_ROLE are not setted');

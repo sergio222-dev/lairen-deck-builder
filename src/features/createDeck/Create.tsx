@@ -11,7 +11,8 @@ import { DeckCreationContext, useDeckCreationStore } from '~/stores/deckCreation
 import { FilterContext, useFilterStore }             from '~/stores/filterContext';
 
 export const Create = component$(() => {
-  const selectedSection = useSignal(0);
+  const selectedSection   = useSignal(0);
+  const mobileListDeckRef = useSignal<HTMLDivElement>();
 
   const preloadedCards = useCardDeckLoader();
   const preloadedDeck  = useDeckLoader();
@@ -23,12 +24,18 @@ export const Create = component$(() => {
   useContextProvider(DeckCreationContext, deckStore);
 
   return (
-    <div class="h-full flex flex-col md:flex-row">
+    <div class="h-full flex flex-col md:flex-row w-full">
       {/*<div hidden={selectedSection.value !== 0} class="p-2 md:block md:col-span-4 md:row-span-1">*/}
       {/*</div>*/}
-      <div hidden={selectedSection.value !== 0} class="h-full md:basis-[60%] overflow-y-auto md:block p-2">
-        <CardFilter/>
-        <CardListDeck/>
+      <div hidden={selectedSection.value !== 0} class="h-full md:basis-[60%] overflow-y-hidden md:block p-2">
+        <div class="flex flex-col h-full">
+          <div>
+            <CardFilter mobileListDeckRef={mobileListDeckRef}/>
+          </div>
+          <div class="overflow-y-auto" ref={mobileListDeckRef}>
+            <CardListDeck/>
+          </div>
+        </div>
       </div>
       <div hidden={selectedSection.value !== 1} class="h-full md:basis-[40%] overflow-y-auto md:block">
         <div class="">

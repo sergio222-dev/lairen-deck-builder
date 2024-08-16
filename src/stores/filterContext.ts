@@ -30,7 +30,6 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
     size,
     filters:       [],
     setPage:       $(async function (this, page) {
-      this.page                        = page;
       const payload: FetchCardsPayload = {
         page,
         size:          this.size,
@@ -41,6 +40,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
 
       const { cards, count } = await serverFetchCards(payload);
 
+      this.page = page;
       this.cards = cards;
       this.count = count;
     }),

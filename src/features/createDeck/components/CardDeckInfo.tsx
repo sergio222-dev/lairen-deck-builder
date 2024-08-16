@@ -113,7 +113,7 @@ export const CardDeckInfo = component$(() => {
       </div>
 
       {orderedMonumentCards.value.length > 0 &&
-        <div class="p-4">
+        <div>
           <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos ({monumentCardsQuantity})</p>
           <div class="flex flex-wrap">
             {orderedMonumentCards.value.map(c => (
@@ -123,7 +123,7 @@ export const CardDeckInfo = component$(() => {
         </div>
       }
 
-      <div class="p-4">
+      <div>
         <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity}) Puntos: {treasureTotalCost}</p>
         <div class="flex flex-wrap">
           {orderedTreasureCards.value.map(c => (

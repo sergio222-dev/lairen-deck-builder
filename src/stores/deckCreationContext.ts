@@ -118,13 +118,17 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
 
       return result;
     }),
-    cleanDeck:    $(async function (this) {
-      this.deckData = {
-        ...this.deckData,
-        masterDeck:   {},
-        sideDeck:     {},
-        treasureDeck: {},
-      };
+    cleanDeck:    $(async function (this, partial = false) {
+      if (partial) {
+        this.deckData = {
+          ...this.deckData,
+          masterDeck:   {},
+          sideDeck:     {},
+          treasureDeck: {},
+        };
+      } else {
+        this.deckData = initialDeckData;
+      }
     }),
     importDeck:   $(async function (this, deckString) {
       const deck = await fetchDeckImport(parseToImportCardsItem(deckString));

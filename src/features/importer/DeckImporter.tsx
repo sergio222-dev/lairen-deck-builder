@@ -18,7 +18,7 @@ export const DeckImporter = component$<DeckImporterProps>(({ isOpen, onClose }) 
 
   // HANDLERS
   const handleImport = $(async () => {
-    await c.cleanDeck();
+    await c.cleanDeck(true);
 
     try {
       const text = textAreaRef.value?.value;

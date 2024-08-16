@@ -7,7 +7,6 @@ import { UserContext }            from "~/routes/layout";
 export { useListPublicDeckLoader } from "~/providers/loaders/decks";
 
 export default component$(() => {
-
   const user = useContext(UserContext);
 
   return (

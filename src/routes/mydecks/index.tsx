@@ -1,7 +1,7 @@
-import { component$ } from "@builder.io/qwik";
-import { Link }       from "@builder.io/qwik-city";
-import { Button }     from "~/components/button";
-import { MyDecks }    from "~/features/myDecks/MyDecks";
+import { component$ }          from "@builder.io/qwik";
+import { Link }                from "@builder.io/qwik-city";
+import { Button }              from "~/components/button";
+import { MyDecks }             from "~/features/myDecks/MyDecks";
 
 export { useListMyDeckLoader } from "~/providers/loaders/decks";
 

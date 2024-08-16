@@ -1,13 +1,13 @@
-import { $, component$, useContext, useSignal } from '@builder.io/qwik';
-import { Accordion }                            from "~/components/accordion/Accordion";
-import { Button, ButtonIcon }                   from "~/components/button";
-import { ChipFilter, FilterField }              from "~/components/filterField/FilterField";
-import { Icon }                                 from "~/components/icons/Icon";
-import type { Filter }                          from "~/models/filters/Filter";
+import { $, component$, Signal, useContext, useSignal }                   from '@builder.io/qwik';
+import { Accordion }                                                      from "~/components/accordion/Accordion";
+import { Button, ButtonIcon }                                             from "~/components/button";
+import { ChipFilter, FilterField }                                        from "~/components/filterField/FilterField";
+import { Icon }                                                           from "~/components/icons/Icon";
+import type { Filter }                                                    from "~/models/filters/Filter";
 import { FILTERS_TYPES }                                                  from "~/models/filters/Filter";
 import { useRarityLoader, useSetLoader, useSubtypeLoader, useTypeLoader } from "~/providers/loaders/cards";
 import { FilterContext }                                                  from '~/stores/filterContext';
-import { Pagination }                           from './Pagination';
+import { Pagination }                                                     from './Pagination';
 
 const useCostFilters = () => {
 
@@ -83,7 +83,11 @@ const useSubTypeFilters = (subtypes: string[]) => {
   return subTypeFilters;
 }
 
-export const CardFilter = component$(() => {
+interface CardFilterProps {
+  mobileListDeckRef?: Signal<HTMLDivElement | undefined>;
+}
+
+export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) => {
   // Loaders
   const subtypes = useSubtypeLoader();
   const types    = useTypeLoader();
@@ -95,11 +99,11 @@ export const CardFilter = component$(() => {
   const refDialog = useSignal<HTMLDialogElement>();
 
   // STATE
-  const costFilters = useCostFilters();
-  const typeFilters = useTypeFilters(types.value);
+  const costFilters    = useCostFilters();
+  const typeFilters    = useTypeFilters(types.value);
   const subTypeFilters = useSubTypeFilters(subtypes.value);
-  const rarityFilters = useRarityFilters(rarities.value);
-  const setFilters = useSetFilters(sets.value);
+  const rarityFilters  = useRarityFilters(rarities.value);
+  const setFilters     = useSetFilters(sets.value);
 
 
   // Handlers
@@ -243,7 +247,7 @@ export const CardFilter = component$(() => {
           </Accordion>
         </div>
       </dialog>
-      <Pagination/>
+      <Pagination mobileListDeckRef={mobileListDeckRef}/>
     </div>
   );
 });

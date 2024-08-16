@@ -1,18 +1,32 @@
-import { component$, useComputed$, useContext } from '@builder.io/qwik';
-import { FilterContext }                        from '~/stores/filterContext';
+import type { Signal }                                    from '@builder.io/qwik';
+import { component$, useComputed$, useContext, useTask$ } from '@builder.io/qwik';
+import { AppContext }                                     from "~/stores/appContext";
+import { FilterContext }                                  from '~/stores/filterContext';
 
-export const Pagination = component$(() => {
-  const c = useContext(FilterContext);
+interface PaginationProps {
+  mobileListDeckRef?: Signal<HTMLDivElement | undefined>;
+}
+
+export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) => {
+  const filterContext = useContext(FilterContext);
+  const appContext    = useContext(AppContext);
 
   const pagesComputed = useComputed$(() => {
     // get the current 5 pages
-    const start = Math.max(1, c.page - 2);
-    const end   = Math.min(Math.ceil(c.count / c.size), start + 4);
+    const start = Math.max(1, filterContext.page - 2);
+    const end   = Math.min(Math.ceil(filterContext.count / filterContext.size), start + 4);
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   });
 
-  const isFirstPage = useComputed$(() => c.page === 1);
-  const isLastPage  = useComputed$(() => c.page === Math.ceil(c.count / c.size));
+  const isFirstPage = useComputed$(() => filterContext.page === 1);
+  const isLastPage  = useComputed$(() => filterContext.page === Math.ceil(filterContext.count / filterContext.size));
+
+  // reset scroll position on page change
+  useTask$(({ track }) => {
+    track(() => filterContext.page);
+
+    mobileListDeckRef?.value?.scrollTo(0, 0);
+  })
 
   return (
     <div>
@@ -24,11 +38,13 @@ export const Pagination = component$(() => {
             class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             style={{
               backgroundColor: isFirstPage.value ? 'gray' : '',
-              pointerEvents: isFirstPage.value ? 'none' : undefined
+              pointerEvents:   isFirstPage.value ? 'none' : undefined
             }}
             onClick$={async () => {
               if (!isFirstPage.value) {
-                void c.setPage(c.page - 1);
+                appContext.isLoading = true;
+                await filterContext.setPage(filterContext.page - 1);
+                appContext.isLoading = false;
               }
             }}
           >
@@ -40,11 +56,13 @@ export const Pagination = component$(() => {
             class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             style={{
               backgroundColor: isLastPage.value ? 'gray' : '',
-              pointerEvents: isLastPage.value ? 'none' : undefined
+              pointerEvents:   isLastPage.value ? 'none' : undefined
             }}
             onClick$={async () => {
               if (!isLastPage.value) {
-                void c.setPage(c.page + 1);
+                appContext.isLoading = true;
+                await filterContext.setPage(filterContext.page + 1);
+                appContext.isLoading = false;
               }
             }}
           >
@@ -54,8 +72,8 @@ export const Pagination = component$(() => {
         <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between">
           <div class="px-2">
             <p class="text-sm text-gray-400">
-              Showing {(c.page - 1) * c.size + 1} to {!isLastPage.value ? c.page * c.size : c.count} results
-              of {c.count}
+              Showing {(filterContext.page - 1) * filterContext.size + 1} to {!isLastPage.value ? filterContext.page * filterContext.size : filterContext.count} results
+              of {filterContext.count}
             </p>
           </div>
           <div>
@@ -64,7 +82,9 @@ export const Pagination = component$(() => {
                 preventdefault:click
                 onClick$={async () => {
                   if (!isFirstPage.value) {
-                    void c.setPage(1);
+                    appContext.isLoading = true;
+                    await filterContext.setPage(1);
+                    appContext.isLoading = false;
                   }
                 }}
                 href="#"
@@ -81,7 +101,7 @@ export const Pagination = component$(() => {
                   aria-hidden="true"
                 >
                   <path
-                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" />
+                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
                 </svg>
               </a>
               <a
@@ -89,7 +109,9 @@ export const Pagination = component$(() => {
                 preventdefault:click
                 onClick$={async () => {
                   if (!isFirstPage.value) {
-                    void c.setPage(c.page - 1);
+                    appContext.isLoading = true;
+                    await filterContext.setPage(filterContext.page - 1);
+                    appContext.isLoading = false;
                   }
                 }}
                 class={`${isFirstPage.value ?
@@ -99,18 +121,20 @@ export const Pagination = component$(() => {
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
                         d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                        clip-rule="evenodd" />
+                        clip-rule="evenodd"/>
                 </svg>
               </a>
               {pagesComputed.value.map(page => (
                 <a
                   href="#" key={page}
                   preventdefault:click
-                  class={`${c.page === page ?
+                  class={`${filterContext.page === page ?
                     'font-semibold' :
                     ''} relative inline-flex items-center px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
                   onClick$={async () => {
-                    void c.setPage(page);
+                    appContext.isLoading = true;
+                    await filterContext.setPage(page);
+                    appContext.isLoading = false;
                   }}
                 >
                   {page}
@@ -121,7 +145,9 @@ export const Pagination = component$(() => {
                 preventdefault:click
                 onClick$={async () => {
                   if (!isLastPage.value) {
-                    void c.setPage(c.page + 1);
+                    appContext.isLoading = true;
+                    await filterContext.setPage(filterContext.page + 1);
+                    appContext.isLoading = false;
                   }
                 }}
                 href="#"
@@ -132,16 +158,18 @@ export const Pagination = component$(() => {
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
                         d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                        clip-rule="evenodd" />
+                        clip-rule="evenodd"/>
                 </svg>
               </a>
               <a
                 href="#"
                 preventdefault:click
                 onClick$={async () => {
-                  const totalPages = Math.ceil(c.count / c.size);
+                  const totalPages = Math.ceil(filterContext.count / filterContext.size);
                   if (!isLastPage.value) {
-                    void c.setPage(totalPages);
+                    appContext.isLoading = true;
+                    await filterContext.setPage(totalPages);
+                    appContext.isLoading = false;
                   }
                 }}
                 class={`${isLastPage.value ?
@@ -157,7 +185,7 @@ export const Pagination = component$(() => {
                   aria-hidden="true"
                 >
                   <path
-                    d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
+                    d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
                 </svg>
               </a>
             </nav>
