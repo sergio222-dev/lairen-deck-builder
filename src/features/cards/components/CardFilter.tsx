@@ -1,4 +1,4 @@
-import { $, component$, Signal, useContext, useSignal }                   from '@builder.io/qwik';
+import { $, component$, Signal, useComputed$, useContext, useSignal }     from '@builder.io/qwik';
 import { Accordion }                                                      from "~/components/accordion/Accordion";
 import { Button, ButtonIcon }                                             from "~/components/button";
 import { ChipFilter, FilterField }                                        from "~/components/filterField/FilterField";
@@ -73,7 +73,7 @@ const useSubTypeFilters = (subtypes: string[]) => {
   const subTypeFilters: Filter[] = subtypes.map(t => {
     return {
       id:         `subtype-${t}`,
-      label:      `Subtype: ${t}`,
+      label:      `${t}`,
       value:      t,
       field:      ['subtype', 'subtype2'],
       filterType: FILTERS_TYPES.IN,
@@ -105,6 +105,29 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
   const rarityFilters  = useRarityFilters(rarities.value);
   const setFilters     = useSetFilters(sets.value);
 
+  const numberOfFilters = useComputed$(() => {
+    return c.filters.length;
+  });
+
+  const numberOfCostFilters = useComputed$(() => {
+    return c.filters.filter(f => f.field === 'cost').length;
+  });
+
+  const numberOfTypeFilters = useComputed$(() => {
+    return c.filters.filter(f => Array.isArray(f.field) && f.field.includes('type')).length;
+  });
+
+  const numberOfSubtypeFilters = useComputed$(() => {
+    return c.filters.filter(f => Array.isArray(f.field) && f.field.includes('subtype')).length;
+  });
+
+  const numberOfRarityFilters = useComputed$(() => {
+    return c.filters.filter(f => Array.isArray(f.field) && f.field.includes('rarity')).length;
+  });
+
+  const numberOfSetFilters = useComputed$(() => {
+    return c.filters.filter(f => Array.isArray(f.field) && f.field.includes('set')).length;
+  });
 
   // Handlers
   const addContainsFilter = $(async (value: string | undefined) => {
@@ -160,9 +183,13 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <ChipFilter key={f.id} onClick$={() => c.removeFilter(f.id)}>{f.label}</ChipFilter>
           ))}
         </FilterField>
-        <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline gap-2">
+        <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline gap-2 relative">
           Filters
           <Icon name="art" width={16} height={16} class="fill-primary"/>
+          <span
+            class="absolute top-[-0.25rem] right-[-0.25rem] text-xs text-white bg-primary ring-1 ring-black rounded-[50%] w-4 h-4 z-10">
+            {numberOfFilters.value}
+          </span>
         </Button>
       </div>
       <dialog ref={refDialog} class="p-4 container max-w-xl">
@@ -175,7 +202,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
           </div>
         </div>
         <div class="p-4">
-          <Accordion title="Cost">
+          <Accordion title="Cost" quantity={numberOfCostFilters.value}>
             <div class="flex flex-wrap gap-2">
               {costFilters.map(f => (
                 <p
@@ -189,7 +216,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
               ))}
             </div>
           </Accordion>
-          <Accordion title="Types">
+          <Accordion title="Types" quantity={numberOfTypeFilters.value}>
             <div class="flex flex-wrap gap-2">
               {typeFilters.map(f => (
                 <p
@@ -203,7 +230,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
               ))}
             </div>
           </Accordion>
-          <Accordion title="Subtypes">
+          <Accordion title="Subtypes" quantity={numberOfSubtypeFilters.value}>
             <div class="flex flex-wrap gap-2">
               {subTypeFilters.map(f => (
                 <p
@@ -217,7 +244,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
               ))}
             </div>
           </Accordion>
-          <Accordion title="Sets">
+          <Accordion title="Sets" quantity={numberOfSetFilters.value}>
             <div class="flex flex-wrap gap-2">
               {setFilters.map(f => (
                 <p
@@ -231,7 +258,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
               ))}
             </div>
           </Accordion>
-          <Accordion title="Rarirty">
+          <Accordion title="Rarirty" quantity={numberOfRarityFilters.value}>
             <div class="flex flex-wrap gap-2">
               {rarityFilters.map(f => (
                 <p

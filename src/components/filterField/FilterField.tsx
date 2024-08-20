@@ -11,11 +11,13 @@ interface FilterChipProps extends HTMLAttributes<HTMLDivElement> {
 
 export const ChipFilter = component$<FilterChipProps>(({ ...props }) => {
   return (
-    <Chip class="flex gap-1 hover:bg-red-500 cursor-pointer px-3 py-1 text-white text-sm" {...props}>
+    <Chip class="flex gap-1 hover:bg-red-500 cursor-pointer px-3 py-1 text-white text-sm max-w-[150px]" {...props}>
       <ButtonIcon class="bg-transparent">
         <Icon name={'close'} width={8} height={8}/>
       </ButtonIcon>
-      <Slot/>
+      <span class="whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <Slot/>
+      </span>
     </Chip>
   )
 });

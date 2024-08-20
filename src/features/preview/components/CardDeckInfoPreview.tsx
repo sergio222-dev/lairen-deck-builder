@@ -51,15 +51,15 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
     return orderedTreasureCards.value.reduce((acc, c) => acc + parseInt(c.cost), 0);
   });
 
-  const orderedMonumentCards = useComputed$(() => {
+  const orderedMonumentAndWeaponCards = useComputed$(() => {
     return Object.entries(deck.masterDeck)
       .map(([, c]) => c)
-      .filter(c => c.type === CARD_TYPES.MONUMENTO)
+      .filter(c => c.type === CARD_TYPES.MONUMENTO || c.type === CARD_TYPES.ARMA)
       .toSorted((a, b) => a.name.localeCompare(b.name))
   });
 
-  const monumentCardsQuantity = useComputed$(() => {
-    return orderedMonumentCards.value.reduce((acc, c) => acc + c.quantity, 0);
+  const monumentAndWeaponCardsQuantity = useComputed$(() => {
+    return orderedMonumentAndWeaponCards.value.reduce((acc, c) => acc + c.quantity, 0);
   });
 
   const orderedSideCards = useComputed$(() => {
@@ -97,11 +97,11 @@ export const CardDeckInfoPreview = component$<CardDeckInfoProps>(({ deck }) => {
         </div>
       </div>
 
-      {orderedMonumentCards.value.length > 0 &&
+      {orderedMonumentAndWeaponCards.value.length > 0 &&
         <div class="p-4">
-          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos ({monumentCardsQuantity})</p>
+          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos y Armas ({monumentAndWeaponCardsQuantity})</p>
           <div class="flex flex-wrap">
-            {orderedMonumentCards.value.map(c => (
+            {orderedMonumentAndWeaponCards.value.map(c => (
               <CardDeckControlPreview orientation="horizontal" key={c.id} card={c} deck={deck}/>
             ))}
           </div>

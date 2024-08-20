@@ -1,10 +1,10 @@
-import { component$, useContext, useSignal } from '@builder.io/qwik';
-import { ButtonIcon }                        from "~/components/button/ButtonIcon";
-import { Icon }                              from "~/components/icons/Icon";
-import { PopoverCard }                       from "~/components/popoverCard/PopoverCard";
-import { useDeckQuantity }                   from "~/hooks/useDeckQuantity";
-import type { DeckCard }                     from '~/models/Deck';
-import { DeckCreationContext }               from "~/stores/deckCreationContext";
+import { component$, useContext } from '@builder.io/qwik';
+import { ButtonIcon }             from "~/components/button/ButtonIcon";
+import { Icon }                   from "~/components/icons/Icon";
+import { useDeckQuantity }        from "~/hooks/useDeckQuantity";
+import type { DeckCard }          from '~/models/Deck';
+import { CardViewerContext }      from "~/stores/cardViewerContext";
+import { DeckCreationContext }    from "~/stores/deckCreationContext";
 
 interface CardDeckControlProps {
   card: DeckCard;
@@ -13,10 +13,8 @@ interface CardDeckControlProps {
 }
 
 export const CardDeckControl = component$<CardDeckControlProps>(({ card, orientation, isSide }) => {
-  const d = useContext(DeckCreationContext);
-
-  const showPreview = useSignal(false);
-  const previewRef  = useSignal<HTMLDivElement>();
+  const d          = useContext(DeckCreationContext);
+  const cardViewer = useContext(CardViewerContext);
 
   const deckData = d.deckData;
 
@@ -24,7 +22,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
 
   return (
     <div
-      class={`aspect-[3/4] bg-cover ${d.deckData.splashArtId === card.id ?
+      class={`aspect-[2.5/3.5] rounded-[5%/3.571428571428571%] bg-cover ${d.deckData.splashArtId === card.id ?
         'border-secondary' :
         'border-primary'} border-4 ${orientation === 'horizontal' ?
         'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[33%]' :
@@ -33,8 +31,6 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
         backgroundImage: `url(${card.image})`
       }}
     >
-      <PopoverCard show={showPreview.value} image={card.image} ref={previewRef}/>
-
       <div
         class={`absolute text-white select-none top-[5%] left-[5%] ${isSide ?
           'bg-pink-800' :
@@ -53,23 +49,9 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
 
       <div
         class="flex flex-1 select-none"
-        onMouseEnter$={() => showPreview.value = true}
-        onMouseLeave$={() => showPreview.value = false}
-        onMouseMove$={(e: MouseEvent) => {
-          if (!previewRef.value) return;
-          // check if mouse bellow the half of the screen
-          if (e.clientY > window.innerHeight / 2) {
-            previewRef.value.style.top = `${e.clientY - 24 - ((400 * 4) / 3)}px`;
-          } else {
-            previewRef.value.style.top = `${e.clientY - 24}px`;
-          }
-
-          // check if mouse after the half of the screen horizontally
-          if (e.clientX > window.innerWidth / 2) {
-            previewRef.value.style.left = `${e.clientX - 24 - 400}px`;
-          } else {
-            previewRef.value.style.left = `${e.clientX + 24}px`;
-          }
+        onClick$={() => {
+          void cardViewer.setCard(card);
+          cardViewer.isOpen = true;
         }}
       >
       </div>

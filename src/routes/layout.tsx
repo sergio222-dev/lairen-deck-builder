@@ -4,19 +4,28 @@ import { Appbar }                                                               
 import type {
   User
 }                                                                                            from "supabase-auth-helpers-qwik";
+import {
+  CardPreview
+}                                                                                            from "~/features/cardPreview/CardPreview";
 import { createClientBrowser }                                                               from "~/lib/supabase-qwik";
 import { AppContext, useAppStore }                                                           from "~/stores/appContext";
+import {
+  CardViewerContext,
+  useCardViewerStore
+}                                                                                            from "~/stores/cardViewerContext";
 
 type UserSupabase = User | null
 
 export const UserContext = createContextId<Signal<UserSupabase>>('user-context');
 
 export default component$(() => {
-  const user = useSignal<UserSupabase | undefined>(undefined);
-  const app  = useAppStore();
+  const user       = useSignal<UserSupabase | undefined>(undefined);
+  const app        = useAppStore();
+  const cardViewer = useCardViewerStore();
 
   useContextProvider(UserContext, user);
   useContextProvider(AppContext, app);
+  useContextProvider(CardViewerContext, cardViewer);
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
@@ -38,8 +47,9 @@ export default component$(() => {
   return (
     <div class="flex flex-col h-full overflow-hidden">
       <Appbar/>
-      <main class="flex flex-auto overflow-hidden">
+      <main class="flex flex-auto overflow-hidden relative">
         <Slot/>
+        <CardPreview />
       </main>
     </div>
   );

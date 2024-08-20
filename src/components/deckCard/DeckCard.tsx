@@ -29,8 +29,8 @@ export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, n
           }
         } : {})}
       >
-        <div>
-          <p class="font-bold sm:text-3xl text-[calc(1.5rem+2vmin)]">{name}</p>
+        <div class="max-w-[100%]">
+          <p class="font-bold text-[1.5rem] sm:text-[1.5rem] md:text-[1rem] whitespace-nowrap overflow-hidden overflow-ellipsis">{name}</p>
         </div>
         <div class="mt-auto justify-between text-white  w-full">
           <div class="flex items-center gap-2 justify-end">

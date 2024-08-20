@@ -25,8 +25,6 @@ export const Create = component$(() => {
 
   return (
     <div class="h-full flex flex-col md:flex-row w-full">
-      {/*<div hidden={selectedSection.value !== 0} class="p-2 md:block md:col-span-4 md:row-span-1">*/}
-      {/*</div>*/}
       <div hidden={selectedSection.value !== 0} class="h-full md:basis-[60%] overflow-y-hidden md:block p-2">
         <div class="flex flex-col h-full">
           <div>
