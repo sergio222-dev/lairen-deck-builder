@@ -21,6 +21,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
     deckData:     {
       ...(deckData ?? initialDeckData)
     },
+    view:         'simple',
     addCard:      $(async function (this, card, side = false) {
       if (side) {
         // check if the card is already in the side

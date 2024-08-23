@@ -25,7 +25,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ card, orienta
       class={`aspect-[2.5/3.5] rounded-[5%/3.571428571428571%] bg-cover ${d.deckData.splashArtId === card.id ?
         'border-secondary' :
         'border-primary'} border-4 ${orientation === 'horizontal' ?
-        'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[33%]' :
+        'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[50%] 2xl:w-[33%] sm:w-[33%]' :
         'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[33%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
       style={{
         backgroundImage: `url(${card.image})`

@@ -1,12 +1,12 @@
 import { component$, useComputed$, useContext } from '@builder.io/qwik';
-import { CardDeckControl }                      from '~/features/createDeck/components/CardDeckControl';
-import { CARD_TYPES }                           from '~/models/CardTypes';
-import { DeckCreationContext }           from '~/stores/deckCreationContext';
-import { costCalculator, getColorLever } from "~/utils/costCalculator";
+import { CardDeckInfoFull }                                from "~/features/createDeck/components/CardDeckInfoFull";
+import { CardDeckInfoPro }                                 from "~/features/createDeck/components/CardDeckInfoPro";
+import { CARD_TYPES }                                      from '~/models/CardTypes';
+import { DeckCreationContext }                             from '~/stores/deckCreationContext';
+import { costCalculator, getColorLever }                   from "~/utils/costCalculator";
 
 export const CardDeckInfo = component$(() => {
-  const d = useContext(DeckCreationContext);
-
+  const d        = useContext(DeckCreationContext);
   const deckData = d.deckData;
 
   const deckTotalCards = useComputed$(() => {
@@ -88,59 +88,40 @@ export const CardDeckInfo = component$(() => {
 
   return (
     <div class="p-2 shadow-lg">
-      <div>Presupuesto: <span style={{ color: colorLevelDeck.value }}> {costLevelDeck.value}</span></div>
-      <div class="flex justify-center">
-        <p class="text-center">Total number of cards in deck:<br/>{deckTotalCards.value}</p>
-      </div>
-
-      <div class="gap-4">
-        <div>
-          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Unidades ({unitCardsQuantity})</p>
-          <div class="flex flex-wrap">
-            {orderedUnitCards.value.map(c => (
-              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Acciones ({actionCardsQuantity})</p>
-          <div class="flex flex-wrap">
-            {orderedActionCards.value.map(c => (
-              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-            ))}
-          </div>
+      <div class="flex justify-between">
+        <div>Budget: <span style={{ color: colorLevelDeck.value }}> {costLevelDeck.value}</span></div>
+        <div class="flex justify-center">
+          <p class="text-center">Cards: {deckTotalCards.value}</p>
         </div>
       </div>
 
-      {orderedMonumentAndWeaponCards.value.length > 0 &&
-        <div>
-          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos y Armas ({monumentAndWeaponCardsQuantity})</p>
-          <div class="flex flex-wrap">
-            {orderedMonumentAndWeaponCards.value.map(c => (
-              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-            ))}
-          </div>
-        </div>
-      }
-
-      <div>
-        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity}) Puntos: {treasureTotalCost}</p>
-        <div class="flex flex-wrap">
-          {orderedTreasureCards.value.map(c => (
-            <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-          ))}
-        </div>
-      </div>
-
-      {orderedSideCards.value.length > 0 &&
-        <div class="p-4">
-          <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Side ({sideCardsQuantity})</p>
-          <div class="flex flex-wrap">
-            {orderedSideCards.value.map(c => (
-              <CardDeckControl orientation="horizontal" isSide key={c.id} card={c}/>
-            ))}
-          </div>
-        </div>
+      {d.view === 'simple' ?
+        <CardDeckInfoFull
+          unitCardsQuantity={unitCardsQuantity.value}
+          actionCardsQuantity={actionCardsQuantity.value}
+          monumentAndWeaponCardsQuantity={monumentAndWeaponCardsQuantity.value}
+          treasureCardsQuantity={treasureCardsQuantity.value}
+          treasureTotalCost={treasureTotalCost.value}
+          orderedUnitCards={orderedUnitCards.value}
+          orderedActionCards={orderedActionCards.value}
+          orderedMonumentAndWeaponCards={orderedMonumentAndWeaponCards.value}
+          orderedTreasureCards={orderedTreasureCards.value}
+          orderedSideCards={orderedSideCards.value}
+          sideCardsQuantity={sideCardsQuantity.value}
+          />
+        : <CardDeckInfoPro
+          unitCardsQuantity={unitCardsQuantity.value}
+          actionCardsQuantity={actionCardsQuantity.value}
+          monumentAndWeaponCardsQuantity={monumentAndWeaponCardsQuantity.value}
+          treasureCardsQuantity={treasureCardsQuantity.value}
+          treasureTotalCost={treasureTotalCost.value}
+          orderedUnitCards={orderedUnitCards.value}
+          orderedActionCards={orderedActionCards.value}
+          orderedMonumentAndWeaponCards={orderedMonumentAndWeaponCards.value}
+          orderedTreasureCards={orderedTreasureCards.value}
+          orderedSideCards={orderedSideCards.value}
+          sideCardsQuantity={sideCardsQuantity.value}
+        />
       }
     </div>
   );
