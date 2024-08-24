@@ -16,8 +16,6 @@ export const Appbar = component$(() => {
   const user = useContext(UserContext);
   const app  = useContext(AppContext);
 
-  console.log(user.value);
-
   useTask$(async ({ track }) => {
     track(() => location.isNavigating);
 
