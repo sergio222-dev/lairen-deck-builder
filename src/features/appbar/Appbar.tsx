@@ -2,6 +2,7 @@ import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
 import { Link, useLocation }                           from '@builder.io/qwik-city';
 import { useLogin, useLogout }                         from "~/actions/user";
 import { Avatar }                                      from "~/components/avatar/Avatar";
+import { GithubLink }                                  from "~/components/github/GithubLink";
 import { Icon }                                        from "~/components/icons/Icon";
 import { createClientBrowser }                         from "~/lib/supabase-qwik";
 import { UserContext }                                 from "~/routes/layout";
@@ -24,7 +25,10 @@ export const Appbar = component$(() => {
 
   return (
     <>
-      <header class="w-full p-4 bg-primary text-white">
+      <header class="w-full pt-5 pb-2 px-4 bg-primary text-white relative">
+        <div class="absolute top-0 right-0">
+          <GithubLink />
+        </div>
         <div class="flex justify-between h-16 items-center">
           <div class="flex items-center">
             <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer" href="/"
