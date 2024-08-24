@@ -196,8 +196,8 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
         <div class="flex gap-2">
           <h2 class="text-xl flex-1">Filter</h2>
           <div>
-            <ButtonIcon>
-              <Icon onClick$={handleDialogClose} name="close" width={16} height={16} class="fill-primary"/>
+            <ButtonIcon onClick$={handleDialogClose}>
+              <Icon name="close" width={32} height={32} class="fill-primary"/>
             </ButtonIcon>
           </div>
         </div>

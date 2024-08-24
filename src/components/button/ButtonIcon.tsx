@@ -9,8 +9,11 @@ interface ButtonIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const ButtonIcon = component$<ButtonIconProps>(({ class: className, ...props }) => {
   return (
-    <Button class={`border-black border-2 rounded-full p-0 ${className}`} {...props} >
-      <Slot/>
+    <Button
+      class={`border-black flex items-center justify-center border-2 rounded-full w-[40px] h-[40px] p-0 ${className}`} {...props} >
+      <div>
+        <Slot/>
+      </div>
     </Button>
   )
 });
