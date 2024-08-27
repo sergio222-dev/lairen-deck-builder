@@ -1,7 +1,8 @@
 import type { RequestHandler } from "@builder.io/qwik-city";
+import type { PlatformCloudflarePages } from "@builder.io/qwik-city/middleware/cloudflare-pages";
 import { createClientServer } from "~/lib/supabase-qwik";
 
-export const onGet: RequestHandler = async (request) => {
+export const onGet: RequestHandler<PlatformCloudflarePages> = async (request) => {
   const code = request.query.get('code');
 
   if (!code) {

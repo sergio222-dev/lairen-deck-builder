@@ -30,12 +30,12 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
 
   return (
     <div>
-      <div class="flex items-center justify-between bg-white py-2">
+      <div class="flex items-center justify-between py-2">
         <div class="flex flex-1 justify-between lg:hidden">
           <a
             href="#"
             preventdefault:click
-            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            class="relative inline-flex items-center rounded-md border border-gray-300 bg-[#181A1B] px-4 py-2 text-sm font-medium hover:bg-gray-600"
             style={{
               backgroundColor: isFirstPage.value ? 'gray' : '',
               pointerEvents:   isFirstPage.value ? 'none' : undefined
@@ -53,7 +53,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
           <a
             preventdefault:click
             href="#"
-            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#181A1B] px-4 py-2 text-sm font-medium hover:bg-gray-600"
             style={{
               backgroundColor: isLastPage.value ? 'gray' : '',
               pointerEvents:   isLastPage.value ? 'none' : undefined
@@ -71,7 +71,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between">
           <div class="px-2">
-            <p class="text-sm text-gray-400">
+            <p class="text-sm text-white">
               Showing {(filterContext.page - 1) * filterContext.size + 1} to {!isLastPage.value ? filterContext.page * filterContext.size : filterContext.count} results
               of {filterContext.count}
             </p>
@@ -90,7 +90,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                 href="#"
                 class={`${isFirstPage.value ?
                   'pointer-events-none' :
-                  'hover:bg-gray-50'} relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0`}
+                  'hover:bg-gray-700'} relative inline-flex items-center rounded-l-md px-2 py-2 text-white ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0`}
               >
                 <span class="sr-only">First</span>
                 <svg
@@ -116,7 +116,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                 }}
                 class={`${isFirstPage.value ?
                   'pointer-events-none' :
-                  'hover:bg-gray-50'} relative inline-flex items-center  px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
+                  'hover:bg-gray-700'} relative inline-flex items-center  px-2 py-2 text-white ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
                 <span class="sr-only">Previous</span>
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
@@ -130,7 +130,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                   preventdefault:click
                   class={`${filterContext.page === page ?
                     'font-semibold' :
-                    ''} relative inline-flex items-center px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
+                    ''} relative inline-flex items-center px-4 py-2 text-sm text-white ring-1 ring-inset ring-gray-300 hover:bg-gray-700 focus:z-20 focus:outline-offset-0`}
                   onClick$={async () => {
                     appContext.isLoading = true;
                     await filterContext.setPage(page);
@@ -153,7 +153,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                 href="#"
                 class={`${isLastPage.value ?
                   'pointer-events-none' :
-                  'hover:bg-gray-50'} relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
+                  'hover:bg-gray-700'} relative inline-flex items-center px-2 py-2 text-white ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}>
                 <span class="sr-only">Next</span>
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
@@ -174,7 +174,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                 }}
                 class={`${isLastPage.value ?
                   'pointer-events-none' :
-                  'hover:bg-gray-50'} relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}
+                  'hover:bg-gray-700'} relative inline-flex items-center rounded-r-md px-2 py-2 text-white ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}
               >
                 <span class="sr-only">Last</span>
                 <svg

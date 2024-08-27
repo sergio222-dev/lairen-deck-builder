@@ -6,6 +6,7 @@ import { Menu }                                 from "~/components/menu";
 import { Switch }                               from '~/components/switch/Switch';
 import { Text }                                 from '~/components/text';
 import { DeckImporter }                         from "~/features/importer/DeckImporter";
+import { generateDeckImage }                    from "~/services/deckImageGenerator";
 import { AppContext }                           from "~/stores/appContext";
 import { DeckCreationContext }                  from '~/stores/deckCreationContext';
 import { parseToText }                          from "~/utils/parser";
@@ -75,6 +76,21 @@ export const CreateForm = component$(() => {
             </Button>
             <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
               <Icon name="import" width={24} height={24} class="fill-primary"/>
+            </Button>
+            <Button
+              class="active:ring-2 ring-red-600"
+              onClick$={async () => {
+                // console.log('generate image');
+
+                const imgUrl = await generateDeckImage(deckStore.deckData);
+
+                const link = document.createElement('a');
+                // console.log(imgUrl);
+                link.href = imgUrl;
+                link.download = 'deck.png';
+                link.click();
+              }}>
+              Generate Image
             </Button>
           </div>
         </Menu>

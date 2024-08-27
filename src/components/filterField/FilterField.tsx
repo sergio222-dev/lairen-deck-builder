@@ -9,7 +9,7 @@ interface FilterChipProps extends HTMLAttributes<HTMLDivElement> {
 
 export const ChipFilter = component$<FilterChipProps>(({ ...props }) => {
   return (
-    <Chip class="flex gap-1 hover:bg-red-500 cursor-pointer px-3 py-1 text-white text-sm max-w-[150px]" {...props}>
+    <Chip class="flex text-[8px] sm:text-sm gap-1 hover:bg-red-500 cursor-pointer px-3 py-1 max-w-[100px] sm:max-w-[150px]" {...props}>
       <span class="whitespace-nowrap overflow-hidden overflow-ellipsis">
         <Slot/>
       </span>
@@ -56,7 +56,7 @@ export const FilterField = component$<FilterFieldProps>(
           <input
             name="contains"
             autocomplete="off"
-            class="focus:outline-none flex-1 w-full"
+            class="focus:outline-none bg-transparent flex-1 w-full"
             type="text"
             placeholder="Type to filter..."
             onKeyDown$={handleClear}

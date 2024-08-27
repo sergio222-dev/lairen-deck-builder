@@ -12,7 +12,7 @@ export const Accordion = component$<AccordionProps>(({ title, quantity }) => {
   return (
     <div class="rounded">
       <hr />
-      <div class="flex items-center justify-between cursor-pointer hover:bg-primary hover:text-white hover:fill-white px-2 py-4" onClick$={() => isOpen.value = !isOpen.value}>
+      <div class="user-select-none flex items-center justify-between cursor-pointer hover:bg-primary hover:text-white hover:fill-white px-2 py-4" onClick$={() => isOpen.value = !isOpen.value}>
         <p class="text-lg font-bold flex-1">{title}</p>
         <p>{quantity}</p>
       </div>

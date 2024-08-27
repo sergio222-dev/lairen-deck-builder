@@ -183,7 +183,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <ChipFilter key={f.id} onClick$={() => c.removeFilter(f.id)}>{f.label}</ChipFilter>
           ))}
         </FilterField>
-        <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline gap-2 relative">
+        <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline text-black gap-2 relative">
           Filters
           <Icon name="art" width={16} height={16} class="fill-primary"/>
           <span
@@ -205,70 +205,70 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
           <Accordion title="Cost" quantity={numberOfCostFilters.value}>
             <div class="flex flex-wrap gap-2">
               {costFilters.map(f => (
-                <p
+                <button
                   class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
                 >
                   {f.label}
-                </p>
+                </button>
               ))}
             </div>
           </Accordion>
           <Accordion title="Types" quantity={numberOfTypeFilters.value}>
             <div class="flex flex-wrap gap-2">
               {typeFilters.map(f => (
-                <p
+                <button
                   class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
                 >
                   {f.label}
-                </p>
+                </button>
               ))}
             </div>
           </Accordion>
           <Accordion title="Subtypes" quantity={numberOfSubtypeFilters.value}>
             <div class="flex flex-wrap gap-2">
               {subTypeFilters.map(f => (
-                <p
+                <button
                   class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
                 >
                   {f.label}
-                </p>
+                </button>
               ))}
             </div>
           </Accordion>
           <Accordion title="Sets" quantity={numberOfSetFilters.value}>
             <div class="flex flex-wrap gap-2">
               {setFilters.map(f => (
-                <p
+                <button
                   class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
                 >
                   {f.label}
-                </p>
+                </button>
               ))}
             </div>
           </Accordion>
           <Accordion title="Rarirty" quantity={numberOfRarityFilters.value}>
             <div class="flex flex-wrap gap-2">
               {rarityFilters.map(f => (
-                <p
+                <button
                   class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
                 >
                   {f.label}
-                </p>
+                </button>
               ))}
             </div>
           </Accordion>

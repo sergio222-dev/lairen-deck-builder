@@ -24,7 +24,7 @@ export const CardPreview = component$(() => {
 
   return (
     <div
-      class="p-4 bg-white w-full h-full top-0 left-0 absolute overflow-y-auto z-20"
+      class="p-4 bg-[#181A1B] w-full h-full top-0 left-0 absolute overflow-y-auto z-20"
       style={{ display: cardViewer.isOpen ? 'block' : 'none' }}>
       <ButtonIcon class="absolute top-10 right-10 cursor-pointer" onClick$={handleCloseDialog}>
         <Icon name="close" width={32} height={32} class="fill-primary "/>

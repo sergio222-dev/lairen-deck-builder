@@ -11,5 +11,6 @@ export interface Card extends Entity {
   cost: string;
   text: string;
   image: string;
+  thumbnail: string;
   set: string;
 }

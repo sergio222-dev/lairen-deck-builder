@@ -12,7 +12,17 @@ html {
 
 body {
     overflow: hidden;
+    color: white;
+    background-color: #181A1B;
     height: 100%;
+}
+
+button {
+    color: black;
+}
+
+input {
+    background-color: transparent;
 }
 
 * {
