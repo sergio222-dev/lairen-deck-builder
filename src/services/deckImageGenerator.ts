@@ -36,7 +36,7 @@ export async function generateDeckImage(deck: DeckState) {
   cardZoneHeight += calculateHeightOfCardZone(treasures.length);
   cardZoneHeight += calculateHeightOfCardZone(sideDeckCards.length);
 
-  const height = cardZoneHeight + 100;
+  const height = cardZoneHeight + STATING_HEIGHT_CARD_ZONE;
 
   const canvas =  document.createElement('canvas');
   canvas.height = height;

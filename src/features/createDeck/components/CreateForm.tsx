@@ -49,34 +49,36 @@ export const CreateForm = component$(() => {
       <div class="flex items-center justify-between gap-2">
         <Menu>
           <div q:slot="label">Menu</div>
-          <div class="flex gap-2">
-            <Button
-              class="bg-primary text-black p-4 disabled:opacity-50 disabled:cursor-not-allowed active:ring-2 ring-red-600"
-              disabled={app.isLoading}
-              onClick$={$(async () => {
-                app.isLoading = true;
-                let result    = 0;
+          <div class="flex gap-2 flex-col">
+            <div class="flex gap-2">
+              <Button
+                class="bg-primary text-black p-4 disabled:opacity-50 disabled:cursor-not-allowed active:ring-2 ring-red-600"
+                disabled={app.isLoading}
+                onClick$={$(async () => {
+                  app.isLoading = true;
+                  let result    = 0;
 
-                try {
-                  result = await deckStore.createDeck();
-                } finally {
-                  app.isLoading = false;
-                }
+                  try {
+                    result = await deckStore.createDeck();
+                  } finally {
+                    app.isLoading = false;
+                  }
 
-                if (location.params['id'] === '' && result > 0) {
-                  void navigation(`/decks/create/${result}`);
-                }
-              })}
-            >
-              {deckStore.deckData.id !== 0 ? 'Update' : 'Create'}
-            </Button>
-            <Button class="active:ring-2 ring-red-600"
-                    onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
-              <Icon name="copy" width={24} height={24} class="fill-primary"/>
-            </Button>
-            <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
-              <Icon name="import" width={24} height={24} class="fill-primary"/>
-            </Button>
+                  if (location.params['id'] === '' && result > 0) {
+                    void navigation(`/decks/create/${result}`);
+                  }
+                })}
+              >
+                {deckStore.deckData.id !== 0 ? 'Update' : 'Create'}
+              </Button>
+              <Button class="active:ring-2 ring-red-600"
+                      onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
+                <Icon name="copy" width={24} height={24} class="fill-primary"/>
+              </Button>
+              <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
+                <Icon name="import" width={24} height={24} class="fill-primary"/>
+              </Button>
+            </div>
             <Button
               class="active:ring-2 ring-red-600"
               onClick$={async () => {
