@@ -48,7 +48,7 @@ export const CardDeckInfo = component$(() => {
   });
 
   const treasureTotalCost = useComputed$(() => {
-    return orderedTreasureCards.value.reduce((acc, c) => acc + parseInt(c.cost), 0);
+    return orderedTreasureCards.value.reduce((acc, c) => acc + parseInt(c.cost) * c.quantity, 0);
   });
 
   const orderedMonumentAndWeaponCards = useComputed$(() => {

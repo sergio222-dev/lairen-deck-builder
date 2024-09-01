@@ -1,4 +1,5 @@
-import { $, component$, Signal, useComputed$, useContext, useSignal }     from '@builder.io/qwik';
+import type { Signal }                                                    from '@builder.io/qwik';
+import { $, component$, useComputed$, useContext, useSignal }             from '@builder.io/qwik';
 import { Accordion }                                                      from "~/components/accordion/Accordion";
 import { Button, ButtonIcon }                                             from "~/components/button";
 import { ChipFilter, FilterField }                                        from "~/components/filterField/FilterField";
@@ -12,7 +13,7 @@ import { Pagination }                                                     from '
 const useCostFilters = () => {
 
   // add const filters
-  const count = new Array(9).fill(0).map((_, i) => i + 1);
+  const count = new Array(10).fill(0).map((_, i) => i);
 
   const countFilters: Filter[] = count.map(c => {
     return {
