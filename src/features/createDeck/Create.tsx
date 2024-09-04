@@ -11,7 +11,7 @@ import { DeckCreationContext, useDeckCreationStore } from '~/stores/deckCreation
 import { FilterContext, useFilterStore }             from '~/stores/filterContext';
 
 export const Create = component$(() => {
-  const selectedSection   = useSignal(0);
+  const selectedSection   = useSignal(1);
   const mobileListDeckRef = useSignal<HTMLDivElement>();
 
   const preloadedCards = useCardDeckLoader();

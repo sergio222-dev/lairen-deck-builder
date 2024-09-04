@@ -80,11 +80,12 @@ export const CreateForm = component$(() => {
               </Button>
             </div>
             <Button
+              disabled={app.isLoading}
               class="active:ring-2 ring-red-600"
               onClick$={async () => {
-                // console.log('generate image');
-
+                app.isLoading = true;
                 const imgUrl = await generateDeckImage(deckStore.deckData);
+                app.isLoading = false;
 
                 const link = document.createElement('a');
                 // console.log(imgUrl);
