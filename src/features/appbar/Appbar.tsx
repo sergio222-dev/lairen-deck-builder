@@ -55,6 +55,10 @@ export const Appbar = component$(() => {
               {!user.value &&
                 (<>
                     <li class="flex cursor-pointer">
+                      <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer" href="/decks/create"
+                            class="flex items-center px-2 ">Create Deck</Link>
+                    </li>
+                    <li class="flex cursor-pointer">
                       <span class="flex items-center gap-2" onClick$={async () => {
                         const data = await login.submit();
 
@@ -114,6 +118,10 @@ export const Appbar = component$(() => {
             </li>
             {!user.value &&
               (<>
+                  <li class="flex cursor-pointer">
+                    <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer" href="/decks/create"
+                          class="flex items-center px-2 ">Create Deck</Link>
+                  </li>
                   <li class="flex">
                       <span class="flex items-center gap-2 px-2 cursor-pointer" onClick$={async () => {
                         const data = await login.submit();
