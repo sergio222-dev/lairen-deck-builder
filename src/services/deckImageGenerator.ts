@@ -1,5 +1,9 @@
+import he                           from 'he';
+// @ts-ignore
+import piexif                       from 'piexifjs';
 import { CARD_TYPES }               from "~/models/CardTypes";
 import type { DeckCard, DeckState } from "~/models/Deck";
+import { parseToText }              from "~/utils/parser";
 
 const NUM_COLS                      = 5;
 const SPACE_BETWEEN_TITLE_AND_CARDS = 20;
@@ -16,8 +20,8 @@ function splitChunk(array: any[], chunkSize: number) {
   return result;
 }
 
-export async function generateDeckImage(deck: DeckState) {
-  // calcualte the height of canvas
+export async function generateDeckImage(deck: DeckState): Promise<void> {
+  // calculate the height of canvas
   const { name, masterDeck, treasureDeck, sideDeck } = deck
   // calculate number of zones
   const units                                        = Object.values(masterDeck)
@@ -38,10 +42,10 @@ export async function generateDeckImage(deck: DeckState) {
 
   const height = cardZoneHeight + STATING_HEIGHT_CARD_ZONE;
 
-  const canvas =  document.createElement('canvas');
+  const canvas  = document.createElement('canvas');
   canvas.height = height;
   canvas.width  = 1200;
-  const ctx    = canvas.getContext('2d');
+  const ctx     = canvas.getContext('2d');
 
   if (!ctx) {
     throw new Error('Could not get canvas context');
@@ -80,15 +84,33 @@ export async function generateDeckImage(deck: DeckState) {
   yHeight += calculateHeightOfCardZone(treasures.length);
   await printCards(ctx, sideDeckCards, 'Side deck', STATING_HEIGHT_CARD_ZONE + yHeight);
 
-  return canvas.toDataURL('image/png');
+  const dataUrl = canvas.toDataURL('image/jpeg');
+
+  const zeroth = {};
+  const exif   = {};
+  const gps    = {};
+
+  // @ts-ignore
+  exif[piexif.ExifIFD.UserComment] = he.encode(parseToText(deck));
+
+  const exifObj = { "0th": zeroth, "Exif": exif, "GPS": gps };
+
+  const exifResult = piexif.dump(exifObj)
+
+  const link = piexif.insert(exifResult, dataUrl);
+
+  const a    = document.createElement('a');
+  a.href     = link;
+  a.download = deck.name + '.jpeg';
+  a.click();
 }
 
 async function printCards(ctx: CanvasRenderingContext2D, cards: DeckCard[], title: string, sy: number) {
-  const units   = cards;
+  const units      = cards;
   const loadingImg = [];
 
-  ctx.font      = '24px Arial';
-  ctx.fillStyle = 'white';
+  ctx.font       = '24px Arial';
+  ctx.fillStyle  = 'white';
   const quantity = units.reduce((acc, c) => acc + c.quantity, 0);
   ctx.fillText(`${title} (${quantity}):`, 50, sy)
 
@@ -107,12 +129,12 @@ async function printCards(ctx: CanvasRenderingContext2D, cards: DeckCard[], titl
         continue;
       }
       console.log(`loading ${c.thumbnail}`);
-      const cardFront = new Image();
+      const cardFront       = new Image();
       cardFront.crossOrigin = '*';
-      cardFront.src = c.thumbnail;
+      cardFront.src         = c.thumbnail;
 
       loadingImg.push(new Promise((resolve, reject) => {
-        cardFront.onload = () => {
+        cardFront.onload  = () => {
           // console.log(`drawing ${c.name}`);
           ctx.drawImage(cardFront, x, y);
           ctx.font        = '50px Arial';
@@ -135,3 +157,64 @@ async function printCards(ctx: CanvasRenderingContext2D, cards: DeckCard[], titl
 function calculateHeightOfCardZone(cardsLength: number) {
   return Math.ceil(cardsLength / NUM_COLS) * CARD_HEIGHT + SPACE_BETWEEN_TITLE_AND_CARDS + 50;
 }
+
+// function addMetadataToPNG(byteArray: Uint8Array, key: string, value: string) {
+//   console.log(value);
+//   const keyValue       = `${key}\0${value}`;
+//   const keyValueBuffer = new TextEncoder().encode(keyValue)
+//
+//   const newPng = new Uint8Array(byteArray.length + keyValueBuffer.length + 12);
+//   newPng.set(byteArray, 0);
+//   newPng.set(keyValueBuffer, byteArray.length);
+//
+//   return newPng;
+// }
+
+export function  loadDeck(file: File) {
+  const reader = new FileReader();
+
+  return new Promise<string>((resolve, reject) => {
+    reader.onload = function (e) {
+      const result = e.target?.result
+      if (!result) return;
+
+      const exifData = piexif.load(result as String);
+
+      // get the exif user comment
+      const comment = exifData['Exif'][piexif.ExifIFD.UserComment];
+
+      resolve(he.decode(comment));
+    }
+
+    reader.onerror = function (e) {
+      reject(e);
+    }
+
+    reader.readAsDataURL(file);
+  });
+
+}
+
+// function readMetadata(byteArray: Uint8Array) {
+//   // eslint-disable-next-line no-debugger
+//   debugger;
+//   const metadata = [];
+//   let pos        = 8;
+//
+//   while (pos < byteArray.length) {
+//     const length = byteArray[pos] << 24 | byteArray[pos + 1] << 16 | byteArray[pos + 2] << 0 | byteArray[pos + 3];
+//     const type   = String.fromCharCode(...byteArray.slice(pos + 4, pos + 8));
+//
+//     if (type === 'tEXt') {
+//       const data         = byteArray.slice(pos + 8, pos + 8 + length);
+//       const text         = new TextDecoder().decode(data);
+//       const [key, value] = text.split('\0');
+//       metadata.push({ key, value });
+//     }
+//
+//     console.log(length);
+//     pos += length + 12;
+//   }
+//
+//   return metadata;
+// }
