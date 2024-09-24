@@ -7,7 +7,7 @@ import { Switch }                               from '~/components/switch/Switch
 import { Text }                                 from '~/components/text';
 import { DeckImporter }                         from "~/features/importer/DeckImporter";
 import { UserContext }                          from "~/routes/layout";
-import { generateDeckImage }                    from "~/services/deckImageGenerator";
+import { generateDeckImage, loadDeck }          from "~/services/deckImageGenerator";
 import { AppContext }                           from "~/stores/appContext";
 import { DeckCreationContext }                  from '~/stores/deckCreationContext';
 import { parseToText }                          from "~/utils/parser";
@@ -16,6 +16,8 @@ export const CreateForm = component$(() => {
   const isImportOpen = useSignal(false);
   const location     = useLocation();
   const navigation   = useNavigate();
+
+  const inputRef = useSignal<HTMLInputElement>();
 
   const deckStore = useContext(DeckCreationContext);
   const app       = useContext(AppContext);
@@ -38,7 +40,7 @@ export const CreateForm = component$(() => {
   return (
     <div class="p-2">
       <div class="flex justify-between items-center flex-wrap py-2">
-        <Text value={deckStore.deckData.name} placeholder="Deck Name" onInput$={handleNameChange}/>
+        <Text value={deckStore.deckData?.name} placeholder="Deck Name" onInput$={handleNameChange}/>
         {user.value &&
           <div>
             <Switch id="public" name="sergio" value={deckStore.deckData.isPrivate} onChange={handleChange}/>
@@ -88,20 +90,29 @@ export const CreateForm = component$(() => {
               <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
                 <Icon name="import" width={24} height={24} class="fill-primary"/>
               </Button>
+              <Button class="active:ring-2 ring-red-600" onClick$={() => inputRef.value?.click()}>
+                <Icon name="upload" width={24} height={24} class="fill-primary"/>
+              </Button>
+              <input ref={inputRef} hidden type="file" onChange$={async (e: Event) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+
+                if (!file) return;
+
+                console.log(`qxc error`);
+                const deckString = await loadDeck(file)
+
+                app.isLoading = true;
+                await deckStore.importDeck(deckString);
+                app.isLoading = false;
+              }}/>
             </div>
             <Button
               disabled={app.isLoading}
               class="active:ring-2 ring-red-600"
               onClick$={async () => {
                 app.isLoading = true;
-                const imgUrl  = await generateDeckImage(deckStore.deckData);
+                await generateDeckImage(deckStore.deckData);
                 app.isLoading = false;
-
-                const link    = document.createElement('a');
-                // console.log(imgUrl);
-                link.href     = imgUrl;
-                link.download = 'deck.png';
-                link.click();
               }}>
               Generate Image
             </Button>
