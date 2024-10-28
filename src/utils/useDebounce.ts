@@ -1,4 +1,5 @@
-import { $, QRL, useSignal } from '@builder.io/qwik';
+import type { QRL} from '@builder.io/qwik';
+import { $, useSignal } from '@builder.io/qwik';
 
 export const useDebounce = <T>(TIME: number, callback: QRL) => {
   const debounce = useSignal<number>();

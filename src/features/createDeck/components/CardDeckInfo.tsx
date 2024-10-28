@@ -1,13 +1,17 @@
-import { component$, useComputed$, useContext } from '@builder.io/qwik';
-import { CardDeckInfoFull }                                from "~/features/createDeck/components/CardDeckInfoFull";
-import { CardDeckInfoPro }                                 from "~/features/createDeck/components/CardDeckInfoPro";
-import { CARD_TYPES }                                      from '~/models/CardTypes';
-import { DeckCreationContext }                             from '~/stores/deckCreationContext';
-import { costCalculator, getColorLever }                   from "~/utils/costCalculator";
+import { $, component$, useComputed$, useContext, useSignal } from '@builder.io/qwik';
+import ManaCurve                                              from "~/components/charts/ManaCurve";
+import { Switch }                                          from "~/components/switch/Switch";
+import { CardDeckInfoFull }                     from "~/features/createDeck/components/CardDeckInfoFull";
+import { CardDeckInfoPro }                      from "~/features/createDeck/components/CardDeckInfoPro";
+import { CARD_TYPES }                           from '~/models/CardTypes';
+import { DeckCreationContext }                  from '~/stores/deckCreationContext';
+import { costCalculator, getColorLever }        from "~/utils/costCalculator";
 
 export const CardDeckInfo = component$(() => {
   const d        = useContext(DeckCreationContext);
   const deckData = d.deckData;
+
+  const showInfo = useSignal(false);
 
   const deckTotalCards = useComputed$(() => {
     return Object.entries(deckData.masterDeck)
@@ -86,14 +90,25 @@ export const CardDeckInfo = component$(() => {
     return getColorLever(costLevelDeck.value);
   });
 
+  const handleShowInfo = $(() => {
+    showInfo.value = !showInfo.value;
+  })
+
   return (
     <div class="p-2 shadow-lg">
       <div class="flex justify-between">
         <div>Budget: <span style={{ color: colorLevelDeck.value }}> {costLevelDeck.value}</span></div>
+        <div>
+          <Switch name="show-info" value={showInfo.value} onChange={handleShowInfo}/>
+          Info
+        </div>
         <div class="flex justify-center">
           <p class="text-center">Cards: {deckTotalCards.value}</p>
         </div>
       </div>
+
+
+      {showInfo.value ? <ManaCurve deckData={deckData} /> : <></>}
 
       {d.view === 'simple' ?
         <CardDeckInfoFull
@@ -108,7 +123,7 @@ export const CardDeckInfo = component$(() => {
           orderedTreasureCards={orderedTreasureCards.value}
           orderedSideCards={orderedSideCards.value}
           sideCardsQuantity={sideCardsQuantity.value}
-          />
+        />
         : <CardDeckInfoPro
           unitCardsQuantity={unitCardsQuantity.value}
           actionCardsQuantity={actionCardsQuantity.value}
