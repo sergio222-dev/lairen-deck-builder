@@ -1,4 +1,4 @@
-import type { Signal }                                    from '@builder.io/qwik';
+import { Signal, useVisibleTask$ }                        from '@builder.io/qwik';
 import { component$, useComputed$, useContext, useTask$ } from '@builder.io/qwik';
 import { AppContext }                                     from "~/stores/appContext";
 import { FilterContext }                                  from '~/stores/filterContext';
@@ -22,7 +22,9 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
   const isLastPage  = useComputed$(() => filterContext.page === Math.ceil(filterContext.count / filterContext.size));
 
   // reset scroll position on page change
-  useTask$(({ track }) => {
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(({ track }) => {
+  // useTask$(({ track }) => {
     track(() => filterContext.page);
 
     mobileListDeckRef?.value?.scrollTo(0, 0);

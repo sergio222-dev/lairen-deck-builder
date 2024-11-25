@@ -6,8 +6,10 @@ import { createClientServer }                          from '~/lib/supabase-qwik
 import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Filter";
 import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
+import { Database }                                    from "../../../database.types";
 
-type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity";
+type ViewPicks = "card_types" | "card_subtypes" | "card_sets" | "card_rarity" | "dominion" ;
+type View = keyof Pick<Database['public']['Views'], ViewPicks>;
 
 export class CardRepository {
 
@@ -38,6 +40,7 @@ export class CardRepository {
     return count || 0;
   }
 
+  // TODO: check if this method is worth to be used
   public async getCard(id: string): Promise<Card | null> {
     const supabase = createClientServer(this.request);
 
@@ -90,28 +93,8 @@ export class CardRepository {
   public async getViewCard(view: View): Promise<string[]>{
     const supabase = createClientServer(this.request);
 
-    let table: View;
-
-    switch (view) {
-      case "card_types":
-        table = "card_types";
-        break;
-      case "card_subtypes":
-        table = "card_subtypes";
-        break;
-      case "card_sets":
-        table = "card_sets";
-        break;
-      case "card_rarity":
-        table = "card_rarity";
-        break;
-      default:
-        table = "card_types";
-        break;
-    }
-
     const { data, error } = await supabase
-      .from(table)
+      .from(view)
       .select();
 
     if (error) {

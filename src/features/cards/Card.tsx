@@ -1,4 +1,5 @@
 import { component$, useContextProvider } from '@builder.io/qwik';
+import { useDominionFilters }             from "~/features/cards/hooks/useDominionFilter";
 import { useCardsLoader }                 from '~/routes/cards';
 import { CardFilter }                     from './components/CardFilter';
 import { CardList }                       from './components/CardList';
@@ -7,7 +8,8 @@ import { FilterContext, useFilterStore }  from '~/stores/filterContext';
 
 export const Card = component$(() => {
   const preloadedCards = useCardsLoader();
-  const storeCards     = useFilterStore(preloadedCards.value.cards, preloadedCards.value.count);
+  const dominionFilter = useDominionFilters();
+  const storeCards     = useFilterStore(preloadedCards.value.cards, preloadedCards.value.count, 20, [dominionFilter]);
 
   useContextProvider<FilterContextState>(FilterContext, storeCards);
 

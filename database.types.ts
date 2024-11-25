@@ -34,6 +34,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      album: {
+        Row: {
+          card: number
+          created_at: string
+          id: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          card: number
+          created_at?: string
+          id?: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          card?: number
+          created_at?: string
+          id?: number
+          isAlternative?: boolean
+          isFoil?: boolean
+          owner?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_owner_fkey"
+            columns: ["owner"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       card_collection: {
         Row: {
           card_id: number
@@ -248,6 +296,12 @@ export type Database = {
         Relationships: []
       }
       card_types: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      dominion: {
         Row: {
           name: string | null
         }

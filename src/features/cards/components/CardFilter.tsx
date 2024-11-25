@@ -1,12 +1,18 @@
-import type { Signal }                                                    from '@builder.io/qwik';
-import { $, component$, useComputed$, useContext, useSignal }             from '@builder.io/qwik';
+import { Signal, useTask$ }                                   from '@builder.io/qwik';
+import { $, component$, useComputed$, useContext, useSignal } from '@builder.io/qwik';
 import { Accordion }                                                      from "~/components/accordion/Accordion";
 import { Button, ButtonIcon }                                             from "~/components/button";
 import { ChipFilter, FilterField }                                        from "~/components/filterField/FilterField";
 import { Icon }                                                           from "~/components/icons/Icon";
 import type { Filter }                                                    from "~/models/filters/Filter";
 import { FILTERS_TYPES }                                                  from "~/models/filters/Filter";
-import { useRarityLoader, useSetLoader, useSubtypeLoader, useTypeLoader } from "~/providers/loaders/cards";
+import {
+  useDominionLoader,
+  useRarityLoader,
+  useSetLoader,
+  useSubtypeLoader,
+  useTypeLoader
+} from "~/providers/loaders/cards";
 import { FilterContext }                                                  from '~/stores/filterContext';
 import { Pagination }                                                     from './Pagination';
 
@@ -84,6 +90,18 @@ const useSubTypeFilters = (subtypes: string[]) => {
   return subTypeFilters;
 }
 
+const useDominionFilters = (dominions: string[]) => {
+  const dominionFilter: Filter = {
+    id:         `dominion-filter`,
+    label:      `Dominion`,
+    value:      dominions.join(','),
+    field:      ['set'],
+    filterType: FILTERS_TYPES.IN,
+  }
+
+  return dominionFilter;
+}
+
 interface CardFilterProps {
   mobileListDeckRef?: Signal<HTMLDivElement | undefined>;
 }
@@ -94,6 +112,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
   const types    = useTypeLoader();
   const rarities = useRarityLoader();
   const sets     = useSetLoader();
+  const dominions = useDominionLoader();
 
   // Context
   const c         = useContext(FilterContext);
@@ -105,6 +124,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
   const subTypeFilters = useSubTypeFilters(subtypes.value);
   const rarityFilters  = useRarityFilters(rarities.value);
   const setFilters     = useSetFilters(sets.value);
+  const dominionFilters = useDominionFilters(dominions.value);
 
   const numberOfFilters = useComputed$(() => {
     return c.filters.length;
@@ -203,6 +223,9 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
           </div>
         </div>
         <div class="p-4">
+          <label>
+            <input type="checkbox" checked={!!isFilterInList(dominionFilters)} onChange$={() =>handleAddDialogFilter(dominionFilters)}/>
+          </label>
           <Accordion title="Cost" quantity={numberOfCostFilters.value}>
             <div class="flex flex-wrap gap-2">
               {costFilters.map(f => (

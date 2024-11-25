@@ -20,7 +20,7 @@ export interface FilterContextState {
   setSize: QRL<(this: FilterContextState, size: number) => Promise<void>>;
 }
 
-export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
+export const useFilterStore = (cards: Card[] = [], count = 0, size = 20, filters: Filter[] = []) => {
   return useStore<FilterContextState>({
     cards,
     count,
@@ -28,7 +28,7 @@ export const useFilterStore = (cards: Card[] = [], count = 0, size = 20) => {
     sortDirection: 'asc',
     page:          1,
     size,
-    filters:       [],
+    filters,
     setPage:       $(async function (this, page) {
       const payload: FetchCardsPayload = {
         page,
