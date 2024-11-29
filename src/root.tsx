@@ -4,6 +4,7 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 }                                      from "@builder.io/qwik-city";
+import { DialogYesNoNo }               from "~/components/dialogs/DialogYesNo";
 import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
@@ -21,6 +22,8 @@ export default component$(() => {
     const vh = window.innerHeight * 0.01;
 
     document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    window.customElements.define("dialog-yes-no", DialogYesNoNo);
   });
 
   return (

@@ -1,4 +1,5 @@
 import { $, createContextId, useStore }  from '@builder.io/qwik';
+import { deleteDeck }                    from '~/features/createDeck/server/deleteDeck';
 import { saveDeck }                      from '~/features/createDeck/server/saveDeck';
 import { fetchDeckImport }               from "~/features/importer/server/fetchDeckImport";
 import type { DeckState }                from "~/models/Deck";
@@ -118,6 +119,13 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       }
 
       return result;
+    }),
+    deleteDeck: $(async function (this) {
+      const deckId = this.deckData.id;
+
+      if (!deckId || deckId < 1) return;
+
+      await deleteDeck(deckId);
     }),
     cleanDeck:    $(async function (this, partial = false) {
       if (partial) {

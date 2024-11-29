@@ -8,6 +8,7 @@ const initialState = {
 export const useAppStore = () => {
   return useStore<AppContextState>({
     ...initialState,
+    dialogYesNo: undefined,
     setLoading: $(async function (this, isLoading) {
       this.isLoading = isLoading;
     }),
