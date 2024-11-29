@@ -3,6 +3,6 @@ import type { DialogYesNoNo } from '~/components/dialogs/DialogYesNo';
 
 export interface AppContextState {
   isLoading: boolean;
-  dialogYesNo: Signal<DialogYesNoNo | undefined>;
+  dialogYesNo: Signal<DialogYesNoNo | undefined> | undefined;
   setLoading: QRL<(this: AppContextState, isLoading: boolean) => void>;
 }

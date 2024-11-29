@@ -91,7 +91,7 @@ export const CreateForm = component$(() => {
                                                 onClick$={$(async () => {
                                                     app.isLoading = true;
                                                     try {
-                                                        if (!app.dialogYesNo.value) return;
+                                                        if (!app.dialogYesNo?.value) return;
                                                         const response = await app.dialogYesNo.value.open('Estas seguro?')
 
                                                         if (!response) {
