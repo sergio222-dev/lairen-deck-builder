@@ -86,6 +86,25 @@ export class DeckRepository {
     return deckId;
   }
 
+  public async deleteDeck(deckId: number): Promise<void> {
+
+    const supabase = this.supabase;
+    const supabaseClient = this.supabaseClient;
+    const { data: auth } = await supabase.auth.getUser();
+
+    if (!auth.user) {
+      Logger.error('User not authenticated', `${DeckRepository.name} ${this.deleteDeck.name}`);
+      throw new Error('User not authenticated');
+    }
+
+    const { error } = await supabaseClient.from('decks').delete().eq('id', deckId);
+
+    if (error) {
+      Logger.error(error, `${DeckRepository.name} ${this.deleteDeck.name}`);
+      return;
+    }
+  }
+
   public async getDeck(deckId: number, ownerId: string): Promise<DeckState | undefined> {
     const supabase = this.supabaseClient;
 

@@ -13,120 +13,144 @@ import { DeckCreationContext }                  from '~/stores/deckCreationConte
 import { parseToText }                          from "~/utils/parser";
 
 export const CreateForm = component$(() => {
-  const isImportOpen = useSignal(false);
-  const location     = useLocation();
-  const navigation   = useNavigate();
+    const isImportOpen = useSignal(false);
+    const location     = useLocation();
+    const navigation   = useNavigate();
 
-  const inputRef = useSignal<HTMLInputElement>();
+    const inputRef = useSignal<HTMLInputElement>();
 
-  const deckStore = useContext(DeckCreationContext);
-  const app       = useContext(AppContext);
-  const user      = useContext(UserContext);
+    const deckStore = useContext(DeckCreationContext);
+    const app       = useContext(AppContext);
+    const user      = useContext(UserContext);
 
-  const handleCloseImportDialog = $(() => {
-    isImportOpen.value = false;
-  })
+    const handleCloseImportDialog = $(() => {
+        isImportOpen.value = false;
+    })
 
-  const handleChange = $<(v: boolean) => void>((v) => deckStore.deckData.isPrivate = v);
+    const handleChange = $<(v: boolean) => void>((v) => deckStore.deckData.isPrivate = v);
 
-  const handleNameChange = $((e: Event) => {
-    deckStore.deckData.name = (e.target as HTMLInputElement).value;
-  });
+    const handleNameChange = $((e: Event) => {
+        deckStore.deckData.name = (e.target as HTMLInputElement).value;
+    });
 
-  const handleDescriptionName = $((e: Event) => {
-    deckStore.deckData.description = (e.target as HTMLInputElement).value;
-  });
+    const handleDescriptionName = $((e: Event) => {
+        deckStore.deckData.description = (e.target as HTMLInputElement).value;
+    });
 
-  return (
-    <div class="p-2">
-      <div class="flex justify-between items-center flex-wrap py-2">
-        <Text value={deckStore.deckData?.name} placeholder="Deck Name" onInput$={handleNameChange}/>
-        {user.value &&
-          <div>
-            <Switch id="public" name="sergio" value={deckStore.deckData.isPrivate} onChange={handleChange}/>
-            is public?
-          </div>
-        }
-      </div>
-
-      {user.value &&
-        <div class="flex py-2">
-
-          <Text value={deckStore.deckData.description} placeholder="Description" class="w-full" type="text"
-                onInput$={handleDescriptionName}/>
-        </div>
-      }
-      <div class="flex items-center justify-between gap-2">
-        <Menu>
-          <div q:slot="label">Menu</div>
-          <div class="flex gap-2 flex-col">
-            <div class="flex gap-2">
-              {user.value &&
-                <Button
-                  class="bg-primary text-black p-4 disabled:opacity-50 disabled:cursor-not-allowed active:ring-2 ring-red-600"
-                  disabled={app.isLoading}
-                  onClick$={$(async () => {
-                    app.isLoading = true;
-                    let result    = 0;
-
-                    try {
-                      result = await deckStore.createDeck();
-                    } finally {
-                      app.isLoading = false;
+    return (
+            <div class="p-2">
+                <div class="flex justify-between items-center flex-wrap py-2">
+                    <Text value={deckStore.deckData?.name} placeholder="Deck Name" onInput$={handleNameChange}/>
+                    {user.value &&
+                            <div>
+                                <Switch id="public" name="sergio" value={deckStore.deckData.isPrivate}
+                                        onChange={handleChange}/>
+                                is public?
+                            </div>
                     }
+                </div>
 
-                    if (location.params['id'] === '' && result > 0) {
-                      void navigation(`/decks/create/${result}`);
-                    }
-                  })}
-                >
-                  {deckStore.deckData.id !== 0 ? 'Update' : 'Create'}
-                </Button>
-              }
-              <Button class="active:ring-2 ring-red-600"
-                      onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
-                <Icon name="copy" width={24} height={24} class="fill-primary"/>
-              </Button>
-              <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
-                <Icon name="import" width={24} height={24} class="fill-primary"/>
-              </Button>
-              <Button class="active:ring-2 ring-red-600" onClick$={() => inputRef.value?.click()}>
-                <Icon name="upload" width={24} height={24} class="fill-primary"/>
-              </Button>
-              <input ref={inputRef} hidden type="file" onChange$={async (e: Event) => {
-                const file = (e.target as HTMLInputElement).files?.[0];
+                {user.value &&
+                        <div class="flex py-2">
 
-                if (!file) return;
+                            <Text value={deckStore.deckData.description} placeholder="Description" class="w-full"
+                                  type="text"
+                                  onInput$={handleDescriptionName}/>
+                        </div>
+                }
+                <div class="flex items-center justify-between gap-2">
+                    <Menu>
+                        <div q:slot="label">Menu</div>
+                        <div class="flex gap-2 flex-col">
+                            {user.value &&
+                                    <Button
+                                            class="bg-primary text-black p-4 disabled:opacity-50 disabled:cursor-not-allowed active:ring-2 ring-red-600"
+                                            disabled={app.isLoading}
+                                            onClick$={$(async () => {
+                                                app.isLoading = true;
+                                                let result    = 0;
 
-                console.log(`qxc error`);
-                const deckString = await loadDeck(file)
+                                                try {
+                                                    result = await deckStore.createDeck();
+                                                } finally {
+                                                    app.isLoading = false;
+                                                }
 
-                app.isLoading = true;
-                await deckStore.importDeck(deckString);
-                app.isLoading = false;
-              }}/>
+                                                if (location.params['id'] === '' && result > 0) {
+                                                    void navigation(`/decks/create/${result}`);
+                                                }
+                                            })}
+                                    >
+                                        {deckStore.deckData.id !== 0 ? 'Update' : 'Create'}
+                                    </Button>
+                            }
+                            <div class="flex gap-2">
+                                {user.value &&
+                                        <Button class="active:ring-2 ring-red-600"
+                                                disabled={app.isLoading || deckStore.deckData.id < 1}
+                                                onClick$={$(async () => {
+                                                    app.isLoading = true;
+                                                    try {
+                                                        if (!app.dialogYesNo.value) return;
+                                                        const response = await app.dialogYesNo.value.open('Estas seguro?')
+
+                                                        if (!response) {
+                                                            app.isLoading = false;
+                                                            return;
+                                                        }
+                                                        await deckStore.deleteDeck()
+                                                    } finally {
+                                                        app.isLoading = false;
+                                                    }
+
+                                                    void navigation(`/mydecks/`)
+                                                })}
+                                        > <Icon name="trash" width={24} height={24}
+                                                class="fill-primary"/> </Button>
+                                }
+                                <Button class="active:ring-2 ring-red-600"
+                                        onClick$={() => navigator.clipboard.writeText(parseToText(deckStore.deckData))}>
+                                    <Icon name="copy" width={24} height={24} class="fill-primary"/>
+                                </Button>
+                                <Button class="active:ring-2 ring-red-600" onClick$={() => isImportOpen.value = true}>
+                                    <Icon name="import" width={24} height={24} class="fill-primary"/>
+                                </Button>
+                                <Button class="active:ring-2 ring-red-600" onClick$={() => inputRef.value?.click()}>
+                                    <Icon name="upload" width={24} height={24} class="fill-primary"/>
+                                </Button>
+                                <input ref={inputRef} hidden type="file" onChange$={async (e: Event) => {
+                                    const file = (e.target as HTMLInputElement).files?.[0];
+
+                                    if (!file) return;
+
+                                    const deckString = await loadDeck(file)
+
+                                    app.isLoading = true;
+                                    await deckStore.importDeck(deckString);
+                                    app.isLoading = false;
+                                }}/>
+                            </div>
+                            <Button
+                                    disabled={app.isLoading}
+                                    class="active:ring-2 ring-red-600"
+                                    onClick$={async () => {
+                                        app.isLoading = true;
+                                        await generateDeckImage(deckStore.deckData);
+                                        app.isLoading = false;
+                                    }}>
+                                Generate Image
+                            </Button>
+                        </div>
+                    </Menu>
+                    <Menu right>
+                        <div q:slot="label">View</div>
+                        <div class="flex gap-2 text-black">
+                            <Button onClick$={() => deckStore.view = "simple"}>Full</Button>
+                            <Button onClick$={() => deckStore.view = "pro"}>Pro</Button>
+                        </div>
+                    </Menu>
+                </div>
+                <DeckImporter isOpen={isImportOpen.value} onClose={handleCloseImportDialog}/>
             </div>
-            <Button
-              disabled={app.isLoading}
-              class="active:ring-2 ring-red-600"
-              onClick$={async () => {
-                app.isLoading = true;
-                await generateDeckImage(deckStore.deckData);
-                app.isLoading = false;
-              }}>
-              Generate Image
-            </Button>
-          </div>
-        </Menu>
-        <Menu right>
-          <div q:slot="label">View</div>
-          <div class="flex gap-2 text-black">
-            <Button onClick$={() => deckStore.view = "simple"}>Full</Button>
-            <Button onClick$={() => deckStore.view = "pro"}>Pro</Button>
-          </div>
-        </Menu>
-      </div>
-      <DeckImporter isOpen={isImportOpen.value} onClose={handleCloseImportDialog}/>
-    </div>
-  )
+    )
 });

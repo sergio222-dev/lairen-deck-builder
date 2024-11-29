@@ -26,7 +26,7 @@ export const Menu = component$<MenuProps>(({ onClick, right }) => {
         }
       </button>
       <div
-        class="absolute ring-2 ring-primary mx-0.5 p-2 mt-0.5 rounded min-w-max w-full bg-primary text-white"
+        class="absolute z-10 ring-2 ring-primary mx-0.5 p-2 mt-0.5 rounded min-w-max w-full bg-primary text-white"
         style={{ display: isOpen.value ? 'block' : 'none', ...(right ? { right: 0} : {}) }}>
         <Slot/>
       </div>
