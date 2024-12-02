@@ -31,7 +31,7 @@ export const CardPreview = component$(() => {
                 class="absolute right-8 top-8 cursor-pointer rounded-full p-2 transition duration-300 ease-in-out hover:bg-secondary"
                 onClick$={handleCloseDialog}
             >
-                <Icon name="close" width={32} height={32} class="fill-white" />
+                <Icon name="close" width={32} height={32} class="z-10 fill-white" />
             </ButtonIcon>
 
             {/* Card Detail Container */}

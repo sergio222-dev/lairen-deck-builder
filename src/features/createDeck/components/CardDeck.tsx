@@ -28,7 +28,7 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
     return (
         <div class="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.5rem)] md:w-[calc(100%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-[calc(33%-0.5rem)] 2xl:w-[calc(33%-0.5rem)]">
             <div
-                class={`group select-none relative aspect-[2.5/3.5] cursor-pointer rounded-card bg-[length:100%_auto] bg-[50%_25%]
+                class={`select-none relative aspect-[2.5/3.5] cursor-pointer rounded-card bg-[length:100%_auto] bg-[50%_25%]
        bg-no-repeat ring-secondary transition-all hover:animate-wiggle hover:bg-[length:100%_auto] hover:shadow-[0px_0px_10px_3px] hover:shadow-secondary hover:ring-1`}
                 key={card.id}
                 style={{
@@ -39,7 +39,7 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
                 onClick$={() => d.addCard(card, false)}
             >
                 <div
-                    class="absolute right-2 top-2 z-10 flex h-12 w-12 ring-2 ring-secondary cursor-pointer items-center justify-center rounded-full bg-white bg-opacity-75 opacity-0 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-opacity-90 group-hover:opacity-100"
+                    class="absolute right-2 top-2 z-10 flex h-12 w-12 ring-2 ring-secondary cursor-pointer items-center justify-center rounded-full bg-white bg-opacity-75 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-opacity-90"
                     onClick$={(event) => {
                         void cardViewer.setCard(card);
                         cardViewer.isOpen = true;
