@@ -32,7 +32,7 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
       class="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.5rem)] md:w-[calc(100%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-[calc(33%-0.5rem)] 2xl:w-[calc(33%-0.5rem)]">
 
       <div
-        class={`
+        class={`hover:animate-wiggle cursor-pointer
        transition-all hover:bg-[length:100%_auto] hover:ring-4
       ring-2 aspect-[2.5/3.5] bg-no-repeat bg-[length:100%_auto] bg-[50%_25%] relative rounded-[5%/3.571428571428571%]`}
         key={card.id}

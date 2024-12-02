@@ -6,7 +6,26 @@ export default {
       colors: {
         primary: 'var(--qwik-primary)',
         secondary: 'var(--qwik-secondary)',
-      }
+      },
+      animation: {
+        wiggle: 'wiggle 0.45s cubic-bezier(0.34, 0.12, 0.34, 1.07)',
+      },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': {
+            transform: 'rotate(0deg) translateX(0)',
+          },
+          '25%': {
+            transform: 'rotate(1deg) translateX(1px)',
+          },
+          '55%': {
+            transform: 'rotate(-0.75deg) translateX(-1px)',
+          },
+          '100%': {
+            transform: 'rotate(0deg) translateX(0)',
+          },
+        },
+      },
     },
   },
   plugins: [],
