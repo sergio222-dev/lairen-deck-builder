@@ -207,7 +207,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <div class="flex flex-wrap gap-2">
               {costFilters.map(f => (
                 <button
-                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
+                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
@@ -221,7 +221,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <div class="flex flex-wrap gap-2">
               {typeFilters.map(f => (
                 <button
-                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
+                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
@@ -235,7 +235,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <div class="flex flex-wrap gap-2">
               {subTypeFilters.map(f => (
                 <button
-                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
+                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
@@ -249,7 +249,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <div class="flex flex-wrap gap-2">
               {setFilters.map(f => (
                 <button
-                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
+                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
@@ -263,7 +263,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
             <div class="flex flex-wrap gap-2">
               {rarityFilters.map(f => (
                 <button
-                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1 
+                  class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
                   ${isFilterInList(f) ? 'bg-primary text-white' : ''}`}
                   key={f.id}
                   onClick$={() => handleAddDialogFilter(f)}
