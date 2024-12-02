@@ -51,7 +51,7 @@ export const CardPreview = component$(() => {
                     <div class="w-full text-white md:w-1/2">
                         <h1 class="mb-4 text-3xl font-semibold">{cardViewer.card?.name}</h1>
                         <div class="mb-6">
-                            <span class="text-lg font-bold">Costo:</span>
+                            <span class="text-lg font-bold">Costo:&nbsp;</span>
                             <span class="text-xl font-bold text-secondary">{cardViewer.card?.cost}</span>
                         </div>
                         <p class="text-justify text-lg">{cardViewer.card?.text}</p>
