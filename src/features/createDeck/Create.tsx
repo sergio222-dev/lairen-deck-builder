@@ -29,7 +29,7 @@ export const Create = component$(() => {
           <div>
             <CardFilter mobileListDeckRef={mobileListDeckRef}/>
           </div>
-          <div class="overflow-y-auto py-2" ref={mobileListDeckRef}>
+          <div class="overflow-y-auto pt-4 pb-2 px-2" ref={mobileListDeckRef}>
             <CardListDeck/>
           </div>
         </div>
