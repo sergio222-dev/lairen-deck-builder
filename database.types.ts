@@ -83,7 +83,6 @@ export type Database = {
           subtype2: string
           supertype: string
           text: string
-          thumbnail: string
           type: string
           updated_at: string
         }
@@ -92,14 +91,13 @@ export type Database = {
           created_at?: string
           id?: number
           image?: string
-          name: string
+          name?: string
           rarity?: string
           set?: string
           subtype?: string
           subtype2?: string
           supertype?: string
           text?: string
-          thumbnail?: string
           type?: string
           updated_at?: string
         }
@@ -115,7 +113,6 @@ export type Database = {
           subtype2?: string
           supertype?: string
           text?: string
-          thumbnail?: string
           type?: string
           updated_at?: string
         }
@@ -137,23 +134,14 @@ export type Database = {
           id?: number
           type?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "collections_decks_deck_id_fkey"
-            columns: ["deck_id"]
-            isOneToOne: false
-            referencedRelation: "decks"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       decks: {
         Row: {
           created_at: string
-          deck_face: number | null
           description: string | null
           id: number
-          is_public: boolean
+          isPublic: boolean
           likes: number
           name: string
           owner: string
@@ -163,10 +151,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          deck_face?: number | null
           description?: string | null
           id?: number
-          is_public?: boolean
+          isPublic?: boolean
           likes: number
           name: string
           owner: string
@@ -176,10 +163,9 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          deck_face?: number | null
           description?: string | null
           id?: number
-          is_public?: boolean
+          isPublic?: boolean
           likes?: number
           name?: string
           owner?: string
@@ -189,38 +175,8 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "decks_deck_face_fkey"
-            columns: ["deck_face"]
-            isOneToOne: false
-            referencedRelation: "cards"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      users_likes: {
-        Row: {
-          deck_id: number
-          user_id: string
-        }
-        Insert: {
-          deck_id: number
-          user_id: string
-        }
-        Update: {
-          deck_id?: number
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "users_likes_deck_id_fkey"
-            columns: ["deck_id"]
-            isOneToOne: false
-            referencedRelation: "decks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_likes_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "decks_owner_fkey"
+            columns: ["owner"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -229,27 +185,9 @@ export type Database = {
       }
     }
     Views: {
-      card_rarity: {
+      deck_types: {
         Row: {
-          name: string | null
-        }
-        Relationships: []
-      }
-      card_sets: {
-        Row: {
-          name: string | null
-        }
-        Relationships: []
-      }
-      card_subtypes: {
-        Row: {
-          name: string | null
-        }
-        Relationships: []
-      }
-      card_types: {
-        Row: {
-          name: string | null
+          subtype: string | null
         }
         Relationships: []
       }
@@ -347,3 +285,4 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
+
