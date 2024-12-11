@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -34,6 +35,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      album: {
+        Row: {
+          card: number
+          created_at: string
+          id: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          card: number
+          created_at?: string
+          id?: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          card?: number
+          created_at?: string
+          id?: number
+          isAlternative?: boolean
+          isFoil?: boolean
+          owner?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       card_collection: {
         Row: {
           card_id: number
@@ -83,6 +125,7 @@ export type Database = {
           subtype2: string
           supertype: string
           text: string
+          thumbnail: string
           type: string
           updated_at: string
         }
@@ -91,13 +134,14 @@ export type Database = {
           created_at?: string
           id?: number
           image?: string
-          name?: string
+          name: string
           rarity?: string
           set?: string
           subtype?: string
           subtype2?: string
           supertype?: string
           text?: string
+          thumbnail?: string
           type?: string
           updated_at?: string
         }
@@ -113,6 +157,7 @@ export type Database = {
           subtype2?: string
           supertype?: string
           text?: string
+          thumbnail?: string
           type?: string
           updated_at?: string
         }
@@ -134,14 +179,23 @@ export type Database = {
           id?: number
           type?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "collections_decks_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       decks: {
         Row: {
           created_at: string
+          deck_face: number | null
           description: string | null
           id: number
-          isPublic: boolean
+          is_public: boolean
           likes: number
           name: string
           owner: string
@@ -151,9 +205,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deck_face?: number | null
           description?: string | null
           id?: number
-          isPublic?: boolean
+          is_public?: boolean
           likes: number
           name: string
           owner: string
@@ -163,9 +218,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deck_face?: number | null
           description?: string | null
           id?: number
-          isPublic?: boolean
+          is_public?: boolean
           likes?: number
           name?: string
           owner?: string
@@ -175,19 +231,72 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "decks_owner_fkey"
-            columns: ["owner"]
+            foreignKeyName: "decks_deck_face_fkey"
+            columns: ["deck_face"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users_likes: {
+        Row: {
+          deck_id: number
+          user_id: string
+        }
+        Insert: {
+          deck_id: number
+          user_id: string
+        }
+        Update: {
+          deck_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_likes_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
             referencedColumns: ["id"]
           },
         ]
       }
     }
     Views: {
-      deck_types: {
+      card_rarity: {
         Row: {
-          subtype: string | null
+          name: string | null
+        }
+        Relationships: []
+      }
+      card_sets: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      card_subtypes: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      card_types: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      dominion: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      unit_types: {
+        Row: {
+          name: string | null
         }
         Relationships: []
       }
@@ -286,3 +395,17 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
