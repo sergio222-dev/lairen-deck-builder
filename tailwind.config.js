@@ -8,7 +8,7 @@ export default {
         secondary: "var(--qwik-secondary)",
       },
       animation: {
-        wiggle: "wiggle 0.45s cubic-bezier(0.34, 0.12, 0.34, 1.07)",
+        wiggle: "wiggle 0.25s cubic-bezier(0.34, 0.12, 0.34, 1.07)",
       },
       keyframes: {
         wiggle: {
