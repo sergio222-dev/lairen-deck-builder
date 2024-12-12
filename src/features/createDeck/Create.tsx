@@ -1,6 +1,5 @@
 import { component$, useContextProvider, useSignal } from '@builder.io/qwik';
 import { Button }                                    from "~/components/button";
-
 import { CardFilter }                                from '~/features/cards';
 import { CardDeckInfo }                              from '~/features/createDeck/components/CardDeckInfo';
 import { CardListDeck }                              from '~/features/createDeck/components/CardListDeck';
@@ -30,7 +29,7 @@ export const Create = component$(() => {
           <div>
             <CardFilter mobileListDeckRef={mobileListDeckRef}/>
           </div>
-          <div class="overflow-y-auto py-2" ref={mobileListDeckRef}>
+          <div class="overflow-y-auto pt-4 pb-2 px-2" ref={mobileListDeckRef}>
             <CardListDeck/>
           </div>
         </div>

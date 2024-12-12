@@ -30,7 +30,7 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
 
   return (
     <div>
-      <div class="flex items-center justify-between py-2">
+      <div class="flex items-center justify-between pt-2">
         <div class="flex flex-1 justify-between lg:hidden">
           <a
             href="#"
