@@ -40,11 +40,11 @@ export const CardDeck = component$<CardDeckProps>(({ card }) => {
             >
                 <div
                     class="absolute right-2 top-2 z-10 flex h-12 w-12 ring-2 ring-secondary cursor-pointer items-center justify-center rounded-full bg-white bg-opacity-75 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-opacity-90"
-                    onClick$={(event) => {
+                    onClick$={() => {
                         void cardViewer.setCard(card);
                         cardViewer.isOpen = true;
-                        event.stopPropagation();
                     }}
+                    stoppropagation:click
                 >
                     <Icon name="magnifying-glass" height={28} width={28} class={"fill-secondary"} />
                 </div>
