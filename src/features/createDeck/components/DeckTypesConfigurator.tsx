@@ -27,48 +27,49 @@ export const DeckTypesConfigurator = component$(() => {
     });
 
     return (
-        <Menu>
-            <div q:slot="label">Deck Types</div>
-            <div class="flex gap-2 text-black">
-                {/* Dropdown for the first type */}
-                <select
-                    value={type1.value || ""}
-                    onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
-                    class="rounded border p-2"
-                >
-                    <option value="">Select Type 1</option>
-                    {deckTypes.value.map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </select>
+        <div class="flex gap-2 items-center">
+            <Menu>
+                <div q:slot="label">Deck Types</div>
+                <div class="flex gap-2 text-black">
+                    {/* Dropdown for the first type */}
+                    <select
+                        value={type1.value || ""}
+                        onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
+                        class="rounded border p-2"
+                    >
+                        <option value="">Select Type 1</option>
+                        {deckTypes.value.map((type) => (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        ))}
+                    </select>
 
-                {/* Dropdown for the second type */}
-                <select
-                    value={type2.value || ""}
-                    onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
-                    class="rounded border p-2"
-                >
-                    <option value="">Select Type 2</option>
-                    {deckTypes.value.map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
+                    {/* Dropdown for the second type */}
+                    <select
+                        value={type2.value || ""}
+                        onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
+                        class="rounded border p-2"
+                    >
+                        <option value="">Select Type 2</option>
+                        {deckTypes.value.map((type) => (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </Menu>
             {/* Validation Status */}
-            <div class="mt-4">
+            <div>
                 {deckStore.isDeckIgnored ? (
-                        <span class="text-yellow-500">⚠ Deck is ignored</span>
+                    <span class="text-yellow-500">⚠ Deck is ignored</span>
                 ) : deckStore.isDeckValid ? (
-                        <span class="text-green-500">✔ Deck is valid</span>
+                    <span class="text-green-500">✔ Deck is valid</span>
                 ) : (
-                        <span class="text-red-500">✖ Invalid deck</span>
+                    <span class="text-red-500">✖ Invalid deck</span>
                 )}
             </div>
-        </Menu>
+        </div>
     );
 });

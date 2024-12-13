@@ -97,7 +97,7 @@ export const CardDeckInfo = component$(() => {
   return (
     <div class="p-2 shadow-lg">
       <div class="flex justify-between">
-        <div>Budget: <span style={{ color: colorLevelDeck.value }}> {costLevelDeck.value}</span></div>
+        <div>Budget: <span style={{ color: colorLevelDeck.value }}>{costLevelDeck.value}</span> </div>
         <div>
           <Switch name="show-info" value={showInfo.value} onChange={handleShowInfo}/>
           Info
@@ -106,7 +106,6 @@ export const CardDeckInfo = component$(() => {
           <p class="text-center">Cards: {deckTotalCards.value}</p>
         </div>
       </div>
-
 
       {showInfo.value ? <ManaCurve deckData={deckData} /> : <></>}
 

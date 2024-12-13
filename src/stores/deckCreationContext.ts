@@ -32,8 +32,8 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
     types: useUnitTypeLoader(),
 
     validateDeck: $(async function (this) {
-      const mainSubtype = this.subType1; // Primer subtipo seleccionado por el usuario
-      const secondarySubtype = this.subType2; // Segundo subtipo seleccionado por el usuario
+      const mainSubtype = this.subType1;
+      const secondarySubtype = this.subType2;
       const masterDeckCards = Object.values(this.deckData.masterDeck);
 
       this.isDeckValid = false;
@@ -41,11 +41,11 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
 
       const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
       if (totalCards < 45 || totalCards > 60) {
-        return; // Si no cumple con la cantidad de cartas, el mazo es inválido
+        return;
       }
 
       if (!mainSubtype && !secondarySubtype) {
-        this.isDeckIgnored = true; // Si no hay tipos seleccionados, el mazo es ignorado
+        this.isDeckIgnored = true;
         return;
       }
 
