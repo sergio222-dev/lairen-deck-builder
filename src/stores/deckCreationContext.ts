@@ -2,7 +2,9 @@ import { $, createContextId, useStore }  from '@builder.io/qwik';
 import { deleteDeck }                    from '~/features/createDeck/server/deleteDeck';
 import { saveDeck }                      from '~/features/createDeck/server/saveDeck';
 import { fetchDeckImport }               from "~/features/importer/server/fetchDeckImport";
+import { Card }                          from '~/models/Card';
 import type { DeckState }                from "~/models/Deck";
+import { useUnitTypeLoader }             from '~/providers/loaders/cards';
 import type { DeckCreationContextState } from "~/stores/models/DeckCrationModels";
 import { parseToImportCardsItem }        from "~/utils/parser";
 
@@ -23,6 +25,64 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       ...(deckData ?? initialDeckData)
     },
     view:         'simple',
+    isDeckValid:  false,
+    isDeckIgnored: true,
+    subType1:     null,
+    subType2:     null,
+    types: useUnitTypeLoader(),
+
+    validateDeck: $(async function (this) {
+      const mainSubtype = this.subType1; // Primer subtipo seleccionado por el usuario
+      const secondarySubtype = this.subType2; // Segundo subtipo seleccionado por el usuario
+      const masterDeckCards = Object.values(this.deckData.masterDeck);
+
+      this.isDeckValid = false;
+      this.isDeckIgnored = false;
+
+      const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
+      if (totalCards < 45 || totalCards > 60) {
+        return; // Si no cumple con la cantidad de cartas, el mazo es inválido
+      }
+
+      console.log(masterDeckCards);
+
+      if (!mainSubtype && !secondarySubtype) {
+        this.isDeckIgnored = true; // Si no hay tipos seleccionados, el mazo es ignorado
+        return;
+      }
+
+      const isCardValid = (card: Card) => {
+
+        // Ignore "RAPIDA", "-" and "COMUN" and evaluate the second subtype if it is present
+        const cardSubtypes = [card.subtype, card.subtype2].filter(
+          (subtype) => subtype && subtype !== "RAPIDA" && subtype !== "-" && subtype !== "COMUN"
+        );
+
+        // If card type is action, monumento or arma without subtype, it is always valid
+        if (["ACCION", "MONUMENTO", "ARMA"].includes(card.type) && cardSubtypes.length === 0) {
+          return true;
+        }
+
+        // If one of the selected deck types is mimetico, the deck only allows mimetico cards
+        if (mainSubtype === "MIMETICO" || secondarySubtype === "MIMETICO") {
+          return cardSubtypes.includes("MIMETICO");
+        }
+
+        // If one of the selected deck types is NOT mimetico, mimetico cards are always valid
+        if (cardSubtypes.includes("MIMETICO")) {
+          return true;
+        }
+
+        // Check every deck card to match subtypes with selected deck types
+        return cardSubtypes.some(
+          (subtype) => subtype === mainSubtype || subtype === secondarySubtype
+        );
+      };
+
+      this.isDeckValid = masterDeckCards.every((card) => isCardValid(card));
+
+    }),
+
     addCard:      $(async function (this, card, side = false) {
       if (side) {
         // check if the card is already in the side
@@ -65,6 +125,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           }
         }
       }
+      await this.validateDeck();
     }),
     setSplashArt: $(async function (this, splashArt, cardId) {
       this.deckData.splashArt   = splashArt;
@@ -106,6 +167,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           }
         }
       }
+      await this.validateDeck();
     }),
     createDeck:   $(async function (this) {
       const payload: DeckState = {
