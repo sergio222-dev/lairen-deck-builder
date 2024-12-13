@@ -39,13 +39,13 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       this.isDeckValid = false;
       this.isDeckIgnored = false;
 
-      const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
-      if (totalCards < 45 || totalCards > 60) {
+      if (!mainSubtype && !secondarySubtype) {
+        this.isDeckIgnored = true;
         return;
       }
 
-      if (!mainSubtype && !secondarySubtype) {
-        this.isDeckIgnored = true;
+      const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
+      if (totalCards < 45 || totalCards > 60) {
         return;
       }
 
