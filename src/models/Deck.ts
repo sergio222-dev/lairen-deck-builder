@@ -24,6 +24,8 @@ export interface DeckState {
   description?: string;
   isPrivate: boolean;
   likes: number;
+  subType1: string | null;
+  subType2: string | null;
   splashArt?: string;
   splashArtId?: number;
 }

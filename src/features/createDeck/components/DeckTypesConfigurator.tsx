@@ -1,26 +1,15 @@
-import { $, component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
+import { $, component$, useContext } from "@builder.io/qwik";
 import { Menu } from "~/components/menu";
 import { DeckCreationContext } from "~/stores/deckCreationContext";
 
 export const DeckTypesConfigurator = component$(() => {
     const deckStore = useContext(DeckCreationContext);
 
-    const type1 = useSignal<string | null>(null);
-    const type2 = useSignal<string | null>(null);
-
-    // Fetch deck types using the loader
-    // const types = useUnitTypeLoader();
-    const deckTypes = useSignal<string[]>([]);
-
-    useTask$(() => {
-        deckTypes.value = deckStore.types.value;
-    });
-
     const handleTypeChange = $((type: "subType1" | "subType2", value: string | null) => {
         if (type === "subType1") {
-            deckStore.subType1 = value;
+            deckStore.deckData.subType1 = value;
         } else {
-            deckStore.subType2 = value;
+            deckStore.deckData.subType2 = value;
         }
 
         void deckStore.validateDeck();
@@ -33,14 +22,14 @@ export const DeckTypesConfigurator = component$(() => {
                 <div class="flex gap-3 text-black">
                     {/* Dropdown for the first type */}
                     <select
-                        value={type1.value || ""}
+                        value={deckStore.deckData.subType1 || ""}
                         onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
-                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
+                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-2 focus:ring-secondary"
                     >
                         <option value="" class="text-gray-400">
                             Type 1
                         </option>
-                        {deckTypes.value.map((type) => (
+                        {deckStore.types.value.map((type) => (
                             <option key={type} value={type}>
                                 {type}
                             </option>
@@ -49,14 +38,14 @@ export const DeckTypesConfigurator = component$(() => {
 
                     {/* Dropdown for the second type */}
                     <select
-                        value={type2.value || ""}
+                        value={deckStore.deckData.subType2 || ""}
                         onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
-                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
+                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-2 focus:ring-secondary"
                     >
                         <option value="" class="text-gray-400">
                             Type 2
                         </option>
-                        {deckTypes.value.map((type) => (
+                        {deckStore.types.value.map((type) => (
                             <option key={type} value={type}>
                                 {type}
                             </option>

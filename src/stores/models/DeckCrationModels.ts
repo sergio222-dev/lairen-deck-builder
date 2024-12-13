@@ -16,7 +16,5 @@ export interface DeckCreationContextState {
   isDeckValid: boolean;
   isDeckIgnored: boolean;
   validateDeck: QRL<(this: DeckCreationContextState) => Promise<void>>;
-  subType1: string | null;
-  subType2: string | null;
   types:  Readonly<Signal<string[]>>;
 }

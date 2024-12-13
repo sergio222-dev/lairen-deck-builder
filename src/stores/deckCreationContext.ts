@@ -1,39 +1,39 @@
-import { $, createContextId, useStore }  from '@builder.io/qwik';
-import { deleteDeck }                    from '~/features/createDeck/server/deleteDeck';
-import { saveDeck }                      from '~/features/createDeck/server/saveDeck';
-import { fetchDeckImport }               from "~/features/importer/server/fetchDeckImport";
-import { Card }                          from '~/models/Card';
-import type { DeckState }                from "~/models/Deck";
-import { useUnitTypeLoader }             from '~/providers/loaders/cards';
+import { $, createContextId, useStore } from "@builder.io/qwik";
+import { deleteDeck } from "~/features/createDeck/server/deleteDeck";
+import { saveDeck } from "~/features/createDeck/server/saveDeck";
+import { fetchDeckImport } from "~/features/importer/server/fetchDeckImport";
+import type { Card } from "~/models/Card";
+import type { DeckState } from "~/models/Deck";
+import { useUnitTypeLoader } from "~/providers/loaders/cards";
 import type { DeckCreationContextState } from "~/stores/models/DeckCrationModels";
-import { parseToImportCardsItem }        from "~/utils/parser";
+import { parseToImportCardsItem } from "~/utils/parser";
 
 const initialDeckData: DeckState = {
-  id:           0,
-  name:         '',
-  description:  '',
-  isPrivate:    false,
-  likes:        0,
-  masterDeck:   {},
-  sideDeck:     {},
+  id: 0,
+  name: "",
+  description: "",
+  isPrivate: false,
+  likes: 0,
+  masterDeck: {},
+  sideDeck: {},
   treasureDeck: {},
-}
+  subType1: null,
+  subType2: null,
+};
 
 export const useDeckCreationStore = (deckData?: DeckState) => {
   return useStore<DeckCreationContextState>({
-    deckData:     {
-      ...(deckData ?? initialDeckData)
+    deckData: {
+      ...(deckData ?? initialDeckData),
     },
-    view:         'simple',
-    isDeckValid:  false,
+    view: "simple",
+    isDeckValid: false,
     isDeckIgnored: true,
-    subType1:     null,
-    subType2:     null,
     types: useUnitTypeLoader(),
 
     validateDeck: $(async function (this) {
-      const mainSubtype = this.subType1;
-      const secondarySubtype = this.subType2;
+      const mainSubtype = this.deckData.subType1;
+      const secondarySubtype = this.deckData.subType2;
       const masterDeckCards = Object.values(this.deckData.masterDeck);
 
       this.isDeckValid = false;
@@ -44,16 +44,15 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         return;
       }
 
-      const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
-      if (totalCards < 45 || totalCards > 60) {
-        return;
-      }
+      // const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
+      // if (totalCards < 45 || totalCards > 60) {
+      //   return;
+      // }
 
       const isCardValid = (card: Card) => {
-
         // Ignore "RAPIDA", "-" and "COMUN" and evaluate the second subtype if it is present
         const cardSubtypes = [card.subtype, card.subtype2].filter(
-          (subtype) => subtype && subtype !== "RAPIDA" && subtype !== "-" && subtype !== "COMUN"
+          (subtype) => subtype && subtype !== "RAPIDA" && subtype !== "-" && subtype !== "COMUN",
         );
 
         // If card type is action, monumento or arma without subtype, it is always valid
@@ -67,16 +66,13 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         }
 
         // Check every deck card to match subtypes with selected deck types
-        return cardSubtypes.some(
-          (subtype) => subtype === mainSubtype || subtype === secondarySubtype
-        );
+        return cardSubtypes.some((subtype) => subtype === mainSubtype || subtype === secondarySubtype);
       };
 
       this.isDeckValid = masterDeckCards.every((card) => isCardValid(card));
-
     }),
 
-    addCard:      $(async function (this, card, side = false) {
+    addCard: $(async function (this, card, side = false) {
       if (side) {
         // check if the card is already in the side
         const cardInSideDeck = this.deckData.sideDeck[card.id];
@@ -86,13 +82,13 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         } else {
           this.deckData.sideDeck[card.id] = {
             ...card,
-            quantity: 1
-          }
+            quantity: 1,
+          };
         }
       } else {
         // if the card is a treasure, add to treasures
         // TODO use constant here
-        if (card.type === 'TESORO') {
+        if (card.type === "TESORO") {
           // check if the card is already in the treasures
           const cardInTreasureDeck = this.deckData.treasureDeck[card.id];
 
@@ -101,8 +97,8 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           } else {
             this.deckData.treasureDeck[card.id] = {
               ...card,
-              quantity: 1
-            }
+              quantity: 1,
+            };
           }
         } else {
           // check if the card is already in the deck
@@ -113,18 +109,18 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           } else {
             this.deckData.masterDeck[card.id] = {
               ...card,
-              quantity: 1
-            }
+              quantity: 1,
+            };
           }
         }
       }
       await this.validateDeck();
     }),
     setSplashArt: $(async function (this, splashArt, cardId) {
-      this.deckData.splashArt   = splashArt;
+      this.deckData.splashArt = splashArt;
       this.deckData.splashArtId = cardId;
     }),
-    removeCard:   $(async function (this, card, side = false) {
+    removeCard: $(async function (this, card, side = false) {
       // just remove one copy
       if (side) {
         const cardInSideDeck = this.deckData.sideDeck[card.id];
@@ -137,8 +133,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         }
       } else {
         // if the card is a treasure, remove from treasures
-        if (card.type === 'TESORO') {
-
+        if (card.type === "TESORO") {
           const cardInTreasureDeck = this.deckData.treasureDeck[card.id];
 
           if (cardInTreasureDeck) {
@@ -162,7 +157,7 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
       }
       await this.validateDeck();
     }),
-    createDeck:   $(async function (this) {
+    createDeck: $(async function (this) {
       const payload: DeckState = {
         ...this.deckData,
       };
@@ -182,29 +177,29 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
 
       await deleteDeck(deckId);
     }),
-    cleanDeck:    $(async function (this, partial = false) {
+    cleanDeck: $(async function (this, partial = false) {
       if (partial) {
         this.deckData = {
           ...this.deckData,
-          masterDeck:   {},
-          sideDeck:     {},
+          masterDeck: {},
+          sideDeck: {},
           treasureDeck: {},
         };
       } else {
         this.deckData = initialDeckData;
       }
     }),
-    importDeck:   $(async function (this, deckString) {
+    importDeck: $(async function (this, deckString) {
       const deck = await fetchDeckImport(parseToImportCardsItem(deckString));
 
       this.deckData = {
         ...this.deckData,
-        masterDeck:   deck.masterDeck,
-        sideDeck:     deck.sideDeck,
+        masterDeck: deck.masterDeck,
+        sideDeck: deck.sideDeck,
         treasureDeck: deck.treasureDeck,
       };
     }),
   });
 };
 
-export const DeckCreationContext = createContextId<DeckCreationContextState>('deck-creation-context');
+export const DeckCreationContext = createContextId<DeckCreationContextState>("deck-creation-context");
