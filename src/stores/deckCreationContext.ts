@@ -44,8 +44,6 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         return; // Si no cumple con la cantidad de cartas, el mazo es inválido
       }
 
-      console.log(masterDeckCards);
-
       if (!mainSubtype && !secondarySubtype) {
         this.isDeckIgnored = true; // Si no hay tipos seleccionados, el mazo es ignorado
         return;

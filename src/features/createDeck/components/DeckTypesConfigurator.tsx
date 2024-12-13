@@ -23,8 +23,6 @@ export const DeckTypesConfigurator = component$(() => {
             deckStore.subType2 = value;
         }
 
-        console.log(deckStore.subType1, deckStore.subType2);
-
         void deckStore.validateDeck();
     });
 
