@@ -30,12 +30,12 @@ export const DeckTypesConfigurator = component$(() => {
         <div class="flex items-center gap-2">
             <Menu>
                 <div q:slot="label">Deck Types</div>
-                <div class="flex gap-2 text-black">
+                <div class="flex gap-3 text-black">
                     {/* Dropdown for the first type */}
                     <select
                         value={type1.value || ""}
                         onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
-                        class="w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
+                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
                     >
                         <option value="" class="text-gray-400">
                             Type 1
@@ -51,7 +51,7 @@ export const DeckTypesConfigurator = component$(() => {
                     <select
                         value={type2.value || ""}
                         onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
-                        class="w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
+                        class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
                     >
                         <option value="" class="text-gray-400">
                             Type 2
