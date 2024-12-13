@@ -27,7 +27,7 @@ export const DeckTypesConfigurator = component$(() => {
     });
 
     return (
-        <div class="flex gap-2 items-center">
+        <div class="flex items-center gap-2">
             <Menu>
                 <div q:slot="label">Deck Types</div>
                 <div class="flex gap-2 text-black">
@@ -35,9 +35,11 @@ export const DeckTypesConfigurator = component$(() => {
                     <select
                         value={type1.value || ""}
                         onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
-                        class="rounded border p-2"
+                        class="w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
                     >
-                        <option value="">Select Type 1</option>
+                        <option value="" class="text-gray-400">
+                            Type 1
+                        </option>
                         {deckTypes.value.map((type) => (
                             <option key={type} value={type}>
                                 {type}
@@ -49,9 +51,11 @@ export const DeckTypesConfigurator = component$(() => {
                     <select
                         value={type2.value || ""}
                         onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
-                        class="rounded border p-2"
+                        class="w-full rounded-lg border-2 border-gray-300 bg-white p-3 text-sm shadow-sm transition focus:outline-none focus:ring-secondary focus:ring-2"
                     >
-                        <option value="">Select Type 2</option>
+                        <option value="" class="text-gray-400">
+                            Type 2
+                        </option>
                         {deckTypes.value.map((type) => (
                             <option key={type} value={type}>
                                 {type}
