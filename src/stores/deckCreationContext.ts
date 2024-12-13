@@ -2,9 +2,8 @@ import { $, createContextId, useStore } from "@builder.io/qwik";
 import { deleteDeck } from "~/features/createDeck/server/deleteDeck";
 import { saveDeck } from "~/features/createDeck/server/saveDeck";
 import { fetchDeckImport } from "~/features/importer/server/fetchDeckImport";
-import type { Card } from "~/models/Card";
-import type { DeckState } from "~/models/Deck";
-import { useUnitTypeLoader } from "~/providers/loaders/cards";
+import type { DeckCard, DeckState } from "~/models/Deck";
+import { useUnitTypeLoader }        from "~/providers/loaders/cards";
 import type { DeckCreationContextState } from "~/stores/models/DeckCrationModels";
 import { parseToImportCardsItem } from "~/utils/parser";
 
@@ -49,11 +48,15 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         return;
       }
 
-      const isCardValid = (card: Card) => {
+      const isCardValid = (card: DeckCard) => {
         // Ignore "RAPIDA", "-" and "COMUN" and evaluate the second subtype if it is present
         const cardSubtypes = [card.subtype, card.subtype2].filter(
           (subtype) => subtype && subtype !== "RAPIDA" && subtype !== "-" && subtype !== "COMUN",
         );
+
+        if (card.quantity > 4) {
+          return false;
+        }
 
         // If card type is action, monumento or arma without subtype, it is always valid
         if (["ACCION", "MONUMENTO", "ARMA"].includes(card.type) && cardSubtypes.length === 0) {

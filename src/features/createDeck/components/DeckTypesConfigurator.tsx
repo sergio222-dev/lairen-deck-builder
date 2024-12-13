@@ -15,6 +15,8 @@ export const DeckTypesConfigurator = component$(() => {
         void deckStore.validateDeck();
     });
 
+    console.log(deckStore.deckData.subType1, deckStore.deckData.subType2);
+
     return (
         <div class="flex items-center gap-2">
             <Menu>
@@ -22,7 +24,6 @@ export const DeckTypesConfigurator = component$(() => {
                 <div class="flex gap-3 text-black">
                     {/* Dropdown for the first type */}
                     <select
-                        value={deckStore.deckData.subType1 || ""}
                         onChange$={(e) => handleTypeChange("subType1", (e.target as HTMLSelectElement).value || null)}
                         class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-2 focus:ring-secondary"
                     >
@@ -30,7 +31,7 @@ export const DeckTypesConfigurator = component$(() => {
                             Type 1
                         </option>
                         {deckStore.types.value.map((type) => (
-                            <option key={type} value={type}>
+                            <option selected={deckStore.deckData.subType1 === type} key={type} value={type}>
                                 {type}
                             </option>
                         ))}
@@ -38,7 +39,6 @@ export const DeckTypesConfigurator = component$(() => {
 
                     {/* Dropdown for the second type */}
                     <select
-                        value={deckStore.deckData.subType2 || ""}
                         onChange$={(e) => handleTypeChange("subType2", (e.target as HTMLSelectElement).value || null)}
                         class="w-full rounded-lg bg-white p-2 text-sm shadow-sm transition focus:outline-none focus:ring-2 focus:ring-secondary"
                     >
@@ -46,7 +46,7 @@ export const DeckTypesConfigurator = component$(() => {
                             Type 2
                         </option>
                         {deckStore.types.value.map((type) => (
-                            <option key={type} value={type}>
+                            <option selected={deckStore.deckData.subType2 === type} key={type} value={type}>
                                 {type}
                             </option>
                         ))}

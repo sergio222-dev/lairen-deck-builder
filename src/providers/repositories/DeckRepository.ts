@@ -63,6 +63,8 @@ export class DeckRepository {
       owner:       auth.user.id,
       is_public:   data.isPrivate, // TODO: change the column name to is_private
       likes:       0,
+      type1: data.subType1,
+      type2: data.subType2,
       ...data.splashArtId ? { deck_face: data.splashArtId } : {},
       ...data.id ? { id: data.id } : { created_at: (new Date()).toISOString() }
     })
@@ -302,7 +304,9 @@ export class DeckRepository {
       isPrivate:   false,
       likes:       0,
       splashArt:   undefined,
-      splashArtId: undefined
+      splashArtId: undefined,
+      subType1: null,
+      subType2: null
     }
   }
 
@@ -391,7 +395,9 @@ export class DeckRepository {
       sideDeck,
       treasureDeck,
       splashArt:   deckFace,
-      splashArtId: data.deck_face ?? undefined
+      splashArtId: data.deck_face ?? undefined,
+      subType1: data.type1,
+      subType2: data.type2
     };
   }
 
