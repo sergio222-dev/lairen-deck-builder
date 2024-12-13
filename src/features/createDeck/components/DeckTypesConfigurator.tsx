@@ -15,8 +15,6 @@ export const DeckTypesConfigurator = component$(() => {
         void deckStore.validateDeck();
     });
 
-    console.log(deckStore.deckData.subType1, deckStore.deckData.subType2);
-
     return (
         <div class="flex items-center gap-2">
             <Menu>
