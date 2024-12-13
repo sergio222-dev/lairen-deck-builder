@@ -61,11 +61,6 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
           return true;
         }
 
-        // If one of the selected deck types is mimetico, the deck only allows mimetico cards
-        if (mainSubtype === "MIMETICO" || secondarySubtype === "MIMETICO") {
-          return cardSubtypes.includes("MIMETICO");
-        }
-
         // If one of the selected deck types is NOT mimetico, mimetico cards are always valid
         if (cardSubtypes.includes("MIMETICO")) {
           return true;
