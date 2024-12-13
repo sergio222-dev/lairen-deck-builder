@@ -44,10 +44,10 @@ export const useDeckCreationStore = (deckData?: DeckState) => {
         return;
       }
 
-      // const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
-      // if (totalCards < 45 || totalCards > 60) {
-      //   return;
-      // }
+      const totalCards = masterDeckCards.reduce((sum, card) => sum + card.quantity, 0);
+      if (totalCards < 45 || totalCards > 60) {
+        return;
+      }
 
       const isCardValid = (card: Card) => {
         // Ignore "RAPIDA", "-" and "COMUN" and evaluate the second subtype if it is present
