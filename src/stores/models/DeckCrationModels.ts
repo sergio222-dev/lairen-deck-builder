@@ -1,5 +1,5 @@
-import type { QRL }  from "@builder.io/qwik";
-import type { Card } from "~/models/Card";
+import type { QRL, Signal } from '@builder.io/qwik';
+import type { Card }        from "~/models/Card";
 import type { DeckState } from "~/models/Deck";
 export type CardDeckInfoView = 'pro' | 'simple';
 
@@ -13,4 +13,8 @@ export interface DeckCreationContextState {
   deleteDeck: QRL<(this: DeckCreationContextState) => Promise<void>>;
   cleanDeck: QRL<(this: DeckCreationContextState, partial?: boolean) => Promise<void>>;
   importDeck: QRL<(this: DeckCreationContextState, deckString: string) => Promise<void>>;
+  isDeckValid: boolean;
+  isDeckIgnored: boolean;
+  validateDeck: QRL<(this: DeckCreationContextState) => Promise<void>>;
+  types:  Readonly<Signal<string[]>>;
 }

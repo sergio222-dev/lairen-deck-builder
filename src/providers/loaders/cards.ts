@@ -28,6 +28,12 @@ export const useSetLoader = routeLoader$<string[]>(async (request) => {
 });
 
 // eslint-disable-next-line qwik/loader-location
+export const useUnitTypeLoader = routeLoader$<string[]>(async (request) => {
+  const cardRepo = new CardRepository(request);
+  return await cardRepo.getViewCard("unit_types")
+});
+
+// eslint-disable-next-line qwik/loader-location
 export const useCardsLoader = routeLoader$(async (requestEnv) => {
   try {
     const cardRepo = new CardRepository(requestEnv);

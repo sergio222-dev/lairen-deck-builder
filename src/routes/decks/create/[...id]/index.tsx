@@ -6,7 +6,7 @@ import { createClientServer }    from '~/lib/supabase-qwik';
 import type { DeckState }        from "~/models/Deck";
 import { DeckRepository }        from '~/providers/repositories/DeckRepository';
 
-export { useSubtypeLoader, useCardDeckLoader, useTypeLoader, useRarityLoader, useSetLoader } from '~/providers/loaders/cards';
+export { useSubtypeLoader, useCardDeckLoader, useTypeLoader, useRarityLoader, useSetLoader, useUnitTypeLoader } from '~/providers/loaders/cards';
 
 export const useDeckLoader = routeLoader$<DeckState | undefined>(async (requestEnv) => {
   const supabaseServer = createClientServer(requestEnv);

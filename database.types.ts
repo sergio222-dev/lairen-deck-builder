@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -34,6 +35,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      album: {
+        Row: {
+          card: number
+          created_at: string
+          id: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          card: number
+          created_at?: string
+          id?: number
+          isAlternative: boolean
+          isFoil: boolean
+          owner: string
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          card?: number
+          created_at?: string
+          id?: number
+          isAlternative?: boolean
+          isFoil?: boolean
+          owner?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       card_collection: {
         Row: {
           card_id: number
@@ -218,13 +260,6 @@ export type Database = {
             referencedRelation: "decks"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "users_likes_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
@@ -248,6 +283,18 @@ export type Database = {
         Relationships: []
       }
       card_types: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      dominion: {
+        Row: {
+          name: string | null
+        }
+        Relationships: []
+      }
+      unit_types: {
         Row: {
           name: string | null
         }
@@ -346,4 +393,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
