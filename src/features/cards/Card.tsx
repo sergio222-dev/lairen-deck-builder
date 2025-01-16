@@ -1,4 +1,5 @@
 import { component$, useContextProvider } from '@builder.io/qwik';
+import { Link }                           from '@builder.io/qwik-city';
 import { useCardsLoader }                 from '~/routes/cards';
 import { CardFilter }                     from './components/CardFilter';
 import { CardList }                       from './components/CardList';
@@ -13,8 +14,11 @@ export const Card = component$(() => {
 
   return (
     <div class="flex flex-col h-full w-full">
-      <div class="p-2">
+      <div class="p-2 flex justify-between items-center">
         <CardFilter/>
+        <Link href="/card-collection" class="text-blue-500 hover:underline">
+          View Card Collection
+        </Link>
       </div>
       <div class="flex-1 overflow-y-auto">
         <CardList/>
