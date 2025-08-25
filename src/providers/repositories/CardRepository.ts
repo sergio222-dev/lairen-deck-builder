@@ -7,7 +7,7 @@ import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Filter";
 import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
 
-type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity" | "unit_types";
+type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity" | "unit_types" | "card_supertypes";
 
 export class CardRepository {
 
@@ -93,6 +93,9 @@ export class CardRepository {
     let table: View;
 
     switch (view) {
+      case "card_supertypes":
+        table = "card_supertypes";
+        break;
       case "card_types":
         table = "card_types";
         break;
