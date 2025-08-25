@@ -17,8 +17,6 @@ export class KVBagService implements BagService {
     const ctx       = container.getService<ContextService>('context-service')
       .getContext() as unknown as RequestEventLoader;
 
-    console.log(ctx.platform.env);
-
     return await ctx.platform.env?.[ctx.platform.env['KV_NS']]?.get(key);
   }
 }
