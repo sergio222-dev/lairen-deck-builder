@@ -4,6 +4,12 @@ import { CardRepository }   from '~/providers/repositories/CardRepository';
 import { getDefaultFilter } from '~/utils/cardFilters';
 
 // eslint-disable-next-line qwik/loader-location
+export const useSuperTypeLoader = routeLoader$<string[]>(async (request) => {
+  const cardRepo = new CardRepository(request);
+  return await cardRepo.getViewCard("card_supertypes")
+});
+
+// eslint-disable-next-line qwik/loader-location
 export const useSubtypeLoader = routeLoader$<string[]>(async (request) => {
   const cardRepo = new CardRepository(request);
   return await cardRepo.getViewCard("card_subtypes")
