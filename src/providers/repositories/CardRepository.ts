@@ -1,13 +1,25 @@
 import type { RequestEventBase, RequestEventLoader }   from '@builder.io/qwik-city';
 // @ts-ignore
-import type PostgrestTransformBuilder                  from "@supabase/postgrest-js/src/PostgrestTransformBuilder";
+import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
 import { Logger }                                      from '~/lib/logger';
 import { createClientServer }                          from '~/lib/supabase-qwik';
 import type { Card }                                   from '~/models/Card';
-import { convertFiltersToExpression, convertToFilter } from "~/models/filters/Filter";
-import type { FetchCardsPayload }                      from "~/models/infrastructure/FetchCardsPayload";
+import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
+import type { FetchCardsPayload }                      from '~/models/infrastructure/FetchCardsPayload';
 
-type View = "card_types" | "card_subtypes" | "card_sets" | "card_rarity" | "unit_types" | "card_supertypes";
+type View = 'card_types' | 'card_subtypes' | 'card_sets' | 'card_rarity' | 'unit_types' | 'card_supertypes';
+
+const RARITY_ORDER = ['BRONCE', 'PLATA', 'ORO', 'DIAMANTE', 'ESMERALDA'];
+
+const SET_ORDER = [
+  'FUNDAMENTOS',
+  'PACTO SECRETO',
+  'TRONO COMPARTIDO',
+  'IMPERIO',
+  'ANCESTROS',
+  'PROFUNDIDADES',
+  'HERMANDAD EN BERIN'
+];
 
 export class CardRepository {
 
@@ -87,32 +99,32 @@ export class CardRepository {
     });
   }
 
-  public async getViewCard(view: View): Promise<string[]>{
+  public async getViewCard(view: View): Promise<string[]> {
     const supabase = createClientServer(this.request);
 
     let table: View;
 
     switch (view) {
-      case "card_supertypes":
-        table = "card_supertypes";
+      case 'card_supertypes':
+        table = 'card_supertypes';
         break;
-      case "card_types":
-        table = "card_types";
+      case 'card_types':
+        table = 'card_types';
         break;
-      case "card_subtypes":
-        table = "card_subtypes";
+      case 'card_subtypes':
+        table = 'card_subtypes';
         break;
-      case "card_sets":
-        table = "card_sets";
+      case 'card_sets':
+        table = 'card_sets';
         break;
-      case "card_rarity":
-        table = "card_rarity";
+      case 'card_rarity':
+        table = 'card_rarity';
         break;
-      case "unit_types":
-        table = "unit_types";
+      case 'unit_types':
+        table = 'unit_types';
         break;
       default:
-        table = "card_types";
+        table = 'card_types';
         break;
     }
 
@@ -128,7 +140,7 @@ export class CardRepository {
       return [];
     }
 
-    const values = data.map(c => c.name);
+    const values                      = data.map(c => c.name);
     const valuesWithoutNull: string[] = [];
     // remove null values
     values.forEach(c => {
@@ -137,6 +149,18 @@ export class CardRepository {
       }
     });
 
+    // order alphabetically
+    if (view !== 'card_sets' && view !== 'card_rarity') {
+      valuesWithoutNull.sort((a, b) => a.localeCompare(b));
+    } else if (view === 'card_rarity') {
+      valuesWithoutNull.sort((a, b) => {
+        return RARITY_ORDER.indexOf(a) - RARITY_ORDER.indexOf(b);
+      });
+    } else {
+      valuesWithoutNull.sort((a, b) => {
+        return SET_ORDER.indexOf(a) - SET_ORDER.indexOf(b);
+      });
+    }
     return valuesWithoutNull;
   }
 
@@ -150,7 +174,7 @@ export class CardRepository {
       const [, , value] = convertToFilter(f);
       // query             = query.or(`name.ilike.%${value}%, text.ilike.%${value}%`);
       containsFiltersExpression.push(`name.ilike.%${value}%, text.ilike.%${value}%`);
-    })
+    });
 
     const mapFilters = convertFiltersToExpression(inFilters);
 

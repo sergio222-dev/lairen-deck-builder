@@ -61,7 +61,6 @@ const useSuperTypeFilters = (supertypes: string[]) => {
         }
     });
 
-    console.log(superTypeFilters)
     return superTypeFilters;
 }
 

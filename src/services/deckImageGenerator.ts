@@ -128,7 +128,6 @@ async function printCards(ctx: CanvasRenderingContext2D, cards: DeckCard[], titl
         // console.log(`skipping ${c.name}`);
         continue;
       }
-      console.log(`loading ${c.thumbnail}`);
       const cardFront       = new Image();
       cardFront.crossOrigin = '*';
       cardFront.src         = c.thumbnail;
