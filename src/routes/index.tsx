@@ -7,10 +7,15 @@ export default component$(() => {
                 <div class="absolute right-0 top-0">
                     <GithubLink/>
                 </div>
-                <div class="overflow-auto h-[100%]">
-                    <img
-                            src="https://i.postimg.cc/V6ZN5YC3/1000221481.webp" alt="Clasificatorio"
-                            class="container mx-auto  max-w-[800px] rounded-lg shadow-md"/>
+
+                <div class="flex justify-center">
+                    <div class="mx-auto max-w-md">
+                        <h1 class="text-xl">Anuncio</h1>
+                        <p>
+                            Me da pereza hacer un landing page, así que de momento dejo esto aquí.
+                            Jueguen Guardian que esta lindo.
+                        </p>
+                    </div>
                 </div>
                 {/*<div>*/}
                 {/*    <img*/}
