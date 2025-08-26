@@ -50,7 +50,7 @@ export class CardRepository {
     return count || 0;
   }
 
-  public async getCard(id: string): Promise<Card | null> {
+  public async getCard(id: number): Promise<Card | null> {
     const supabase = createClientServer(this.request);
 
     const query = supabase

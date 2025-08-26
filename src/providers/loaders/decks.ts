@@ -1,7 +1,7 @@
-import { routeLoader$ }   from "@builder.io/qwik-city";
-import type { DeckState } from "~/models/Deck";
-import { DeckRepository } from "~/providers/repositories/DeckRepository";
-import { on }             from "~/utils/go";
+import { routeLoader$ }   from '@builder.io/qwik-city';
+import type { DeckState } from '~/models/Deck';
+import { DeckRepository } from '~/providers/repositories/DeckRepository';
+import { on }             from '~/utils/go';
 
 // eslint-disable-next-line qwik/loader-location
 export const useListPublicDeckLoader = routeLoader$(async (requestEnv) => {
@@ -11,16 +11,17 @@ export const useListPublicDeckLoader = routeLoader$(async (requestEnv) => {
     const decks = await deckRepo.listPublicDecks();
 
     return {
-      decks,
-    }
+      decks
+    };
 
   } catch (e) {
     return {
       decks: []
-    }
+    };
   }
-})
+});
 
+// eslint-disable-next-line qwik/loader-location
 export const useListMyDeckLoader = routeLoader$(async (requestEnv) => {
   const deckRepo = new DeckRepository(requestEnv);
 
@@ -29,19 +30,24 @@ export const useListMyDeckLoader = routeLoader$(async (requestEnv) => {
   if (ok) {
     return {
       decks: []
-    }
+    };
   }
 
   return {
-    decks,
-  }
-})
+    decks
+  };
+});
 
 // eslint-disable-next-line qwik/loader-location
 export const usePublicDeckLoader = routeLoader$<DeckState | undefined>(async (requestEnv) => {
   const deckRepo = new DeckRepository(requestEnv);
 
-  const [deck, error] = await on(deckRepo.getPublicDeck(requestEnv.params.id));
+  if (!requestEnv.params.id) {
+    throw new Error('Deck ID is required');
+  }
+
+  const numberId = parseInt(requestEnv.params.id);
+  const [deck, error] = await on(deckRepo.getPublicDeck(numberId));
 
   if (error) {
     return undefined;

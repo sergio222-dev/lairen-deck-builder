@@ -12,13 +12,13 @@ import { denormalizeEntity, normalizeArray }         from "~/utils/normalize";
 import type { Database }                             from '../../../database.types';
 
 export class DeckRepository {
-  private readonly supabase: SupabaseClient<Database>;
+  private readonly supabase: SupabaseClient<Database, 'public'>;
   private readonly supabaseClient: SupabaseClient<Database>;
 
   constructor(request: RequestEventLoader | RequestEventBase) {
     this.supabase = createClientServer(request);
-    const url     = request.platform?.env?.['SB_API_URL'] ?? request.env.get('SB_API_URL');
-    const secret  = request.platform?.env?.['SB_SECRET_ROLE'] ?? request.env.get('SB_SECRET_ROLE');
+    const url     = request.platform.env?.['SB_API_URL'] ?? request.env.get('SB_API_URL');
+    const secret  = request.platform.env?.['SB_SECRET_ROLE'] ?? request.env.get('SB_SECRET_ROLE');
 
     if (!url || !secret) {
       Logger.error('The ENV variables SB_API_URL and SB_SECRET_ROLE are not setted');
@@ -41,7 +41,7 @@ export class DeckRepository {
     const { data: auth } = await supabase.auth.getUser();
 
     if (!auth.user) {
-      Logger.error('User not authenticated', `${DeckRepository.name} ${this.saveDeck.name}`);
+      Logger.error(`User not authenticated ${DeckRepository.name} ${this.saveDeck.name}`);
       throw new Error('User not authenticated');
     }
 
@@ -50,7 +50,7 @@ export class DeckRepository {
       const { data: decks } = await supabaseClient.from('decks').select().eq('owner', auth.user.id);
 
       if (!decks) {
-        Logger.error('Deck is not owned by the user', `${DeckRepository.name} ${this.saveDeck.name}`);
+        Logger.error(`Deck is not owned by the user ${DeckRepository.name} ${this.saveDeck.name}`);
         throw new Error('Deck is not owned by the user');
       }
     }
@@ -95,7 +95,7 @@ export class DeckRepository {
     const { data: auth } = await supabase.auth.getUser();
 
     if (!auth.user) {
-      Logger.error('User not authenticated', `${DeckRepository.name} ${this.deleteDeck.name}`);
+      Logger.error(`User not authenticated ${DeckRepository.name} ${this.deleteDeck.name}`);
       throw new Error('User not authenticated');
     }
 
@@ -139,7 +139,7 @@ export class DeckRepository {
     };
   }
 
-  public async getPublicDeck(deckId: string): Promise<DeckState> {
+  public async getPublicDeck(deckId: number): Promise<DeckState> {
     const supabase = this.supabaseClient;
 
     const { data, error } = await supabase
