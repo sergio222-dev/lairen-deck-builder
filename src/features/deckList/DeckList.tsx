@@ -1,6 +1,6 @@
 import { component$ }              from "@builder.io/qwik";
 import { DeckCard }                from "~/components/deckCard";
-import { useListPublicDeckLoader } from "~/providers/loaders/decks";
+import { useListPublicDeckLoader } from "~/routes/decks";
 
 export const DeckList = component$(() => {
   const decks = useListPublicDeckLoader();

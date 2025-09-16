@@ -1,19 +1,19 @@
-import { RequestEvent, RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
-import { createBrowserClient, createServerClient }            from '@supabase/ssr';
-import { Database }                                           from "../../database.types";
+import { RequestEvent, RequestEventBase, RequestEventLoader }     from '@builder.io/qwik-city';
+import { CookieOptions, createBrowserClient, createServerClient } from '@supabase/ssr';
+import { Database }                                               from "../../database.types";
 
 export function createClientBrowser() {
   return createBrowserClient<Database>(
     import.meta.env.PUBLIC_SB_API_URL,
-    import.meta.env.PUBLIC_SB_API_KEY
+    import.meta.env.PUBLIC_SB_ANON_KEY
   );
 }
 
 export function createClientServer(request: RequestEvent | RequestEventLoader | RequestEventBase) {
 
-  return createServerClient<Database>(
+  return createServerClient<Database, 'public'>(
     import.meta.env.PUBLIC_SB_API_URL,
-    import.meta.env.PUBLIC_SB_API_KEY,
+    import.meta.env.PUBLIC_SB_ANON_KEY,
     {
       cookies: {
         getAll() {
@@ -26,7 +26,7 @@ export function createClientServer(request: RequestEvent | RequestEventLoader | 
             }
           });
         },
-        setAll(cookies) {
+        setAll(cookies: { name: string; value: string; options: CookieOptions }[]) {
           cookies.forEach(cookie => {
             request.cookie.set(cookie.name, cookie.value, { path: '/' });
           });

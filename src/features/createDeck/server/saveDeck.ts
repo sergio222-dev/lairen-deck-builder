@@ -1,6 +1,6 @@
 import { RequestEventBase, server$, z } from '@builder.io/qwik-city';
+import { DeckRepository }               from '~/app/deck/infrastructure/deck.repository';
 import { DeckState }                    from "~/models/Deck";
-import { DeckRepository }               from '~/providers/repositories/DeckRepository';
 
 type SaveDeckServer = (this: RequestEventBase, deck: DeckState) => Promise<number>
 

@@ -1,5 +1,5 @@
 import { RequestEventBase, server$ } from '@builder.io/qwik-city';
-import { DeckRepository }            from '~/providers/repositories/DeckRepository';
+import { DeckRepository }            from '~/app/deck/infrastructure/deck.repository';
 
 type DeleteDeckServer = (this: RequestEventBase, deckId: number) => Promise<void>;
 

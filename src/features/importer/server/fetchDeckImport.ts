@@ -1,7 +1,7 @@
 import { RequestEventBase, server$ } from "@builder.io/qwik-city";
+import { DeckRepository }            from '~/app/deck/infrastructure/deck.repository';
 import { ImportDeckRequest }         from "~/models/application/ImportCardItem";
 import { DeckState }                 from "~/models/Deck";
-import { DeckRepository }            from "~/providers/repositories/DeckRepository";
 
 type FetchDeckImport = (this: RequestEventBase, deckImportRequest: ImportDeckRequest) => Promise<DeckState>
 

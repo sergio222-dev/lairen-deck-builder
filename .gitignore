@@ -168,3 +168,6 @@ dist
 
 # Cloudflare
 functions/**/*.js
+
+# Supabase
+supabase

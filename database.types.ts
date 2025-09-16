@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -8,11 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "12.2.2 (db9da0b)"
-  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -85,42 +79,6 @@ export type Database = {
           },
         ]
       }
-      card_collection: {
-        Row: {
-          card_id: number
-          collection_id: number
-          id: number
-          quantity: number
-        }
-        Insert: {
-          card_id: number
-          collection_id: number
-          id?: number
-          quantity: number
-        }
-        Update: {
-          card_id?: number
-          collection_id?: number
-          id?: number
-          quantity?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "card_collection_card_id_fkey"
-            columns: ["card_id"]
-            isOneToOne: false
-            referencedRelation: "cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "card_collection_collection_id_fkey"
-            columns: ["collection_id"]
-            isOneToOne: false
-            referencedRelation: "collections_decks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       cards: {
         Row: {
           clarifications: string | null
@@ -175,26 +133,36 @@ export type Database = {
         }
         Relationships: []
       }
-      collections_decks: {
+      deck_card: {
         Row: {
-          deck_id: number
-          id: number
-          type: string
+          card: number | null
+          deck: number | null
+          quantity: number
+          quantity_side: number
         }
         Insert: {
-          deck_id: number
-          id?: number
-          type: string
+          card?: number | null
+          deck?: number | null
+          quantity?: number
+          quantity_side?: number
         }
         Update: {
-          deck_id?: number
-          id?: number
-          type?: string
+          card?: number | null
+          deck?: number | null
+          quantity?: number
+          quantity_side?: number
         }
         Relationships: [
           {
-            foreignKeyName: "collections_decks_deck_id_fkey"
-            columns: ["deck_id"]
+            foreignKeyName: "deck_card_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_card_deck_fkey"
+            columns: ["deck"]
             isOneToOne: false
             referencedRelation: "decks"
             referencedColumns: ["id"]
@@ -206,39 +174,39 @@ export type Database = {
           created_at: string
           deck_face: number | null
           description: string | null
+          guardian: string | null
           id: number
           is_public: boolean
-          likes: number
           name: string
-          owner: string
-          type1: string | null
-          type2: string | null
+          owner: string | null
+          type_1: string | null
+          type_2: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           deck_face?: number | null
           description?: string | null
+          guardian?: string | null
           id?: number
           is_public?: boolean
-          likes: number
           name: string
-          owner: string
-          type1?: string | null
-          type2?: string | null
+          owner?: string | null
+          type_1?: string | null
+          type_2?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           deck_face?: number | null
           description?: string | null
+          guardian?: string | null
           id?: number
           is_public?: boolean
-          likes?: number
           name?: string
-          owner?: string
-          type1?: string | null
-          type2?: string | null
+          owner?: string | null
+          type_1?: string | null
+          type_2?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -288,15 +256,7 @@ export type Database = {
           deck_id?: number
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_likes_deck_id_fkey"
-            columns: ["deck_id"]
-            isOneToOne: false
-            referencedRelation: "decks"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -480,3 +440,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+

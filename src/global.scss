@@ -1,0 +1,64 @@
+/**
+ * Tailwind CSS imports
+ * View the full documentation at https://tailwindcss.com
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    color: white;
+    background-color: #181A1B;
+    height: 100%;
+}
+
+button {
+    color: black;
+}
+
+input {
+    background-color: transparent;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.theme-dark {
+    --qwik-primary: rgb(33 37 41);
+    --qwik-secondary: #E7AE32;
+}
+
+.theme-light {
+    --qwik-primary: #E7AE32;
+    --qwik-secondary: rgb(33 37 41);
+}
+
+
+.card-control {
+  @screen md {
+    .control-button {
+      display: none;
+    }
+
+    .control-art {
+      display: none;
+    }
+
+    &:hover {
+        .control-button {
+            display: flex;
+        }
+
+        .control-art {
+            display: inline;
+        }
+    }
+  }
+
+}

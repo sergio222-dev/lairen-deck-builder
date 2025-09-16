@@ -1,11 +1,15 @@
 import type { RequestEventBase, RequestEventLoader }   from '@builder.io/qwik-city';
 // @ts-ignore
 import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
-import { Logger }                                      from '~/lib/logger';
+import type { SupabaseClient }                         from '@supabase/supabase-js';
+import type { CardInfo } from '~/app/card/models/Card';
+import { Specification } from '~/app/filter/filter/models/Specification';
+import { Logger }        from '~/lib/logger';
 import { createClientServer }                          from '~/lib/supabase-qwik';
 import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
 import type { FetchCardsPayload }                      from '~/models/infrastructure/FetchCardsPayload';
+import type { Database }                               from '../../../../database.types';
 
 type View = 'card_types' | 'card_subtypes' | 'card_sets' | 'card_rarity' | 'unit_types' | 'card_supertypes';
 
@@ -23,14 +27,14 @@ const SET_ORDER = [
 
 export class CardRepository {
 
-  private readonly request: RequestEventLoader | RequestEventBase;
+  private readonly supabase: SupabaseClient<Database, 'public'>;
 
   constructor(request: RequestEventLoader | RequestEventBase) {
-    this.request = request;
+    this.supabase = createClientServer(request);
   }
 
   public async getCount(filter: FetchCardsPayload): Promise<number> {
-    const supabase = createClientServer(this.request);
+    const supabase = this.supabase;
 
     const query = supabase
       .from('cards')
@@ -50,8 +54,37 @@ export class CardRepository {
     return count || 0;
   }
 
+  public async fetchCardDataByDeck(deckId: number): Promise<CardInfo[]> {
+    const supabase = this.supabase;
+
+    const { data, error } = await supabase.from('deck_card').select('cards (*)').eq('deck', deckId)
+
+    if (error) {
+      Logger.error(error, `Error fetching card for deck`)
+      throw new Error('Error fetching card for deck', { cause: error })
+    }
+
+    return data.map(c => {
+      return {
+        id: c.cards!.id,
+        name: c.cards!.name,
+        rarity: c.cards!.rarity,
+        type: c.cards!.type,
+        supertype: c.cards!.supertype,
+        subtype1: c.cards!.subtype,
+        subtype2: c.cards!.subtype2,
+        cost: c.cards!.cost,
+        text: c.cards!.text,
+        image: c.cards!.image,
+        thumbnail: c.cards!.thumbnail,
+        set: c.cards!.set,
+      }
+    });
+
+  }
+
   public async getCard(id: number): Promise<Card | null> {
-    const supabase = createClientServer(this.request);
+    const supabase = this.supabase;
 
     const query = supabase
       .from('cards')
@@ -69,14 +102,12 @@ export class CardRepository {
   }
 
   public async getCardList(filter: FetchCardsPayload): Promise<Card[]> {
-    const supabase = createClientServer(this.request);
+    const supabase = this.supabase;
 
     const query = supabase
       .from('cards')
       .select()
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
-      // .or(`subtype.in.(MAGO,ANIMAL), subtype2.in.(MAGO,ANIMAL)`)
-      // .or(`cost.in.(1)`)
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
     this.addFilters(query, filter);
@@ -100,7 +131,7 @@ export class CardRepository {
   }
 
   public async getViewCard(view: View): Promise<string[]> {
-    const supabase = createClientServer(this.request);
+    const supabase = this.supabase;
 
     let table: View;
 

@@ -1,8 +1,7 @@
 import { RequestEventBase, server$, ServerFunction, z } from '@builder.io/qwik-city';
+import { CardRepository }                               from '~/app/card/infrastructure/card.repository';
 import { Card }                                         from '~/models/Card';
 import { FetchCardsPayload }                            from "~/models/infrastructure/FetchCardsPayload";
-import { cardGetScheme } from "~/models/schemes/cardGet";
-import { CardRepository } from "~/providers/repositories/CardRepository";
 
 interface ServerCardResponse {
     cards: Card[];
