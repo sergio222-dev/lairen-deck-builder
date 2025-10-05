@@ -3,7 +3,6 @@ import type { FilterRepository }    from '~/app/filter/infrastructure/filter.rep
 import type { FilterDefinition }    from '~/UI/filters/models/filterDefinition.model';
 
 export function getFilteredCard(filterRepo: FilterRepository, filters: FilterDefinition[]) {
-
   const specifications = mapFilterToSpecification(filters);
 
   return filterRepo.fetchCards(specifications);

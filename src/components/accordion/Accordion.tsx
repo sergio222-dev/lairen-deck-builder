@@ -15,12 +15,12 @@ export const Accordion = component$<AccordionProps>(({ title, quantity, isExclus
     return (
             <div class="rounded">
                 <hr/>
-                <div class="flex items-center justify-between cursor-pointer hover:bg-primary hover:text-white hover:fill-white">
+                <div class="flex items-center justify-between cursor-pointer hover:bg-primary hover:text-white hover:fill-white gap-2 px-2">
                     <div class="flex-1 px-2 py-4" onClick$={() => isOpen.value = !isOpen.value}>
                         <p class="text-lg font-bold flex-1">{title}</p>
                     </div>
                     {typeof isExclusive !== "undefined" && (
-                            <Button onClick$={() => onExclusive && onExclusive()}>
+                            <Button class="rounded-3xl" onClick$={() => onExclusive && onExclusive()}>
                                 {isExclusive ?
                                         'Exclusivo' :
                                         'Inclusivo'}

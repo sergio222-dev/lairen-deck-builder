@@ -1,3 +1,7 @@
+
+> lairen-deck-builder@ supabase /home/sergio/code/lairen-deck-builder
+> supabase "gen" "types" "--local"
+
 export type Json =
   | string
   | number
@@ -79,6 +83,128 @@ export type Database = {
           },
         ]
       }
+      album_card_tags: {
+        Row: {
+          album_card_id: number | null
+          id: number
+          quantity: number
+          tag_id: number | null
+        }
+        Insert: {
+          album_card_id?: number | null
+          id?: number
+          quantity?: number
+          tag_id?: number | null
+        }
+        Update: {
+          album_card_id?: number | null
+          id?: number
+          quantity?: number
+          tag_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_card_tags_album_card_id_fkey"
+            columns: ["album_card_id"]
+            isOneToOne: false
+            referencedRelation: "album_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_card_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "album_tag"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      album_cards: {
+        Row: {
+          album_id: number
+          card_id: number
+          id: number
+          quantity: number
+        }
+        Insert: {
+          album_id: number
+          card_id: number
+          id?: number
+          quantity?: number
+        }
+        Update: {
+          album_id?: number
+          card_id?: number
+          id?: number
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      album_tag: {
+        Row: {
+          album_id: number
+          id: number
+          name: string
+        }
+        Insert: {
+          album_id: number
+          id?: number
+          name: string
+        }
+        Update: {
+          album_id?: number
+          id?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_tag_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      albums: {
+        Row: {
+          completion: number
+          id: number
+          name: string
+          owner: string | null
+          sets: string[]
+        }
+        Insert: {
+          completion?: number
+          id?: number
+          name: string
+          owner?: string | null
+          sets: string[]
+        }
+        Update: {
+          completion?: number
+          id?: number
+          name?: string
+          owner?: string | null
+          sets?: string[]
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           clarifications: string | null
@@ -135,20 +261,20 @@ export type Database = {
       }
       deck_card: {
         Row: {
-          card: number | null
-          deck: number | null
+          card: number
+          deck: number
           quantity: number
           quantity_side: number
         }
         Insert: {
-          card?: number | null
-          deck?: number | null
+          card: number
+          deck: number
           quantity?: number
           quantity_side?: number
         }
         Update: {
-          card?: number | null
-          deck?: number | null
+          card?: number
+          deck?: number
           quantity?: number
           quantity_side?: number
         }

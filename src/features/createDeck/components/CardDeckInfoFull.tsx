@@ -1,6 +1,6 @@
 import { component$, useContext } from '@builder.io/qwik';
-import { CardDeckControl }       from '~/features/createDeck/components/CardDeckControl';
-import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
+import { CardDeckControl }        from '~/features/createDeck/components/CardDeckControl';
+import { DECK_CREATION_CONTEXT }  from "~/UI/deck/store/deckCreation.store";
 
 export const CardDeckInfoFull = component$(
         () => {

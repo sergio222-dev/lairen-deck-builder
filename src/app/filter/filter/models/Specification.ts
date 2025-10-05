@@ -30,6 +30,7 @@ export interface Specification<T = PostgrestFilterBuilder<any, any, any, any>> {
   apply(query: T): T;
 }
 
+
 export class IlikeSpecification implements Specification<PostgrestFilterBuilder<any, any, any, any>> {
 
   constructor(private fields: string[], private values: string[], private exclusive = true) {
@@ -100,7 +101,7 @@ export class InSpecification implements Specification<PostgrestFilterBuilder<any
       if (this.values.length === 1) {
 
         const o = this.fields.map(f => {
-          return `${f}.in.(${this.values.join(',')})`;
+          return `${f}.in.(${this.values.map(v => `"${v}"`).join(',')})`;
         }).join(',');
 
         void query.or(o);
@@ -118,7 +119,7 @@ export class InSpecification implements Specification<PostgrestFilterBuilder<any
     } else {
 
       const o = this.fields.map(f => {
-        return `${f}.in.(${this.values.join(',')})`;
+        return `${f}.in.(${this.values.map(v => `"${v}"`).join(',')})`;
       }).join(',');
 
       void query.or(o);

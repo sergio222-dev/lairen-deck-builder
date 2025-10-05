@@ -4,12 +4,14 @@ import type { CATEGORY_FILTERS, FilterDefinition } from '~/UI/filters/models/fil
 import type { CardStackItem }                      from '~/UI/shared/models/CardSackItem';
 import type { NormalizedModel }                    from '~/utils/normalize';
 
-export interface FilterStoreState {
+interface FilterInfo {
   filterGroups: NormalizedModel<FilterDefinition>;
   pagination: Page;
   sortBy: Sort;
   count: number;
+}
 
+export interface FilterStoreState extends FilterInfo {
   quantityRarityFilters: number;
   quantityTextFilters: number;
   quantitySetFilters: number;

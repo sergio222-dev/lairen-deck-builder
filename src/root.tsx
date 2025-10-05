@@ -30,7 +30,7 @@ export default component$(() => {
     <QwikCityProvider>
       <head>
         <title>LDB</title>
-        <meta charSet="utf-8" />
+        <meta char-set="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
         <ServiceWorkerRegister />

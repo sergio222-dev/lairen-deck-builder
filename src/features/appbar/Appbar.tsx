@@ -24,7 +24,7 @@ export const Appbar = component$(() => {
 
   return (
     <>
-      <header class="w-full pt-5 pb-2 px-4 bg-primary text-white relative">
+      <header class="w-full py-2 px-4 bg-primary text-white relative">
         <div class="absolute top-0 right-0">
         </div>
         <div class="flex justify-between h-16 items-center">
@@ -85,8 +85,8 @@ export const Appbar = component$(() => {
                             class="flex items-center px-4 ">My decks</Link>
                     </li>
                     <li class="flex">
-                      <Link rel="noopener noreferrer" href="#"
-                            class="flex items-center px-4 ">Collection</Link>
+                      <Link rel="noopener noreferrer" href="/album"
+                            class="flex items-center px-4 ">Album</Link>
                     </li>
                     <li class="flex cursor-pointer">
                       <span onClick$={async () => {

@@ -1,4 +1,4 @@
-name = "local-development"
+name = "lairen-deck-builder"
 main = "./server/entry.cloudflare-pages.js"
 compatibility_date = "2025-08-29"
 

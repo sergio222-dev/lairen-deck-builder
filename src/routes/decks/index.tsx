@@ -1,21 +1,37 @@
-import { component$, useContext } from '@builder.io/qwik';
-import { Link, routeLoader$ }     from '@builder.io/qwik-city';
-import { listPublicDecks }        from "~/app/deck/application/listPublicDecks";
-import { Button }                 from "~/components/button";
-import { DeckList }               from "~/features/deckList";
-import type { PublicDeckItem }    from "~/models/Deck";
-import { DeckRepository }         from "~/providers/repositories/DeckRepository";
-import { UserContext }            from "~/routes/layout";
+import { component$, useContext, useContextProvider } from '@builder.io/qwik';
+import { Link, routeLoader$ }                         from '@builder.io/qwik-city';
+import { listPublicDecks }                            from "~/app/deck/application/listPublicDecks";
+import { DeckRepository }                             from "~/app/deck/infrastructure/deck.repository";
+import { Button }                                     from "~/components/button";
+import { DeckList }                                   from "~/features/deckList";
+import { UserContext }                                from "~/routes/layout";
+import type { DeckListStoreState }                         from "~/UI/deck/models/deck.store.model";
+import { DECK_LIST_CONTEXT, useDeckListStore }        from "~/UI/deck/store/decksList.store";
 
 // SERVER ACTIONS
-export const useListPublicDeckLoader = routeLoader$<PublicDeckItem[]>(async (requestEnv) => {
-    const deckRepo = new DeckRepository(requestEnv);
-    return await listPublicDecks(deckRepo);
+export const useDeckListStoreLoader = routeLoader$<DeckListStoreState>(async (requestEnv) => {
+    const deckRepo    = new DeckRepository(requestEnv);
+    const publicDecks = await listPublicDecks(deckRepo);
+
+    return {
+        decks: publicDecks.map(d => ({
+            deckId: d.id,
+            name: d.name,
+            description: d.description,
+            splashArt: d.splashArt,
+            isPublic: true,
+        }))
+    }
 });
 
 // RENDER
 export default component$(() => {
-    const user = useContext(UserContext);
+    const deckListState = useDeckListStoreLoader();
+    const user          = useContext(UserContext);
+
+    const deckListStore = useDeckListStore(deckListState);
+
+    useContextProvider(DECK_LIST_CONTEXT, deckListStore);
 
     return (
             <div class="overflow-y-auto w-full">

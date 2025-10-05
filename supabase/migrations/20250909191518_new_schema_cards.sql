@@ -5,6 +5,7 @@ create table if not exists "public"."decks_temp" (
     "is_public" boolean default false not null,
 --     "owner" uuid references "auth"."users"("id") on delete set null,
     "owner" uuid,
+    "deck_face" bigint constraint decks_deck_face_fkey references "public"."cards"("id"),
     "type_1" text,
     "type_2" text,
     "guardian" text,
@@ -13,10 +14,11 @@ create table if not exists "public"."decks_temp" (
 );
 
 create table if not exists "public"."deck_card" (
-    "deck" bigint references "public"."decks_temp"("id") on delete cascade,
-    "card" bigint references "public"."cards"("id") on delete cascade,
+    "deck" bigint references "public"."decks_temp"("id") on delete cascade ,
+    "card" bigint references "public"."cards"("id"),
     "quantity" integer not null default 0,
-    "quantity_side" integer not null default 0
+    "quantity_side" integer not null default 0,
+    primary key (deck, card)
 );
 
 -- MOVE DECKS

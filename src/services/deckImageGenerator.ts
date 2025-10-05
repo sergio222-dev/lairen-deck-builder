@@ -1,9 +1,9 @@
-import he                           from 'he';
+import he                                              from 'he';
 // @ts-ignore
-import piexif                       from 'piexifjs';
-import { CARD_TYPES }               from "~/models/CardTypes";
-import type { DeckCard, DeckState } from "~/models/Deck";
-import { parseToText }              from "~/utils/parser";
+import piexif                                          from 'piexifjs';
+import type { CardInDeckItem, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
+import type { CardStackItem }                          from '~/UI/shared/models/CardSackItem';
+import { parseToText }                                 from '~/utils/parser';
 
 const NUM_COLS                      = 5;
 const SPACE_BETWEEN_TITLE_AND_CARDS = 20;
@@ -20,25 +20,15 @@ function splitChunk(array: any[], chunkSize: number) {
   return result;
 }
 
-export async function generateDeckImage(deck: DeckState): Promise<void> {
-  // calculate the height of canvas
-  const { name, masterDeck, treasureDeck, sideDeck } = deck
-  // calculate number of zones
-  const units                                        = Object.values(masterDeck)
-    .filter(c => c.type === CARD_TYPES.UNIT);
-  const actions                                      = Object.values(masterDeck)
-    .filter(c => c.type === CARD_TYPES.ACTION);
-  const monumentsAndWeapons                          = Object.values(masterDeck)
-    .filter(c => c.type === CARD_TYPES.MONUMENTO || c.type === CARD_TYPES.ARMA);
-  const treasures                                    = Object.values(treasureDeck);
-  const sideDeckCards                                = Object.values(sideDeck);
+export async function generateDeckImage(deck: DeckCreationStoreState): Promise<void> {
+  const name = deck.name;
 
   let cardZoneHeight = 0;
-  cardZoneHeight += calculateHeightOfCardZone(units.length);
-  cardZoneHeight += calculateHeightOfCardZone(actions.length);
-  cardZoneHeight += calculateHeightOfCardZone(monumentsAndWeapons.length);
-  cardZoneHeight += calculateHeightOfCardZone(treasures.length);
-  cardZoneHeight += calculateHeightOfCardZone(sideDeckCards.length);
+  cardZoneHeight += calculateHeightOfCardZone(deck.quantityUnitsCards);
+  cardZoneHeight += calculateHeightOfCardZone(deck.quantityActionsCards);
+  cardZoneHeight += calculateHeightOfCardZone(deck.quantityMonumentsWeaponsCards);
+  cardZoneHeight += calculateHeightOfCardZone(deck.quantityInTreasureDeck);
+  cardZoneHeight += calculateHeightOfCardZone(deck.quantityInSideDeck);
 
   const height = cardZoneHeight + STATING_HEIGHT_CARD_ZONE;
 
@@ -51,37 +41,63 @@ export async function generateDeckImage(deck: DeckState): Promise<void> {
     throw new Error('Could not get canvas context');
   }
 
-  ctx.font      = '24px Arial'
-  ctx.fillStyle = '#212529'
+  ctx.font      = '24px Arial';
+  ctx.fillStyle = '#212529';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'white'
-  ctx.fillText('Nombre de mazo:', 50, 50)
+  ctx.fillStyle = 'white';
+  ctx.fillText('Nombre de mazo:', 50, 50);
 
-  ctx.fillText(name, 250, 50)
+  ctx.fillText(name, 250, 50);
 
   // count all cards except for side deck and treasures
-  const totalCards = Object.values(masterDeck).reduce((acc, c) => acc + c.quantity, 0);
+  const totalCards = deck.quantityInMainDeck;
   ctx.fillText(`Total de cartas: ${totalCards}`, 50, 90);
 
   // print all units
+  const units: Array<CardStackItem & CardInDeckItem> = deck.orderedUnitCards.map(id => {
+    return {
+      ...deck.cardInDeck[id],
+      ...deck.cardStack[id]
+    };
+  });
   await printCards(ctx, units, 'Unidades', STATING_HEIGHT_CARD_ZONE);
 
   // print all actions
-  let yHeight = calculateHeightOfCardZone(units.length);
+  const actions: Array<CardStackItem & CardInDeckItem> = deck.orderedActionCards.map(id => ({
+    ...deck.cardInDeck[id],
+    ...deck.cardStack[id]
+  }));
+  let yHeight                                          = calculateHeightOfCardZone(units.length);
   await printCards(ctx, actions, 'Acciones', STATING_HEIGHT_CARD_ZONE + yHeight);
 
   // print all monuments and weapons
-  if (monumentsAndWeapons.length > 0) {
+  if (deck.quantityMonumentsWeaponsCards > 0) {
     yHeight += calculateHeightOfCardZone(actions.length);
+    const monumentsAndWeapons: Array<CardInDeckItem & CardStackItem> = deck.orderedMonumentWeaponCards.map(id => ({
+      ...deck.cardInDeck[id],
+      ...deck.cardStack[id]
+    }));
     await printCards(ctx, monumentsAndWeapons, 'Monumentos y armas', STATING_HEIGHT_CARD_ZONE + yHeight);
   }
 
   // print all treasures
-  yHeight += calculateHeightOfCardZone(monumentsAndWeapons.length > 0 ? monumentsAndWeapons.length : actions.length);
+
+  yHeight +=
+    calculateHeightOfCardZone(deck.quantityMonumentsWeaponsCards > 0 ?
+      deck.quantityMonumentsWeaponsCards :
+      deck.quantityActionsCards);
+  const treasures: Array<CardInDeckItem & CardStackItem> = deck.orderedTreasureCards.map(id => ({
+    ...deck.cardInDeck[id],
+    ...deck.cardStack[id]
+  }));
   await printCards(ctx, treasures, 'Tesoros', STATING_HEIGHT_CARD_ZONE + yHeight);
 
   // print all side deck
   yHeight += calculateHeightOfCardZone(treasures.length);
+  const sideDeckCards: Array<CardInDeckItem & CardStackItem> = deck.orderedSideCards.map(id => ({
+    ...deck.cardInDeck[id],
+    ...deck.cardStack[id]
+  }));
   await printCards(ctx, sideDeckCards, 'Side deck', STATING_HEIGHT_CARD_ZONE + yHeight);
 
   const dataUrl = canvas.toDataURL('image/jpeg');
@@ -93,9 +109,9 @@ export async function generateDeckImage(deck: DeckState): Promise<void> {
   // @ts-ignore
   exif[piexif.ExifIFD.UserComment] = he.encode(parseToText(deck));
 
-  const exifObj = { "0th": zeroth, "Exif": exif, "GPS": gps };
+  const exifObj = { '0th': zeroth, 'Exif': exif, 'GPS': gps };
 
-  const exifResult = piexif.dump(exifObj)
+  const exifResult = piexif.dump(exifObj);
 
   const link = piexif.insert(exifResult, dataUrl);
 
@@ -105,14 +121,17 @@ export async function generateDeckImage(deck: DeckState): Promise<void> {
   a.click();
 }
 
-async function printCards(ctx: CanvasRenderingContext2D, cards: DeckCard[], title: string, sy: number) {
+async function printCards(ctx: CanvasRenderingContext2D,
+                          cards: Array<CardInDeckItem & CardStackItem>,
+                          title: string,
+                          sy: number) {
   const units      = cards;
   const loadingImg = [];
 
   ctx.font       = '24px Arial';
   ctx.fillStyle  = 'white';
   const quantity = units.reduce((acc, c) => acc + c.quantity, 0);
-  ctx.fillText(`${title} (${quantity}):`, 50, sy)
+  ctx.fillText(`${title} (${quantity}):`, 50, sy);
 
   const cardDrawingZoneY = sy + SPACE_BETWEEN_TITLE_AND_CARDS;
 
@@ -169,12 +188,12 @@ function calculateHeightOfCardZone(cardsLength: number) {
 //   return newPng;
 // }
 
-export function  loadDeck(file: File) {
+export function loadDeck(file: File) {
   const reader = new FileReader();
 
   return new Promise<string>((resolve, reject) => {
-    reader.onload = function (e) {
-      const result = e.target?.result
+    reader.onload = function(e) {
+      const result = e.target?.result;
       if (!result) return;
 
       const exifData = piexif.load(result as String);
@@ -183,11 +202,11 @@ export function  loadDeck(file: File) {
       const comment = exifData['Exif'][piexif.ExifIFD.UserComment];
 
       resolve(he.decode(comment));
-    }
+    };
 
-    reader.onerror = function (e) {
+    reader.onerror = function(e) {
       reject(e);
-    }
+    };
 
     reader.readAsDataURL(file);
   });

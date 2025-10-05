@@ -1,15 +1,15 @@
-import type { RequestEventBase, RequestEventLoader }                    from '@builder.io/qwik-city';
-import type { SupabaseClient }                                          from '@supabase/supabase-js';
-import type { DeckCardInfo, DeckInfo, DeckModel }                       from '~/app/deck/models/deck.model';
-import { Logger }                                                       from '~/lib/logger';
-import { createClientServer }                                           from '~/lib/supabase-qwik';
-import type { ImportDeckRequest }                                       from '~/models/application/ImportCardItem';
-import { CARD_TYPES }                                                   from '~/models/CardTypes';
-import type { DeckCard, DeckData, DeckItem, DeckState, PublicDeckItem } from '~/models/Deck';
-import { on }                                                           from '~/utils/go';
-import type { NormalizedModel }                                         from '~/utils/normalize';
-import { normalizeArray }                                               from '~/utils/normalize';
-import type { Database, Tables }                                        from '../../../../database.types';
+import type { RequestEventBase, RequestEventLoader }                       from '@builder.io/qwik-city';
+import type { SupabaseClient }                                             from '@supabase/supabase-js';
+import type { DeckCardInfo, DeckInfoWithImage, DeckModel, PublicDeckInfo } from '~/app/deck/models/deck.model';
+import { Logger }                                                          from '~/lib/logger';
+import { createClientServer }                                              from '~/lib/supabase-qwik';
+import type { ImportDeckRequest }                                          from '~/models/application/ImportCardItem';
+import { CARD_TYPES }                                                      from '~/models/CardTypes';
+import type { DeckCard, DeckData, DeckItem, DeckState }                    from '~/models/Deck';
+import { on }                                                              from '~/utils/go';
+import type { NormalizedModel }                                            from '~/utils/normalize';
+import { normalizeArray }                                                  from '~/utils/normalize';
+import type { Database, Tables }                                           from '../../../../database.types';
 
 export class DeckRepository {
   private readonly supabase: SupabaseClient<Database, 'public'>;
@@ -53,28 +53,26 @@ export class DeckRepository {
     };
   }
 
-  public async listPublicDeck(): Promise<DeckInfo[]> {
+  public async listPublicDeck(): Promise<PublicDeckInfo[]> {
     const supabase = this.supabase;
 
     const { data, error } = await supabase.from('decks').select().eq('is_public', true);
 
     if (error) {
       Logger.error(error, `Error fetching public decks`);
-      throw new Error(`Error fetching deck cards`, { cause: error });
+      throw error;
     }
 
     return data.map(d => ({
       id:          d.id,
       name:        d.name,
       description: d.description,
-      type1:       d.type_1,
-      type2:       d.type_2,
       splashArtId: d.deck_face,
       isPublic:    d.is_public
     }));
   }
 
-  public async saveDeck(deck: DeckData): Promise<number> {
+  public async saveDeck(deck: DeckModel): Promise<number> {
 
     const supabase       = this.supabase;
     const { data: auth } = await supabase.auth.getUser();
@@ -85,6 +83,7 @@ export class DeckRepository {
     }
 
     // check if the deck is owned by the user
+    Logger.info(auth.user);
     if (deck.id) {
       const { data: decks } = await supabase.from('decks').select().eq('owner', auth.user.id);
 
@@ -102,33 +101,35 @@ export class DeckRepository {
       updated_at:  (new Date()).toISOString(),
       owner:       auth.user.id,
       is_public:   deck.isPublic,
-      likes:       0,
-      type1:       deck.type1,
-      type2:       deck.type2,
+      type_1:      deck.type1,
+      type_2:      deck.type2,
+      deck_face:   deck.splashArtId,
       // ...deck.splashArtId ? { deck_face: deck. } : {},
       ...deck.id ? { id: deck.id } : { created_at: (new Date()).toISOString() }
     })
-      .select('id'); // get the id inserted
+      .select('id').single(); // get the id inserted
 
     if (error) {
       Logger.error(error, `${DeckRepository.name} ${this.saveDeck.name}`);
       throw new Error('Deck save error', { cause: error });
     }
 
-    const deckId = dataDeck[0].id;
+    const deckId = dataDeck.id;
+
+    if (!deck.cards) return deckId;
 
     // UPDATE DECK CARDS
-    await supabase.from('deck_card')
-      .upsert(Object.values(deck.cardStack).map<Tables<'deck_card'>>(c => ({
+    const { error: bulkInster } = await supabase.from('deck_card')
+      .upsert(deck.cards.map<Tables<'deck_card'>>(c => ({
         deck:          deckId,
         card:          c.id,
         quantity:      c.quantity,
         quantity_side: c.quantityInSideDeck
       })));
 
-    // await this.insertDeckCollection(deckId, CollectionTypes.DECK, denormalizeEntity(deck));
-    // await this.insertDeckCollection(deckId, CollectionTypes.SIDE, denormalizeEntity(side));
-    // await this.insertDeckCollection(deckId, CollectionTypes.TREASURE, denormalizeEntity(treasures));
+    if (bulkInster) {
+      Logger.error(bulkInster);
+    }
 
     return deckId;
   }
@@ -136,13 +137,6 @@ export class DeckRepository {
   public async deleteDeck(deckId: number): Promise<void> {
 
     const supabase = this.supabase;
-
-    const { data: auth } = await supabase.auth.getUser();
-
-    if (!auth.user) {
-      Logger.error(`User not authenticated ${DeckRepository.name} ${this.deleteDeck.name}`);
-      throw new Error('User not authenticated');
-    }
 
     const { error } = await supabase.from('decks').delete().eq('id', deckId);
 
@@ -209,45 +203,13 @@ export class DeckRepository {
     };
   }
 
-  public async listPublicDecks(): Promise<PublicDeckItem[]> {
+  public async listUserDecks(id: string): Promise<DeckInfoWithImage[]> {
     const supabase = this.supabase;
 
     const { data, error } = await supabase
       .from('decks')
-      .select('id, name, description, cards ( image )')
-      .eq('is_public', true);
-
-    if (error) {
-      Logger.error(error, `${DeckRepository.name} ${this.listPublicDecks.name}`);
-      return [];
-    }
-
-    return data.map(d => {
-      return {
-        id:          d.id,
-        name:        d.name,
-        description: d.description,
-        splashArt:   d.cards?.image ?? undefined
-      };
-    });
-
-  }
-
-  public async listUserDecks(): Promise<DeckItem[]> {
-
-    const supabase = this.supabase;
-
-    const { data: user, error: errorAuth } = await supabase.auth.getUser();
-
-    if (errorAuth) {
-      Logger.error(errorAuth, `${DeckRepository.name} ${this.listUserDecks.name}`);
-      throw new Error('User not authenticated', { cause: errorAuth });
-    }
-
-    const { data, error } = await supabase
-      .from('decks')
-      .select(`*, cards ( image )`)
-      .eq('owner', user.user!.id);
+      .select(`*, cards!decks_deck_face_fkey ( image )`)
+      .eq('owner', id);
 
     if (error) {
       Logger.error(error, `${DeckRepository.name} ${this.listUserDecks.name}`);
@@ -258,10 +220,10 @@ export class DeckRepository {
       id:          d.id,
       name:        d.name,
       description: d.description,
-      splashArt:   d.cards?.image ?? undefined,
       type1:       d.type_1,
       type2:       d.type_2,
-      isPublic:    d.is_public
+      isPublic:    d.is_public,
+      splashArt:   d.cards?.image ?? undefined
     }));
   }
 

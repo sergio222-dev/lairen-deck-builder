@@ -1,12 +1,12 @@
 import type { Signal }                                                                       from "@builder.io/qwik";
 import { component$, createContextId, Slot, useContextProvider, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import {
-    DialogYesNoNo
-}                                                                                            from "~/components/dialogs/DialogYesNo";
-import { Appbar }                                                                            from '~/features/appbar';
 import type {
     User
 }                                                                                            from "supabase-auth-helpers-qwik";
+import type {
+    DialogYesNoNo
+}                                                                                            from "~/components/dialogs/DialogYesNo";
+import { Appbar }                                                                            from '~/features/appbar';
 import {
     CardPreview
 }                                                                                            from "~/features/cardPreview/CardPreview";

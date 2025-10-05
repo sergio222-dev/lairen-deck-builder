@@ -2,9 +2,9 @@ import type { RequestEventBase, RequestEventLoader }   from '@builder.io/qwik-ci
 // @ts-ignore
 import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
 import type { SupabaseClient }                         from '@supabase/supabase-js';
-import type { CardInfo } from '~/app/card/models/Card';
-import { Specification } from '~/app/filter/filter/models/Specification';
-import { Logger }        from '~/lib/logger';
+import type { CardInfo }                               from '~/app/card/models/card.model';
+import type { Specification }                          from '~/app/filter/filter/models/Specification';
+import { Logger }                                      from '~/lib/logger';
 import { createClientServer }                          from '~/lib/supabase-qwik';
 import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
@@ -33,6 +33,55 @@ export class CardRepository {
     this.supabase = createClientServer(request);
   }
 
+  async fetchCards(filters: Specification[]): Promise<{ cards: CardInfo[]; count: number; }> {
+    const supabase = this.supabase;
+
+    let query = supabase.from('cards').select('*', { count: 'exact' });
+
+    for (const filter of filters) {
+      query = filter.apply(query);
+    }
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      throw new Error(`Error fetching cards: ${error.message}`);
+    }
+
+    const cards = data.map(c => {
+      return {
+        id:             c.id,
+        name:           c.name,
+        rarity:         c.rarity,
+        type:           c.type,
+        supertype:      c.supertype,
+        subtype1:       c.subtype,
+        subtype2:       c.subtype2,
+        cost:           parseInt(c.cost),
+        text:           c.text,
+        image:          c.image,
+        thumbnail:      c.thumbnail,
+        set:            c.set,
+        clarifications: c.clarifications
+      };
+    });
+
+    return { cards, count: count ?? 0 };
+  }
+
+  public async getAvailableSet(): Promise<string[]> {
+    const supabase = this.supabase;
+
+    const { error, data } = await supabase.from('card_sets').select();
+
+    if (error) {
+      Logger.error(error, error.message)
+      throw error;
+    }
+
+    return data.map(s => s.name) as string[];
+  }
+
   public async getCount(filter: FetchCardsPayload): Promise<number> {
     const supabase = this.supabase;
 
@@ -57,28 +106,28 @@ export class CardRepository {
   public async fetchCardDataByDeck(deckId: number): Promise<CardInfo[]> {
     const supabase = this.supabase;
 
-    const { data, error } = await supabase.from('deck_card').select('cards (*)').eq('deck', deckId)
+    const { data, error } = await supabase.from('deck_card').select('cards (*)').eq('deck', deckId);
 
     if (error) {
-      Logger.error(error, `Error fetching card for deck`)
-      throw new Error('Error fetching card for deck', { cause: error })
+      Logger.error(error, `Error fetching card for deck`);
+      throw new Error('Error fetching card for deck', { cause: error });
     }
 
     return data.map(c => {
       return {
-        id: c.cards!.id,
-        name: c.cards!.name,
-        rarity: c.cards!.rarity,
-        type: c.cards!.type,
+        id:        c.cards!.id,
+        name:      c.cards!.name,
+        rarity:    c.cards!.rarity,
+        type:      c.cards!.type,
         supertype: c.cards!.supertype,
-        subtype1: c.cards!.subtype,
-        subtype2: c.cards!.subtype2,
-        cost: c.cards!.cost,
-        text: c.cards!.text,
-        image: c.cards!.image,
+        subtype1:  c.cards!.subtype,
+        subtype2:  c.cards!.subtype2,
+        cost:      c.cards!.cost,
+        text:      c.cards!.text,
+        image:     c.cards!.image,
         thumbnail: c.cards!.thumbnail,
-        set: c.cards!.set,
-      }
+        set:       c.cards!.set
+      };
     });
 
   }

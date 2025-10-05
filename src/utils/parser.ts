@@ -1,101 +1,57 @@
-import type { ImportCardItem, ImportDeckRequest } from "~/models/application/ImportCardItem";
-import type { DeckState }                         from "~/models/Deck";
+import { CARD_TYPES }                  from '~/models/CardTypes';
+import type { DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
 
-const matchCard = /x(?=\d)/
-
-export function parseToImportCardsItem(text: string): ImportDeckRequest {
-  // split between reino, bóveda and side deck
-  const realm = text
-    .split('Reino:')[1]
-    .split('Bóveda:')[0]
-    .split('\n')
-    .map(c => c.trim())
-    .filter(c => c !== '' && matchCard.test(c))
-    .map(c => {
-      const [name, quantity] = c.split(matchCard);
-      return {
-        name:     name.trim(),
-        quantity: parseInt(quantity)
-      }
-    });
-
-  const treasure = text
-    .split('Bóveda:')[1]
-    .split('Side Deck:')[0]
-    .split('\n')
-    .map(c => c.trim())
-    .filter(c => c !== '' && matchCard.test(c))
-    .map(c => {
-      const [name, quantity] = c.split(matchCard);
-      return {
-        name:     name.trim(),
-        quantity: parseInt(quantity)
-      }
-    });
-
-  const side = text
-    .split('Side Deck:')[1]
-    .split('\n')
-    .map(c => c.trim())
-    .filter(c => c !== '' && matchCard.test(c))
-    .map<ImportCardItem>(c => {
-      const [name, quantity] = c.split(matchCard);
-      return {
-        name:     name.trim(),
-        quantity: parseInt(quantity)
-      }
-    });
-
-  return {
-    realm,
-    treasure,
-    side
-  }
-}
-
-export function parseToText(deck: DeckState) {
+// TODO this is not ordering the cards, the output text would be unsorted
+export function parseToText(UIState: DeckCreationStoreState) {
 
   // calculate total of main deck
 
-  const realmTotal = Object.entries(deck.masterDeck)
-    .map(([, c]) => c)
-    .reduce((acc, c) => acc + c.quantity, 0);
+  const realmTotal = UIState.quantityInMainDeck;
 
-  const treasureTotal = Object.entries(deck.treasureDeck)
-    .map(([, c]) => c)
-    .reduce((acc, c) => acc + c.quantity, 0);
+  const treasureTotal = UIState.treasurePoints;
 
-  const sideTotal = Object.entries(deck.sideDeck)
-    .map(([, c]) => c)
-    .reduce((acc, c) => acc + c.quantity, 0);
+  const sideTotal = UIState.quantityInSideDeck;
 
   let text = `
-  Reino: (total: ${realmTotal})
-  `;
+Reino: (total: ${realmTotal})
+`;
 
-  Object.entries(deck.masterDeck).forEach(([, card]) => {
-    text += `${card.name} x${card.quantity}
-    `
+  Object.entries(UIState.cardInDeck).forEach(([id, card]) => {
+    const cardData = UIState.cardStack[id];
+    if (cardData.type === CARD_TYPES.TESORO || card.quantity === 0) {
+      return;
+    }
+    text += `${cardData.name} x${card.quantity}
+`;
   });
 
   text += `
-  
-  Bóveda: (total: ${treasureTotal})
-  `;
 
-  Object.entries(deck.treasureDeck).forEach(([, card]) => {
-    text += `${card.name} x${card.quantity}
-    `
+Bóveda: (total: ${treasureTotal})
+`;
+
+  Object.entries(UIState.cardInDeck).forEach(([id, card]) => {
+    const cardData = UIState.cardStack[id];
+    if (cardData.type !== CARD_TYPES.TESORO) {
+      return;
+    }
+    text += `${cardData.name} x${card.quantity}
+`;
   });
 
   text += `
-  
-  Side Deck: (total: ${sideTotal})
-  `
 
-  Object.entries(deck.sideDeck).forEach(([, card]) => {
-    text += `${card.name} x${card.quantity}
-    `
+Side Deck: (total: ${sideTotal})
+`;
+
+  Object.entries(UIState.cardInDeck).forEach(([id, card]) => {
+    const cardData = UIState.cardStack[id];
+
+    if (cardData.type === CARD_TYPES.TESORO || card.quantityInSide === 0) {
+      return;
+    }
+    text += `${cardData.name} x${card.quantityInSide}
+`;
   });
 
   return text;

@@ -1,11 +1,12 @@
-import { $, component$, Signal, useComputed$, useContext, useSignal } from '@builder.io/qwik';
-import { Accordion }                                                  from "~/components/accordion/Accordion";
-import { Button, ButtonIcon }                                         from "~/components/button";
-import { ChipFilter, FilterField }                                    from "~/components/filterField/FilterField";
-import { Icon }                                                       from "~/components/icons/Icon";
-import { CATEGORY_FILTERS }                                           from "~/UI/filters/models/filterDefinition.model";
-import { FILTER_CONTEXT }                                             from "~/UI/filters/store/filter.store";
-import { Pagination }                                                 from './Pagination';
+import type { Signal }                                        from '@builder.io/qwik';
+import { $, component$, useComputed$, useContext, useSignal } from '@builder.io/qwik';
+import { Accordion }                                          from "~/components/accordion/Accordion";
+import { Button, ButtonIcon }                                 from "~/components/button";
+import { ChipFilter, FilterField }                            from "~/components/filterField/FilterField";
+import { Icon }                                               from "~/components/icons/Icon";
+import { CATEGORY_FILTERS }                                   from "~/UI/filters/models/filterDefinition.model";
+import { FILTER_CONTEXT }                                     from "~/UI/filters/store/filter.store";
+import { Pagination }                                         from './Pagination';
 
 interface CardFilterProps {
     mobileListDeckRef?: Signal<HTMLDivElement | undefined>;
@@ -42,7 +43,6 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
         }
     })
 
-    // TODO: Check computation cost
     const numberOfFilters = useComputed$(() => {
         return Object.values(f.filterGroups)
                 .filter(ff => !(ff.id ===

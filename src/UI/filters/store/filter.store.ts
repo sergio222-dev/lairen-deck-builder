@@ -1,6 +1,6 @@
 import type { Signal }                  from '@builder.io/qwik';
 import { $, createContextId, useStore } from '@builder.io/qwik';
-import { fetchFilteredCards }           from '~/app/filter/presentation/fetchFilteredCards';
+import { onFetchFilterCard }            from '~/app/filter/presentation/onFetchFilterCard';
 import { Logger }                       from '~/lib/logger';
 import type {
   FILTER_STORE,
@@ -142,7 +142,7 @@ export const useFilterStore = (initialState: Signal<FilterStoreState> | Signal<n
       this.filterGroups[CATEGORY_FILTERS.PAGINATION] = generatePageFilter(this.pagination);
 
       // execute async tasks...
-      const cards           = await fetchFilteredCards(Object.values(this.filterGroups));
+      const cards           = await onFetchFilterCard(Object.values(this.filterGroups));
       this.cardStack        = normalizeArray(cards.cards);
       this.count            = cards.count;
       this.cards            = cards.cards.map(c => c.id);

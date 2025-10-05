@@ -1,6 +1,6 @@
-import type { PublicDeckItem }      from '~/models/Deck';
-import type { DeckRepository } from '~/providers/repositories/DeckRepository';
+import type { DeckRepository }      from '~/app/deck/infrastructure/deck.repository';
+import type { PublicDeckItem } from '~/models/Deck';
 
 export async function listPublicDecks(deckRepository: DeckRepository): Promise<PublicDeckItem[]> {
-  return await deckRepository.listPublicDecks();
+  return await deckRepository.listPublicDeck();
 }

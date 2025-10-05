@@ -3,6 +3,7 @@ import { Button }                from "~/components/button";
 import { CardFilter }            from '~/features/cards';
 import { CardDeckInfo }          from '~/features/createDeck/components/CardDeckInfo';
 import { CardListDeck }          from '~/features/createDeck/components/CardListDeck';
+import { CreateForm }            from "~/features/createDeck/components/CreateForm";
 
 export const Create = component$(() => {
     const selectedSection   = useSignal(1);
@@ -24,7 +25,7 @@ export const Create = component$(() => {
                 <div hidden={selectedSection.value !== 1}
                      class="h-full md:basis-[50%] xl:basis-[38.2%] overflow-y-auto py-2 md:block">
                     <div class="">
-                        {/*<CreateForm/>*/}
+                        <CreateForm/>
                     </div>
                     <CardDeckInfo/>
                 </div>

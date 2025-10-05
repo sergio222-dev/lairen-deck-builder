@@ -1,10 +1,13 @@
-import type { Signal }                                          from '@builder.io/qwik';
-import { $, createContextId, useStore }                         from '@builder.io/qwik';
-import { Logger }                                               from '~/lib/logger';
-import { CARD_TYPES }                                           from '~/models/CardTypes';
-import type { DeckCreationStoreAction, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
-import type { CardStackItem }                                   from '~/UI/shared/models/CardSackItem';
-import type { NormalizedModel }                                 from '~/utils/normalize';
+import type { Signal }                             from '@builder.io/qwik';
+import { $, createContextId, useStore }            from '@builder.io/qwik';
+import { onDeleteDeck }                            from '~/app/deck/presentation/onDeleteDeck';
+import { onImportDeck }                            from '~/app/deck/presentation/onImportDeck';
+import { onSaveDeck }                              from '~/app/deck/presentation/onSaveDeck';
+import { Logger }                                  from '~/lib/logger';
+import { CARD_TYPES }                              from '~/models/CardTypes'; // TODO: MOVE THIS TO APP
+import type { DECK_STORE, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
+import type { CardStackItem }                      from '~/UI/shared/models/CardSackItem';
+import type { NormalizedModel }                    from '~/utils/normalize';
 
 function orderCard(cardId: number, cardName: string, list: number[], stack: NormalizedModel<CardStackItem>) {
   let left  = 0;
@@ -45,19 +48,16 @@ const deckCreationStoreInitialState: DeckCreationStoreState = {
   quantityUnitsCards:            0,
   treasurePoints:                0,
   type1:                         null,
-  type2:                         null,
-  splashArtId:                   null
+  type2:                         null
 };
-
-export type DECK_STORE = DeckCreationStoreState & DeckCreationStoreAction;
 
 export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState> | Signal<null>) => {
 
   return useStore<DECK_STORE>({
     ...initialState.value ?? deckCreationStoreInitialState,
+    cardStack:  initialState.value ? initialState.value.cardStack : {},
+    cardInDeck: initialState.value ? initialState.value.cardInDeck : {},
     addCard:    $(function(this, cardData, side = false) {
-
-
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!this.cardStack[cardData.id]) {
         this.cardStack[cardData.id] = cardData;
@@ -86,7 +86,8 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
       if (side) {
         this.quantityInSideDeck++;
       } else {
-        this.quantityInMainDeck++;
+        if (cardData.type !== CARD_TYPES.TESORO)
+          this.quantityInMainDeck++;
       }
 
       if (!side) {
@@ -99,13 +100,13 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
             break;
           case CARD_TYPES.TESORO:
             this.quantityInTreasureDeck++;
+            this.treasurePoints += cardData.cost;
             break;
           case CARD_TYPES.ARMA:
             this.quantityMonumentsWeaponsCards++;
             break;
           case CARD_TYPES.MONUMENTO:
             this.quantityMonumentsWeaponsCards++;
-            this.treasurePoints += cardData.cost;
             break;
           default:
             break;
@@ -113,8 +114,13 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
       }
 
       // ORDER CARDS
+      Logger.info(`INFO`);
+      Logger.info(this.cardStack);
+      Logger.info(this.cardInDeck);
+      Logger.info(this.orderedActionCards);
       if (!shouldOrder) return;
 
+      Logger.info(`Will order:`);
       if (side) {
         this.orderedSideCards = orderCard(cardData.id, cardData.name, this.orderedSideCards, this.cardStack);
         return;
@@ -141,6 +147,8 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
         default:
           break;
       }
+      Logger.info(this.orderedActionCards);
+      Logger.info(`Finished Order`);
     }),
     removeCard: $(function(this: DeckCreationStoreState, cardId: number, side = false) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -227,7 +235,63 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
           delete this.cardStack[cardId];
         }
       }
-    )
+    ),
+    saveDeck:   $(async function(this) {
+      const result = await onSaveDeck(this);
+
+      this.deckId = result;
+
+      return result;
+    }),
+    deleteDeck: $(async function(this) {
+      if (this.deckId < 1) return;
+      await onDeleteDeck(this.deckId);
+    }),
+    resetDeck:  $(function(this) {
+      this.orderedActionCards            = [];
+      this.orderedSideCards              = [];
+      this.orderedTreasureCards          = [];
+      this.orderedUnitCards              = [];
+      this.orderedMonumentWeaponCards    = [];
+      this.quantityInSideDeck            = 0;
+      this.quantityInTreasureDeck        = 0;
+      this.quantityInMainDeck            = 0;
+      this.quantityUnitsCards            = 0;
+      this.quantityActionsCards          = 0;
+      this.quantityMonumentsWeaponsCards = 0;
+      this.treasurePoints                = 0;
+      this.splashArt                     = undefined;
+      this.cardInDeck                    = deckCreationStoreInitialState.cardInDeck;
+      this.cardStack                     = deckCreationStoreInitialState.cardStack;
+    }),
+    importDeck: $(async function(this, text: string) {
+      Logger.info(`Importing DECK`);
+      Logger.info(text);
+      const d = await onImportDeck(text);
+
+      Logger.info(d);
+
+      this.cardStack  = d.cardStack;
+      this.cardInDeck = d.cardInDeck;
+
+      this.orderedUnitCards           = d.orderedUnitCards;
+      this.orderedActionCards         = d.orderedActionCards;
+      this.orderedSideCards           = d.orderedSideCards;
+      this.orderedTreasureCards       = d.orderedTreasureCards;
+      this.orderedMonumentWeaponCards = d.orderedMonumentWeaponCards;
+
+      this.quantityMonumentsWeaponsCards = d.quantityMonumentsWeaponsCards;
+      this.quantityActionsCards          = d.quantityActionsCards;
+      this.quantityUnitsCards            = d.quantityUnitsCards;
+      this.quantityInTreasureDeck        = d.quantityInTreasureDeck;
+      this.quantityInMainDeck            = d.quantityInMainDeck;
+      this.quantityInSideDeck            = d.quantityInSideDeck;
+
+      this.treasurePoints = d.treasurePoints;
+    }),
+    copyDeck:   $(function(this) {
+
+    })
   });
 };
 

@@ -8,11 +8,17 @@ export interface DeckInfo {
   type2: string | null;
 }
 
+export interface DeckInfoWithImage extends Omit<DeckInfo, 'splashArtId'> {
+  splashArt: string | undefined;
+}
+
 export interface DeckCardInfo {
   id: number;
   quantity: number;
   quantityInSideDeck: number;
 }
+
+export interface PublicDeckInfo extends Omit<DeckInfoWithImage, 'type1' | 'type2'> {}
 
 export interface DeckModel extends DeckInfo {
   cards: DeckCardInfo[] | null;

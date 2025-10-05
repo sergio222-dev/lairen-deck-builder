@@ -1,6 +1,9 @@
-import type { HTMLAttributes, JSXOutput, QRL } from "@builder.io/qwik";
-import { $, component$, Slot, useSignal }      from "@builder.io/qwik";
-import { Chip }                                from "~/components/chip/Chip";
+import type { HTMLAttributes, JSXOutput, QRL }        from "@builder.io/qwik";
+import { $, component$, Slot, useContext, useSignal } from "@builder.io/qwik";
+import { Button }                                     from "~/components/button";
+import { Chip }                                       from "~/components/chip/Chip";
+import { CATEGORY_FILTERS }                           from "~/UI/filters/models/filterDefinition.model";
+import { FILTER_CONTEXT }                             from "~/UI/filters/store/filter.store";
 
 interface FilterChipProps extends HTMLAttributes<HTMLDivElement> {
 }
@@ -27,6 +30,7 @@ export const FilterField = component$<FilterFieldProps>(
              onClear,
          }) => {
             const r = useSignal<HTMLFormElement>();
+            const f = useContext(FILTER_CONTEXT);
 
             const handleSubmit = $(() => {
                 // get value
@@ -60,6 +64,12 @@ export const FilterField = component$<FilterFieldProps>(
                                     onKeyDown$={handleClear}
                             />
                         </form>
+                        <Button
+                                onClick$={$(() => f.toggleExclusive(CATEGORY_FILTERS.TEXT))}
+                                class="rounded-3xl"
+                        >
+                            {f.filterGroups[CATEGORY_FILTERS.TEXT].exclusive ? 'Exclusive' : 'Inclusive'}
+                        </Button>
                     </div>
             )
         });

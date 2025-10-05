@@ -1,6 +1,7 @@
 import { component$, useContext } from '@builder.io/qwik';
 import { ButtonIcon }             from "~/components/button/ButtonIcon";
 import { Icon }                   from "~/components/icons/Icon";
+import { CardViewerContext }      from "~/stores/cardViewerContext";
 import { DECK_CREATION_CONTEXT }  from "~/UI/deck/store/deckCreation.store";
 
 interface CardDeckControlProps {
@@ -10,7 +11,8 @@ interface CardDeckControlProps {
 }
 
 export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orientation, isSide }) => {
-    const deck = useContext(DECK_CREATION_CONTEXT);
+    const deck       = useContext(DECK_CREATION_CONTEXT);
+    const cardViewer = useContext(CardViewerContext);
 
     const cardData = deck.cardStack[cardId];
     const card     = deck.cardInDeck[cardId];
@@ -25,6 +27,10 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
                             'md:w-[50%] w-1/2 lg:w-[50%] xl:w-[33%] 2xl:w-[33%]'} bg-no-repeat bg-[length:100%_100%] relative flex flex-col`}
                     style={{
                         backgroundImage: `url(${cardData.image})`
+                    }}
+                    onClick$={() => {
+                        void cardViewer.setCard(cardData);
+                        cardViewer.isOpen = true;
                     }}
             >
                 <div class="control-art inline top-[30%] right-[10%] z-10 absolute">
@@ -44,21 +50,14 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
 
 
                 <div
-                        class="flex flex-1 select-none"
-                        // onClick$={() => {
-                        //     void cardViewer.setCard(card);
-                        //     cardViewer.isOpen = true;
-                        // }}
+                        class="control-button absolute flex bottom-0 w-full h-[32px] justify-around flex-row-reverse gap-1 p-[4px]"
                 >
-                </div>
-
-                <div class="control-button absolute flex bottom-0 w-full h-[32px] justify-around flex-row-reverse gap-1 p-[4px]">
                     <div
                             class={`flex select-none items-center ${isSide ?
                                     'bg-pink-800' :
                                     ' bg-orange-600'} w-[calc(32px+2vw)] border-2 border-black rounded justify-center hover:cursor-pointer`}
-                            // style={(!isSide && card.quantity === 0) || (isSide && card.quantityInSide === 0) ? { backgroundColor: 'gray' } : {}}
                             onClick$={() => deck.addCard(cardData, isSide)}
+                            stoppropagation:click
                     >
                         +
                     </div>
@@ -66,8 +65,8 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
                             class={`${isSide ?
                                     'bg-pink-800' :
                                     ' bg-orange-600'} select-none w-[calc(32px+2vw)] border-2 border-black rounded flex justify-center items-center hover:cursor-pointer`}
-                            // style={card.quantity === 0 ? { backgroundColor: 'gray' } : {}}
                             onClick$={() => deck.removeCard(card.id, isSide)}
+                            stoppropagation:click
                     >
                         -
                     </div>
