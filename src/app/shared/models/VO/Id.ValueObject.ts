@@ -6,4 +6,8 @@ export class IdValueObject implements ValueObject<number>{
   }
 
   constructor(private _id: number) {}
+
+  equals(id: IdValueObject) {
+    return this._id === id._id;
+  }
 }

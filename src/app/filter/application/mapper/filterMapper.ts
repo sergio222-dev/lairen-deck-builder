@@ -6,7 +6,6 @@ import {
   OrderFilter,
   RangeFilter
 }                                from '~/app/filter/filter/models/Specification';
-import { Logger }                from '~/lib/logger';
 import type { FilterDefinition } from '~/UI/filters/models/filterDefinition.model';
 
 export function mapFilterToSpecification(filterGroups: FilterDefinition[]): Specification[] {

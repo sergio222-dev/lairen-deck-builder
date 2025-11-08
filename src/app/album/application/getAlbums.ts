@@ -1,7 +1,15 @@
 import type { AlbumRepository } from '~/app/album/infrastructure/album.repository';
-import { UserIdValueObject }    from '~/app/shared/models/VO/UserId.ValueObject';
 
-export async function getAlbums(albumRepository: AlbumRepository, owner: string) {
-  const ownerId = new UserIdValueObject(owner);
-  return albumRepository.listByUserOwner(ownerId);
+import { TOKENS }                 from '~/app/shared/binds/TOKENS';
+import type { UserIdValueObject } from '~/app/shared/models/VO/UserId.ValueObject';
+
+export class GetAlbums {
+  static readonly inject = [TOKENS.ALBUM_REPOSITORY];
+
+  constructor(private albumRepository: AlbumRepository) {
+  }
+
+  async execute(owner: UserIdValueObject) {
+    return await this.albumRepository.listByUserOwnerShallow(owner);
+  }
 }

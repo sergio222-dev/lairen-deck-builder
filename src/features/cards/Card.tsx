@@ -3,10 +3,6 @@ import { CardFilter } from './components/CardFilter';
 import { CardList }   from './components/CardList';
 
 export const Card = component$(() => {
-    // const preloadedCards = useCardsLoader();
-    // const storeCards     = useFilterStore(preloadedCards.value.cards, preloadedCards.value.count);
-    //
-    // useContextProvider<FilterContextState>(FilterContext, storeCards);
 
     return (
             <div class="flex flex-col h-full w-full">

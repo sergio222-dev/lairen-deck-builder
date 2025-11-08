@@ -1,36 +1,41 @@
-import { $, component$, useComputed$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
-import { Button }                                                       from "~/components/button";
-import { Chip }                                                         from "~/components/chip/Chip";
-import { Text }                                                         from "~/components/text";
-import { ALBUM_CREATE_CONTEXT }                                         from "~/UI/album/store/albumCreate.store";
+import { $, component$, useContext, useSignal, useStore, useTask$ } from "@builder.io/qwik";
+import { Button }                                                   from "~/components/button";
+import { Chip }                                         from "~/components/chip/Chip";
+import { Text }                                         from "~/components/text";
+import { useCreateAlbumAction }                         from "~/routes/album";
+import { ALBUM_LIST_CONTEXT }                                       from "~/UI/album/store/albumList.store";
 
 interface CreateAlbumProps {
     isOpen: boolean;
     onClose: () => void;
+    availableSets: string[];
 }
 
-export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) => {
-    const modalRef = useSignal<HTMLDialogElement>()
-    const formRef = useSignal<HTMLFormElement>()
+export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose, availableSets }) => {
+    const modalRef    = useSignal<HTMLDialogElement>()
+    const formRef     = useSignal<HTMLFormElement>()
+    const createdTags = useStore<{ tags: string[] }>({
+        tags: [],
+    });
 
-    const a = useContext(ALBUM_CREATE_CONTEXT);
+    const f = useCreateAlbumAction();
+    const a = useContext(ALBUM_LIST_CONTEXT);
+
+
+    // const a = useContext(ALBUM_CREATE_CONTEXT);
 
     const currentTag = useSignal('')
 
-    const isValid = useComputed$(() => {
-        return a.createdTags.length > 0;
-    })
-
-
     const handleAddTag = $(() => {
         if (currentTag.value === '') return;
-        void a.addTag(currentTag.value);
+        if (!createdTags.tags.includes(currentTag.value))
+            createdTags.tags.push(currentTag.value);
         currentTag.value = '';
     })
 
     const removeTag = $((tag: string) => {
         if (!tag) return;
-        void a.removeTag(tag);
+        createdTags.tags = createdTags.tags.filter((t) => t !== tag);
     });
 
     const handleInput = $((e: KeyboardEvent) => {
@@ -40,9 +45,17 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) =>
         }
     });
 
-    const handleReset = $(() => {
-        void a.reset();
-        formRef.value && formRef.value.reset();
+    const handleSubmit = $(async (e: SubmitEvent, el: HTMLFormElement) => {
+        const formData = new FormData(el);
+
+        createdTags.tags.forEach(t => formData.append('tags[]', t))
+
+        const { status } = await f.submit(formData);
+
+        if (status === 200) {
+            await a.listAlbums();
+            onClose();
+        }
     });
 
     useTask$(({ track }) => {
@@ -50,6 +63,8 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) =>
 
         if (!isOpen) {
             modalRef.value?.close();
+            formRef.value && formRef.value.reset();
+            createdTags.tags = [];
         } else {
             modalRef.value?.showModal();
         }
@@ -57,18 +72,21 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) =>
 
     return (
             <dialog ref={modalRef} class="p-4 container max-w-xl">
-                <form ref={formRef} onChange$={(e) => console.log(e)}>
+                <form preventdefault:submit ref={formRef} onSubmit$={handleSubmit}>
 
                     <div class="flex flex-col">
                         <label for="album-name">Name</label>
-                        <Text id="album-name" name="album-name" required/>
+                        <Text id="album-name" name="name" required/>
                     </div>
                     <div class="flex flex-col mt-2">
                         <fieldset>
                             <legend>Select Set for album</legend>
-                            {a.availableSets.map(s => (
+                            {f.value?.fieldErrors && f.value.fieldErrors['sets[]'] && (
+                                    <span class="text-red-600">Should select at least one set</span>
+                            )}
+                            {availableSets.map(s => (
                                     <div key={s} class="flex gap-2">
-                                        <input id={`set-${s}`} name={`sets`} required type="checkbox"/>
+                                        <input id={`set-${s}`} name={`sets[]`} value={s} type="checkbox"/>
                                         <label for={`set-${s}`}>{s}</label>
                                     </div>
                             ))}
@@ -82,8 +100,11 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) =>
                         />
                         <Button type="button" onClick$={handleAddTag}>ADD TAG</Button>
                     </div>
+                    {f.value?.fieldErrors && f.value.fieldErrors['tags[]'] && (
+                            <span class="text-red-600">Should add at least one tag</span>
+                    )}
                     <div class="flex gap-2 mt-2">
-                        {a.createdTags.map(t => (
+                        {createdTags.tags.map(t => (
                                 <Chip key={t} class="select-none hover:cursor-pointer"
                                       role="button"
                                       tabIndex={0}
@@ -93,10 +114,7 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose }) =>
 
 
                     <div class="flex gap-2 justify-end">
-                        <Button type="button" onClick$={() => {
-                            void handleReset();
-                            onClose()
-                        }}>Cancel</Button>
+                        <Button type="button" onClick$={onClose}>Cancel</Button>
                         <Button type="submit">Save</Button>
                     </div>
                 </form>

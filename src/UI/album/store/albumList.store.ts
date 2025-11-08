@@ -1,24 +1,18 @@
-import type { Signal }                                from '@builder.io/qwik';
 import { $, createContextId, useStore }               from '@builder.io/qwik';
+import { getAlbumsPresenter }                         from '~/app/album/presenter/getAlbumsPresenter';
 import type { ALBUM_LIST_STORE, AlbumListStoreState } from '~/UI/album/models/album.model';
 
 export const albumListStoreInitialState: AlbumListStoreState = {
   albums:        [],
-  availableSets: [],
+  availableSets: []
 };
 
-export const useListAlbumStore = (initialState: Signal<AlbumListStoreState> | Signal<null>) => {
+export const useListAlbumStore = (initialState: AlbumListStoreState | null = null) => {
   return useStore<ALBUM_LIST_STORE>({
-    ...initialState.value ?? albumListStoreInitialState,
-    // addTag: $(function(this, tag) {
-    //   this.createdTags.push(tag);
-    // }),
-    // removeTag: $(function(this, tag) {
-    //   this.createdTags = this.createdTags.filter((t) => t !== tag);
-    // })
-    // getAlbum: $(async function(this, id) {
-    //
-    // })
+    ...initialState ?? albumListStoreInitialState,
+    listAlbums: $(async function(this) {
+      this.albums = await getAlbumsPresenter();
+    })
   });
 };
 

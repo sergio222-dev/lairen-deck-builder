@@ -1,11 +1,11 @@
-import type { RequestEventBase, RequestEventLoader }   from '@builder.io/qwik-city';
 // @ts-ignore
 import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
 import type { SupabaseClient }                         from '@supabase/supabase-js';
 import type { CardInfo }                               from '~/app/card/models/card.model';
 import type { Specification }                          from '~/app/filter/filter/models/Specification';
+import { TOKENS }                                      from '~/app/shared/binds/TOKENS';
+import { StringValueObject }                           from '~/app/shared/models/VO/StringValueObject';
 import { Logger }                                      from '~/lib/logger';
-import { createClientServer }                          from '~/lib/supabase-qwik';
 import type { Card }                                   from '~/models/Card';
 import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
 import type { FetchCardsPayload }                      from '~/models/infrastructure/FetchCardsPayload';
@@ -27,11 +27,9 @@ const SET_ORDER = [
 
 export class CardRepository {
 
-  private readonly supabase: SupabaseClient<Database, 'public'>;
+  public static inject = [TOKENS.SUPABASE];
 
-  constructor(request: RequestEventLoader | RequestEventBase) {
-    this.supabase = createClientServer(request);
-  }
+  constructor(private readonly supabase: SupabaseClient<Database, 'public'>) {}
 
   async fetchCards(filters: Specification[]): Promise<{ cards: CardInfo[]; count: number; }> {
     const supabase = this.supabase;
@@ -75,7 +73,7 @@ export class CardRepository {
     const { error, data } = await supabase.from('card_sets').select();
 
     if (error) {
-      Logger.error(error, error.message)
+      Logger.error(error, error.message);
       throw error;
     }
 
@@ -83,9 +81,7 @@ export class CardRepository {
   }
 
   public async getCount(filter: FetchCardsPayload): Promise<number> {
-    const supabase = this.supabase;
-
-    const query = supabase
+    const query = this.supabase
       .from('cards')
       .select('*', { count: 'exact', head: true })
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
@@ -104,9 +100,7 @@ export class CardRepository {
   }
 
   public async fetchCardDataByDeck(deckId: number): Promise<CardInfo[]> {
-    const supabase = this.supabase;
-
-    const { data, error } = await supabase.from('deck_card').select('cards (*)').eq('deck', deckId);
+    const { data, error } = await this.supabase.from('deck_card').select('cards (*)').eq('deck', deckId);
 
     if (error) {
       Logger.error(error, `Error fetching card for deck`);
@@ -244,7 +238,7 @@ export class CardRepository {
     return valuesWithoutNull;
   }
 
-  private addFilters(query: PostgrestTransformBuilder, filter: FetchCardsPayload) {
+  private addFilters(query: PostgrestTransformBuilder<any, any, any, any>, filter: FetchCardsPayload) {
     if (filter.filters.length === 0) return;
     const containsFilters = filter.filters.filter(f => f.isContains);
     const inFilters       = filter.filters.filter(f => !f.isContains);

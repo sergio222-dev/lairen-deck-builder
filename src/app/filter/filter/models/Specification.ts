@@ -31,7 +31,7 @@ export interface Specification<T = PostgrestFilterBuilder<any, any, any, any>> {
 }
 
 
-export class IlikeSpecification implements Specification<PostgrestFilterBuilder<any, any, any, any>> {
+export class IlikeSpecification implements Specification {
 
   constructor(private fields: string[], private values: string[], private exclusive = true) {
   }
@@ -66,7 +66,7 @@ export class IlikeSpecification implements Specification<PostgrestFilterBuilder<
   }
 }
 
-export class RangeFilter implements Specification<PostgrestFilterBuilder<any, any, any, any>> {
+export class RangeFilter implements Specification {
   constructor(private from: number, private to: number) {
   }
 
@@ -75,7 +75,7 @@ export class RangeFilter implements Specification<PostgrestFilterBuilder<any, an
   }
 }
 
-export class OrderFilter implements Specification<PostgrestFilterBuilder<any, any, any, any>> {
+export class OrderFilter implements Specification {
   constructor(private field: string, private order: 'asc' | 'desc' = 'asc') {
   }
 
@@ -84,7 +84,7 @@ export class OrderFilter implements Specification<PostgrestFilterBuilder<any, an
   }
 }
 
-export class InSpecification implements Specification<PostgrestFilterBuilder<any, any, any, any>> {
+export class InSpecification implements Specification {
   private readonly exclusive: boolean;
 
   constructor(private fields: string[], private values: string[], exclusive?: boolean) {

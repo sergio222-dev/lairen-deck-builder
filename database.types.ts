@@ -38,51 +38,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      album_card: {
-        Row: {
-          card: number
-          created_at: string
-          id: number
-          owner: string
-          quantity: number
-          tag: number | null
-          updated_at: string
-        }
-        Insert: {
-          card: number
-          created_at?: string
-          id?: number
-          owner: string
-          quantity?: number
-          tag?: number | null
-          updated_at?: string
-        }
-        Update: {
-          card?: number
-          created_at?: string
-          id?: number
-          owner?: string
-          quantity?: number
-          tag?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "album_card_fkey"
-            columns: ["card"]
-            isOneToOne: false
-            referencedRelation: "cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "album_card_tag_fkey"
-            columns: ["tag"]
-            isOneToOne: false
-            referencedRelation: "tags"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       album_card_tags: {
         Row: {
           album_card_id: number | null
@@ -183,25 +138,28 @@ export type Database = {
       }
       albums: {
         Row: {
-          completion: number
+          current: number
           id: number
           name: string
-          owner: string | null
+          owner: string
           sets: string[]
+          total: number
         }
         Insert: {
-          completion?: number
+          current: number
           id?: number
           name: string
-          owner?: string | null
+          owner: string
           sets: string[]
+          total: number
         }
         Update: {
-          completion?: number
+          current?: number
           id?: number
           name?: string
-          owner?: string | null
+          owner?: string
           sets?: string[]
+          total?: number
         }
         Relationships: []
       }
@@ -430,7 +388,15 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      create_album: {
+        Args: {
+          album_name: string
+          album_owner: string
+          album_sets: string[]
+          album_tags: string[]
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

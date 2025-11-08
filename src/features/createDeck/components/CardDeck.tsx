@@ -28,7 +28,7 @@ export const CardDeck = component$<CardDeckProps>(({ cardId }) => {
   `);
 
     return (
-            <div class="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.5rem)] md:w-[calc(100%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-[calc(33%-0.5rem)] 2xl:w-[calc(33%-0.5rem)]">
+            <div class="">
                 <div
                         class={`select-none relative aspect-[2.5/3.5] cursor-pointer rounded-card bg-[length:100%_auto] bg-[50%_25%]
        bg-no-repeat ring-secondary transition-all hover:md:animate-wiggle hover:bg-[length:100%_auto] hover:shadow-[0px_0px_10px_3px] hover:shadow-secondary hover:ring-1`}

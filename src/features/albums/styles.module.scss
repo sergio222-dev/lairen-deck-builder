@@ -1,0 +1,22 @@
+//.card-list {
+//  &[data-edit] {
+//    .btn-action {
+//      visibility: hidden;
+//    }
+//  }
+//}
+
+.card-list {
+  &[data-edit="false"] {
+    .btn-action {
+      display: none;
+    }
+  }
+
+  .btn-action {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+

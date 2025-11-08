@@ -10,9 +10,9 @@ export const CardList = component$<CardListProps>(() => {
     const cardViewer = useContext(CardViewerContext);
 
     return (
-            <div class="sm:p-0 shadow-lg flex flex-wrap justify-around">
+            <div class="sm:p-0 shadow-lg grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {f.cards.map((id) => (
-                        <div class="p-4 aspect-[2.5/3.5] flex w-1/2 md:w-1/4 lg:w-1/5" key={id} onClick$={() => {
+                        <div class="p-4 aspect-[2.5/3.5] flex" key={id} onClick$={() => {
                             void cardViewer.setCard(f.cardStack[id]);
                             cardViewer.isOpen = true;
                         }}>

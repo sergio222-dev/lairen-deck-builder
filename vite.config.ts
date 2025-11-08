@@ -46,6 +46,13 @@ export default defineConfig(({ command, mode }): UserConfig => {
         "Cache-Control": "public, max-age=0",
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
+      }
+    },
     preview: {
       headers: {
         // Do cache the server response in preview (non-adapter production build)

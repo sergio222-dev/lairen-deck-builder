@@ -1,54 +1,69 @@
 import { $, component$, useContextProvider, useSignal } from "@builder.io/qwik";
-import { routeLoader$ }                                 from "@builder.io/qwik-city";
-import { getAlbums }                                    from "~/app/album/application/getAlbums";
-import { AlbumRepository }                              from "~/app/album/infrastructure/album.repository";
+import { routeAction$, routeLoader$ }                   from "@builder.io/qwik-city";
 import { getAvailableSet }                              from "~/app/card/application/getAvailableSet";
 import { CardRepository }                               from "~/app/card/infrastructure/card.repository";
-import { Button }                                       from "~/components/button";
-import { CreateAlbum }                                  from "~/features/albums/CreateAlbum";
-import { createClientServer }                           from "~/lib/supabase-qwik";
-import type { AlbumListStoreState }                     from "~/UI/album/models/album.model";
-import { ALBUM_CREATE_CONTEXT, useAlbumCreateStore }    from "~/UI/album/store/albumCreate.store";
-import { ALBUM_LIST_CONTEXT, useListAlbumStore }        from "~/UI/album/store/albumList.store";
+
+import { TOKENS }                                from "~/app/shared/binds/TOKENS";
+import { Button }                                from "~/components/button";
+import { CreateAlbum }                           from "~/features/albums/CreateAlbum";
+import { ListAlbums }                            from "~/features/albums/ListAlbums";
+import { IoC }                                   from "~/lib/IoC";
+import type { AlbumListStoreState }              from "~/UI/album/models/album.model";
+import { albumCreationValidator }                from "~/UI/album/models/album.model";
+import { ALBUM_LIST_CONTEXT, useListAlbumStore } from "~/UI/album/store/albumList.store";
+
+export const useCreateAlbumAction = routeAction$(async (data) => {
+    const getCurrentUser = IoC.instance.resolve(TOKENS.GET_CURRENT_USER);
+    const createAlbumPresenter = IoC.instance.resolve(TOKENS.CREATE_ALBUM_PRESENTER);
+
+    const user = await getCurrentUser.execute();
+
+    return await createAlbumPresenter.execute({
+        name:  data.name,
+        tags:  data.tags,
+        sets:  data.sets,
+        owner: user.id.value,
+    })
+}, albumCreationValidator);
 
 export const useAlbumLoader = routeLoader$<AlbumListStoreState>(async (req) => {
+    const container = IoC.instance
 
-    const supabase = createClientServer(req);
+    try {
+        const getAlbums      = container.resolve(TOKENS.GET_ALBUMS)
+        const getCurrentUser = container.resolve(TOKENS.GET_CURRENT_USER)
 
-    const { error, data: userData } = await supabase.auth.getUser();
+        const cardRepository = container.resolve(TOKENS.CARD_REPOSITORY)
 
-    if (error) {
+        const user   = await getCurrentUser.execute();
+        const sets   = await getAvailableSet(cardRepository) // TODO MOVE THIS TO THE CONTAINER
+        const albums = await getAlbums.execute(user.id)
+
+        return {
+            albums:        albums.map(a => ({
+                name:    a.name.value,
+                id:      a.id.value,
+                total:   a.total.value,
+                current: a.current.value
+            })),
+            availableSets: sets,
+        }
+    } catch (error) {
         return {
             albums:        [],
             availableSets: [],
         }
     }
 
-    const albumRepository = new AlbumRepository(req)
-    const cardRepository  = new CardRepository(req)
 
-    const albums = await getAlbums(albumRepository, userData.user.id)
-    const sets   = await getAvailableSet(cardRepository)
-
-    return {
-        albums:        albums.map(a => ({ name: a.name.value, id: a.id.value })),
-        availableSets: sets,
-    }
 })
 
 export default component$(() => {
     const albumState = useAlbumLoader();
 
-    const albumStore       = useListAlbumStore(albumState);
-    const albumCreateStore = useAlbumCreateStore({
-        availableSets: albumStore.availableSets,
-        name:          '',
-        createdTags:   [],
-    });
-
+    const albumStore = useListAlbumStore(albumState.value);
 
     useContextProvider(ALBUM_LIST_CONTEXT, albumStore);
-    useContextProvider(ALBUM_CREATE_CONTEXT, albumCreateStore);
 
     const isOpen  = useSignal(false);
     const onClose = $(() => isOpen.value = false)
@@ -59,7 +74,8 @@ export default component$(() => {
                     <h1 class="text-2xl font-bold">My Albums</h1>
                     <Button onClick$={() => isOpen.value = !isOpen.value}>Create Album</Button>
                 </div>
-                <CreateAlbum onClose={onClose} isOpen={isOpen.value}/>
+                <CreateAlbum onClose={onClose} isOpen={isOpen.value} availableSets={albumState.value.availableSets}/>
+                <ListAlbums/>
             </div>
     )
 });
