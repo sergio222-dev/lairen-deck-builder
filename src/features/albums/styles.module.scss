@@ -1,10 +1,51 @@
-//.card-list {
-//  &[data-edit] {
-//    .btn-action {
-//      visibility: hidden;
-//    }
-//  }
-//}
+.table-collection {
+
+  th {
+    min-width: 8rem;
+
+    &:first-child {
+      min-width: 12rem;
+    }
+  }
+
+  thead {
+    tr {
+      border-bottom: 1px solid var(--qwik-secondary);
+    }
+    th {
+      text-align: left;
+      font-weight: bold;
+    }
+  }
+
+  tbody {
+    tr {
+      &:last-child {
+        border-bottom: 1px solid var(--qwik-secondary);
+      }
+
+      &:nth-child(odd) {
+        background-color: var(--qwik-primary);
+      }
+    }
+
+    th {
+      text-align: right;
+      border-left: 1px solid var(--qwik-secondary);
+      border-right: 1px solid var(--qwik-secondary);
+
+      padding: 0.5rem 0.25rem 0.5rem 0;
+
+
+      &:first-child {
+        text-align: left;
+        padding-left: 0.25rem;
+      }
+
+    }
+  }
+
+}
 
 .card-list {
   &[data-edit="false"] {

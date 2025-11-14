@@ -1,7 +1,7 @@
 import type { AlbumRepository }   from '~/app/album/infrastructure/album.repository';
 import type { IdCardValueObject } from '~/app/card/models/VO/IdCard.ValueObject';
-import { TOKENS }                 from '~/app/shared/binds/TOKENS';
-import type { IdValueObject }     from '~/app/shared/models/VO/Id.ValueObject';
+import { TOKENS }             from '~/app/shared/binds/TOKENS';
+import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
 
 export class AddCardToAlbum {
   static readonly inject = [TOKENS.ALBUM_REPOSITORY];

@@ -2,11 +2,11 @@
 import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
 import type { SupabaseClient }                         from '@supabase/supabase-js';
 import type { CardInfo }                               from '~/app/card/models/card.model';
+import { Card }                                        from '~/app/card/models/card.model';
 import type { Specification }                          from '~/app/filter/filter/models/Specification';
-import { TOKENS }                                      from '~/app/shared/binds/TOKENS';
-import { StringValueObject }                           from '~/app/shared/models/VO/StringValueObject';
-import { Logger }                                      from '~/lib/logger';
-import type { Card }                                   from '~/models/Card';
+import { TOKENS }             from '~/app/shared/binds/TOKENS';
+import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import { Logger }             from '~/lib/logger';
 import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
 import type { FetchCardsPayload }                      from '~/models/infrastructure/FetchCardsPayload';
 import type { Database }                               from '../../../../database.types';
@@ -29,8 +29,10 @@ export class CardRepository {
 
   public static inject = [TOKENS.SUPABASE];
 
-  constructor(private readonly supabase: SupabaseClient<Database, 'public'>) {}
+  constructor(private readonly supabase: SupabaseClient<Database, 'public'>) {
+  }
 
+  // TODO REFACTOR
   async fetchCards(filters: Specification[]): Promise<{ cards: CardInfo[]; count: number; }> {
     const supabase = this.supabase;
 
@@ -67,6 +69,42 @@ export class CardRepository {
     return { cards, count: count ?? 0 };
   }
 
+  async getCardsByAlbumId(albumId: IdValueObject): Promise<Card[]> {
+    const supabase = this.supabase;
+
+    const { data, error } = await supabase.from('album_cards')
+      .select(`
+      card_id,
+      cards(
+        *
+      )
+      `).eq('album_id', albumId.value);
+
+    if (error) {
+      Logger.error(error.message);
+      throw error;
+    }
+
+    return data.toSorted((a, b) => a.cards.name.localeCompare(b.cards.name)).map(c => {
+      return Card.HYDRATE(c.cards);
+    });
+  }
+
+  async getById(id: IdValueObject): Promise<Card> {
+    const { data: cardData, error } = await this.supabase
+      .from('cards')
+      .select()
+      .eq('id', id.value)
+      .single();
+
+    if (error) {
+      Logger.error(error, `Error fetching card with id ${id.value}`);
+      throw error;
+    }
+
+    return Card.HYDRATE(cardData);
+  }
+
   public async getAvailableSet(): Promise<string[]> {
     const supabase = this.supabase;
 
@@ -80,6 +118,7 @@ export class CardRepository {
     return data.map(s => s.name) as string[];
   }
 
+  // TODO REFACTOR
   public async getCount(filter: FetchCardsPayload): Promise<number> {
     const query = this.supabase
       .from('cards')
@@ -99,6 +138,7 @@ export class CardRepository {
     return count || 0;
   }
 
+  // TODO REFACTOR
   public async fetchCardDataByDeck(deckId: number): Promise<CardInfo[]> {
     const { data, error } = await this.supabase.from('deck_card').select('cards (*)').eq('deck', deckId);
 
@@ -126,24 +166,25 @@ export class CardRepository {
 
   }
 
-  public async getCard(id: number): Promise<Card | null> {
-    const supabase = this.supabase;
+  // public async getCard(id: number): Promise<Card | null> {
+  //   const supabase = this.supabase;
+  //
+  //   const query = supabase
+  //     .from('cards')
+  //     .select()
+  //     .eq('id', id);
+  //
+  //   const { data, error } = await query;
+  //
+  //   if (error) {
+  //     Logger.error(error, `${CardRepository.name} ${this.getCard.name}`);
+  //     return null;
+  //   }
+  //
+  //   return data[0];
+  // }
 
-    const query = supabase
-      .from('cards')
-      .select()
-      .eq('id', id);
-
-    const { data, error } = await query;
-
-    if (error) {
-      Logger.error(error, `${CardRepository.name} ${this.getCard.name}`);
-      return null;
-    }
-
-    return data[0];
-  }
-
+  // TODO REFACTOR
   public async getCardList(filter: FetchCardsPayload): Promise<Card[]> {
     const supabase = this.supabase;
 
@@ -173,6 +214,7 @@ export class CardRepository {
     });
   }
 
+  // TODO REFACTOR
   public async getViewCard(view: View): Promise<string[]> {
     const supabase = this.supabase;
 

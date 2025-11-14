@@ -103,7 +103,7 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose, avai
                     {f.value?.fieldErrors && f.value.fieldErrors['tags[]'] && (
                             <span class="text-red-600">Should add at least one tag</span>
                     )}
-                    <div class="flex gap-2 mt-2">
+                    <div class="flex flex-wrap gap-2 mt-2 mb-2">
                         {createdTags.tags.map(t => (
                                 <Chip key={t} class="select-none hover:cursor-pointer"
                                       role="button"

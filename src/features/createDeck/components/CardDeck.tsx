@@ -1,6 +1,6 @@
 import { component$, useComputed$, useContext, useStylesScoped$ } from "@builder.io/qwik";
 import { Icon }                                                   from "~/components/icons/Icon";
-import { CardViewerContext }                                      from "~/stores/cardViewerContext";
+import { CARD_VIEW_CONTEXT }                                      from "~/UI/card/store/cardViewerContext";
 import { DECK_CREATION_CONTEXT }                                  from "~/UI/deck/store/deckCreation.store";
 import { FILTER_CONTEXT }                                         from "~/UI/filters/store/filter.store";
 
@@ -11,7 +11,7 @@ interface CardDeckProps {
 export const CardDeck = component$<CardDeckProps>(({ cardId }) => {
     const d          = useContext(DECK_CREATION_CONTEXT);
     const f          = useContext(FILTER_CONTEXT);
-    const cardViewer = useContext(CardViewerContext);
+    const cardViewer = useContext(CARD_VIEW_CONTEXT);
 
     const quantityInMainDeck = useComputed$(() => {
         return d.cardInDeck[cardId] ? d.cardInDeck[cardId].quantity : 0;

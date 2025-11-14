@@ -1,4 +1,4 @@
-import { IdValueObject } from '~/app/shared/models/VO/Id.ValueObject';
+import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
 
 export class IdCardValueObject extends IdValueObject {
 }

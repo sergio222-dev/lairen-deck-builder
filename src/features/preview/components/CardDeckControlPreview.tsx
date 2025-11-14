@@ -1,5 +1,5 @@
 import { component$, useContext } from '@builder.io/qwik';
-import { CardViewerContext }      from "~/stores/cardViewerContext";
+import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewerContext";
 import { DECK_PREVIEW_CONTEXT }   from "~/UI/deck/store/deckPreview.store";
 
 interface CardDeckControlProps {
@@ -16,7 +16,7 @@ export const CardDeckControlPreview = component$<CardDeckControlProps>((
         }
 ) => {
     const deck       = useContext(DECK_PREVIEW_CONTEXT);
-    const cardViewer = useContext(CardViewerContext);
+    const cardViewer = useContext(CARD_VIEW_CONTEXT);
 
     const cardData   = deck.cardStack[cardId];
     const cardInDeck = deck.cardInDeck[cardId];

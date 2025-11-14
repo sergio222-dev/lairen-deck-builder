@@ -1,4 +1,4 @@
-import type { UserIdValueObject } from '~/app/shared/models/VO/UserId.ValueObject';
+import type { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
 
 interface UserProps {
   id: UserIdValueObject;

@@ -1,7 +1,6 @@
 import { $, component$, useContextProvider, useSignal } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ }                   from "@builder.io/qwik-city";
 import { getAvailableSet }                              from "~/app/card/application/getAvailableSet";
-import { CardRepository }                               from "~/app/card/infrastructure/card.repository";
 
 import { TOKENS }                                from "~/app/shared/binds/TOKENS";
 import { Button }                                from "~/components/button";

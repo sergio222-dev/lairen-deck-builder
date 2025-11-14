@@ -388,6 +388,12 @@ export type Database = {
       }
     }
     Functions: {
+      album_update_changes: {
+        Args: {
+          changes: Database["public"]["CompositeTypes"]["album_changes_input"][]
+        }
+        Returns: undefined
+      }
       create_album: {
         Args: {
           album_name: string
@@ -402,7 +408,12 @@ export type Database = {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      album_changes_input: {
+        album_id: number | null
+        card_id: number | null
+        tag_id: number | null
+        amount: number | null
+      }
     }
   }
 }

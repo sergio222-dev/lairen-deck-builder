@@ -1,11 +1,12 @@
 import type { QueryCards }        from '~/app/card/application/queryCards';
-import { TOKENS }                 from '~/app/shared/binds/TOKENS';
-import { StringValueObject }      from '~/app/shared/models/VO/StringValueObject';
+import { TOKENS }            from '~/app/shared/binds/TOKENS';
+import { StringValueObject } from '~/app/shared/domain/VO/StringValueObject';
 
 import type { UIAlbumCardSimple } from '~/UI/album/models/album.model';
 
 interface QueryCardsPresenterOptions {
   query: string;
+  sets: string[];
 }
 
 export class QueryCardsPresenter {
@@ -15,7 +16,8 @@ export class QueryCardsPresenter {
   }
 
   async execute(props: QueryCardsPresenterOptions): Promise<UIAlbumCardSimple[]> {
-    const c = await this.queryCards.execute(new StringValueObject(props.query));
+    const sets = props.sets.map(s => new StringValueObject(s));
+    const c = await this.queryCards.execute(new StringValueObject(props.query), sets);
 
     return c.map(x => ({
       name: x.name,

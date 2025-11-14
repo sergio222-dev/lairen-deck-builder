@@ -1,13 +1,13 @@
 import { component$, useContext } from '@builder.io/qwik';
-import { CardViewerContext }      from "~/stores/cardViewerContext";
+import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewerContext";
 import { FILTER_CONTEXT }         from "~/UI/filters/store/filter.store";
 
 interface CardListProps {
 }
 
 export const CardList = component$<CardListProps>(() => {
-    const f = useContext(FILTER_CONTEXT);
-    const cardViewer = useContext(CardViewerContext);
+    const f          = useContext(FILTER_CONTEXT);
+    const cardViewer = useContext(CARD_VIEW_CONTEXT);
 
     return (
             <div class="sm:p-0 shadow-lg grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">

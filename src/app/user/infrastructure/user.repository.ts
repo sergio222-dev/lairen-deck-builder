@@ -1,8 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-import { TOKENS }              from '~/app/shared/binds/TOKENS';
-import { UserIdValueObject }   from '~/app/shared/models/VO/UserId.ValueObject';
-import { User }                from '~/app/user/models/user.models';
+import { TOKENS }            from '~/app/shared/binds/TOKENS';
+import { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
+import { User }              from '~/app/user/models/user.models';
 import { Logger }              from '~/lib/logger';
 import type { Database }       from '../../../../database.types';
 

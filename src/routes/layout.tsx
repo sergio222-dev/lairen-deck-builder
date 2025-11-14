@@ -13,9 +13,9 @@ import {
 import { createClientBrowser }                                                               from "~/lib/supabase-qwik";
 import { AppContext, useAppStore }                                                           from "~/stores/appContext";
 import {
-    CardViewerContext,
+    CARD_VIEW_CONTEXT,
     useCardViewerStore
-}                                                                                            from "~/stores/cardViewerContext";
+}                                                                                            from "~/UI/card/store/cardViewerContext";
 
 type UserSupabase = User | null
 
@@ -30,7 +30,7 @@ export default component$(() => {
 
     useContextProvider(UserContext, user);
     useContextProvider(AppContext, app);
-    useContextProvider(CardViewerContext, cardViewer);
+    useContextProvider(CARD_VIEW_CONTEXT, cardViewer);
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
