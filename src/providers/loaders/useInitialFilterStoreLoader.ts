@@ -5,7 +5,7 @@ import { FilterRepository }        from '~/app/filter/infrastructure/filter.repo
 import type { FilterStoreState }   from '~/UI/filters/models/filter.store.model';
 import { DEFAULT_PAGINATION }      from '~/UI/filters/models/filterDefinition.model';
 import { filterStoreInitialState } from '~/UI/filters/store/filter.store';
-import type { CardStackItem }      from '~/UI/shared/models/CardSackItem';
+import type { UICardStackItem }    from '~/UI/shared/models/CardSackItem';
 import { normalizeData }           from '~/utils/normalize';
 
 // eslint-disable-next-line qwik/loader-location
@@ -17,7 +17,7 @@ export const useInitialFilterStoreLoader = routeLoader$<FilterStoreState>(async 
   const { cards, count } = await getFilteredCard(filterRepo, filterGroups);
 
   const cardsIds  = cards.map(c => c.id);
-  const cardStack = normalizeData<CardStackItem>(cards);
+  const cardStack = normalizeData<UICardStackItem>(cards);
 
   const totalPages = Math.ceil(count / DEFAULT_PAGINATION.size);
 

@@ -1,15 +1,16 @@
-import type { Signal }                             from '@builder.io/qwik';
-import { $, createContextId, useStore }            from '@builder.io/qwik';
-import { onDeleteDeck }                            from '~/app/deck/presentation/onDeleteDeck';
-import { onImportDeck }                            from '~/app/deck/presentation/onImportDeck';
-import { onSaveDeck }                              from '~/app/deck/presentation/onSaveDeck';
-import { Logger }                                  from '~/lib/logger';
-import { CARD_TYPES }                              from '~/models/CardTypes'; // TODO: MOVE THIS TO APP
-import type { DECK_STORE, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
-import type { CardStackItem }                      from '~/UI/shared/models/CardSackItem';
-import type { NormalizedModel }                    from '~/utils/normalize';
+import type { Signal }                                               from '@builder.io/qwik';
+import { $, createContextId, useStore }                              from '@builder.io/qwik';
+import { onDeleteDeck }                                              from '~/app/deck/presentation/onDeleteDeck';
+import { Logger }                                                    from '~/lib/logger';
+// TODO: MOVE THIS TO APP
+import { CARD_TYPES }                                                from '~/models/CardTypes';
+import type { DECK_STORE, DeckCreationStoreState, UICardInDeckItem } from '~/UI/deck/models/deck.store.model';
+import { importDeckServer }                                          from '~/UI/deck/service/importDeckServer';
+import { saveDeckServer }                                            from '~/UI/deck/service/saveDeckServer';
+import type { UICardStackItem }                                      from '~/UI/shared/models/CardSackItem';
+import type { NormalizedModel }                                      from '~/utils/normalize';
 
-function orderCard(cardId: number, cardName: string, list: number[], stack: NormalizedModel<CardStackItem>) {
+function orderCard(cardId: number, cardName: string, list: number[], stack: NormalizedModel<UICardStackItem>) {
   let left  = 0;
   let right = list.length;
 
@@ -27,6 +28,27 @@ function orderCard(cardId: number, cardName: string, list: number[], stack: Norm
   return list.toSpliced(left, 0, cardId);
 }
 
+function recalculateCollection(collection: Record<string, number>, inDeck: Record<string, UICardInDeckItem>): number {
+  const totalDeck = Object.values(inDeck).reduce<number>((a, c) => a + c.quantity + c.quantityInSide, 0);
+
+  let totalAlbum = 0;
+  Object.values(inDeck).forEach(x => {
+    const quantityInCollection = collection[x.id.toString()];
+
+    if (!quantityInCollection) {
+      return;
+    }
+
+    const quantityInDeck = x.quantity + x.quantityInSide;
+    if (quantityInCollection >= quantityInDeck) {
+      totalAlbum += quantityInDeck;
+    } else {
+      totalAlbum += quantityInCollection;
+    }
+  });
+
+  return totalAlbum / Math.max(totalDeck, 1) // prevent division by 0;
+}
 
 const deckCreationStoreInitialState: DeckCreationStoreState = {
   deckId:                        0,
@@ -47,16 +69,18 @@ const deckCreationStoreInitialState: DeckCreationStoreState = {
   quantityMonumentsWeaponsCards: 0,
   quantityUnitsCards:            0,
   treasurePoints:                0,
+  ownedPercent:                  0,
   type1:                         null,
-  type2:                         null
+  type2:                         null,
+  collection:                    {}
 };
 
-export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState> | Signal<null>) => {
+export const useDeckCreationStore = (initialState: DeckCreationStoreState | null) => {
 
   return useStore<DECK_STORE>({
-    ...initialState.value ?? deckCreationStoreInitialState,
-    cardStack:  initialState.value ? initialState.value.cardStack : {},
-    cardInDeck: initialState.value ? initialState.value.cardInDeck : {},
+    ...initialState ?? deckCreationStoreInitialState,
+    cardStack:  initialState ? initialState.cardStack : {},
+    cardInDeck: initialState ? initialState.cardInDeck : {},
     addCard:    $(function(this, cardData, side = false) {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!this.cardStack[cardData.id]) {
@@ -89,6 +113,8 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
         if (cardData.type !== CARD_TYPES.TESORO)
           this.quantityInMainDeck++;
       }
+
+      this.ownedPercent = recalculateCollection(this.collection, this.cardInDeck);
 
       if (!side) {
         switch (cardData.type) {
@@ -178,6 +204,8 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
           this.quantityInMainDeck--;
         }
 
+        this.ownedPercent = recalculateCollection(this.collection, this.cardInDeck);
+
         if (!side) {
           switch (cardData.type) {
             case CARD_TYPES.UNIT:
@@ -231,13 +259,18 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
 
         // removing from the stacks and cards if no quantity in both decks
         if (this.cardInDeck[cardData.id].quantity <= 0 && this.cardInDeck[cardData.id].quantityInSide <= 0) {
-          delete this.cardInDeck[cardId];
-          delete this.cardStack[cardId];
+          this.cardInDeck = Object.fromEntries(
+            Object.entries(this.cardInDeck).filter(([k]) => k !== cardId.toString())
+          )
+
+          this.cardStack = Object.fromEntries(
+            Object.entries(this.cardStack).filter(([k]) => k !== cardId.toString())
+          )
         }
       }
     ),
     saveDeck:   $(async function(this) {
-      const result = await onSaveDeck(this);
+      const result = await saveDeckServer(this, Object.values(this.cardInDeck));
 
       this.deckId = result;
 
@@ -263,16 +296,14 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
       this.splashArt                     = undefined;
       this.cardInDeck                    = deckCreationStoreInitialState.cardInDeck;
       this.cardStack                     = deckCreationStoreInitialState.cardStack;
+      this.ownedPercent                  = 0;
     }),
     importDeck: $(async function(this, text: string) {
-      Logger.info(`Importing DECK`);
-      Logger.info(text);
-      const d = await onImportDeck(text);
-
-      Logger.info(d);
+      const d = await importDeckServer(text);
 
       this.cardStack  = d.cardStack;
       this.cardInDeck = d.cardInDeck;
+      this.collection = d.collection;
 
       this.orderedUnitCards           = d.orderedUnitCards;
       this.orderedActionCards         = d.orderedActionCards;
@@ -288,6 +319,8 @@ export const useDeckCreationStore = (initialState: Signal<DeckCreationStoreState
       this.quantityInSideDeck            = d.quantityInSideDeck;
 
       this.treasurePoints = d.treasurePoints;
+
+      this.ownedPercent = recalculateCollection(d.collection, d.cardInDeck);
     }),
     copyDeck:   $(function(this) {
 

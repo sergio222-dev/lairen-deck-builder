@@ -1,4 +1,6 @@
 import { component$ } from '@builder.io/qwik';
+import { routeLoader$ } from "@builder.io/qwik-city";
+import { FEATURES } from "~/app/shared/application/enums/FEATURES";
 import { GithubLink } from "~/components/github/GithubLink";
 
 export default component$(() => {

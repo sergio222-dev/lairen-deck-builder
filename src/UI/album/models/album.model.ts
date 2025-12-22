@@ -62,6 +62,7 @@ export interface AlbumListStoreState {
 
 export interface AlbumListStoreAction {
   listAlbums: QRL<(this: AlbumListStoreState) => void>;
+  deleteAlbum: QRL<(this: AlbumListStoreState, albumId: number) => void>;
 }
 
 export type ALBUM_LIST_STORE = AlbumListStoreState & AlbumListStoreAction;

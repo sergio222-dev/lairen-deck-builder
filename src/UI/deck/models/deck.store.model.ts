@@ -1,29 +1,36 @@
-import type { QRL }           from '@builder.io/qwik';
-import type { CardStackItem } from '~/UI/shared/models/CardSackItem'; // TODO: Should move this to here?
+import type { QRL }             from '@builder.io/qwik';
+import type { UICardStackItem } from '~/UI/shared/models/CardSackItem'; // TODO: Should move this to here?
 
-export interface CardInDeckItem {
+export interface UICardInDeckItem {
   id: number;
   quantity: number;
   quantityInSide: number;
 }
 
-export interface BasicDeckInformationUI {
+export interface UIBasicDeckInformation {
   deckId: number;
   name: string;
   description: string | null;
   splashArt?: string;
   isPublic: boolean;
-}
-
-export interface DeckInformationUI extends BasicDeckInformationUI {
-  cardStack: Record<string, CardStackItem>;
-  cardInDeck: Record<string, CardInDeckItem>;
   type1: string | null;
   type2: string | null;
 }
 
+export interface UIDeckCardInformation {
+  cardStack: Record<string, UICardStackItem>;
+  cardInDeck: Record<string, UICardInDeckItem>;
+}
 
-export interface DeckStatsUI {
+export interface UIDeckInformation extends UIBasicDeckInformation, UIDeckCardInformation, UIUserCollection {
+}
+
+export interface UIUserCollection {
+  collection: Record<string, number>
+}
+
+
+export interface UIDeckStats {
   quantityInMainDeck: number;
   quantityInSideDeck: number;
   quantityInTreasureDeck: number;
@@ -36,13 +43,14 @@ export interface DeckStatsUI {
   orderedTreasureCards: number[];
   orderedSideCards: number[];
   treasurePoints: number;
+  ownedPercent: number;
 }
 
 // DECK CREATION
-export interface DeckCreationStoreState extends DeckStatsUI, DeckInformationUI {}
+export interface DeckCreationStoreState extends UIDeckStats, UIDeckInformation {}
 
 export interface DeckCreationStoreAction {
-  addCard: QRL<(this: DeckCreationStoreState, cardData: CardStackItem, side?: boolean) => void>;
+  addCard: QRL<(this: DeckCreationStoreState, cardData: UICardStackItem, side?: boolean) => void>;
   removeCard: QRL<(this: DeckCreationStoreState, cardId: number, side?: boolean) => void>;
   saveDeck: QRL<(this: DeckCreationStoreState) => Promise<number>>;
   deleteDeck: QRL<(this: DeckCreationStoreState) => void>;
@@ -55,12 +63,12 @@ export type DECK_STORE = DeckCreationStoreState & DeckCreationStoreAction;
 
 // DECK LIST
 export interface DeckListStoreState {
-  decks: BasicDeckInformationUI[];
+  decks: UIBasicDeckInformation[];
 }
 
 export type DECK_LIST_STORE = DeckListStoreState;
 
 // DECK PREVIEW
-export interface DeckPreviewStoreState extends DeckStatsUI, DeckInformationUI {}
+export interface DeckPreviewStoreState extends UIDeckStats, UIDeckInformation {}
 
 export type DECK_PREVIEW_STORE = DeckPreviewStoreState;

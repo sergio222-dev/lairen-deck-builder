@@ -7,7 +7,7 @@ import { createClientBrowser }                         from "~/lib/supabase-qwik
 import { UserContext }                                 from "~/routes/layout";
 import { AppContext }                                  from "~/stores/appContext";
 
-export const Appbar = component$(() => {
+export const Appbar = component$(({}) => {
   const location   = useLocation();
   const logout     = useLogout();
   const login      = useLogin();

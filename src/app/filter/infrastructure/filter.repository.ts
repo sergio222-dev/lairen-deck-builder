@@ -1,7 +1,7 @@
 import type { RequestEventBase, RequestEventLoader } from '@builder.io/qwik-city';
-import type { SupabaseClient }                       from '@supabase/supabase-js';
-import type { CardInfo }                             from '~/app/card/models/card.model';
-import type { Specification }                        from '~/app/filter/filter/models/Specification';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { CardInfo }       from '~/app/card/domain/models/card.model';
+import type { Specification }  from '~/app/filter/filter/models/Specification';
 import { createClientServer }                        from '~/lib/supabase-qwik';
 import type { Database }                             from '../../../../database.types';
 

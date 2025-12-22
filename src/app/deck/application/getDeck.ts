@@ -1,5 +1,24 @@
+import type { Card }           from '~/app/card/domain/models/card.model';
+import type { CardRepository } from '~/app/card/infrastructure/card.repository';
+
+import type { Deck }           from '~/app/deck/domain/models/deck.model';
 import type { DeckRepository } from '~/app/deck/infrastructure/deck.repository';
 
-export async function getDeck(repo: DeckRepository, deckId: number) {
-    return repo.fetchDeck(deckId);
+import { TOKENS }        from '~/app/shared/binds/TOKENS';
+import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+
+export class GetDeck {
+  static readonly inject = [TOKENS.DECK_REPOSITORY, TOKENS.CARD_REPOSITORY];
+
+  constructor(private readonly deckRepository: DeckRepository, private readonly cardRepository: CardRepository) {
+  }
+
+  async execute(deckId: number): Promise<[Deck, Card[]]> {
+    const deckIdVo = new IdValueObject(deckId);
+    const deck     = await this.deckRepository.getDeckById(deckIdVo);
+
+    const cards = await this.cardRepository.getCardsByDeckId(deckIdVo);
+
+    return [deck, cards];
+  }
 }

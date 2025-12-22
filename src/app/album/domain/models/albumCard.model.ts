@@ -5,16 +5,24 @@ import { NumberValueObject }  from '~/app/shared/domain/VO/NumberValueObject';
 export class AlbumCard {
   private _cardTags: AlbumCardTag[] = [];
 
-  get id(): IdValueObject {
-    return this._id;
+  get cardId(): IdValueObject {
+    return this._cardId;
   }
 
   get tags(): AlbumCardTag[] {
     return this._cardTags;
   }
 
+  // get tagId(): IdValueObject {
+  //   return this._tagId;
+  // }
+  //
+  // get quantity(): NumberValueObject {
+  //   return this._quantity;
+  // }
+
   public constructor(
-    private readonly _id: IdValueObject
+    private readonly _cardId: IdValueObject
   ) {
   }
 
@@ -39,13 +47,13 @@ export class AlbumCard {
     this._cardTags.push(tag);
   }
 
-  public addCardTag(tagId: IdValueObject, amount: NumberValueObject) {
+  public addCardTag(tagId: IdValueObject, quantity: NumberValueObject) {
     const tag = this.tags.find(t => t.id.equals(tagId));
 
     if (!tag) {
       throw new Error(`Cannot add card tag: ${tagId.value} because the tag is not in the card`);
     }
 
-    tag.add(amount);
+    tag.add(quantity);
   }
 }

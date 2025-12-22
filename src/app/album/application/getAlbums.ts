@@ -1,7 +1,7 @@
 import type { AlbumRepository } from '~/app/album/infrastructure/album.repository';
 
-import { TOKENS }                 from '~/app/shared/binds/TOKENS';
-import type { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
+import { TOKENS }            from '~/app/shared/binds/TOKENS';
+import { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
 
 export class GetAlbums {
   static readonly inject = [TOKENS.ALBUM_REPOSITORY];
@@ -9,7 +9,8 @@ export class GetAlbums {
   constructor(private albumRepository: AlbumRepository) {
   }
 
-  async execute(owner: UserIdValueObject) {
-    return await this.albumRepository.listByUserOwnerShallow(owner);
+  async execute(owner: string) {
+    const ownerId = new UserIdValueObject(owner);
+    return await this.albumRepository.listByUserOwner(ownerId);
   }
 }

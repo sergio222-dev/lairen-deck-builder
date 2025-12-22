@@ -1,7 +1,7 @@
 import type { QRL }                                from '@builder.io/qwik';
 import type { Page, Sort }                         from '~/app/filter/filter/models/Specification';
 import type { CATEGORY_FILTERS, FilterDefinition } from '~/UI/filters/models/filterDefinition.model';
-import type { CardStackItem }                      from '~/UI/shared/models/CardSackItem';
+import type { UICardStackItem }                    from '~/UI/shared/models/CardSackItem';
 import type { NormalizedModel }                    from '~/utils/normalize';
 
 interface FilterInfo {
@@ -28,7 +28,7 @@ export interface FilterStoreState extends FilterInfo {
   superTypeFilters: string[];
   costFilters: string[];
 
-  cardStack: NormalizedModel<CardStackItem>;
+  cardStack: NormalizedModel<UICardStackItem>;
   cards: number[];
 }
 

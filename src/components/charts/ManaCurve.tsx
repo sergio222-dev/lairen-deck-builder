@@ -1,9 +1,9 @@
 import { component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
 import Chart                     from 'chart.js/auto'
-import type { CardInDeckItem }   from "~/UI/deck/models/deck.store.model";
+import type { UICardInDeckItem } from "~/UI/deck/models/deck.store.model";
 import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
-import type { CardStackItem }                          from "~/UI/shared/models/CardSackItem";
-import type { NormalizedModel }                        from "~/utils/normalize";
+import type { UICardStackItem }  from "~/UI/shared/models/CardSackItem";
+import type { NormalizedModel }  from "~/utils/normalize";
 
 const CHART_COLORS = {
     'UNIDAD':    '#203bac',
@@ -36,8 +36,8 @@ function CreateDataSetFromData(data: CardCostEntity[]) {
     return Array.from(cardMap.values());
 }
 
-function getManaCurveData(cardStack: NormalizedModel<CardStackItem>,
-                          cardInDeck: NormalizedModel<CardInDeckItem>) {
+function getManaCurveData(cardStack: NormalizedModel<UICardStackItem>,
+                          cardInDeck: NormalizedModel<UICardInDeckItem>) {
     // get all costs
     const allCost: CardCostEntity[] = Object.values(cardInDeck)
             .filter(cd => cardStack[cd.id].type !== 'TESORO') // remove tesoro from the mana curve

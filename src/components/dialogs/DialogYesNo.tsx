@@ -16,7 +16,7 @@ export class DialogYesNoNo extends HTMLElement {
         this.dialog           = document.createElement("dialog");
         this.dialog.innerHTML = `
         <slot name="yesNo"> ? </slot>
-        <div>
+        <div class="dialog_button_container">
             <button class="dialog_button" part="button" id="yesno-yes">Yes</button>
             <button class="dialog_button" id="yesno-no">No</button>
         </div>

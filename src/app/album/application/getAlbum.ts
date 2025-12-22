@@ -1,9 +1,11 @@
-import type { AlbumRepository } from '~/app/album/infrastructure/album.repository';
 import type { Album }           from '~/app/album/domain/models/album.model';
-import type { CardRepository }  from '~/app/card/infrastructure/card.repository';
-import type { Card }            from '~/app/card/models/card.model';
-import { TOKENS }             from '~/app/shared/binds/TOKENS';
-import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import type { AlbumRepository } from '~/app/album/infrastructure/album.repository';
+
+import type { Card }           from '~/app/card/domain/models/card.model';
+import type { CardRepository } from '~/app/card/infrastructure/card.repository';
+
+import { TOKENS }        from '~/app/shared/binds/TOKENS';
+import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
 
 export class GetAlbum {
   static readonly inject = [TOKENS.ALBUM_REPOSITORY, TOKENS.CARD_REPOSITORY];
@@ -11,9 +13,10 @@ export class GetAlbum {
   constructor(private albumRepository: AlbumRepository, private cardRepository: CardRepository) {
   }
 
-  async execute(albumId: IdValueObject): Promise<[Album, Card[]]> {
-    const album = await this.albumRepository.getAlbumById(albumId);
-    const cards = await this.cardRepository.getCardsByAlbumId(albumId);
+  async execute(albumId: number): Promise<[Album, Card[]]> {
+    const albumIdVo = new IdValueObject(albumId);
+    const album     = await this.albumRepository.getAlbumById(albumIdVo);
+    const cards     = await this.cardRepository.getCardsByAlbumId(albumIdVo);
 
     return [album, cards];
   }

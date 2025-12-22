@@ -1,11 +1,11 @@
-import type { CardInfo }      from '~/app/card/models/card.model';
-import type { DeckModel }     from '~/app/deck/models/deck.model';
-import { CARD_TYPES }         from '~/models/CardTypes';
-import type { CardStackItem } from '~/UI/shared/models/CardSackItem';
-import { normalizeData }      from '~/utils/normalize';
+import type { CardInfo }  from '~/app/card/domain/models/card.model';
+import type { DeckModel } from '~/app/deck/domain/models/deck.model';
+import { CARD_TYPES }           from '~/models/CardTypes';
+import type { UICardStackItem } from '~/UI/shared/models/CardSackItem';
+import { normalizeData }        from '~/utils/normalize';
 
 export function mapToUIDeck(cards: CardInfo[], deckData: DeckModel) {
-  const cardStack  = normalizeData<CardStackItem>(cards);
+  const cardStack  = normalizeData<UICardStackItem>(cards);
   const cardInDeck = normalizeData(deckData.cards?.map(c => ({
     id:             c.id,
     quantity:       c.quantity,

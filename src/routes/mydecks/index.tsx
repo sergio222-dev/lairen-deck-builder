@@ -1,44 +1,22 @@
-import { component$, useContextProvider } from "@builder.io/qwik";
-import { Link, routeLoader$ }             from "@builder.io/qwik-city";
-import { listUserDecks }      from "~/app/deck/application/listUserDecks";
-import { DeckRepository }     from "~/app/deck/infrastructure/deck.repository";
-import { Button }             from "~/components/button";
-import { MyDecks }            from "~/features/myDecks/MyDecks";
-import { Logger }             from "~/lib/logger";
-import { createClientServer } from "~/lib/supabase-qwik";
+import { component$, useContextProvider }      from "@builder.io/qwik";
+import { Link, routeLoader$ }                  from "@builder.io/qwik-city";
+import { TOKENS }                              from "~/app/shared/binds/TOKENS";
+import { Button }                              from "~/components/button";
+import { MyDecks }                             from "~/features/myDecks/MyDecks";
+import { IoC }                                 from "~/lib/IoC";
 import type { DeckListStoreState }             from "~/UI/deck/models/deck.store.model";
 import { DECK_LIST_CONTEXT, useDeckListStore } from "~/UI/deck/store/decksList.store";
 
-export const useMyDecksLoader = routeLoader$<DeckListStoreState>(async function (request) {
-    const supabase = createClientServer(request);
+export const useMyDecksLoader = routeLoader$<DeckListStoreState>(async function () {
+    const instance = IoC.instance;
 
-    const { data: auth, error } = await supabase.auth.getUser();
+    const listUserDecks = instance.resolve(TOKENS.LIST_USER_DECK_PRESENTER);
 
-    if (error) {
-        Logger.error(error);
-    }
-
-    if (!auth.user?.id) {
-        Logger.error(`User not authorized in ${useMyDecksLoader.name}`);
-        throw request.redirect(302, '/');
-    }
-
-    const deckRepo = new DeckRepository(request);
-
-    const decks = await listUserDecks(deckRepo, auth.user.id)
+    const decks = await listUserDecks.execute();
 
     return {
-        decks: decks.map(d => ({
-            deckId: d.id,
-            name: d.name,
-            description: d.description,
-            splashArt: d.splashArt,
-            isPublic: d.isPublic,
-            type1: d.type1,
-            type2: d.type2,
-        }))
+        decks,
     }
-
 })
 
 export default component$(() => {

@@ -1,4 +1,4 @@
-export interface CardStackItem {
+export interface UICardStackItem {
   id: number;
   name: string;
   rarity: string;

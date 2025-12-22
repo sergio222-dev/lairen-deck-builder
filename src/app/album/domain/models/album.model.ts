@@ -1,25 +1,21 @@
-import { AlbumCardAttachedEvent }      from '~/app/album/domain/events/albumCardAttached.event';
-import { AlbumChangesEvent }           from '~/app/album/domain/events/albumChangesEvent';
-import { AlbumCreatedEvent }           from '~/app/album/domain/events/albumCreated.event';
-import { AlbumCurrentChanged }         from '~/app/album/domain/events/albumCurrentChanged';
-import { AlbumCard }                   from '~/app/album/domain/models/albumCard.model';
-import { AlbumCardTag }                from '~/app/album/domain/models/albumCardTag.model';
-import { AlbumTag }         from '~/app/album/domain/models/albumTag.model';
-import type { AlbumRawDto } from '~/app/album/domain/DTO/AlbumRaw.dto';
-import { SetValueObject }              from '~/app/album/domain/models/set.valueObject';
-import type { AlbumChangeValueObject } from '~/app/album/domain/VO/AlbumChange.ValueObject';
-import { CurrentValueObject }          from '~/app/album/domain/VO/Current.ValueObject';
-import { AggregateRoot }     from '~/app/shared/domain/models/AggregateRoot';
-import { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }   from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
-import { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
-import { Logger }            from '~/lib/logger';
+import type { AlbumRawDto }       from '~/app/album/domain/DTO/AlbumRaw.dto';
+import { AlbumCreatedEvent }      from '~/app/album/domain/events/albumCreated.event';
+import { AlbumCard }              from '~/app/album/domain/models/albumCard.model';
+import { AlbumCardTag }           from '~/app/album/domain/models/albumCardTag.model';
+import { AlbumTag }               from '~/app/album/domain/models/albumTag.model';
+import { SetValueObject }         from '~/app/album/domain/models/set.valueObject';
+import { AlbumChangeValueObject } from '~/app/album/domain/VO/AlbumChange.ValueObject';
+import { CurrentValueObject }     from '~/app/album/domain/VO/Current.ValueObject';
+import { AggregateRoot }          from '~/app/shared/domain/models/AggregateRoot';
+import { IdValueObject }          from '~/app/shared/domain/VO/Id.ValueObject';
+import { NameValueObject }        from '~/app/shared/domain/VO/Name.ValueObject';
+import { NumberValueObject }      from '~/app/shared/domain/VO/NumberValueObject';
+import { UserIdValueObject }      from '~/app/shared/domain/VO/UserId.ValueObject';
 
 interface AlbumConstructProps {
   id: IdValueObject;
   name: NameValueObject;
-  tags: { id: IdValueObject, name: NameValueObject }[];
+  tags: { id: IdValueObject; name: NameValueObject }[];
   sets: SetValueObject;
   owner: UserIdValueObject;
   total: NumberValueObject;
@@ -27,15 +23,17 @@ interface AlbumConstructProps {
 }
 
 export class Album extends AggregateRoot {
-  private _cards: AlbumCard[] = [];
+  private _cards: AlbumCard[]                = [];
+  private _changes: AlbumChangeValueObject[] = [];
 
-  private constructor(private readonly _id: IdValueObject,
-                      private readonly _name: NameValueObject,
-                      private readonly _tags: AlbumTag[],
-                      private readonly _sets: SetValueObject,
-                      private readonly _owner: UserIdValueObject,
-                      private readonly _current: CurrentValueObject,
-                      private readonly _total: NumberValueObject
+  private constructor(
+    private readonly _id: IdValueObject,
+    private readonly _name: NameValueObject,
+    private readonly _tags: AlbumTag[],
+    private readonly _sets: SetValueObject,
+    private readonly _owner: UserIdValueObject,
+    private readonly _current: CurrentValueObject,
+    private readonly _total: NumberValueObject
   ) {
     super();
   }
@@ -43,10 +41,12 @@ export class Album extends AggregateRoot {
   static CREATE(data: AlbumConstructProps) {
     const { id, name, tags, sets, owner, current, total } = data;
 
-    const albumTags = tags.map(t => AlbumTag.CREATE({
-      name: t.name,
-      id:   t.id
-    }));
+    const albumTags = tags.map((t) =>
+      AlbumTag.CREATE({
+        name: t.name,
+        id:   t.id
+      })
+    );
 
     const album = new Album(id, name, albumTags, sets, owner, current, total);
 
@@ -59,44 +59,48 @@ export class Album extends AggregateRoot {
     const a = new Album(
       new IdValueObject(data.id),
       new NameValueObject(data.name),
-      data.album_tag.map(t => AlbumTag.CREATE({
-        id:   new IdValueObject(t.id),
-        name: new NameValueObject(t.name)
-      })),
+      data.album_tags.map((t) =>
+        AlbumTag.CREATE({
+          id:   new IdValueObject(t.id),
+          name: new NameValueObject(t.name)
+        })
+      ),
       new SetValueObject(data.sets),
       new UserIdValueObject(data.owner),
       new CurrentValueObject(data.current),
       new NumberValueObject(data.total)
     );
 
-    a._cards = data.album_cards
+    const cardMap = data.album_cards
       .toSorted((a, b) => a.cards!.name.localeCompare(b.cards!.name))
-      .map(c => {
-        if (!c.cards) throw new Error('AlbumCards must be an array!');
+      .reduce(
+        (a, v) => {
+          if (!v.cards) throw new Error('invalid card');
+          if (!v.album_tags) throw new Error('invalid album_tags');
 
-        // create tags
-        const tags = c.album_card_tags.map(tag => {
-          if (!tag.album_tag) throw new Error('AlbumCardTag requires at least one album');
+          let albumCard: AlbumCard;
 
-          return new AlbumCardTag(
-            new IdValueObject(tag.album_tag.id),
-            new NameValueObject(tag.album_tag.name),
-            new NumberValueObject(tag.quantity)
+          // TODO change this line for type guards
+          if (!a[v.cards.name]) {
+            albumCard = new AlbumCard(new IdValueObject(v.cards.id));
+            a[v.cards.name] = albumCard;
+          } else {
+            albumCard = a[v.cards.name];
+          }
+          const albumCardTag = new AlbumCardTag(
+            new IdValueObject(v.album_tags.id),
+            new NameValueObject(v.album_tags.name),
+            new NumberValueObject(v.quantity)
           );
-        });
 
-        const card = new AlbumCard(
-          new IdValueObject(c.cards.id)
-        );
+          albumCard.addTag(albumCardTag);
 
-        tags.forEach(t => {
-          card.addTag(t);
-        });
-        // card._cardTags = tags;
+          return a;
+        },
+        {} as Record<string, AlbumCard>
+      );
 
-        // return AlbumCard.HYDRATE(c);
-        return card;
-      });
+    a._cards = Object.values(cardMap);
 
     return a;
   }
@@ -133,80 +137,59 @@ export class Album extends AggregateRoot {
     return this._total;
   }
 
-  attachCard(id: IdValueObject) {
-    const card = new AlbumCard(id);
+  get changes() {
+    return this._changes;
+  }
 
-    this.cards.push(card);
+  attachCard(cardId: IdValueObject) {
+    const card = new AlbumCard(cardId);
 
-    this._events.push(new AlbumCardAttachedEvent(this.id.value, id.value));
+    if (this._cards.find((c) => c.cardId.equals(cardId))) {
+      throw new Error('Card already exists in the album');
+    }
+
+    // const changes: AlbumChangeValueObject;
+
+    this.tags.forEach((t) => {
+      const change = new AlbumChangeValueObject(cardId.value, t.id.value, 0);
+      this._changes.push(change);
+      const tag = new AlbumCardTag(t.id, t.name, NumberValueObject.ZERO);
+      card.addTag(tag);
+    });
+
+    this._cards.push(card);
+
+    // this._events.push(new AlbumCardAttachedEvent(this.id.value, id.value));
+  }
+
+  addChanges(changes: AlbumChangeValueObject[]) {
+    changes.forEach((change) => {
+      this.addChange(change);
+    });
   }
 
   addChange(change: AlbumChangeValueObject) {
     const cardId = change.props.cardId;
-    const tagId  = change.props.tagId;
-    const amount = change.props.amount;
+    // const tagId  = change.props.tagId;
+    // const amount = change.props.amount;
 
-    const card = this.cards.find(c => c.id.equals(cardId));
+    const card = this.cards.find((c) => c.cardId.equals(cardId));
 
     if (!card) {
-      throw new Error(`Cannot add card: ${cardId.value} because the card is not in the album`);
+      throw new Error(
+        `Cannot add card: ${cardId.value} because the card is not in the album`
+      );
     }
 
-    const previousQuantity = card.getTotalQuantity();
+    // check if change already in changes
+    const indexChange = this._changes.findIndex((c) =>
+      c.props.cardId.equals(this.id)
+    );
 
-    card.addCardTag(tagId, amount);
-    const currentQuantity = card.getTotalQuantity();
-
-    if (previousQuantity.isZero && !currentQuantity.isZero) {
-      this.current.increase();
-
-      Logger.debug(this.current.value, `INCREASED CURRENT`)
-
-      const e = this._events.find(evt => evt instanceof AlbumCurrentChanged);
-
-      if (!e) {
-        this._events.push(new AlbumCurrentChanged(this.id.value, 1, this.current.value));
-      } else {
-        (e as AlbumCurrentChanged).increasedAmount++;
-        (e as AlbumCurrentChanged).currentValue = this.current.value;
-      }
-    }
-
-    if (currentQuantity.isZero && !previousQuantity.isZero) {
-      this.current.decrease();
-
-      Logger.debug(this.current.value, `INCREASED CURRENT`)
-
-      const e = this._events.find(evt => evt instanceof AlbumCurrentChanged);
-
-      if (!e) {
-        this._events.push(new AlbumCurrentChanged(this.id.value, -1, this.current.value));
-      } else {
-        (e as AlbumCurrentChanged).increasedAmount--;
-        (e as AlbumCurrentChanged).currentValue = this.current.value;
-      }
-
-    }
-
-    const newAmount = card.getQuantity(tagId);
-
-    const changeEventBatch = this._events.find(e => e instanceof AlbumChangesEvent);
-
-    if (!changeEventBatch) {
-      const changesEvent = new AlbumChangesEvent(this.id.value, [
-        {
-          amount: newAmount.value,
-          tagId:  tagId.value,
-          cardId: cardId.value
-        }
-      ]);
-      this._events.push(changesEvent);
+    if (indexChange < 0) {
+      this._changes = [...this._changes, change];
     } else {
-      (changeEventBatch as AlbumChangesEvent).changes.push({
-        tagId:  tagId.value,
-        cardId: cardId.value,
-        amount: newAmount.value
-      });
+      this._changes[indexChange] = change;
     }
   }
 }

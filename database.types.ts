@@ -1,7 +1,3 @@
-
-> lairen-deck-builder@ supabase /home/sergio/code/lairen-deck-builder
-> supabase "gen" "types" "--local"
-
 export type Json =
   | string
   | number
@@ -38,60 +34,24 @@ export type Database = {
   }
   public: {
     Tables: {
-      album_card_tags: {
-        Row: {
-          album_card_id: number | null
-          id: number
-          quantity: number
-          tag_id: number | null
-        }
-        Insert: {
-          album_card_id?: number | null
-          id?: number
-          quantity?: number
-          tag_id?: number | null
-        }
-        Update: {
-          album_card_id?: number | null
-          id?: number
-          quantity?: number
-          tag_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "album_card_tags_album_card_id_fkey"
-            columns: ["album_card_id"]
-            isOneToOne: false
-            referencedRelation: "album_cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "album_card_tags_tag_id_fkey"
-            columns: ["tag_id"]
-            isOneToOne: false
-            referencedRelation: "album_tag"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       album_cards: {
         Row: {
           album_id: number
           card_id: number
-          id: number
           quantity: number
+          tag_id: number
         }
         Insert: {
           album_id: number
           card_id: number
-          id?: number
           quantity?: number
+          tag_id: number
         }
         Update: {
           album_id?: number
           card_id?: number
-          id?: number
           quantity?: number
+          tag_id?: number
         }
         Relationships: [
           {
@@ -108,9 +68,23 @@ export type Database = {
             referencedRelation: "cards"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "album_tags"
+            referencedColumns: ["id"]
+          },
         ]
       }
-      album_tag: {
+      album_tags: {
         Row: {
           album_id: number
           id: number
@@ -128,7 +102,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "album_tag_album_id_fkey"
+            foreignKeyName: "album_tags_album_id_fkey"
             columns: ["album_id"]
             isOneToOne: false
             referencedRelation: "albums"
@@ -160,6 +134,21 @@ export type Database = {
           owner?: string
           sets?: string[]
           total?: number
+        }
+        Relationships: []
+      }
+      card_sets: {
+        Row: {
+          created_at: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          name?: string
         }
         Relationships: []
       }
@@ -245,6 +234,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "deck_card_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "deck_card_deck_fkey"
             columns: ["deck"]
             isOneToOne: false
@@ -262,7 +258,7 @@ export type Database = {
           id: number
           is_public: boolean
           name: string
-          owner: string | null
+          owner: string
           type_1: string | null
           type_2: string | null
           updated_at: string
@@ -275,7 +271,7 @@ export type Database = {
           id?: number
           is_public?: boolean
           name: string
-          owner?: string | null
+          owner: string
           type_1?: string | null
           type_2?: string | null
           updated_at?: string
@@ -288,7 +284,7 @@ export type Database = {
           id?: number
           is_public?: boolean
           name?: string
-          owner?: string | null
+          owner?: string
           type_1?: string | null
           type_2?: string | null
           updated_at?: string
@@ -301,7 +297,29 @@ export type Database = {
             referencedRelation: "cards"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "decks_deck_face_fkey"
+            columns: ["deck_face"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          name: string
+        }
+        Insert: {
+          enabled: boolean
+          name: string
+        }
+        Update: {
+          enabled?: boolean
+          name?: string
+        }
+        Relationships: []
       }
       tags: {
         Row: {
@@ -350,12 +368,6 @@ export type Database = {
         }
         Relationships: []
       }
-      card_sets: {
-        Row: {
-          name: string | null
-        }
-        Relationships: []
-      }
       card_subtypes: {
         Row: {
           name: string | null
@@ -386,34 +398,94 @@ export type Database = {
         }
         Relationships: []
       }
+      user_cards_by_album: {
+        Row: {
+          album_id: number | null
+          card_id: number | null
+          clarifications: string | null
+          cost: string | null
+          created_at: string | null
+          id: number | null
+          image: string | null
+          name: string | null
+          rarity: string | null
+          set: string | null
+          subtype: string | null
+          subtype2: string | null
+          supertype: string | null
+          text: string | null
+          thumbnail: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_cards_totals: {
+        Row: {
+          card_id: number | null
+          owner: string | null
+          total_quantity: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      album_update_changes: {
-        Args: {
-          changes: Database["public"]["CompositeTypes"]["album_changes_input"][]
-        }
-        Returns: undefined
-      }
-      create_album: {
-        Args: {
-          album_name: string
-          album_owner: string
-          album_sets: string[]
-          album_tags: string[]
-        }
+      album_attach_card: {
+        Args: { album_id: number; card_id: number }
         Returns: number
       }
+      album_create: {
+        Args: { album_name: string; album_sets: string[]; album_tags: string[] }
+        Returns: number
+      }
+      album_update_quantity: {
+        Args: { album_changes: Json }
+        Returns: undefined
+      }
+      deck_save: { Args: { deck_data: Json }; Returns: number }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      album_changes_input: {
-        album_id: number | null
-        card_id: number | null
-        tag_id: number | null
-        amount: number | null
-      }
+      [_ in never]: never
     }
   }
 }

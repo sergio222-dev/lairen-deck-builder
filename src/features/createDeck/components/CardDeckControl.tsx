@@ -17,6 +17,8 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
     const cardData = deck.cardStack[cardId];
     const card     = deck.cardInDeck[cardId];
 
+    if (!card || !cardData) return null; // PREVENT Handling Dynamic Object Mutations https://qwik.dev/docs/core/state/#usestore
+
     return (
             <div
                     class={`card-control aspect-[2.5/3.5] border-4 overflow-hidden rounded-[5%/3.571428571428571%] bg-cover ${deck.splashArtId ===

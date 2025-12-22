@@ -1,13 +1,13 @@
-import type { QRL }           from '@builder.io/qwik';
-import type { CardStackItem } from '~/UI/shared/models/CardSackItem';
+import type { QRL }             from '@builder.io/qwik';
+import type { UICardStackItem } from '~/UI/shared/models/CardSackItem';
 
 export interface CardViewerState {
-  card?: CardStackItem;
+  card?: UICardStackItem;
   isOpen: boolean;
 }
 
 export interface CardViewerAction {
-  setCard: QRL<(this: CardViewerState, cardId: CardStackItem) => void>;
+  setCard: QRL<(this: CardViewerState, cardId: UICardStackItem) => void>;
   fetchCard: QRL<(this: CardViewerState, cardId: number) => void>;
 }
 

@@ -1,26 +1,24 @@
 import { component$, useContext, useContextProvider } from '@builder.io/qwik';
 import { Link, routeLoader$ }                         from '@builder.io/qwik-city';
-import { listPublicDecks }                            from "~/app/deck/application/listPublicDecks";
-import { DeckRepository }                             from "~/app/deck/infrastructure/deck.repository";
+import { TOKENS }                                     from "~/app/shared/binds/TOKENS";
 import { Button }                                     from "~/components/button";
 import { DeckList }                                   from "~/features/deckList";
+import { IoC }                                        from "~/lib/IoC";
 import { UserContext }                                from "~/routes/layout";
-import type { DeckListStoreState }                         from "~/UI/deck/models/deck.store.model";
+import type { DeckListStoreState }                    from "~/UI/deck/models/deck.store.model";
 import { DECK_LIST_CONTEXT, useDeckListStore }        from "~/UI/deck/store/decksList.store";
 
 // SERVER ACTIONS
-export const useDeckListStoreLoader = routeLoader$<DeckListStoreState>(async (requestEnv) => {
-    const deckRepo    = new DeckRepository(requestEnv);
-    const publicDecks = await listPublicDecks(deckRepo);
+export const useDeckListStoreLoader = routeLoader$<DeckListStoreState>(async () => {
+
+    const instance = IoC.instance;
+
+    const listPublicDecks = instance.resolve(TOKENS.LIST_PUBLIC_DECK_PRESENTER);
+
+    const decks = await listPublicDecks.execute();
 
     return {
-        decks: publicDecks.map(d => ({
-            deckId: d.id,
-            name: d.name,
-            description: d.description,
-            splashArt: d.splashArt,
-            isPublic: true,
-        }))
+        decks,
     }
 });
 

@@ -1,9 +1,9 @@
 import he                                              from 'he';
 // @ts-ignore
-import piexif                                          from 'piexifjs';
-import type { CardInDeckItem, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
-import type { CardStackItem }                          from '~/UI/shared/models/CardSackItem';
-import { parseToText }                                 from '~/utils/parser';
+import piexif                                            from 'piexifjs';
+import type { UICardInDeckItem, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
+import type { UICardStackItem }                          from '~/UI/shared/models/CardSackItem';
+import { parseToText }                                   from '~/utils/parser';
 
 const NUM_COLS                      = 5;
 const SPACE_BETWEEN_TITLE_AND_CARDS = 20;
@@ -54,7 +54,7 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
   ctx.fillText(`Total de cartas: ${totalCards}`, 50, 90);
 
   // print all units
-  const units: Array<CardStackItem & CardInDeckItem> = deck.orderedUnitCards.map(id => {
+  const units: Array<UICardStackItem & UICardInDeckItem> = deck.orderedUnitCards.map(id => {
     return {
       ...deck.cardInDeck[id],
       ...deck.cardStack[id]
@@ -63,17 +63,17 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
   await printCards(ctx, units, 'Unidades', STATING_HEIGHT_CARD_ZONE);
 
   // print all actions
-  const actions: Array<CardStackItem & CardInDeckItem> = deck.orderedActionCards.map(id => ({
+  const actions: Array<UICardStackItem & UICardInDeckItem>       = deck.orderedActionCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
-  let yHeight                                          = calculateHeightOfCardZone(units.length);
+  let yHeight                                                    = calculateHeightOfCardZone(units.length);
   await printCards(ctx, actions, 'Acciones', STATING_HEIGHT_CARD_ZONE + yHeight);
 
   // print all monuments and weapons
   if (deck.quantityMonumentsWeaponsCards > 0) {
     yHeight += calculateHeightOfCardZone(actions.length);
-    const monumentsAndWeapons: Array<CardInDeckItem & CardStackItem> = deck.orderedMonumentWeaponCards.map(id => ({
+    const monumentsAndWeapons: Array<UICardInDeckItem & UICardStackItem> = deck.orderedMonumentWeaponCards.map(id => ({
       ...deck.cardInDeck[id],
       ...deck.cardStack[id]
     }));
@@ -86,7 +86,7 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
     calculateHeightOfCardZone(deck.quantityMonumentsWeaponsCards > 0 ?
       deck.quantityMonumentsWeaponsCards :
       deck.quantityActionsCards);
-  const treasures: Array<CardInDeckItem & CardStackItem> = deck.orderedTreasureCards.map(id => ({
+  const treasures: Array<UICardInDeckItem & UICardStackItem>     = deck.orderedTreasureCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
@@ -94,7 +94,7 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
 
   // print all side deck
   yHeight += calculateHeightOfCardZone(treasures.length);
-  const sideDeckCards: Array<CardInDeckItem & CardStackItem> = deck.orderedSideCards.map(id => ({
+  const sideDeckCards: Array<UICardInDeckItem & UICardStackItem> = deck.orderedSideCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
@@ -122,7 +122,7 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
 }
 
 async function printCards(ctx: CanvasRenderingContext2D,
-                          cards: Array<CardInDeckItem & CardStackItem>,
+                          cards: Array<UICardInDeckItem & UICardStackItem>,
                           title: string,
                           sy: number) {
   const units      = cards;

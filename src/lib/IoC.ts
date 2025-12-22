@@ -1,3 +1,4 @@
+import { CardRefs }  from '~/app/card/application/DTO/DeckParserDeckRefs.dto';
 import { TOKEN_MAP } from '~/app/shared/binds/binds';
 import { Logger }    from '~/lib/logger';
 
@@ -7,6 +8,13 @@ type InjectableClass<T = any> = {
 };
 
 type InjectCalleable = (...args: any[]) => any;
+
+function isClass(value: unknown): value is new (...args: any[]) => any {
+  return (
+    typeof value === 'function' &&
+    /^class\s/.test(Function.prototype.toString.call(value))
+  );
+}
 
 function isInjectableClass(c: InjectableClass | unknown): c is InjectableClass {
   return (c as InjectableClass).inject !== undefined;
@@ -63,11 +71,7 @@ export class IoC {
 
   private resolveInjectable<T>(t: any): T {
     // get Injectables
-    if (isInjectableClass(t)) {
-      const injectables = t.inject ?? [];
-      const deps        = injectables.map((dep: keyof TOKEN_MAP) => {
-        return this.resolve(dep);
-      });
+    if (isClass(t)) {
 
       // get key from the class
       let key;
@@ -82,6 +86,21 @@ export class IoC {
         throw new Error(`Cannot resolve provider '${String(key)}'`);
       }
 
+
+      if (!isInjectableClass(t)) {
+        const instance = new t();
+
+        this._instances.set(key, instance);
+
+        Logger.debug(`Resolved provider '${key}': ${instance.constructor.name}`);
+        return instance;
+      }
+
+      const injectables = t.inject ?? [];
+      const deps        = injectables.map((dep: keyof TOKEN_MAP) => {
+        return this.resolve(dep);
+      });
+
       const instance = new t(...deps);
 
       this._instances.set(key, instance);
@@ -91,6 +110,7 @@ export class IoC {
     }
 
     if (isCalleable(t)) {
+      Logger.debug(`Resolved function for ${t.name}`)
       return t();
     }
 

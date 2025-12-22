@@ -1,15 +1,24 @@
 // @ts-ignore
-import type PostgrestTransformBuilder                  from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
-import type { SupabaseClient }                         from '@supabase/supabase-js';
-import type { CardInfo }                               from '~/app/card/models/card.model';
-import { Card }                                        from '~/app/card/models/card.model';
-import type { Specification }                          from '~/app/filter/filter/models/Specification';
+import type PostgrestTransformBuilder from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
+import type { SupabaseClient }        from '@supabase/supabase-js';
+
+import type { CardCollectionDto } from '~/app/card/domain/DTO/CardCollection.dto';
+import type { CardRawDto }        from '~/app/card/domain/DTO/CardRaw.dto';
+import type { CardInfo }          from '~/app/card/domain/models/card.model';
+import { Card }                   from '~/app/card/domain/models/card.model';
+
+import type { Specification } from '~/app/filter/filter/models/Specification';
+
 import { TOKENS }             from '~/app/shared/binds/TOKENS';
 import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
-import { Logger }             from '~/lib/logger';
+
+import { Logger } from '~/lib/logger';
+
+// TODO REFACTOR
 import { convertFiltersToExpression, convertToFilter } from '~/models/filters/Filter';
 import type { FetchCardsPayload }                      from '~/models/infrastructure/FetchCardsPayload';
-import type { Database }                               from '../../../../database.types';
+
+import type { Database } from '../../../../database.types';
 
 type View = 'card_types' | 'card_subtypes' | 'card_sets' | 'card_rarity' | 'unit_types' | 'card_supertypes';
 
@@ -26,7 +35,6 @@ const SET_ORDER = [
 ];
 
 export class CardRepository {
-
   public static inject = [TOKENS.SUPABASE];
 
   constructor(private readonly supabase: SupabaseClient<Database, 'public'>) {
@@ -70,24 +78,54 @@ export class CardRepository {
   }
 
   async getCardsByAlbumId(albumId: IdValueObject): Promise<Card[]> {
-    const supabase = this.supabase;
+    const { data } = await this.supabase.from('user_cards_by_album')
+      .select().eq('album_id', albumId.value).throwOnError().overrideTypes<CardRawDto[]>();
 
-    const { data, error } = await supabase.from('album_cards')
-      .select(`
-      card_id,
-      cards(
-        *
-      )
-      `).eq('album_id', albumId.value);
+    if (!data) return [];
+
+    return data.toSorted((a, b) => a.name!.localeCompare(b.name!)).map(c => {
+      return Card.HYDRATE(c);
+    });
+  }
+
+  async getCardsByDeckId(deckId: IdValueObject): Promise<Card[]> {
+    const { data, error } = await this.supabase.from('deck_card').select(`
+    card,
+    cards(
+    *
+    )
+    `)
+      .eq('deck', deckId.value);
 
     if (error) {
       Logger.error(error.message);
       throw error;
     }
 
-    return data.toSorted((a, b) => a.cards.name.localeCompare(b.cards.name)).map(c => {
+    return data.map(c => {
       return Card.HYDRATE(c.cards);
     });
+  }
+
+  async getOwnedCards(): Promise<CardCollectionDto[]> {
+    const { data: auth, error: authError } = await this.supabase.auth.getUser();
+
+    if (authError) {
+      Logger.error(authError.message);
+      throw authError;
+    }
+
+    const { data, error } = await this.supabase.from('user_cards_totals').select().eq('owner', auth.user.id);
+
+    if (error) {
+      Logger.error(error.message);
+      throw error;
+    }
+
+    return data.map(c => ({
+      id:       c.card_id,
+      quantity: c.total_quantity
+    }));
   }
 
   async getById(id: IdValueObject): Promise<Card> {
@@ -103,19 +141,6 @@ export class CardRepository {
     }
 
     return Card.HYDRATE(cardData);
-  }
-
-  public async getAvailableSet(): Promise<string[]> {
-    const supabase = this.supabase;
-
-    const { error, data } = await supabase.from('card_sets').select();
-
-    if (error) {
-      Logger.error(error, error.message);
-      throw error;
-    }
-
-    return data.map(s => s.name) as string[];
   }
 
   // TODO REFACTOR

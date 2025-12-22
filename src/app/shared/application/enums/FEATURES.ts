@@ -1,0 +1,4 @@
+export enum FEATURES {
+  MAINTENANCE = 'MAINTENANCE',
+  BAN_LIST = 'BAN_LIST',
+}

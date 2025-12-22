@@ -1,4 +1,5 @@
 import { component$, useContext } from "@builder.io/qwik";
+import { Tab }                    from "~/components/tab/Tab";
 import { CardDeckControlPreview } from "~/features/preview/components/CardDeckControlPreview";
 import { DECK_PREVIEW_CONTEXT }   from "~/UI/deck/store/deckPreview.store";
 
@@ -10,61 +11,73 @@ export const CardDeckInfoPreview = component$(() => {
     return (
             <div class="shadow-lg m-4">
                 <div class="flex justify-center gap-4">
-                    <p class="text-center">Total number of cards in deck:<br/>{d.quantityInMainDeck}</p>
+                    <div class="border-[var(--qwik-secondary)] border-2 p-4 flex flex-col items-center rounded">
+                        Cards in deck <span class="text-green-400 text-[2rem]">{d.quantityInMainDeck}</span>
+                    </div>
                 </div>
 
+
                 <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Unidades ({d.quantityUnitsCards})</p>
-                        <div class="flex flex-wrap">
-                            {d.orderedUnitCards.map(c => (
-                                    <CardDeckControlPreview key={c} cardId={c}/>
-                            ))}
+                    <Tab class="mt-2">
+                        <div q:slot="title">
+                            <p class="font-bold">
+                                Unidades <span class="text-green-400">({d.quantityUnitsCards})</span>
+                            </p>
                         </div>
-                    </div>
-                    <div>
-                        <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Acciones
-                            ({d.quantityActionsCards})</p>
-                        <div class="flex flex-wrap">
-                            {d.orderedActionCards.map(c => (
-                                    <CardDeckControlPreview key={c} cardId={c}/>
-                            ))}
+                        {d.orderedUnitCards.map(c => (
+                                <CardDeckControlPreview key={c} cardId={c}/>
+                        ))}
+                    </Tab>
+                    <Tab class="mt-2">
+                        <div q:slot="title">
+                            <p class="font-bold">
+                                Acciones <span class="text-green-400">({d.quantityActionsCards})</span>
+                            </p>
                         </div>
-                    </div>
+                        {d.orderedActionCards.map(c => (
+                                <CardDeckControlPreview key={c} cardId={c}/>
+                        ))}
+                    </Tab>
                 </div>
 
                 {d.quantityMonumentsWeaponsCards > 0 &&
-                        <div class="p-4">
-                            <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Monumentos y Armas
-                                ({d.quantityMonumentsWeaponsCards})</p>
-                            <div class="flex flex-wrap">
-                                {d.orderedMonumentWeaponCards.map(c => (
-                                        <CardDeckControlPreview orientation="horizontal" key={c} cardId={c}
-                                        />
-                                ))}
+                        <Tab class="mt-2">
+                            <div q:slot="title">
+                                <p class="font-bold">
+                                    Monumentos y Armas <span
+                                        class="text-green-400">({d.quantityMonumentsWeaponsCards})</span>
+                                </p>
                             </div>
-                        </div>
+                            {d.orderedMonumentWeaponCards.map(c => (
+                                    <CardDeckControlPreview orientation="horizontal" key={c} cardId={c}
+                                    />
+                            ))}
+                        </Tab>
                 }
-                <div class="p-4">
-                    <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Tesoros ({d.quantityInTreasureDeck})
-                        Puntos: {d.treasurePoints}</p>
-                    <div class="flex flex-wrap">
-                        {d.orderedTreasureCards.map(c => (
-                                <CardDeckControlPreview orientation="horizontal" key={c} cardId={c}/>
-                        ))}
+                <Tab class="mt-2">
+                    <div q:slot="title">
+                        <p class="font-bold">
+                            Tesoros <span class="text-green-400">({d.quantityInTreasureDeck}) </span>
+                            Puntos: <span class="text-blue-400">{d.treasurePoints} </span>
+                        </p>
                     </div>
-                </div>
+                    {d.orderedTreasureCards.map(c => (
+                            <CardDeckControlPreview orientation="horizontal" key={c} cardId={c}/>
+                    ))}
+                </Tab>
 
                 {d.quantityInSideDeck > 0 &&
-                        <div class="p-4">
-                            <p class="text-[2rem] py-2 border-primary border-y-2 my-2">Side ({d.quantityInSideDeck})</p>
-                            <div class="flex flex-wrap">
-                                {d.orderedSideCards.map(c => (
-                                        <CardDeckControlPreview orientation="horizontal" isSide key={c} cardId={c}
-                                        />
-                                ))}
+                        <Tab class="mt-2">
+                            <div q:slot="title">
+                                <p class="font-bold">
+                                    Side <span class="text-green-400">({d.quantityInSideDeck})</span>
+                                </p>
                             </div>
-                        </div>
+                            {d.orderedSideCards.map(c => (
+                                    <CardDeckControlPreview orientation="horizontal" isSide key={c} cardId={c}
+                                    />
+                            ))}
+                        </Tab>
                 }
             </div>
     );

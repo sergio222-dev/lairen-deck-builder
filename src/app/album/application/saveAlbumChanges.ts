@@ -1,21 +1,26 @@
-import type { AlbumRepository }        from '~/app/album/infrastructure/album.repository';
-import type { AlbumChangeValueObject } from '~/app/album/domain/VO/AlbumChange.ValueObject';
-import { TOKENS }             from '~/app/shared/binds/TOKENS';
-import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import type { SaveAlbumChangesCommand } from '~/app/album/application/DTO/SaveAlbumChanges.command';
+import { AlbumChangeValueObject }       from '~/app/album/domain/VO/AlbumChange.ValueObject';
+import type { AlbumRepository }         from '~/app/album/infrastructure/album.repository';
+
+import { TOKENS }        from '~/app/shared/binds/TOKENS';
+import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
 
 export class SaveAlbumChanges {
-  static readonly inject = [TOKENS.ALBUM_REPOSITORY];
+  static readonly inject = [TOKENS.ALBUM_REPOSITORY] as const;
 
-  constructor(private albumRepository: AlbumRepository) {
+  constructor(private readonly albumRepository: AlbumRepository) {
   }
 
-  async execute(albumId: IdValueObject, changes: AlbumChangeValueObject[]) {
-    const a = await this.albumRepository.getAlbumById(albumId);
+  async execute(command: SaveAlbumChangesCommand): Promise<void> {
+    const albumId = new IdValueObject(command.albumId);
+    const changes = command.changes.map(c => new AlbumChangeValueObject(c.cardId, c.tagId, c.amount));
+
+    const album = await this.albumRepository.getAlbumById(albumId);
 
     changes.forEach(c => {
-      a.addChange(c);
-    })
+      album.addChange(c);
+    });
 
-    await this.albumRepository.saveAlbum(a);
+    await this.albumRepository.saveAlbum(album);
   }
 }

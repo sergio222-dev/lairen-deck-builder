@@ -1,43 +1,45 @@
-import { component$, useContextProvider }              from '@builder.io/qwik';
-import { routeLoader$ }                                from '@builder.io/qwik-city';
-import { getCardsFromDeck }                            from "~/app/card/application/getCardsFromDeck";
-import { CardRepository }                              from "~/app/card/infrastructure/card.repository";
-import type { CardInfo }                               from "~/app/card/models/card.model";
-import { getDeck }                                     from "~/app/deck/application/getDeck";
-import { DeckRepository }                              from "~/app/deck/infrastructure/deck.repository";
-import { mapToUIDeck }                                 from "~/app/deck/presentation/mapper/mapToUIDeck";
-import { Create }                                      from '~/features/createDeck';
-import { Logger }                                      from "~/lib/logger";
-import { useInitialFilterStoreLoader }                 from "~/providers/loaders/useInitialFilterStoreLoader";
+import { component$, useContextProvider }  from '@builder.io/qwik';
+import type { FailReturn, RequestHandler } from '@builder.io/qwik-city';
+import { routeLoader$ }                    from '@builder.io/qwik-city';
+import { TOKENS }                         from "~/app/shared/binds/TOKENS";
+import { NotFoundException }              from "~/app/shared/domain/exceptions/NotFound.exception";
+
+import { Create }                      from '~/features/createDeck';
+import { IoC }                         from "~/lib/IoC";
+import { useInitialFilterStoreLoader } from "~/providers/loaders/useInitialFilterStoreLoader";
+
 import type { DeckCreationStoreState }                 from "~/UI/deck/models/deck.store.model";
 import { DECK_CREATION_CONTEXT, useDeckCreationStore } from "~/UI/deck/store/deckCreation.store";
 import { FILTER_CONTEXT, useFilterStore }              from "~/UI/filters/store/filter.store";
 
-
 // SERVER ACTIONS
 export { useInitialFilterStoreLoader }
 
-export const useDeckStoreLoader = routeLoader$<DeckCreationStoreState | null>(async (requestEnv) => {
-    const deckRepo = new DeckRepository(requestEnv);
+export const onRequest: RequestHandler = async ({ params, redirect }) => {
+    if (params.id && Number.isNaN(parseInt(params.id))) throw redirect(302, '/');
+}
 
+export const useDeckStoreLoader = routeLoader$<DeckCreationStoreState | FailReturn<{}>>(async (requestEnv) => {
     const deckId = requestEnv.params.id;
 
-    if (!deckId) {
-        return null;
-    }
-    Logger.info(`LOADING ROUTE FOR DECK ${deckId}`)
+    const instance = IoC.instance;
 
-    let data;
+    const getDeckPresenter = instance.resolve(TOKENS.GET_DECK_PRESENTER);
+
     try {
-        data = await getDeck(deckRepo, parseInt(deckId))
-    } catch (_) {
-        throw requestEnv.redirect(302, '/')
+
+        const deck = await getDeckPresenter.execute(deckId ? parseInt(deckId) : null);
+
+        return {
+            ...deck,
+        }
+    } catch (error) {
+        if (error instanceof NotFoundException) {
+            return requestEnv.fail(404, {})
+        }
+
+        return requestEnv.fail(500, {})
     }
-
-    const cardRepo          = new CardRepository(requestEnv);
-    const cards: CardInfo[] = await getCardsFromDeck(cardRepo, parseInt(deckId));
-
-    return mapToUIDeck(cards, data);
 });
 
 
@@ -45,20 +47,19 @@ export default component$(() => {
     const deckState   = useDeckStoreLoader();
     const filterState = useInitialFilterStoreLoader();
 
-    const deckCreationStore = useDeckCreationStore(deckState);
-    // Logger.info(`DATA FROM STORE`)
-    // Logger.info(deckCreationStore);
-    const filterData = useFilterStore(filterState);
+    const deckCreationStore = useDeckCreationStore(deckState.value.failed ? null : deckState.value);
+    const filterData        = useFilterStore(filterState);
 
     useContextProvider(DECK_CREATION_CONTEXT, deckCreationStore);
     useContextProvider(FILTER_CONTEXT, filterData);
 
-    // useTask$(() => {
-    //     return () => {
-    //         Logger.info('RESET STATE');
-    //         void deckCreationStore.resetDeck();
-    //     }
-    // })
+    if (deckState.value.failed) {
+        return (
+                <div class="flex justify-center mt-2 flex-1">
+                    DECK NOT FOUND
+                </div>
+        )
+    }
 
     return (
             <Create/>

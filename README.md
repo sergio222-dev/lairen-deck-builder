@@ -54,8 +54,10 @@ Incluye UI genérica, layouts, botones, inputs, etc.
 
 ## 🧩 Roadmap / TODO
 
-- 🔁 **Refactorizar lógica pesada hacia RPC (STP)** para mejorar rendimiento.
+- 🔁 **Refactorizar lógica pesada hacia RPC (STP)** para mejorar rendimiento y agregar atomicidad(transactions).
 - 📦 **Estandarizar naming** según el patrón actual usado en `Album`.
+- 📦 **Projecciones** Los use case/application service deberian devolver projecciones y no AR/entidades de dominios.
+- 📦 **Interfaces** Agregar interfaces de los repositorios
 - 🧹 **Eliminar** carpetas o patrones obsoletos:
   `providers/`, `models/`, `actions/`, `services/`, `stores/`.
 - 🔍 **Revisar y optimizar** `plugins/`, `lib/`, `hooks/`, `exception/`.
@@ -86,3 +88,6 @@ pnpm supabase migration up
 ```shell
 supabase gen types typescript --local > ./database.types.ts
 ```
+
+### Correr los seeders
+Correr todos los seeders de ``supabase/seeders``
