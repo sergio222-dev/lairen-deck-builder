@@ -5,17 +5,25 @@ import { Database }                                               from '../../da
 export function createClientBrowser() {
   return createBrowserClient<Database>(
     import.meta.env.PUBLIC_SB_API_URL,
-    import.meta.env.PUBLIC_SB_ANON_KEY
+    import.meta.env.PUBLIC_SB_ANON_KEY,
+    {
+      auth: {
+        storageKey: 'ldb'
+      }
+    }
   );
 }
 
 export function createClientServer(request: RequestEvent | RequestEventLoader | RequestEventBase) {
+  const url = request.env.get('SB_API_URL')
+  const key = request.env.get('SB_ANON_KEY')
 
   return createServerClient<Database, 'public'>(
-    import.meta.env.PUBLIC_SB_API_URL,
-    import.meta.env.PUBLIC_SB_ANON_KEY,
+    url!,
+    key!,
     {
       auth:    {
+        storageKey: 'ldb',
         storage: {
           setItem(key: string, value: string) {
             request.cookie.set(key, value);

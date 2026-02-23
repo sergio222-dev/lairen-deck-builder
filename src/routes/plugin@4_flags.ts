@@ -33,7 +33,7 @@ export const onRequest: RequestHandler = async (requestEvent) => {
       requestEvent.pathname !==
       '/api/callback') {
       Logger.debug(`UNABLE TO ACCESS, SERVER IN MAINTENANCE`)
-      throw requestEvent.redirect(301, '/');
+      throw requestEvent.redirect(302, '/');
     }
   }
 };

@@ -1,5 +1,5 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
-import { Link, useLocation }                           from '@builder.io/qwik-city';
+import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
 import { Avatar }                                      from "~/components/avatar/Avatar";
 import { Icon }                                        from "~/components/icons/Icon";
 import { createClientBrowser }                         from "~/lib/supabase-qwik";
@@ -8,6 +8,7 @@ import { USER_CONTEXT }                                from "~/UI/user/store/use
 
 export const Appbar = component$(() => {
     const location   = useLocation();
+    const navigate = useNavigate();
     const isMenuOpen = useSignal(false);
 
     const userStore = useContext(USER_CONTEXT);
@@ -69,8 +70,6 @@ export const Appbar = component$(() => {
                           if (data) {
                               window.location.href = JSON.parse(data).url
                           }
-                          // redirect
-                          // if (data.value.url) window.location.href = data.value.url;
                       }}>Login with
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +96,12 @@ export const Appbar = component$(() => {
                                                     </li>
                                                     <li class="flex cursor-pointer">
                       <span onClick$={async () => {
-                          const supabaseClient = createClientBrowser();
-                          await supabaseClient.auth.signOut();
+                          await fetch("/api/logout", {
+                              method: "POST",
+                          })
 
-                          window.location.href = "/"
+                          const c = createClientBrowser();
+                          await c.auth.signOut(); // have to use it, onAuthStateChange is not fired when the call is done in the server.
                       }}
                             class="flex items-center px-4 ">Logout</span>
                                                     </li>
@@ -168,11 +169,12 @@ export const Appbar = component$(() => {
                                         </li>
                                         <li class="flex">
                       <span onClick$={async () => {
+                          await fetch("/api/logout", {
+                              method: "POST",
+                          })
+
                           const supabaseClient = createClientBrowser();
                           await supabaseClient.auth.signOut();
-
-                          window.location.href = "/"
-
                       }}
                             class="flex items-center px-2 cursor-pointer">Logout</span>
                                         </li>
