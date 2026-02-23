@@ -1,16 +1,14 @@
 // @ts-ignore
 import type PostgrestTransformBuilder from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
-import type { SupabaseClient }        from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { CardRawDto }     from '~/app/card/domain/DTO/cardRaw.dto';
+import type { CardInfo }       from '~/app/card/domain/models/card.model';
+import { Card }                       from '~/app/card/domain/models/card.model';
 
-import type { CardCollectionDto } from '~/app/card/domain/DTO/CardCollection.dto';
-import type { CardRawDto }        from '~/app/card/domain/DTO/CardRaw.dto';
-import type { CardInfo }          from '~/app/card/domain/models/card.model';
-import { Card }                   from '~/app/card/domain/models/card.model';
-
-import type { Specification } from '~/app/filter/filter/models/Specification';
+import type { Specification } from '~/app/shared/domain/models/specification';
 
 import { TOKENS }             from '~/app/shared/binds/TOKENS';
-import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import type { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
 
 import { Logger } from '~/lib/logger';
 
@@ -20,33 +18,21 @@ import type { FetchCardsPayload }                      from '~/models/infrastruc
 
 import type { Database } from '../../../../database.types';
 
-type View = 'card_types' | 'card_subtypes' | 'card_sets' | 'card_rarity' | 'unit_types' | 'card_supertypes';
 
-const RARITY_ORDER = ['BRONCE', 'PLATA', 'ORO', 'DIAMANTE', 'ESMERALDA'];
-
-const SET_ORDER = [
-  'FUNDAMENTOS',
-  'PACTO SECRETO',
-  'TRONO COMPARTIDO',
-  'IMPERIO',
-  'ANCESTROS',
-  'PROFUNDIDADES',
-  'HERMANDAD EN BERIN'
-];
-
-export class CardRepository {
+class CardRepository {
   public static inject = [TOKENS.SUPABASE];
 
   constructor(private readonly supabase: SupabaseClient<Database, 'public'>) {
   }
 
-  // TODO REFACTOR
+  // TODO REFACTOR, should use finder I guess ?
   async fetchCards(filters: Specification[]): Promise<{ cards: CardInfo[]; count: number; }> {
     const supabase = this.supabase;
 
     let query = supabase.from('cards').select('*', { count: 'exact' });
 
     for (const filter of filters) {
+      // @ts-ignore
       query = filter.apply(query);
     }
 
@@ -107,27 +93,6 @@ export class CardRepository {
     });
   }
 
-  async getOwnedCards(): Promise<CardCollectionDto[]> {
-    const { data: auth, error: authError } = await this.supabase.auth.getUser();
-
-    if (authError) {
-      Logger.error(authError.message);
-      throw authError;
-    }
-
-    const { data, error } = await this.supabase.from('user_cards_totals').select().eq('owner', auth.user.id);
-
-    if (error) {
-      Logger.error(error.message);
-      throw error;
-    }
-
-    return data.map(c => ({
-      id:       c.card_id,
-      quantity: c.total_quantity
-    }));
-  }
-
   async getById(id: IdValueObject): Promise<Card> {
     const { data: cardData, error } = await this.supabase
       .from('cards')
@@ -143,7 +108,7 @@ export class CardRepository {
     return Card.HYDRATE(cardData);
   }
 
-  // TODO REFACTOR
+  // TODO REFACTOR, not used
   public async getCount(filter: FetchCardsPayload): Promise<number> {
     const query = this.supabase
       .from('cards')
@@ -151,6 +116,7 @@ export class CardRepository {
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
+    // @ts-ignore
     this.addFilters(query, filter);
 
     const { count, error } = await query;
@@ -163,53 +129,8 @@ export class CardRepository {
     return count || 0;
   }
 
-  // TODO REFACTOR
-  public async fetchCardDataByDeck(deckId: number): Promise<CardInfo[]> {
-    const { data, error } = await this.supabase.from('deck_card').select('cards (*)').eq('deck', deckId);
 
-    if (error) {
-      Logger.error(error, `Error fetching card for deck`);
-      throw new Error('Error fetching card for deck', { cause: error });
-    }
-
-    return data.map(c => {
-      return {
-        id:        c.cards!.id,
-        name:      c.cards!.name,
-        rarity:    c.cards!.rarity,
-        type:      c.cards!.type,
-        supertype: c.cards!.supertype,
-        subtype1:  c.cards!.subtype,
-        subtype2:  c.cards!.subtype2,
-        cost:      c.cards!.cost,
-        text:      c.cards!.text,
-        image:     c.cards!.image,
-        thumbnail: c.cards!.thumbnail,
-        set:       c.cards!.set
-      };
-    });
-
-  }
-
-  // public async getCard(id: number): Promise<Card | null> {
-  //   const supabase = this.supabase;
-  //
-  //   const query = supabase
-  //     .from('cards')
-  //     .select()
-  //     .eq('id', id);
-  //
-  //   const { data, error } = await query;
-  //
-  //   if (error) {
-  //     Logger.error(error, `${CardRepository.name} ${this.getCard.name}`);
-  //     return null;
-  //   }
-  //
-  //   return data[0];
-  // }
-
-  // TODO REFACTOR
+  // TODO REFACTOR, not used
   public async getCardList(filter: FetchCardsPayload): Promise<Card[]> {
     const supabase = this.supabase;
 
@@ -219,6 +140,7 @@ export class CardRepository {
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
+    // @ts-ignore
     this.addFilters(query, filter);
 
     const { data, error } = await query;
@@ -231,6 +153,7 @@ export class CardRepository {
       return [];
     }
 
+    // @ts-ignore
     return data.map(c => {
       return {
         ...c,
@@ -239,71 +162,6 @@ export class CardRepository {
     });
   }
 
-  // TODO REFACTOR
-  public async getViewCard(view: View): Promise<string[]> {
-    const supabase = this.supabase;
-
-    let table: View;
-
-    switch (view) {
-      case 'card_supertypes':
-        table = 'card_supertypes';
-        break;
-      case 'card_types':
-        table = 'card_types';
-        break;
-      case 'card_subtypes':
-        table = 'card_subtypes';
-        break;
-      case 'card_sets':
-        table = 'card_sets';
-        break;
-      case 'card_rarity':
-        table = 'card_rarity';
-        break;
-      case 'unit_types':
-        table = 'unit_types';
-        break;
-      default:
-        table = 'card_types';
-        break;
-    }
-
-    const { data, error } = await supabase
-      .from(table)
-      .select();
-
-    if (error) {
-      Logger.error(error, `${CardRepository.name} ${this.getViewCard.name}`);
-    }
-
-    if (!data) {
-      return [];
-    }
-
-    const values                      = data.map(c => c.name);
-    const valuesWithoutNull: string[] = [];
-    // remove null values
-    values.forEach(c => {
-      if (c !== null) {
-        valuesWithoutNull.push(c);
-      }
-    });
-
-    // order alphabetically
-    if (view !== 'card_sets' && view !== 'card_rarity') {
-      valuesWithoutNull.sort((a, b) => a.localeCompare(b));
-    } else if (view === 'card_rarity') {
-      valuesWithoutNull.sort((a, b) => {
-        return RARITY_ORDER.indexOf(a) - RARITY_ORDER.indexOf(b);
-      });
-    } else {
-      valuesWithoutNull.sort((a, b) => {
-        return SET_ORDER.indexOf(a) - SET_ORDER.indexOf(b);
-      });
-    }
-    return valuesWithoutNull;
-  }
 
   private addFilters(query: PostgrestTransformBuilder<any, any, any, any>, filter: FetchCardsPayload) {
     if (filter.filters.length === 0) return;
@@ -320,7 +178,10 @@ export class CardRepository {
     const mapFilters = convertFiltersToExpression(inFilters);
 
     [...mapFilters, ...containsFiltersExpression].forEach(e => {
-      query = query.or(e);
+      // @ts-ignore
+      query = query!.or(e);
     });
   }
 }
+
+export default CardRepository;

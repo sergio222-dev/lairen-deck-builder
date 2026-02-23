@@ -1,13 +1,13 @@
-import type { DeckCardInfo }                                         from '~/app/shared/application/DTO/DeckCardInfo';
-import type { CardInfoProjection }                                   from '~/app/shared/application/projections/CardInfoProjection';
-import { CARD_TYPES }                                                from '~/models/CardTypes';
+import type { DeckCardInfoDto }   from '~/app/shared/application/DTO/deckCardInfo.dto';
+import type { CardInfoProection } from '~/app/shared/application/projections/cardInfo.proection';
+import { CARD_TYPES }             from '~/models/CardTypes';
 import type { UIDeckCardInformation, UIDeckStats, UIUserCollection } from '~/UI/deck/models/deck.store.model';
-import type { UICardStackItem }                                      from '~/UI/shared/models/CardSackItem';
+import type { UICardStackItem }                                      from '~/UI/shared/models/CardStackItem';
 import { normalizeData }                                             from '~/utils/normalize';
 
 export function calculateDeckStats(
-  cardProj: CardInfoProjection[],
-  cards: DeckCardInfo[],
+  cardProj: CardInfoProection[],
+  cards: DeckCardInfoDto[],
   collection: Record<string, number> = {}
 ): UIDeckStats & UIDeckCardInformation & UIUserCollection {
 

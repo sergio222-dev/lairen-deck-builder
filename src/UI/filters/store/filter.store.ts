@@ -1,7 +1,5 @@
 import type { Signal }                  from '@builder.io/qwik';
 import { $, createContextId, useStore } from '@builder.io/qwik';
-import { onFetchFilterCard }            from '~/app/filter/presentation/onFetchFilterCard';
-import { Logger }                       from '~/lib/logger';
 import type {
   FILTER_STORE,
   FilterStoreState
@@ -12,6 +10,7 @@ import {
   DEFAULT_SORT,
   generatePageFilter
 }                                       from '~/UI/filters/models/filterDefinition.model';
+import { findCardsServer }              from '~/UI/filters/service/findCardsServer';
 import { normalizeArray }               from '~/utils/normalize';
 
 export const filterStoreInitialState: FilterStoreState = {
@@ -38,7 +37,8 @@ export const filterStoreInitialState: FilterStoreState = {
   subTypeFilters:   [],
   superTypeFilters: [],
 
-  pagination: DEFAULT_PAGINATION
+  pagination: DEFAULT_PAGINATION,
+  dominion: true,
 };
 
 
@@ -46,7 +46,7 @@ export const useFilterStore = (initialState: Signal<FilterStoreState> | Signal<n
 
   return useStore<FILTER_STORE>({
     ...initialState.value ?? filterStoreInitialState,
-    addFilter:    $(async function(this, id, value, label) {
+    addFilter:       $(async function(this, id, value, label) {
       if (this.filterGroups[id].currentValues.some(v => v.value === value)) return;
 
       this.filterGroups[id].currentValues.push({
@@ -88,7 +88,7 @@ export const useFilterStore = (initialState: Signal<FilterStoreState> | Signal<n
       this.pagination.page = 1;
       await this.fetchCards();
     }),
-    removeFilter: $(async function(this, id, value) {
+    removeFilter:    $(async function(this, id, value) {
       if (!this.filterGroups[id].currentValues.some(v => v.value === value)) {
         return;
       }
@@ -131,21 +131,26 @@ export const useFilterStore = (initialState: Signal<FilterStoreState> | Signal<n
     }),
     toggleExclusive: $(async function(this, id) {
       this.filterGroups[id].exclusive = !this.filterGroups[id].exclusive;
+      this.pagination.page            = 1;
+      await this.fetchCards();
+    }),
+    toggleDominion: $(async function(this) {
+      this.dominion = !this.dominion;
       this.pagination.page = 1;
       await this.fetchCards();
     }),
-    setPage:      $(async function(this, page) {
+    setPage:         $(async function(this, page) {
       this.pagination.page = page;
       await this.fetchCards();
     }),
-    fetchCards:   $(async function(this) {
+    fetchCards:      $(async function(this) {
       this.filterGroups[CATEGORY_FILTERS.PAGINATION] = generatePageFilter(this.pagination);
 
       // execute async tasks...
-      const cards           = await onFetchFilterCard(Object.values(this.filterGroups));
-      this.cardStack        = normalizeArray(cards.cards);
-      this.count            = cards.count;
-      this.cards            = cards.cards.map(c => c.id);
+      const [cards, count]  = await findCardsServer(Object.values(this.filterGroups), this.dominion);
+      this.cardStack        = normalizeArray(cards);
+      this.count            = count;
+      this.cards            = cards.map(c => c.id);
       this.pagination.pages = Math.ceil(this.count / this.pagination.size);
     })
   });

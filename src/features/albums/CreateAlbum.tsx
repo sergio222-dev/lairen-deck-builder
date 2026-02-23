@@ -1,8 +1,8 @@
 import { $, component$, useContext, useSignal, useStore, useTask$ } from "@builder.io/qwik";
 import { Button }                                                   from "~/components/button";
-import { Chip }                                         from "~/components/chip/Chip";
-import { Text }                                         from "~/components/text";
-import { useCreateAlbumAction }                         from "~/routes/album";
+import { Chip }                                                     from "~/components/chip/Chip";
+import { Text }                                                     from "~/components/text";
+import { useCreateAlbumAction }                                     from "~/routes/album";
 import { ALBUM_LIST_CONTEXT }                                       from "~/UI/album/store/albumList.store";
 
 interface CreateAlbumProps {
@@ -73,50 +73,52 @@ export const CreateAlbum = component$<CreateAlbumProps>(({ isOpen, onClose, avai
     return (
             <dialog ref={modalRef} class="p-4 container max-w-xl">
                 <form preventdefault:submit ref={formRef} onSubmit$={handleSubmit}>
+                    {isOpen && (
+                            <>
+                                <div class="flex flex-col">
+                                    <label for="album-name">Name</label>
+                                    <Text id="album-name" name="name" required/>
+                                </div>
+                                <div class="flex flex-col mt-2">
+                                    <fieldset>
+                                        <legend>Select Set for album</legend>
+                                        {f.value?.fieldErrors && f.value.fieldErrors['sets[]'] && (
+                                                <span class="text-red-600">Should select at least one set</span>
+                                        )}
+                                        {availableSets.map(s => (
+                                                <div key={s} class="flex gap-2">
+                                                    <input id={`set-${s}`} name={`sets[]`} value={s} type="checkbox"/>
+                                                    <label for={`set-${s}`}>{s}</label>
+                                                </div>
+                                        ))}
+                                    </fieldset>
+                                </div>
+                                <hr class="my-2"/>
+                                <div class="flex gap-2">
+                                    <Text value={currentTag.value}
+                                          onKeyDown$={handleInput}
+                                          onInput$={(_, el) => currentTag.value = el.value}
+                                    />
+                                    <Button type="button" onClick$={handleAddTag}>ADD TAG</Button>
+                                </div>
+                                {f.value?.fieldErrors && f.value.fieldErrors['tags[]'] && (
+                                        <span class="text-red-600">Should add at least one tag</span>
+                                )}
+                                <div class="flex flex-wrap gap-2 mt-2 mb-2">
+                                    {createdTags.tags.map(t => (
+                                            <Chip key={t} class="select-none hover:cursor-pointer"
+                                                  role="button"
+                                                  onClick$={() => removeTag(t)}>{t}</Chip>
+                                    ))}
+                                </div>
 
-                    <div class="flex flex-col">
-                        <label for="album-name">Name</label>
-                        <Text id="album-name" name="name" required/>
-                    </div>
-                    <div class="flex flex-col mt-2">
-                        <fieldset>
-                            <legend>Select Set for album</legend>
-                            {f.value?.fieldErrors && f.value.fieldErrors['sets[]'] && (
-                                    <span class="text-red-600">Should select at least one set</span>
-                            )}
-                            {availableSets.map(s => (
-                                    <div key={s} class="flex gap-2">
-                                        <input id={`set-${s}`} name={`sets[]`} value={s} type="checkbox"/>
-                                        <label for={`set-${s}`}>{s}</label>
-                                    </div>
-                            ))}
-                        </fieldset>
-                    </div>
-                    <hr class="my-2"/>
-                    <div class="flex gap-2">
-                        <Text value={currentTag.value}
-                              onKeyDown$={handleInput}
-                              onInput$={(_, el) => currentTag.value = el.value}
-                        />
-                        <Button type="button" onClick$={handleAddTag}>ADD TAG</Button>
-                    </div>
-                    {f.value?.fieldErrors && f.value.fieldErrors['tags[]'] && (
-                            <span class="text-red-600">Should add at least one tag</span>
+
+                                <div class="flex gap-2 justify-end">
+                                    <Button type="button" onClick$={onClose}>Cancel</Button>
+                                    <Button type="submit">Save</Button>
+                                </div>
+                            </>
                     )}
-                    <div class="flex flex-wrap gap-2 mt-2 mb-2">
-                        {createdTags.tags.map(t => (
-                                <Chip key={t} class="select-none hover:cursor-pointer"
-                                      role="button"
-                                      tabIndex={0}
-                                      onClick$={() => removeTag(t)}>{t}</Chip>
-                        ))}
-                    </div>
-
-
-                    <div class="flex gap-2 justify-end">
-                        <Button type="button" onClick$={onClose}>Cancel</Button>
-                        <Button type="submit">Save</Button>
-                    </div>
                 </form>
             </dialog>
     )

@@ -1,6 +1,6 @@
 import type { GetCardById } from '~/app/card/application/getCardById';
 import { TOKENS }        from '~/app/shared/binds/TOKENS';
-import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
 
 import type { UICard } from '~/UI/card/models/card.model';
 
@@ -11,7 +11,7 @@ export class GetCardByIdPresenter {
   }
 
   async execute(cardId: number): Promise<UICard> {
-    const c = await this.getCardById.execute(new IdValueObject(cardId));
+    const c = await this.getCardById.execute(cardId);
 
     return {
       id:             c.id.value,

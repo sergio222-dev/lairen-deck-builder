@@ -1,13 +1,12 @@
-import type { Signal }                                               from '@builder.io/qwik';
 import { $, createContextId, useStore }                              from '@builder.io/qwik';
-import { onDeleteDeck }                                              from '~/app/deck/presentation/onDeleteDeck';
 import { Logger }                                                    from '~/lib/logger';
-// TODO: MOVE THIS TO APP
+// TODO: MOVE THIS TO APP, Maybe not, maybe should be in UI
 import { CARD_TYPES }                                                from '~/models/CardTypes';
 import type { DECK_STORE, DeckCreationStoreState, UICardInDeckItem } from '~/UI/deck/models/deck.store.model';
-import { importDeckServer }                                          from '~/UI/deck/service/importDeckServer';
-import { saveDeckServer }                                            from '~/UI/deck/service/saveDeckServer';
-import type { UICardStackItem }                                      from '~/UI/shared/models/CardSackItem';
+import { deleteDeckServer }                                          from '~/UI/deck/service/deleteDeckServer';
+import { importDeckServer }                                          from '~/UI/deck/service/importDeck.server';
+import { saveDeckServer }                                            from '~/UI/deck/service/saveDeck.server';
+import type { UICardStackItem }                                      from '~/UI/shared/models/CardStackItem';
 import type { NormalizedModel }                                      from '~/utils/normalize';
 
 function orderCard(cardId: number, cardName: string, list: number[], stack: NormalizedModel<UICardStackItem>) {
@@ -47,7 +46,7 @@ function recalculateCollection(collection: Record<string, number>, inDeck: Recor
     }
   });
 
-  return totalAlbum / Math.max(totalDeck, 1) // prevent division by 0;
+  return totalAlbum / Math.max(totalDeck, 1); // prevent division by 0;
 }
 
 const deckCreationStoreInitialState: DeckCreationStoreState = {
@@ -261,11 +260,11 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
         if (this.cardInDeck[cardData.id].quantity <= 0 && this.cardInDeck[cardData.id].quantityInSide <= 0) {
           this.cardInDeck = Object.fromEntries(
             Object.entries(this.cardInDeck).filter(([k]) => k !== cardId.toString())
-          )
+          );
 
           this.cardStack = Object.fromEntries(
             Object.entries(this.cardStack).filter(([k]) => k !== cardId.toString())
-          )
+          );
         }
       }
     ),
@@ -278,7 +277,8 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
     }),
     deleteDeck: $(async function(this) {
       if (this.deckId < 1) return;
-      await onDeleteDeck(this.deckId);
+
+      await deleteDeckServer(this.deckId);
     }),
     resetDeck:  $(function(this) {
       this.orderedActionCards            = [];

@@ -1,11 +1,15 @@
-import type { QRL }                                from '@builder.io/qwik';
-import type { Page, Sort }                         from '~/app/filter/filter/models/Specification';
-import type { CATEGORY_FILTERS, FilterDefinition } from '~/UI/filters/models/filterDefinition.model';
-import type { UICardStackItem }                    from '~/UI/shared/models/CardSackItem';
-import type { NormalizedModel }                    from '~/utils/normalize';
+import type { QRL }                                  from '@builder.io/qwik';
+import type { Page, Sort }                           from '~/app/shared/domain/models/specification';
+import type { CATEGORY_FILTERS, UIFilterDefinition } from '~/UI/filters/models/filterDefinition.model';
+import type { UICardStackItem }                      from '~/UI/shared/models/CardStackItem';
+import type { NormalizedModel }                      from '~/utils/normalize';
+
+export interface UIFilterContent {
+
+}
 
 interface FilterInfo {
-  filterGroups: NormalizedModel<FilterDefinition>;
+  filterGroups: NormalizedModel<UIFilterDefinition>;
   pagination: Page;
   sortBy: Sort;
   count: number;
@@ -30,6 +34,8 @@ export interface FilterStoreState extends FilterInfo {
 
   cardStack: NormalizedModel<UICardStackItem>;
   cards: number[];
+
+  dominion: boolean;
 }
 
 export type FILTER_STORE = FilterStoreState & FilterStoreAction;
@@ -39,6 +45,7 @@ export interface FilterStoreAction {
   removeFilter: QRL<(this: FILTER_STORE, id: CATEGORY_FILTERS, value: string) => void>;
   setPage: QRL<(this: FILTER_STORE, page: number) => void>;
   toggleExclusive: QRL<(this: FILTER_STORE, id: CATEGORY_FILTERS) => void>;
+  toggleDominion: QRL<(this: FILTER_STORE) => void>;
   fetchCards: QRL<(this: FILTER_STORE) => Promise<void>>;
 }
 

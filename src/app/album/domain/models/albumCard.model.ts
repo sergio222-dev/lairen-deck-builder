@@ -1,6 +1,6 @@
 import type { AlbumCardTag }  from '~/app/album/domain/models/albumCardTag.model';
-import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
-import { NumberValueObject }  from '~/app/shared/domain/VO/NumberValueObject';
+import type { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
+import { NumberValueObject }  from '~/app/shared/domain/VO/number.valueObject';
 
 export class AlbumCard {
   private _cardTags: AlbumCardTag[] = [];

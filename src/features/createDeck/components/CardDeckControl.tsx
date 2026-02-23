@@ -1,8 +1,8 @@
 import { component$, useContext } from '@builder.io/qwik';
 import { ButtonIcon }             from "~/components/button/ButtonIcon";
-import { Icon }                   from "~/components/icons/Icon";
-import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewerContext";
-import { DECK_CREATION_CONTEXT }  from "~/UI/deck/store/deckCreation.store";
+import { Icon }                  from "~/components/icons/Icon";
+import { CARD_VIEW_CONTEXT }     from "~/UI/card/store/cardViewer.storet";
+import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
 
 interface CardDeckControlProps {
     cardId: number;

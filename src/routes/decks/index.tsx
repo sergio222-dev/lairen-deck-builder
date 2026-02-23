@@ -4,9 +4,9 @@ import { TOKENS }                                     from "~/app/shared/binds/T
 import { Button }                                     from "~/components/button";
 import { DeckList }                                   from "~/features/deckList";
 import { IoC }                                        from "~/lib/IoC";
-import { UserContext }                                from "~/routes/layout";
 import type { DeckListStoreState }                    from "~/UI/deck/models/deck.store.model";
 import { DECK_LIST_CONTEXT, useDeckListStore }        from "~/UI/deck/store/decksList.store";
+import { USER_CONTEXT }                               from "~/UI/user/store/user.store";
 
 // SERVER ACTIONS
 export const useDeckListStoreLoader = routeLoader$<DeckListStoreState>(async () => {
@@ -25,7 +25,7 @@ export const useDeckListStoreLoader = routeLoader$<DeckListStoreState>(async () 
 // RENDER
 export default component$(() => {
     const deckListState = useDeckListStoreLoader();
-    const user          = useContext(UserContext);
+    const userStore = useContext(USER_CONTEXT)
 
     const deckListStore = useDeckListStore(deckListState);
 
@@ -35,7 +35,7 @@ export default component$(() => {
             <div class="overflow-y-auto w-full">
                 <div class="flex w-full justify-between py-4 px-2">
                     <h1 class="text-2xl font-bold">Decks List</h1>
-                    {user.value && (
+                    {userStore.user && (
                             <Link href="/decks/create/">
                                 <Button>Create Deck</Button>
                             </Link>

@@ -1,6 +1,6 @@
-import type { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import type { NameValueObject }   from '~/app/shared/domain/VO/Name.ValueObject';
-import type { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
+import type { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import type { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
+import type { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
 
 export class AlbumCardTag {
   get id(): IdValueObject {

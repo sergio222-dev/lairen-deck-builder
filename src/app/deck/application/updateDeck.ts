@@ -1,11 +1,13 @@
-import type { UpdateDeckCommand }   from '~/app/deck/application/DTO/UpdateDeck.command';
-import { DeckCard }                 from '~/app/deck/domain/models/deckCard.model';
+import type { UpdateDeckCommand } from '~/app/deck/application/DTO/updateDeck.command';
+import { DeckCard }               from '~/app/deck/domain/models/deckCard.model';
 import type { DeckRepository } from '~/app/deck/infrastructure/deck.repository';
-import { TOKENS }              from '~/app/shared/binds/TOKENS';
-import { IdValueObject }            from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }          from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject }        from '~/app/shared/domain/VO/NumberValueObject';
-import { StringValueObject }        from '~/app/shared/domain/VO/StringValueObject';
+import { TOKENS }            from '~/app/shared/binds/TOKENS';
+import { NotFoundException } from '~/app/shared/domain/exceptions/notFound.exception';
+import { IdValueObject }     from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject }   from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
+import { StringValueObject } from '~/app/shared/domain/VO/string.valueObject';
+import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
 
 export class UpdateDeck {
   static readonly inject = [TOKENS.DECK_REPOSITORY];
@@ -17,6 +19,10 @@ export class UpdateDeck {
     const deckId = new IdValueObject(command.id);
 
     const deck = await this.deckRepository.getDeckById(deckId);
+
+    if (!deck) {
+      throw new NotFoundException(new UserIdValueObject(''), new IdValueObject(command.id));
+    }
 
     if (deck.name.value !== command.name) {
       deck.rename(new NameValueObject(deck.name.value));

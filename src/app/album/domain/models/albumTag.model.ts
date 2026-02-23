@@ -1,5 +1,5 @@
-import type { IdValueObject }   from '~/app/shared/domain/VO/Id.ValueObject';
-import type { NameValueObject } from '~/app/shared/domain/VO/Name.ValueObject';
+import type { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import type { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
 
 interface AlbumTagProps {
   id: IdValueObject;

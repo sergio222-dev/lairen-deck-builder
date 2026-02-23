@@ -64,6 +64,9 @@ export const FilterField = component$<FilterFieldProps>(
                                     onKeyDown$={handleClear}
                             />
                         </form>
+                        <Button class="rounded-3xl" onClick$={$(() => f.toggleDominion())}>
+                            {f.dominion ? 'Dominion' : 'Eterno'}
+                        </Button>
                         <Button
                                 onClick$={$(() => f.toggleExclusive(CATEGORY_FILTERS.TEXT))}
                                 class="rounded-3xl"

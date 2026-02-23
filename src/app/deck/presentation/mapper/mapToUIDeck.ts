@@ -1,7 +1,7 @@
 import type { CardInfo }  from '~/app/card/domain/models/card.model';
 import type { DeckModel } from '~/app/deck/domain/models/deck.model';
 import { CARD_TYPES }           from '~/models/CardTypes';
-import type { UICardStackItem } from '~/UI/shared/models/CardSackItem';
+import type { UICardStackItem } from '~/UI/shared/models/CardStackItem';
 import { normalizeData }        from '~/utils/normalize';
 
 export function mapToUIDeck(cards: CardInfo[], deckData: DeckModel) {

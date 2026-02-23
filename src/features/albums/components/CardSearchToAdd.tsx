@@ -23,7 +23,6 @@ export const CardSearchToAdd = component$(() => {
         if (!resultsRefs.value) return;
         if (resultsRefs.value.dataset.isOpen === 'false') return;
 
-        console.log('checking inside')
         const isInside = resultsRefs.value.contains((e.target as Node));
         if (!isInside) {
             resultsRefs.value.dataset.isOpen = 'false';

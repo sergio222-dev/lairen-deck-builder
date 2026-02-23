@@ -1,5 +1,5 @@
-import type { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import type { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
+import type { IdValueObject }     from '~/app/shared/domain/VO/id.valueObject';
+import type { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
 
 export class DeckCard {
   constructor(

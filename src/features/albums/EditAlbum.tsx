@@ -9,7 +9,7 @@ import { CardSearchToAdd }  from "~/features/albums/components/CardSearchToAdd";
 import { CollectionSearch } from "~/features/albums/components/CollectionSearch";
 
 import { ALBUM_VIEW_CONTEXT } from "~/UI/album/store/albumView.store";
-import { CARD_VIEW_CONTEXT }  from "~/UI/card/store/cardViewerContext";
+import { CARD_VIEW_CONTEXT }  from "~/UI/card/store/cardViewer.storet";
 
 import styles from "./styles.module.scss";
 

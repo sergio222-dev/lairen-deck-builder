@@ -1,5 +1,5 @@
 import type { QRL }             from '@builder.io/qwik';
-import type { UICardStackItem } from '~/UI/shared/models/CardSackItem';
+import type { UICardStackItem } from '~/UI/shared/models/CardStackItem';
 
 export interface CardViewerState {
   card?: UICardStackItem;

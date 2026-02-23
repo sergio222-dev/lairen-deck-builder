@@ -2,7 +2,7 @@ import { component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
 import Chart                     from 'chart.js/auto'
 import type { UICardInDeckItem } from "~/UI/deck/models/deck.store.model";
 import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
-import type { UICardStackItem }  from "~/UI/shared/models/CardSackItem";
+import type { UICardStackItem }  from "~/UI/shared/models/CardStackItem";
 import type { NormalizedModel }  from "~/utils/normalize";
 
 const CHART_COLORS = {

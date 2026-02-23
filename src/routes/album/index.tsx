@@ -13,16 +13,20 @@ import { albumCreationValidator }                from "~/UI/album/models/album.m
 import { ALBUM_LIST_CONTEXT, useListAlbumStore } from "~/UI/album/store/albumList.store";
 
 export const useCreateAlbumAction = routeAction$(async (data) => {
-    const getCurrentUser       = IoC.instance.resolve(TOKENS.GET_CURRENT_USER);
+    const getCurrentUser       = IoC.instance.resolve(TOKENS.CURRENT_USER);
     const createAlbumPresenter = IoC.instance.resolve(TOKENS.CREATE_ALBUM_PRESENTER);
 
-    const user = await getCurrentUser.execute();
+    const user = getCurrentUser();
+
+    if (!user) {
+        throw new Error(`Unable to create album: ${data.name}`);
+    }
 
     return await createAlbumPresenter.execute({
         name:  data.name,
         tags:  data.tags,
         sets:  data.sets,
-        owner: user.id.value,
+        owner: user.id,
     })
 }, albumCreationValidator);
 

@@ -1,7 +1,7 @@
 import { component$, useComputed$, useContext, useStylesScoped$ } from "@builder.io/qwik";
-import { Icon }                                                   from "~/components/icons/Icon";
-import { CARD_VIEW_CONTEXT }                                      from "~/UI/card/store/cardViewerContext";
-import { DECK_CREATION_CONTEXT }                                  from "~/UI/deck/store/deckCreation.store";
+import { Icon }                  from "~/components/icons/Icon";
+import { CARD_VIEW_CONTEXT }     from "~/UI/card/store/cardViewer.storet";
+import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
 import { FILTER_CONTEXT }                                         from "~/UI/filters/store/filter.store";
 
 interface CardDeckProps {

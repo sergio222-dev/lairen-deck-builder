@@ -1,16 +1,16 @@
-import type { AlbumRawDto }       from '~/app/album/domain/DTO/AlbumRaw.dto';
-import { AlbumCreatedEvent }      from '~/app/album/domain/events/albumCreated.event';
+import type { AlbumRawDto }  from '~/app/album/domain/DTO/albumRaw.dto';
+import { AlbumCreatedEvent } from '~/app/album/domain/events/albumCreated.event';
 import { AlbumCard }              from '~/app/album/domain/models/albumCard.model';
 import { AlbumCardTag }           from '~/app/album/domain/models/albumCardTag.model';
 import { AlbumTag }               from '~/app/album/domain/models/albumTag.model';
-import { SetValueObject }         from '~/app/album/domain/models/set.valueObject';
-import { AlbumChangeValueObject } from '~/app/album/domain/VO/AlbumChange.ValueObject';
-import { CurrentValueObject }     from '~/app/album/domain/VO/Current.ValueObject';
-import { AggregateRoot }          from '~/app/shared/domain/models/AggregateRoot';
-import { IdValueObject }          from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }        from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject }      from '~/app/shared/domain/VO/NumberValueObject';
-import { UserIdValueObject }      from '~/app/shared/domain/VO/UserId.ValueObject';
+import { AlbumChangeValueObject } from '~/app/album/domain/VO/albumChange.ValueObject';
+import { CurrentValueObject }     from '~/app/album/domain/VO/current.ValueObject';
+import { SetValueObject } from '~/app/album/domain/VO/set.valueObject';
+import { AggregateRoot }   from '~/app/shared/domain/models/aggregateRoot';
+import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
+import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
 
 interface AlbumConstructProps {
   id: IdValueObject;

@@ -1,5 +1,5 @@
-import type { Page, Sort } from '~/app/filter/filter/models/Specification';
-import { FilterType }      from '~/app/filter/filter/models/Specification';
+import type { Page, Sort } from '~/app/shared/domain/models/specification';
+import { FilterType }      from '~/app/shared/domain/models/specification';
 
 export const DEFAULT_PAGE_SIZE = 24;
 
@@ -25,22 +25,32 @@ export enum CATEGORY_FILTERS {
   SUPER_TYPE,
 }
 
-export interface FilterValues {
+export interface UIFilterValues {
   label: string;
   value: string;
 }
 
-export interface FilterDefinition {
-  label: string;
-  id: CATEGORY_FILTERS;
+export interface UIFilterValuesList {
+  'SET': UIFilterValues[];
+  'TYPE': UIFilterValues[];
+  'SUB_TYPE': UIFilterValues[];
+  'SUPER_TYPE': UIFilterValues[];
+}
+
+export interface UIFilterDefinitionInfo {
   field: string[];
   type: FilterType;
   exclusive?: boolean;
-  availableValues: FilterValues[];
-  currentValues: FilterValues[];
+  currentValues: UIFilterValues[];
 }
 
-export function generatePageFilter(pagination: Page): FilterDefinition {
+export interface UIFilterDefinition extends UIFilterDefinitionInfo{
+  id: CATEGORY_FILTERS;
+  label: string;
+  availableValues: UIFilterValues[];
+}
+
+export function generatePageFilter(pagination: Page): UIFilterDefinition {
 
   const from = pagination.page - 1 <= 0 ? 0 : (pagination.page - 1) * pagination.size;
   const to   = from + pagination.size;

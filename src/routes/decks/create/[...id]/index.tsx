@@ -1,8 +1,8 @@
 import { component$, useContextProvider }  from '@builder.io/qwik';
 import type { FailReturn, RequestHandler } from '@builder.io/qwik-city';
 import { routeLoader$ }                    from '@builder.io/qwik-city';
-import { TOKENS }                         from "~/app/shared/binds/TOKENS";
-import { NotFoundException }              from "~/app/shared/domain/exceptions/NotFound.exception";
+import { TOKENS }            from "~/app/shared/binds/TOKENS";
+import { NotFoundException } from "~/app/shared/domain/exceptions/notFound.exception";
 
 import { Create }                      from '~/features/createDeck';
 import { IoC }                         from "~/lib/IoC";

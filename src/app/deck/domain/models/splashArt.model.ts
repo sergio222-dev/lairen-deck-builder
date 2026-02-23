@@ -1,5 +1,5 @@
-import type { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import type { StringValueObject } from '~/app/shared/domain/VO/StringValueObject';
+import type { IdValueObject }     from '~/app/shared/domain/VO/id.valueObject';
+import type { StringValueObject } from '~/app/shared/domain/VO/string.valueObject';
 
 export class SplashArt {
   constructor(

@@ -1,14 +1,14 @@
-import type { Specification }    from '~/app/filter/filter/models/Specification';
+import type { Specification }      from '~/app/shared/domain/models/specification';
 import {
   FilterType,
   IlikeSpecification,
   InSpecification,
   OrderFilter,
   RangeFilter
-}                                from '~/app/filter/filter/models/Specification';
-import type { FilterDefinition } from '~/UI/filters/models/filterDefinition.model';
+}                                  from '~/app/shared/domain/models/specification';
+import type { UIFilterDefinition } from '~/UI/filters/models/filterDefinition.model';
 
-export function mapFilterToSpecification(filterGroups: FilterDefinition[]): Specification[] {
+export function mapFilterToSpecification(filterGroups: UIFilterDefinition[]): Specification[] {
 
   const filters: Specification[] = [];
 

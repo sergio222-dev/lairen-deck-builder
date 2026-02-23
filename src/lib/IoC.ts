@@ -1,4 +1,3 @@
-import { CardRefs }  from '~/app/card/application/DTO/DeckParserDeckRefs.dto';
 import { TOKEN_MAP } from '~/app/shared/binds/binds';
 import { Logger }    from '~/lib/logger';
 
@@ -25,13 +24,12 @@ function isCalleable(c: InjectCalleable | unknown): c is InjectCalleable {
 }
 
 export class IoC {
-
   private static _instance: IoC;
 
   private _providers: Map<string, any>       = new Map();
   private _providers_value: Map<string, any> = new Map();
 
-  private _instances: Map<string, any>       = new Map();
+  private _instances: Map<string, any> = new Map();
 
   static get instance() {
     if (!IoC._instance) {
@@ -42,6 +40,12 @@ export class IoC {
   }
 
   provide<K extends keyof TOKEN_MAP>(key: K, provider: new (...args: any[]) => TOKEN_MAP[K]) {
+    this._providers.set(key, provider);
+
+    return this;
+  }
+
+  provideFactory<K extends keyof TOKEN_MAP>(key: K, provider: new (...args: any[]) => TOKEN_MAP[K]) {
     this._providers.set(key, provider);
 
     return this;
@@ -66,7 +70,6 @@ export class IoC {
 
     // get injectables
     return this.resolveInjectable(constructor ?? value);
-
   }
 
   private resolveInjectable<T>(t: any): T {
@@ -109,10 +112,11 @@ export class IoC {
       return instance;
     }
 
-    if (isCalleable(t)) {
-      Logger.debug(`Resolved function for ${t.name}`)
-      return t();
-    }
+    // if (isCalleable(t)) {
+    //   Logger.debug(  `ESTO ES UNA FUNCION?`)
+    //   Logger.debug(`Resolved function for ${t.name}`);
+    //   return t();
+    // }
 
     return t;
   }

@@ -1,7 +1,6 @@
-import type { DeckCard }    from "~/models/Deck";
-import { UICardInDeckItem }     from '~/UI/deck/models/deck.store.model';
-import { UICardStackItem }      from '~/UI/shared/models/CardSackItem';
-import type { NormalizedModel } from "~/utils/normalize";
+import type { UICardInDeckItem } from '~/UI/deck/models/deck.store.model';
+import type { UICardStackItem }  from '~/UI/shared/models/CardStackItem';
+import type { NormalizedModel }  from '~/utils/normalize';
 
 const COST_LEVELS = {
   BASIC:        'Basico',
@@ -11,8 +10,8 @@ const COST_LEVELS = {
   ADVANCED:     'Costoso',
   COMPETITIVE:  'Caro',
   PREMIUM:      'Premium',
-  EXCLUSIVE:    'Exclusivo',
-}
+  EXCLUSIVE:    'Exclusivo'
+};
 
 const COST_LEVEL_BREAKPOINTS = 180;
 
@@ -53,8 +52,11 @@ export function getColorLever(level: typeof COST_LEVELS[keyof typeof COST_LEVELS
 }
 
 
-export function costCalculator(cardStack: NormalizedModel<UICardStackItem>, cardInDeck: NormalizedModel<UICardInDeckItem>): typeof COST_LEVELS[keyof typeof COST_LEVELS] {
-  const costPoints = Object.values(cardInDeck).reduce((acc, c) => acc + getCostPoints(cardStack[c.id].rarity) * c.quantity, 0);
+export function costCalculator(cardStack: NormalizedModel<UICardStackItem>,
+                               cardInDeck: NormalizedModel<UICardInDeckItem>): typeof COST_LEVELS[keyof typeof COST_LEVELS] {
+  const costPoints = Object.values(cardInDeck).reduce((acc, c) => acc +
+    getCostPoints(cardStack[c.id].rarity) *
+    c.quantity, 0);
 
   if (costPoints < COST_LEVEL_BREAKPOINTS) {
     return COST_LEVELS.BASIC;

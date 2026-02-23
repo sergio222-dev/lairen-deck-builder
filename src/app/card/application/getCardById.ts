@@ -1,6 +1,6 @@
-import type { CardRepository } from '~/app/card/infrastructure/card.repository';
-import { TOKENS }             from '~/app/shared/binds/TOKENS';
-import type { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import type CardRepository from '~/app/card/infrastructure/card.repository';
+import { TOKENS }        from '~/app/shared/binds/TOKENS';
+import { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
 
 export class GetCardById {
   static readonly inject = [TOKENS.CARD_REPOSITORY];
@@ -8,7 +8,8 @@ export class GetCardById {
   constructor(private cardRepository: CardRepository) {
   }
 
-  async execute(cardId: IdValueObject) {
-    return await this.cardRepository.getById(cardId);
+  async execute(cardId: number) {
+    const cardIdVo = new IdValueObject(cardId);
+    return await this.cardRepository.getById(cardIdVo);
   }
 }

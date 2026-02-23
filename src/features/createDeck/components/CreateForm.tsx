@@ -6,10 +6,10 @@ import { Menu }                                 from "~/components/menu";
 import { Switch }                               from '~/components/switch/Switch';
 import { Text }                                 from '~/components/text';
 import { DeckImporter }                         from "~/features/importer/DeckImporter";
-import { UserContext }                 from "~/routes/layout";
-import { generateDeckImage, loadDeck } from "~/services/deckImageGenerator";
-import { AppContext }                  from "~/stores/appContext";
+import { AppContext }                           from "~/stores/appContext";
 import { DECK_CREATION_CONTEXT }                from "~/UI/deck/store/deckCreation.store";
+import { USER_CONTEXT }                         from "~/UI/user/store/user.store";
+import { generateDeckImage, loadDeck }          from "~/utils/deckImageGenerator";
 import { parseToText }                          from "~/utils/parser";
 
 export const CreateForm = component$(() => {
@@ -20,9 +20,9 @@ export const CreateForm = component$(() => {
     const inputRef = useSignal<HTMLInputElement>();
 
     // const deckStore = useContext(DeckCreationContext);
-    const d    = useContext(DECK_CREATION_CONTEXT);
-    const app  = useContext(AppContext);
-    const user = useContext(UserContext);
+    const d         = useContext(DECK_CREATION_CONTEXT);
+    const app       = useContext(AppContext);
+    const userStore = useContext(USER_CONTEXT)
 
     const handleCloseImportDialog = $(() => {
         isImportOpen.value = false;
@@ -42,7 +42,7 @@ export const CreateForm = component$(() => {
             <div class="p-2">
                 <div class="flex flex-wrap items-center justify-between py-2">
                     <Text value={d.name} placeholder="Deck Name" onInput$={handleNameChange}/>
-                    {user.value && (
+                    {userStore.user && (
                             <div>
                                 <Switch
                                         id="public"
@@ -55,7 +55,7 @@ export const CreateForm = component$(() => {
                     )}
                 </div>
 
-                {user.value && (
+                {userStore.user && (
                         <div class="flex py-2">
                             <Text
                                     value={d.description}
@@ -70,7 +70,7 @@ export const CreateForm = component$(() => {
                     <Menu>
                         <div q:slot="label">Menu</div>
                         <div class="flex flex-col gap-2">
-                            {user.value && (
+                            {userStore.user && (
                                     <Button
                                             class="bg-primary p-4 text-black ring-red-600 active:ring-2 disabled:cursor-not-allowed disabled:opacity-50"
                                             disabled={app.isLoading}
@@ -93,7 +93,7 @@ export const CreateForm = component$(() => {
                                     </Button>
                             )}
                             <div class="flex gap-2">
-                                {user.value && (
+                                {userStore.user && (
                                         <Button
                                                 class="ring-red-600 active:ring-2"
                                                 disabled={app.isLoading || d.deckId < 1}

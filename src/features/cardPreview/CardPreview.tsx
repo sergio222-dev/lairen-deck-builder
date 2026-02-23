@@ -1,8 +1,8 @@
 import { $, component$, useContext, useTask$ } from "@builder.io/qwik";
 import { useLocation }                         from "@builder.io/qwik-city";
 import { ButtonIcon }                          from "~/components/button";
-import { Icon }                                from "~/components/icons/Icon";
-import { CARD_VIEW_CONTEXT }                   from "~/UI/card/store/cardViewerContext";
+import { Icon }              from "~/components/icons/Icon";
+import { CARD_VIEW_CONTEXT } from "~/UI/card/store/cardViewer.storet";
 
 export const CardPreview = component$(() => {
     const location = useLocation();

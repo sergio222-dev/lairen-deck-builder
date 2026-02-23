@@ -56,6 +56,14 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
                 }, 0)
     })
 
+    // TODO check for performance impact
+    const appliedFilters = useComputed$(() => {
+        const ignoreList = new Set([CATEGORY_FILTERS.SORT, CATEGORY_FILTERS.PAGINATION, CATEGORY_FILTERS.TEXT]);
+
+        return Object.values(f.filterGroups)
+                .filter(entry => !ignoreList.has(entry.id))
+                .flatMap(entry => entry.currentValues.map(x => ({ ...x, id: entry.id })));
+    })
 
     // Render
     return (
@@ -65,6 +73,10 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
                             onSubmit={addContainsFilter}
                             onClear={handleClearLastFilter}
                     >
+                        {appliedFilters.value.map(x => (
+                                <ChipFilter key={x.value}
+                                            onClick$={() => f.removeFilter(x.id, x.value)}>{x.label}</ChipFilter>
+                        ))}
                         {f.filterGroups[CATEGORY_FILTERS.TEXT].currentValues.map((v) => (
                                 <ChipFilter key={v.value} onClick$={() => f.removeFilter(CATEGORY_FILTERS.TEXT,
                                         v.value)}>{v.label}</ChipFilter>
@@ -89,6 +101,22 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
                         </div>
                     </div>
                     <div class="p-4">
+
+                        <Accordion title={f.filterGroups[CATEGORY_FILTERS.COST].label} quantity={f.quantityCostFilters}>
+                            <div class="flex flex-wrap gap-2">
+                                {f.filterGroups[CATEGORY_FILTERS.COST].availableValues.map(v => (
+                                        <button class={`hover:bg-primary hover:text-white ring-2 ring-primary cursor-pointer px-2 py-1
+                        ${(f.costFilters.includes(v.value)) ? 'bg-primary text-white' : ''}`}
+                                                key={v.value}
+                                                onClick$={() => handleToggleFilter(CATEGORY_FILTERS.COST,
+                                                        v.value,
+                                                        v.label)}
+                                        >
+                                            {v.label}
+                                        </button>
+                                ))}
+                            </div>
+                        </Accordion>
 
                         <Accordion title={f.filterGroups[CATEGORY_FILTERS.SUPER_TYPE].label}
                                    quantity={f.quantitySuperTypeFilters}>

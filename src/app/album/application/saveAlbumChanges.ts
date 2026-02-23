@@ -1,9 +1,8 @@
-import type { SaveAlbumChangesCommand } from '~/app/album/application/DTO/SaveAlbumChanges.command';
-import { AlbumChangeValueObject }       from '~/app/album/domain/VO/AlbumChange.ValueObject';
+import type { SaveAlbumChangesCommand } from '~/app/album/application/DTO/saveAlbumChanges.command';
+import { AlbumChangeValueObject }       from '~/app/album/domain/VO/albumChange.ValueObject';
 import type { AlbumRepository }         from '~/app/album/infrastructure/album.repository';
-
 import { TOKENS }        from '~/app/shared/binds/TOKENS';
-import { IdValueObject } from '~/app/shared/domain/VO/Id.ValueObject';
+import { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
 
 export class SaveAlbumChanges {
   static readonly inject = [TOKENS.ALBUM_REPOSITORY] as const;

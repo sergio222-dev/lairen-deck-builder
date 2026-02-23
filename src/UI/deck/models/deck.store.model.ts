@@ -1,5 +1,5 @@
 import type { QRL }             from '@builder.io/qwik';
-import type { UICardStackItem } from '~/UI/shared/models/CardSackItem'; // TODO: Should move this to here?
+import type { UICardStackItem } from '~/UI/shared/models/CardStackItem'; // TODO: Should move this to here?
 
 export interface UICardInDeckItem {
   id: number;
@@ -13,6 +13,7 @@ export interface UIBasicDeckInformation {
   description: string | null;
   splashArt?: string;
   isPublic: boolean;
+  splashArtId?: number;
   type1: string | null;
   type2: string | null;
 }

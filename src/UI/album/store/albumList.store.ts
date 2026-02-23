@@ -1,7 +1,7 @@
 import { $, createContextId, useStore }               from '@builder.io/qwik';
 import type { ALBUM_LIST_STORE, AlbumListStoreState } from '~/UI/album/models/album.model';
-import { deleteAlbumServer }                          from '~/UI/album/service/deleteAlbumServer';
-import { listAlbumsServer }                           from '~/UI/album/service/listAlbumsServer';
+import { deleteAlbumServer } from '~/UI/album/service/deleteAlbum.server';
+import { listAlbumsServer }  from '~/UI/album/service/listAlbums.server';
 
 export const albumListStoreInitialState: AlbumListStoreState = {
   albums:        [],

@@ -1,11 +1,11 @@
 import { $, createContextId, useStore }               from '@builder.io/qwik';
 import { Logger }                                     from '~/lib/logger';
 import type { ALBUM_VIEW_STORE, AlbumViewStoreState } from '~/UI/album/models/album.model';
-import { addCardToAlbumServer }                       from '~/UI/album/service/addCardToAlbumServer';
-import { getAlbumServer }    from '~/UI/album/service/getAlbumServer';
-import { queryCardServer }   from '~/UI/album/service/queryCardServer';
-import { saveChangesServer } from '~/UI/album/service/saveChangesServer';
-import { normalizeData }                              from '~/utils/normalize';
+import { addCardToAlbumServer } from '~/UI/album/service/addCardToAlbum.server';
+import { getAlbumServer }    from '~/UI/album/service/getAlbum.server';
+import { queryCardServer }   from '~/UI/album/service/queryCard.server';
+import { saveChangesServer } from '~/UI/album/service/saveChanges.server';
+import { normalizeData }     from '~/utils/normalize';
 
 export function getUIDCard(cardId: number, tagId: number | string): string {
   return `${cardId}_${tagId}`;

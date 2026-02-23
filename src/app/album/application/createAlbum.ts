@@ -1,14 +1,14 @@
-import type { CreateAlbumCommand } from '~/app/album/application/DTO/CreateAblum.command';
+import type { CreateAlbumCommand } from '~/app/album/application/DTO/createAblum.command';
 import { Album }                   from '~/app/album/domain/models/album.model';
-import { SetValueObject }          from '~/app/album/domain/models/set.valueObject';
-import { CurrentValueObject }      from '~/app/album/domain/VO/Current.ValueObject';
+import { CurrentValueObject }      from '~/app/album/domain/VO/current.ValueObject';
+import { SetValueObject }          from '~/app/album/domain/VO/set.valueObject';
 import type { AlbumRepository }    from '~/app/album/infrastructure/album.repository';
 
-import { TOKENS }            from '~/app/shared/binds/TOKENS';
-import { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }   from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
-import { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
+import { TOKENS }          from '~/app/shared/binds/TOKENS';
+import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
+import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
 
 export class CreateAlbum {
 

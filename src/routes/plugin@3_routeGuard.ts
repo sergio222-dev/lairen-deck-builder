@@ -5,16 +5,15 @@ import { Logger }              from '~/lib/logger';
 import { isRouteGuard }        from '~/routes/route.guard';
 
 export const onRequest: RequestHandler = async (requestEvent) => {
+  Logger.debug(`EXECUTED PLUGIN ROUTE GUARD`)
+
+  const getCurrentUser = IoC.instance.resolve(TOKENS.CURRENT_USER);
+
+  const user = getCurrentUser();
 
   if (isRouteGuard(requestEvent.pathname)) {
-    Logger.info(`RouteGuard ${requestEvent.pathname}`);
-    const getCurrentUser = IoC.instance.resolve(TOKENS.GET_CURRENT_USER);
+    Logger.info(`RouteGuarded ${requestEvent.pathname}`);
 
-    try {
-      await getCurrentUser.execute();
-    } catch (e) {
-      Logger.warn(`RouteGuard: No auth in route ${requestEvent.pathname}`);
-      throw requestEvent.redirect(302, '/');
-    }
+    if (!user) throw requestEvent.redirect(302, '/');
   }
 };

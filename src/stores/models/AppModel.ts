@@ -5,4 +5,5 @@ export interface AppContextState {
   isLoading: boolean;
   dialogYesNo: Signal<DialogYesNoNo | undefined> | undefined;
   setLoading: QRL<(this: AppContextState, isLoading: boolean) => void>;
+  isMaintenance: boolean;
 }

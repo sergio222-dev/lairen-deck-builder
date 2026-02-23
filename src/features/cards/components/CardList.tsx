@@ -1,5 +1,5 @@
 import { component$, useContext } from '@builder.io/qwik';
-import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewerContext";
+import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewer.storet";
 import { FILTER_CONTEXT }         from "~/UI/filters/store/filter.store";
 
 interface CardListProps {

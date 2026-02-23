@@ -1,4 +1,4 @@
-import { DomainEvent } from '~/app/shared/domain/models/DomainEvent';
+import { DomainEvent } from '~/app/shared/domain/models/domainEvent';
 
 export class AlbumCurrentChanged extends DomainEvent {
   public increasedAmount: number;

@@ -1,9 +1,9 @@
-import type { CardRawDto } from '~/app/card/domain/DTO/CardRaw.dto';
-import { AggregateRoot }   from '~/app/shared/domain/models/AggregateRoot';
-import { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }   from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
-import { StringValueObject } from '~/app/shared/domain/VO/StringValueObject';
+import type { CardRawDto } from '~/app/card/domain/DTO/cardRaw.dto';
+import { AggregateRoot }   from '~/app/shared/domain/models/aggregateRoot';
+import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
+import { StringValueObject } from '~/app/shared/domain/VO/string.valueObject';
 
 export interface CardInfo {
   id: number;

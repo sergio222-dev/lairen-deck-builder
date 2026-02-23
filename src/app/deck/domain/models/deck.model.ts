@@ -1,14 +1,14 @@
-import type { DeckRawDto }  from '~/app/deck/domain/DTO/DeckRaw.dto';
-import { DeckCreatedEvent } from '~/app/deck/domain/events/DeckCreated.event';
+import type { DeckRawDto }  from '~/app/deck/domain/DTO/deckRaw.dto';
+import { DeckCreatedEvent } from '~/app/deck/domain/events/deckCreated.event';
 import { DeckCard }         from '~/app/deck/domain/models/deckCard.model';
 import { SplashArt }        from '~/app/deck/domain/models/splashArt.model';
 
-import { AggregateRoot }     from '~/app/shared/domain/models/AggregateRoot';
-import { IdValueObject }     from '~/app/shared/domain/VO/Id.ValueObject';
-import { NameValueObject }   from '~/app/shared/domain/VO/Name.ValueObject';
-import { NumberValueObject } from '~/app/shared/domain/VO/NumberValueObject';
-import { StringValueObject } from '~/app/shared/domain/VO/StringValueObject';
-import { UserIdValueObject } from '~/app/shared/domain/VO/UserId.ValueObject';
+import { AggregateRoot }   from '~/app/shared/domain/models/aggregateRoot';
+import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
+import { StringValueObject } from '~/app/shared/domain/VO/string.valueObject';
+import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
 
 export interface DeckInfo {
   id: number;
