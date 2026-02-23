@@ -5,13 +5,14 @@ const initialState = {
   isLoading: false
 }
 
-export const useAppStore = () => {
+export const useAppStore = (isMaintenance: boolean) => {
   return useStore<AppContextState>({
     ...initialState,
     dialogYesNo: undefined,
     setLoading: $(async function (this, isLoading) {
       this.isLoading = isLoading;
     }),
+    isMaintenance: isMaintenance,
   })
 }
 

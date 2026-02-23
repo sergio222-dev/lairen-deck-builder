@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -8,11 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "12.2.2 (db9da0b)"
-  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -40,86 +34,123 @@ export type Database = {
   }
   public: {
     Tables: {
-      album_card: {
+      album_cards: {
         Row: {
-          card: number
-          created_at: string
-          id: number
-          owner: string
+          album_id: number
+          card_id: number
           quantity: number
-          tag: number | null
-          updated_at: string
+          tag_id: number
         }
         Insert: {
-          card: number
-          created_at?: string
-          id?: number
-          owner: string
+          album_id: number
+          card_id: number
           quantity?: number
-          tag?: number | null
-          updated_at?: string
+          tag_id: number
         }
         Update: {
-          card?: number
-          created_at?: string
-          id?: number
-          owner?: string
-          quantity?: number
-          tag?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "album_card_fkey"
-            columns: ["card"]
-            isOneToOne: false
-            referencedRelation: "cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "album_card_tag_fkey"
-            columns: ["tag"]
-            isOneToOne: false
-            referencedRelation: "tags"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      card_collection: {
-        Row: {
-          card_id: number
-          collection_id: number
-          id: number
-          quantity: number
-        }
-        Insert: {
-          card_id: number
-          collection_id: number
-          id?: number
-          quantity: number
-        }
-        Update: {
+          album_id?: number
           card_id?: number
-          collection_id?: number
-          id?: number
           quantity?: number
+          tag_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "card_collection_card_id_fkey"
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
             columns: ["card_id"]
             isOneToOne: false
             referencedRelation: "cards"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "card_collection_collection_id_fkey"
-            columns: ["collection_id"]
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
             isOneToOne: false
-            referencedRelation: "collections_decks"
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "album_tags"
             referencedColumns: ["id"]
           },
         ]
+      }
+      album_tags: {
+        Row: {
+          album_id: number
+          id: number
+          name: string
+        }
+        Insert: {
+          album_id: number
+          id?: number
+          name: string
+        }
+        Update: {
+          album_id?: number
+          id?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_tags_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      albums: {
+        Row: {
+          current: number
+          id: number
+          name: string
+          owner: string
+          sets: string[]
+          total: number
+        }
+        Insert: {
+          current: number
+          id?: number
+          name: string
+          owner: string
+          sets: string[]
+          total: number
+        }
+        Update: {
+          current?: number
+          id?: number
+          name?: string
+          owner?: string
+          sets?: string[]
+          total?: number
+        }
+        Relationships: []
+      }
+      card_sets: {
+        Row: {
+          created_at: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          name?: string
+        }
+        Relationships: []
       }
       cards: {
         Row: {
@@ -175,26 +206,43 @@ export type Database = {
         }
         Relationships: []
       }
-      collections_decks: {
+      deck_card: {
         Row: {
-          deck_id: number
-          id: number
-          type: string
+          card: number
+          deck: number
+          quantity: number
+          quantity_side: number
         }
         Insert: {
-          deck_id: number
-          id?: number
-          type: string
+          card: number
+          deck: number
+          quantity?: number
+          quantity_side?: number
         }
         Update: {
-          deck_id?: number
-          id?: number
-          type?: string
+          card?: number
+          deck?: number
+          quantity?: number
+          quantity_side?: number
         }
         Relationships: [
           {
-            foreignKeyName: "collections_decks_deck_id_fkey"
-            columns: ["deck_id"]
+            foreignKeyName: "deck_card_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_card_card_fkey"
+            columns: ["card"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_card_deck_fkey"
+            columns: ["deck"]
             isOneToOne: false
             referencedRelation: "decks"
             referencedColumns: ["id"]
@@ -206,39 +254,39 @@ export type Database = {
           created_at: string
           deck_face: number | null
           description: string | null
+          guardian: string | null
           id: number
           is_public: boolean
-          likes: number
           name: string
           owner: string
-          type1: string | null
-          type2: string | null
+          type_1: string | null
+          type_2: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           deck_face?: number | null
           description?: string | null
+          guardian?: string | null
           id?: number
           is_public?: boolean
-          likes: number
           name: string
           owner: string
-          type1?: string | null
-          type2?: string | null
+          type_1?: string | null
+          type_2?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           deck_face?: number | null
           description?: string | null
+          guardian?: string | null
           id?: number
           is_public?: boolean
-          likes?: number
           name?: string
           owner?: string
-          type1?: string | null
-          type2?: string | null
+          type_1?: string | null
+          type_2?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -249,7 +297,29 @@ export type Database = {
             referencedRelation: "cards"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "decks_deck_face_fkey"
+            columns: ["deck_face"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          name: string
+        }
+        Insert: {
+          enabled: boolean
+          name: string
+        }
+        Update: {
+          enabled?: boolean
+          name?: string
+        }
+        Relationships: []
       }
       tags: {
         Row: {
@@ -288,25 +358,11 @@ export type Database = {
           deck_id?: number
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_likes_deck_id_fkey"
-            columns: ["deck_id"]
-            isOneToOne: false
-            referencedRelation: "decks"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
       card_rarity: {
-        Row: {
-          name: string | null
-        }
-        Relationships: []
-      }
-      card_sets: {
         Row: {
           name: string | null
         }
@@ -342,9 +398,88 @@ export type Database = {
         }
         Relationships: []
       }
+      user_cards_by_album: {
+        Row: {
+          album_id: number | null
+          card_id: number | null
+          clarifications: string | null
+          cost: string | null
+          created_at: string | null
+          id: number | null
+          image: string | null
+          name: string | null
+          rarity: string | null
+          set: string | null
+          subtype: string | null
+          subtype2: string | null
+          supertype: string | null
+          text: string | null
+          thumbnail: string | null
+          type: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_cards_totals: {
+        Row: {
+          card_id: number | null
+          owner: string | null
+          total_quantity: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards_by_album"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      album_attach_card: {
+        Args: { album_id: number; card_id: number }
+        Returns: number
+      }
+      album_create: {
+        Args: { album_name: string; album_sets: string[]; album_tags: string[] }
+        Returns: number
+      }
+      album_update_quantity: {
+        Args: { album_changes: Json }
+        Returns: undefined
+      }
+      deck_save: { Args: { deck_data: Json }; Returns: number }
     }
     Enums: {
       [_ in never]: never
@@ -480,3 +615,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+

@@ -3,29 +3,36 @@ import type { NormalizedModel } from "~/utils/normalize";
 
 export interface DeckCard extends Card {
   quantity: number;
+  quantityInSideDeck: number;
   rarity: string;
-  cost: string;
 }
 
 export interface DeckItem {
   id: number;
   name: string;
   description: string | null;
-  likes: number;
   splashArt?: string;
+  isPublic: boolean;
+  type1: string | null;
+  type2: string | null;
 }
 
+export interface PublicDeckItem extends Omit<DeckItem, 'isPublic' | 'type1' | 'type2'> {}
+
 export interface DeckState {
-  masterDeck: NormalizedModel<DeckCard>;
-  sideDeck: NormalizedModel<DeckCard>;
-  treasureDeck: NormalizedModel<DeckCard>;
-  id: number;
-  name: string;
-  description?: string;
-  isPrivate: boolean;
-  likes: number;
-  subType1: string | null;
-  subType2: string | null;
-  splashArt?: string;
-  splashArtId?: number;
+  quantityInMainDeck: number;
+  quantityInSideDeck: number;
+  quantityInTreasureDeck: number;
+  quantityMonumentsWeaponsCards: number;
+  quantityUnitsCards: number;
+  quantityActionsCards: number;
+  orderedUnitCards: number[];
+  orderedActionCards:  number[];
+  orderedMonumentWeaponCards:  number[];
+  orderedTreasureCards:  number[];
+  orderedSideCards:  number[];
+  cardStack: NormalizedModel<DeckCard>
+  treasurePoints: number;
 }
+
+export interface DeckData extends DeckItem, DeckState {}

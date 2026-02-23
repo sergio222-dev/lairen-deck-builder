@@ -14,6 +14,13 @@ export function normalizeArray<T extends Entity>(value: Array<T>): NormalizedMod
   }, {} as NormalizedModel<T>);
 }
 
+export function normalizeData<T extends { id: number; }>(value: Array<T>): Record<string, T> {
+  return value.reduce((acc, item) => {
+    acc[item.id.toString()] = item;
+    return acc;
+  }, {} as Record<string, T>);
+}
+
 export function denormalizeEntity<T extends Entity>(value: NormalizedModel<T>): Array<T> {
   const array: Array<T> = [];
 

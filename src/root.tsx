@@ -7,7 +7,7 @@ import {
 import { DialogYesNoNo }               from "~/components/dialogs/DialogYesNo";
 import { RouterHead } from "./components/router-head/router-head";
 
-import "./global.css";
+import "./global.scss";
 
 export default component$(() => {
   /**
@@ -30,7 +30,7 @@ export default component$(() => {
     <QwikCityProvider>
       <head>
         <title>LDB</title>
-        <meta charSet="utf-8" />
+        <meta char-set="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
         <ServiceWorkerRegister />

@@ -1,52 +1,67 @@
-import { component$ }            from '@builder.io/qwik';
-import { routeLoader$ }          from '@builder.io/qwik-city';
-import { DeckNotFoundException } from '~/exceptions/DeckNotFoundException';
-import { Create }                from '~/features/createDeck';
-import { createClientServer }    from '~/lib/supabase-qwik';
-import type { DeckState }        from "~/models/Deck";
-import { DeckRepository }        from '~/providers/repositories/DeckRepository';
+import { component$, useContextProvider }  from '@builder.io/qwik';
+import type { FailReturn, RequestHandler } from '@builder.io/qwik-city';
+import { routeLoader$ }                    from '@builder.io/qwik-city';
+import { TOKENS }            from "~/app/shared/binds/TOKENS";
+import { NotFoundException } from "~/app/shared/domain/exceptions/notFound.exception";
 
-export { useSubtypeLoader, useCardDeckLoader, useTypeLoader, useRarityLoader, useSetLoader, useUnitTypeLoader, useSuperTypeLoader } from '~/providers/loaders/cards';
+import { Create }                      from '~/features/createDeck';
+import { IoC }                         from "~/lib/IoC";
+import { useInitialFilterStoreLoader } from "~/providers/loaders/useInitialFilterStoreLoader";
 
-export const useDeckLoader = routeLoader$<DeckState | undefined>(async (requestEnv) => {
-  const supabaseServer = createClientServer(requestEnv);
+import type { DeckCreationStoreState }                 from "~/UI/deck/models/deck.store.model";
+import { DECK_CREATION_CONTEXT, useDeckCreationStore } from "~/UI/deck/store/deckCreation.store";
+import { FILTER_CONTEXT, useFilterStore }              from "~/UI/filters/store/filter.store";
 
-  const session = await supabaseServer.auth.getUser();
+// SERVER ACTIONS
+export { useInitialFilterStoreLoader }
 
-  if (!session.data.user) {
-    return undefined;
-  }
+export const onRequest: RequestHandler = async ({ params, redirect }) => {
+    if (params.id && Number.isNaN(parseInt(params.id))) throw redirect(302, '/');
+}
 
-  try {
-    const deckRepo = new DeckRepository(requestEnv);
-
+export const useDeckStoreLoader = routeLoader$<DeckCreationStoreState | FailReturn<{}>>(async (requestEnv) => {
     const deckId = requestEnv.params.id;
 
-    if (!deckId) {
-      return undefined;
+    const instance = IoC.instance;
+
+    const getDeckPresenter = instance.resolve(TOKENS.GET_DECK_PRESENTER);
+
+    try {
+
+        const deck = await getDeckPresenter.execute(deckId ? parseInt(deckId) : null);
+
+        return {
+            ...deck,
+        }
+    } catch (error) {
+        if (error instanceof NotFoundException) {
+            return requestEnv.fail(404, {})
+        }
+
+        return requestEnv.fail(500, {})
     }
-
-    const deckNumber = parseInt(deckId);
-    const deck       = await deckRepo.getDeck(deckNumber, session.data.user.id);
-
-    if (!deck) {
-      return undefined;
-    }
-
-    return deck;
-  } catch (error: unknown) {
-    if (error instanceof DeckNotFoundException) {
-      requestEnv.status(DeckNotFoundException.code);
-      return undefined;
-    }
-
-    return undefined;
-  }
 });
 
-export default component$(() => {
 
-  return (
-    <Create/>
-  );
+export default component$(() => {
+    const deckState   = useDeckStoreLoader();
+    const filterState = useInitialFilterStoreLoader();
+
+    const deckCreationStore = useDeckCreationStore(deckState.value.failed ? null : deckState.value);
+    const filterData        = useFilterStore(filterState);
+
+    useContextProvider(DECK_CREATION_CONTEXT, deckCreationStore);
+    useContextProvider(FILTER_CONTEXT, filterData);
+
+    if (deckState.value.failed) {
+        return (
+                <div class="flex justify-center mt-2 flex-1">
+                    DECK NOT FOUND
+                </div>
+        )
+    }
+
+    return (
+            <Create/>
+    );
 });

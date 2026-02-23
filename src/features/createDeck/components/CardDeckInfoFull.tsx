@@ -1,91 +1,76 @@
-import { component$ }      from '@builder.io/qwik';
-import { CardDeckControl } from '~/features/createDeck/components/CardDeckControl';
-import type { DeckCard }   from "~/models/Deck";
+import { component$, useContext } from '@builder.io/qwik';
+import { CardDeckControl }       from '~/features/createDeck/components/CardDeckControl';
+import { Tab }                   from "~/components/tab/Tab";
+import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
 
-interface CardDeckInfoFullProps {
-  unitCardsQuantity: number;
-  actionCardsQuantity: number;
-  monumentAndWeaponCardsQuantity: number;
-  treasureCardsQuantity: number;
-  treasureTotalCost: number;
-  orderedUnitCards: DeckCard[];
-  orderedActionCards: DeckCard[];
-  orderedMonumentAndWeaponCards: DeckCard[];
-  orderedTreasureCards: DeckCard[];
-  orderedSideCards: DeckCard[];
-  sideCardsQuantity: number;
-}
+export const CardDeckInfoFull = component$(
+        () => {
+            const deck = useContext(DECK_CREATION_CONTEXT);
 
-export const CardDeckInfoFull = component$<CardDeckInfoFullProps>(
-  (
-    {
-      unitCardsQuantity,
-      actionCardsQuantity,
-      monumentAndWeaponCardsQuantity,
-      treasureCardsQuantity,
-      treasureTotalCost,
-      orderedUnitCards,
-      orderedSideCards,
-      orderedMonumentAndWeaponCards,
-      orderedActionCards,
-      orderedTreasureCards,
-      sideCardsQuantity,
-    }
-  ) => {
+            return (
+                    <>
+                        <div class="gap-4">
+                            <Tab class="mt-2">
+                                <div q:slot="title">
+                                    <p class="text-[1rem] font-bold">
+                                        Unidades <span class="text-green-400">({deck.quantityUnitsCards})</span>
+                                    </p>
+                                </div>
+                                {deck.orderedUnitCards.map(id => (
+                                        <CardDeckControl orientation="horizontal" key={id} cardId={id}/>
+                                ))}
+                            </Tab>
+                            <Tab class="mt-2">
+                                <div q:slot="title">
+                                    <p class="text-[1rem] font-bold">
+                                        Acciones <span class="text-green-400">({deck.quantityActionsCards})</span>
+                                    </p>
+                                </div>
+                                {deck.orderedActionCards.map(id => (
+                                        <CardDeckControl orientation="horizontal" key={id} cardId={id}/>
+                                ))}
+                            </Tab>
+                        </div>
 
-    return (
-      <>
-        <div class="gap-4">
-          <div>
-            <p class="text-[1rem] font-bold py-2 border-primary border-y-2 my-2">Unidades ({unitCardsQuantity})</p>
-            <div class="flex flex-wrap">
-              {orderedUnitCards.map(c => (
-                <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p class="text-[1rem] font-bold py-2 border-primary border-y-2 my-2">Acciones ({actionCardsQuantity})</p>
-            <div class="flex flex-wrap">
-              {orderedActionCards.map(c => (
-                <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-              ))}
-            </div>
-          </div>
-        </div>
+                        {deck.quantityMonumentsWeaponsCards > 0 &&
+                                <Tab class="mt-2">
+                                    <div q:slot="title">
+                                        <p class="text-[1rem] font-bold">
+                                            Monumentos y Armas <span
+                                                class="text-green-400">({deck.quantityMonumentsWeaponsCards})</span>
+                                        </p>
+                                    </div>
+                                    {deck.orderedMonumentWeaponCards.map(id => (
+                                            <CardDeckControl orientation="horizontal" key={id} cardId={id}/>
+                                    ))}
+                                </Tab>
+                        }
 
-        {orderedMonumentAndWeaponCards.length > 0 &&
-          <div>
-            <p class="text-[1rem] font-bold py-2 border-primary border-y-2 my-2">Monumentos y Armas
-              ({monumentAndWeaponCardsQuantity})</p>
-            <div class="flex flex-wrap">
-              {orderedMonumentAndWeaponCards.map(c => (
-                <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-              ))}
-            </div>
-          </div>
-        }
+                        <div>
+                            <Tab class="mt-2">
+                                <div q:slot="title">
+                                    <p class="text-[1rem] font-bold">
+                                        Tesoros <span class="text-green-400">({deck.quantityInTreasureDeck}) </span>
+                                        Puntos: <span class="text-blue-400">{deck.treasurePoints}</span></p>
+                                </div>
+                                {deck.orderedTreasureCards.map(id => (
+                                        <CardDeckControl orientation="horizontal" key={id} cardId={id}/>
+                                ))}
+                            </Tab>
+                        </div>
 
-        <div>
-          <p class="text-[1rem] font-bold py-2 border-primary border-y-2 my-2">Tesoros ({treasureCardsQuantity})
-            Puntos: {treasureTotalCost}</p>
-          <div class="flex flex-wrap">
-            {orderedTreasureCards.map(c => (
-              <CardDeckControl orientation="horizontal" key={c.id} card={c}/>
-            ))}
-          </div>
-        </div>
-
-        {orderedSideCards.length > 0 &&
-          <div class="p-4">
-            <p class="text-[1rem] font-bold py-2 border-primary border-y-2 my-2">Side ({sideCardsQuantity})</p>
-            <div class="flex flex-wrap">
-              {orderedSideCards.map(c => (
-                <CardDeckControl orientation="horizontal" isSide key={c.id} card={c}/>
-              ))}
-            </div>
-          </div>
-        }
-      </>
-    );
-  });
+                        {deck.quantityInSideDeck > 0 &&
+                                <Tab class="mt-2">
+                                    <div q:slot="title">
+                                        <p class="text-[1rem] font-bold">
+                                            Side <span class="text-green-400">({deck.quantityInSideDeck})</span>
+                                        </p>
+                                    </div>
+                                    {deck.orderedSideCards.map(id => (
+                                            <CardDeckControl orientation="horizontal" isSide key={id} cardId={id}/>
+                                    ))}
+                                </Tab>
+                        }
+                    </>
+            );
+        });

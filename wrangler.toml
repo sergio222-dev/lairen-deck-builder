@@ -1,7 +1,9 @@
+name = "lairen-deck-builder"
+main = "./server/entry.cloudflare-pages.js"
+compatibility_date = "2025-08-29"
+
+[assets]
+directory = "./public"
+
 [dev]
 port = 5173
-
-[[kv_namespaces]]
-binding = "rate_limit"
-id = "e7bc9ee24f904a1491a3f534afc990ab"
-
