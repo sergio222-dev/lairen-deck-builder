@@ -1,4 +1,4 @@
 export const AUTH = {
-  ACCESS_TOKEN: 'sb-access-token',
-  REFRESH_TOKEN: 'sb-refresh-token',
+  ACCESS_TOKEN: 'ldb-access-token',
+  REFRESH_TOKEN: 'ldb-refresh-token',
 }

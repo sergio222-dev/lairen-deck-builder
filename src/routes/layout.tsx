@@ -1,5 +1,5 @@
 import { component$, Slot, useContextProvider, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import { routeLoader$ }                                                     from "@builder.io/qwik-city";
+import { routeLoader$, useLocation, useNavigate }                           from "@builder.io/qwik-city";
 import {
     FLAGS
 }                                                                           from "~/app/shared/application/constants/flags";
@@ -9,9 +9,9 @@ import { Appbar }                                                           from
 import { CardPreview }                                                      from "~/features/cardPreview/CardPreview";
 import { IoC }                                                              from "~/lib/IoC";
 import { createClientBrowser }                                              from "~/lib/supabase-qwik";
-import { AppContext, useAppStore }               from "~/stores/appContext";
-import { CARD_VIEW_CONTEXT, useCardViewerStore } from "~/UI/card/store/cardViewer.storet";
-import type { UserStoreState }                   from "~/UI/user/models/user.model";
+import { AppContext, useAppStore }                                          from "~/stores/appContext";
+import { CARD_VIEW_CONTEXT, useCardViewerStore }                            from "~/UI/card/store/cardViewer.storet";
+import type { UserStoreState }                                              from "~/UI/user/models/user.model";
 import { USER_CONTEXT, useUserStore }                                       from "~/UI/user/store/user.store";
 
 
@@ -31,6 +31,8 @@ export const useUserLoader = routeLoader$<UserStoreState>(() => {
 export default component$(() => {
     const isInMaintenance = useMaintenanceLoader();
     const initialUser     = useUserLoader();
+    const navigate        = useNavigate();
+    const location        = useLocation();
 
     const userStore = useUserStore(initialUser.value)
 
@@ -52,8 +54,9 @@ export default component$(() => {
 
         const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_OUT') {
-                console.log('SIGNED_OUT');
                 userStore.user = null;
+
+                window.location.href = "/"
             }
 
             if (event === 'SIGNED_IN' && !userStore.user) {
