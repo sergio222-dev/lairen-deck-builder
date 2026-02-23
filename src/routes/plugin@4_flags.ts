@@ -18,7 +18,7 @@ export const onRequest: RequestHandler = async (requestEvent) => {
   const user          = getCurrentUser();
   let isMaintenance = await flags.getFlag(FLAGS.MAINTENANCE);
 
-  if (user && user.email === QWIK_CONSTANTS.SUPER_USER_MAIL) {
+  if (user && QWIK_CONSTANTS.SUPER_USERS_MAIL.includes(user.email)) {
     isMaintenance = false;
     requestEvent.sharedMap.set(FLAGS.MAINTENANCE, false);
   } else {

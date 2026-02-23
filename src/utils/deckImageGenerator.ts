@@ -1,5 +1,5 @@
 import he                                              from 'he';
-// @ts-ignore
+// @ts-expect-error
 import piexif                                            from 'piexifjs';
 import type { UICardInDeckItem, DeckCreationStoreState } from '~/UI/deck/models/deck.store.model';
 import type { UICardStackItem }                          from '~/UI/shared/models/CardStackItem';
@@ -106,7 +106,7 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
   const exif   = {};
   const gps    = {};
 
-  // @ts-ignore
+  // @ts-expect-error
   exif[piexif.ExifIFD.UserComment] = he.encode(parseToText(deck));
 
   const exifObj = { '0th': zeroth, 'Exif': exif, 'GPS': gps };
@@ -196,7 +196,7 @@ export function loadDeck(file: File) {
       const result = e.target?.result;
       if (!result) return;
 
-      const exifData = piexif.load(result as String);
+      const exifData = piexif.load(result as string);
 
       // get the exif user comment
       const comment = exifData['Exif'][piexif.ExifIFD.UserComment];

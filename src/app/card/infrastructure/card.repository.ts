@@ -1,13 +1,12 @@
-// @ts-ignore
 import type PostgrestTransformBuilder from '@supabase/postgrest-js/src/PostgrestTransformBuilder';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { CardRawDto }     from '~/app/card/domain/DTO/cardRaw.dto';
-import type { CardInfo }       from '~/app/card/domain/models/card.model';
+import type { SupabaseClient }        from '@supabase/supabase-js';
+import type { CardRawDto }            from '~/app/card/domain/DTO/cardRaw.dto';
+import type { CardInfo }              from '~/app/card/domain/models/card.model';
 import { Card }                       from '~/app/card/domain/models/card.model';
 
-import type { Specification } from '~/app/shared/domain/models/specification';
+import { TOKENS } from '~/app/shared/binds/TOKENS';
 
-import { TOKENS }             from '~/app/shared/binds/TOKENS';
+import type { Specification } from '~/app/shared/domain/models/specification';
 import type { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
 
 import { Logger } from '~/lib/logger';
@@ -27,12 +26,10 @@ class CardRepository {
 
   // TODO REFACTOR, should use finder I guess ?
   async fetchCards(filters: Specification[]): Promise<{ cards: CardInfo[]; count: number; }> {
-    const supabase = this.supabase;
-
-    let query = supabase.from('cards').select('*', { count: 'exact' });
+    let query = this.supabase.from('cards').select('*', { count: 'exact' });
 
     for (const filter of filters) {
-      // @ts-ignore
+      // @ts-expect-error
       query = filter.apply(query);
     }
 
@@ -69,7 +66,7 @@ class CardRepository {
 
     if (!data) return [];
 
-    return data.toSorted((a, b) => a.name!.localeCompare(b.name!)).map(c => {
+    return data.toSorted((a, b) => a.name!.localeCompare(b.name)).map(c => {
       return Card.HYDRATE(c);
     });
   }
@@ -116,7 +113,7 @@ class CardRepository {
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    // @ts-ignore
+    // @ts-expect-error
     this.addFilters(query, filter);
 
     const { count, error } = await query;
@@ -140,7 +137,7 @@ class CardRepository {
       .order(filter.sortBy, { ascending: filter.sortDirection === 'asc' })
       .range((Number(filter.page) - 1) * Number(filter.size), (Number(filter.page) * Number(filter.size)) - 1);
 
-    // @ts-ignore
+    // @ts-expect-error
     this.addFilters(query, filter);
 
     const { data, error } = await query;
@@ -153,7 +150,7 @@ class CardRepository {
       return [];
     }
 
-    // @ts-ignore
+    // @ts-expect-error
     return data.map(c => {
       return {
         ...c,
@@ -178,7 +175,7 @@ class CardRepository {
     const mapFilters = convertFiltersToExpression(inFilters);
 
     [...mapFilters, ...containsFiltersExpression].forEach(e => {
-      // @ts-ignore
+      // @ts-expect-error
       query = query!.or(e);
     });
   }

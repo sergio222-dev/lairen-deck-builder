@@ -8,7 +8,7 @@ import { IoC }                                       from "~/lib/IoC";
 import type { DeckPreviewStoreState }                from "~/UI/deck/models/deck.store.model";
 import { DECK_PREVIEW_CONTEXT, useDeckPreviewStore } from "~/UI/deck/store/deckPreview.store";
 
-export const onRequest: RequestHandler = async ({ params, redirect }) => {
+export const onRequest: RequestHandler = ({ params, redirect }) => {
     if (!params.id) throw redirect(302, '/')
     if (Number.isNaN(parseInt(params.id))) throw redirect(302, '/')
 }

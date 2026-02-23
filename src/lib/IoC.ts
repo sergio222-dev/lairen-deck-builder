@@ -78,7 +78,7 @@ export class IoC {
 
       // get key from the class
       let key;
-      for (let [k, v] of this._providers.entries()) {
+      for (const [k, v] of this._providers.entries()) {
         if (v === t) {
           key = k;
           break;

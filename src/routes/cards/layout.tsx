@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@builder.io/qwik-city";
 
-export const onGet: RequestHandler = async ({ cacheControl }) => {
+export const onGet: RequestHandler = ({ cacheControl }) => {
     cacheControl({
         public:               true,
         maxAge:               5,

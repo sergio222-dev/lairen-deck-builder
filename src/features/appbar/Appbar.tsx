@@ -1,5 +1,5 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
-import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { Link, useLocation, useNavigate }              from '@builder.io/qwik-city';
 import { Avatar }                                      from "~/components/avatar/Avatar";
 import { Icon }                                        from "~/components/icons/Icon";
 import { createClientBrowser }                         from "~/lib/supabase-qwik";
@@ -8,7 +8,7 @@ import { USER_CONTEXT }                                from "~/UI/user/store/use
 
 export const Appbar = component$(() => {
     const location   = useLocation();
-    const navigate = useNavigate();
+    const navigate   = useNavigate();
     const isMenuOpen = useSignal(false);
 
     const userStore = useContext(USER_CONTEXT);
@@ -136,10 +136,12 @@ export const Appbar = component$(() => {
                               method: "POST",
                           })
 
-                          const data = await response.json()
+                          if (!response.ok) return;
 
-                          if (data) {
-                              window.location.href = JSON.parse(data).url
+                          const { url } = await response.json()
+
+                          if (typeof url === "string") {
+                              window.location.href = url
                           }
                       }}>Login with
                                     <svg

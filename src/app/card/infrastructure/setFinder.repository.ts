@@ -17,7 +17,7 @@ export class SetFinderRepository {
       throw error;
     }
 
-    return data.map(s => s.name) as string[];
+    return data.map(s => s.name);
   }
 
   async getDominionSets(): Promise<string[]> {
