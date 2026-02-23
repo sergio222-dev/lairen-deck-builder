@@ -1,6 +1,7 @@
 name = "lairen-deck-builder"
 main = "./server/entry.cloudflare-pages.js"
 compatibility_date = "2025-08-29"
+compatibility_flags = ["nodejs_als", "nodejs_compat"]
 
 [assets]
 directory = "./public"

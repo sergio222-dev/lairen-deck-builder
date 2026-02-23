@@ -15,7 +15,7 @@ import { FILTER_CONTEXT, useFilterStore }              from "~/UI/filters/store/
 // SERVER ACTIONS
 export { useInitialFilterStoreLoader }
 
-export const onRequest: RequestHandler = async ({ params, redirect }) => {
+export const onRequest: RequestHandler = ({ params, redirect }) => {
     if (params.id && Number.isNaN(parseInt(params.id))) throw redirect(302, '/');
 }
 

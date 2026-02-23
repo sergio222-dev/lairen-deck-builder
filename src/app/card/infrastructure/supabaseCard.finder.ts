@@ -53,7 +53,7 @@ export class SupabaseCardFinder implements CardFinder {
     }
 
     specs.forEach((spec) => {
-      // @ts-ignore
+      // @ts-expect-error
       q = spec.apply(q);
     });
 

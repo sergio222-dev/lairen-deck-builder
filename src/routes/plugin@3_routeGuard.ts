@@ -4,7 +4,7 @@ import { IoC }                 from '~/lib/IoC';
 import { Logger }              from '~/lib/logger';
 import { isRouteGuard }        from '~/routes/route.guard';
 
-export const onRequest: RequestHandler = async (requestEvent) => {
+export const onRequest: RequestHandler = (requestEvent) => {
   Logger.debug(`EXECUTED PLUGIN ROUTE GUARD`)
 
   const getCurrentUser = IoC.instance.resolve(TOKENS.CURRENT_USER);

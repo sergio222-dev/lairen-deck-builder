@@ -48,13 +48,13 @@ const ignores = [
 
 export default tseslint.config(
   globalIgnores(ignores),
-  // js.configs.recommended,
-  // tseslint.configs.recommended, // Bug with no unussed var
+  js.configs.recommended,
+  tseslint.configs.recommendedTypeChecked, // Bug with no unussed var
   qwikEslint9Plugin.configs.recommended,
   {
-    plugins: {
-      "@typescript-eslint": tseslint.plugin,
-    },
+    // plugins: {
+    //   "@typescript-eslint": tseslint.plugin,
+    // },
     languageOptions: {
       globals: {
         ...globals.browser,

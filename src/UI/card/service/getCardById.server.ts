@@ -1,3 +1,4 @@
+import { isBrowser }             from '@builder.io/qwik';
 import type { RequestEventBase } from '@builder.io/qwik-city';
 import { server$ }               from '@builder.io/qwik-city';
 import { TOKENS }                from '~/app/shared/binds/TOKENS';
