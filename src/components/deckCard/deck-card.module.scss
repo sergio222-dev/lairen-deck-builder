@@ -1,0 +1,58 @@
+.card-container {
+  @apply relative aspect-[4/3] p-4 flex rounded-2xl border-secondary border-2 flex-col gap-3
+  overflow-hidden max-w-full sm:w-full md:w-[400px];
+
+  &::before {
+    @apply absolute inset-0 pointer-events-none;
+    content: "";
+    background-image: repeating-linear-gradient(
+                    45deg,
+                    rgba(255, 255, 255, 0.02) 0,
+                    rgba(255, 255, 255, 0.02) 1px,
+                    transparent 1px,
+                    transparent 16px,
+    );
+  }
+
+  background: radial-gradient(120% 120% at 10% 10%, #1a1a1a 0%, transparent 60%),
+  linear-gradient(135deg, #0b0b0b, #141414);
+
+  &:hover .card-edit {
+    transform: translateY(-50px);
+    opacity: 1;
+  }
+
+  .card-edit {
+    @apply mt-auto border-secondary border-2 text-secondary z-10 rounded-xl px-4 py-2 text-center opacity-0;
+    transform: translateY(-10px);
+    transition: all .2s;
+
+    &:hover {
+      background-color: transparentize(#E7AE32, 0.9);
+    }
+  }
+
+  .card-header {
+    @apply relative z-10;
+  }
+
+  .card-preview {
+    @apply flex-1 flex items-center justify-center relative z-10 mb-6;
+
+    .card-stack {
+      @apply relative w-[120px] h-[160px];
+
+      .card-ghost {
+        @apply absolute w-[120px] h-[160px] rounded-xl border-dashed border-[1px] border-white;
+        background: linear-gradient(135deg, #1f1f1f, #0f0f0f);
+
+        @for $i from 1 through 3 {
+          &:nth-child(#{$i}) {
+            transform: translate(($i - 1) * 10px, ($i - 1) * -6px) rotate(-25deg + ($i * 12));
+          }
+        }
+
+      }
+    }
+  }
+}
