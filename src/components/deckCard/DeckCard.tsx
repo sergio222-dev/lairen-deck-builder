@@ -19,7 +19,7 @@ export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, n
     >
       <div
         class={`aspect-[4/3] bg-[radial-gradient(transparent,#000000)] shadow hover:shadow-[0_0_4px_0]
-              hover:shadow-primary border-2 border-secondary hover:border-primary rounded-[24px] cursor-pointer 
+              hover:shadow-primary border-2 border-secondary hover:border-primary rounded-[24px] cursor-pointer
               bg-no-repeat bg-[length:160%_auto] bg-[50%_30%] relative flex flex-col items-center text-white
               p-4
               `}

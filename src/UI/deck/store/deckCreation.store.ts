@@ -324,6 +324,9 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
     }),
     copyDeck:   $(function(this) {
 
+    }),
+    setSplashArt: $(function(this, cardId) {
+      this.splashArtId = cardId;
     })
   });
 };

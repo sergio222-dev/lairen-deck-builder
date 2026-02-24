@@ -1,8 +1,8 @@
 import { component$, useContext } from '@builder.io/qwik';
 import { ButtonIcon }             from "~/components/button/ButtonIcon";
-import { Icon }                  from "~/components/icons/Icon";
-import { CARD_VIEW_CONTEXT }     from "~/UI/card/store/cardViewer.storet";
-import { DECK_CREATION_CONTEXT } from "~/UI/deck/store/deckCreation.store";
+import { Icon }                   from "~/components/icons/Icon";
+import { CARD_VIEW_CONTEXT }      from "~/UI/card/store/cardViewer.storet";
+import { DECK_CREATION_CONTEXT }  from "~/UI/deck/store/deckCreation.store";
 
 interface CardDeckControlProps {
     cardId: number;
@@ -37,7 +37,8 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
             >
                 <div class="control-art inline top-[30%] right-[10%] z-10 absolute">
                     <ButtonIcon disabled={deck.splashArtId === card.id}
-                            // onClick$={() => d.setSplashArt(card.image, card.id)}
+                                onClick$={() => deck.setSplashArt(card.id)}
+                                stoppropagation:click
                     >
                         <Icon name="art" width={16} height={16} class="fill-primary"/>
                     </ButtonIcon>

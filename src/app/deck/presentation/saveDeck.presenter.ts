@@ -20,7 +20,7 @@ export class SaveDeckPresenter {
       isPublic:    data.isPublic,
       type1:       data.type1,
       type2:       data.type2,
-      splashArtId: null,
+      splashArtId: data.splashArtId ?? null,
       cards:       cards.map(c => ({
         cardId:       c.id,
         quantitySide: c.quantityInSide,

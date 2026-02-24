@@ -1,5 +1,6 @@
 import type { UpdateDeckCommand } from '~/app/deck/application/DTO/updateDeck.command';
 import { DeckCard }               from '~/app/deck/domain/models/deckCard.model';
+import { SplashArt }              from '~/app/deck/domain/models/splashArt.model';
 import type { DeckRepository } from '~/app/deck/infrastructure/deck.repository';
 import { TOKENS }            from '~/app/shared/binds/TOKENS';
 import { NotFoundException } from '~/app/shared/domain/exceptions/notFound.exception';
@@ -34,6 +35,10 @@ export class UpdateDeck {
 
     if (deck.isPublic !== command.isPublic) {
       deck.changeVisibility(command.isPublic);
+    }
+
+    if (command.splashArtId) {
+      deck.assignSplashArt(new SplashArt(new IdValueObject(command.splashArtId), StringValueObject.EMPTY));
     }
 
     // TODO replace type_1 type_2
