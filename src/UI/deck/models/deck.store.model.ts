@@ -58,6 +58,7 @@ export interface DeckCreationStoreAction {
   resetDeck: QRL<(this: DeckCreationStoreState) => void>;
   importDeck: QRL<(this: DeckCreationStoreState, data: string) => void>;
   copyDeck: QRL<(this: DeckCreationStoreState) => void>;
+  setSplashArt: QRL<(this: DeckCreationStoreState, cardId: number) => void>;
 }
 
 export type DECK_STORE = DeckCreationStoreState & DeckCreationStoreAction;

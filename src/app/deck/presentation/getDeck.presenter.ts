@@ -66,7 +66,7 @@ export class GetDeckPresenter {
         type:           c.type.value,
         thumbnail:      c.thumbnail.value,
         supertype:      c.supertype.value,
-        clarifications: c.clarifications?.value ?? null
+        clarifications: c.clarifications?.value ?? null,
       };
     });
 
@@ -88,7 +88,7 @@ export class GetDeckPresenter {
       isPublic:    deck.isPublic,
       type1:       deck.type1?.value ?? null,
       type2:       deck.type2?.value ?? null,
-      splashArt:   deck.splashArt?.image.value ?? undefined,
+      splashArtId:   deck.splashArt?.cardId.value ?? undefined,
       ...stats
     };
   }
