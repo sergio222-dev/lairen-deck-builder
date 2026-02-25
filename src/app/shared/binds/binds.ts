@@ -116,6 +116,9 @@ export interface TOKEN_MAP {
 }
 
 export function createContainer(req: RequestEvent) {
+  // Reset request-scoped instances at the beginning of each request
+  IoC.instance.resetRequestScope();
+
   IoC.instance
     // Values
     .provideValue(TOKENS.REQUEST_CONTEXT, req)

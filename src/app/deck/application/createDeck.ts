@@ -3,6 +3,7 @@ import { Deck }                   from '~/app/deck/domain/models/deck.model';
 import { DeckCard }               from '~/app/deck/domain/models/deckCard.model';
 import { SplashArt }              from '~/app/deck/domain/models/splashArt.model';
 import type { DeckRepository }    from '~/app/deck/infrastructure/deck.repository';
+import { AuthService }            from '~/app/shared/application/auth.service';
 
 import { TOKENS }          from '~/app/shared/binds/TOKENS';
 import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
@@ -11,12 +12,13 @@ import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
 import { StringValueObject } from '~/app/shared/domain/VO/string.valueObject';
 
 export class CreateDeck {
-  static readonly inject = [TOKENS.DECK_REPOSITORY];
+  static readonly inject = [TOKENS.DECK_REPOSITORY, TOKENS.AUTH_SERVICE];
 
-  constructor(private readonly deckRepository: DeckRepository) {
+  constructor(private readonly deckRepository: DeckRepository, private readonly auth: AuthService) {
   }
 
   async execute(data: UpdateDeckCommand): Promise<number> {
+    await this.auth.authenticate()
 
     const deck = Deck.CREATE({
       name:     new NameValueObject(data.name),

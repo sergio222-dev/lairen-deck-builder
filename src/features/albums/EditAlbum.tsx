@@ -30,7 +30,7 @@ const TableCard = component$(() => {
                 <tbody>
                 {a.filteredCards.map(c => (
                         <tr key={c}>
-                            <th onClick$={() => v.showCard(c)}>{a.cards[c].name}</th>
+                            <th class={`cursor-pointer`} onClick$={() => v.showCard(c)}>{a.cards[c].name}</th>
                             <CardCell cardId={c}/>
                         </tr>
                 ))}
@@ -82,12 +82,12 @@ export const EditAlbum = component$(() => {
                                 )}
                             </div>
                         </div>
-                        <div class="flex gap-2 mt-2">
+                        <div class="flex flex-wrap gap-2 mt-2">
                             {a.sets.map(s => (
                                     <Chip key={s}>{s}</Chip>
                             ))}
                         </div>
-                        <div class="flex gap-2 mt-2">
+                        <div class="flex flex-wrap gap-2 mt-2">
                             {a.tags.map(tag => (
                                     <Chip key={tag}>
                                         {tag} <span class="bg-black text-white rounded-full px-2">{a.totalTags[tag] ??

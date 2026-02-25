@@ -9,8 +9,17 @@ export default {
       },
       animation: {
         wiggle: "wiggle 0.25s cubic-bezier(0.34, 0.12, 0.34, 1.07)",
+        fadeIn: "fadeIn 5s ease-in-out",
       },
       keyframes: {
+        fadeIn: {
+          '0%': {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 1,
+          },
+        },
         wiggle: {
           "0%, 100%": {
             transform: "rotate(0deg) translateX(0)",

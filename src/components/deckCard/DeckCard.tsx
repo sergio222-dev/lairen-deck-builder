@@ -22,20 +22,22 @@ export const DeckCard = component$<DeckCardProps>(({ id, splashArt, likes = 0, n
                 </div>
                 <div class={`${styles['card-preview']}`}>
                     <div class={`${styles['card-stack']}`}>
-                        {([0, 1, 2]).map((_, i) => (
-                                <div key={i} class={`${styles['card-ghost']}`} {...splashArt ? {
-                                    style: {
-                                        backgroundRepeat:   "no-repeat",
-                                        backgroundPosition: "50% 30%",
-                                        backgroundSize:     "200% 260%",
-                                        backgroundImage:    `url(${splashArt})`,
-                                    },
-                                } : {}} ></div>
-                        ))}
+                        <div class={`${styles['card-center']}`}>
+                            {([0, 1, 2]).map((_, i) => (
+                                    <div key={i} class={`${styles['card-ghost']}`} {...splashArt ? {
+                                        style: {
+                                            backgroundRepeat:   "no-repeat",
+                                            backgroundPosition: "50% 50%",
+                                            backgroundSize:     "100% 100%",
+                                            backgroundImage:    `url(${splashArt})`,
+                                        },
+                                    } : {}} ></div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <Link href={path + `/${id}`} class={`${styles['card-edit']}`}>
-                    {path.includes('preview')  ? 'Ver mazo →' : 'Editar mazo →'}
+                    {path.includes('preview') ? 'Ver mazo →' : 'Editar mazo →'}
                 </Link>
             </div>
     );
