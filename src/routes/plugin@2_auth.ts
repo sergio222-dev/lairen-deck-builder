@@ -27,6 +27,8 @@ export const onRequest: RequestHandler = async (requestEvent) => {
           id: session.user.id,
           email: session.user.email ?? '',
           avatar_url: session.user.user_metadata.avatar_url as string,
+          access_token: session.access_token,
+          refresh_token: session.refresh_token
         };
       }
     } catch {

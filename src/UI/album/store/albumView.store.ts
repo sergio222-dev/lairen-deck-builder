@@ -42,6 +42,9 @@ export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = nul
       const r          = await queryCardServer(query, this.sets);
       this.resultCards = normalizeData(r);
     }),
+    resetResults: $(function (this){
+      this.resultCards = {};
+    }),
     applyFilter: $(function (this, text) {
       if (text === '') this.filteredCards = this.addedCards;
 
@@ -50,6 +53,7 @@ export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = nul
       });
     }),
     addCard:          $(async function(this, cardId: number) {
+      this.resultCards = {};
       if (this.addedCards.includes(cardId)) return;
 
       try {

@@ -19,7 +19,7 @@ export const AlbumCard = component$<AlbumCardProps>(({ name, current, total, id 
 
     const deleteAlbum = $(async () => {
         if (!app.dialogYesNo?.value) return;
-        const response = await app.dialogYesNo?.value?.open('Are you sure you want to delete this album?');
+        const response = await app.dialogYesNo?.value?.open('Estas seguro de que quieres borrar este Album?');
 
         if (response) {
             await a.deleteAlbum(id)

@@ -1,5 +1,5 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
-import { Link, useLocation, useNavigate }              from '@builder.io/qwik-city';
+import { Link, useLocation }                           from '@builder.io/qwik-city';
 import { Avatar }                                      from "~/components/avatar/Avatar";
 import { Icon }                                        from "~/components/icons/Icon";
 import { createClientBrowser }                         from "~/lib/supabase-qwik";
@@ -8,7 +8,6 @@ import { USER_CONTEXT }                                from "~/UI/user/store/use
 
 export const Appbar = component$(() => {
     const location   = useLocation();
-    const navigate   = useNavigate();
     const isMenuOpen = useSignal(false);
 
     const userStore = useContext(USER_CONTEXT);
@@ -136,12 +135,10 @@ export const Appbar = component$(() => {
                               method: "POST",
                           })
 
-                          if (!response.ok) return;
+                          const data = await response.json()
 
-                          const { url } = await response.json()
-
-                          if (typeof url === "string") {
-                              window.location.href = url
+                          if (data) {
+                              window.location.href = JSON.parse(data).url
                           }
                       }}>Login with
                                     <svg
@@ -163,6 +160,11 @@ export const Appbar = component$(() => {
                                             <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer"
                                                   href="/mydecks"
                                                   class="flex items-center px-2 ">My decks</Link>
+                                        </li>
+                                        <li class="flex">
+                                            <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer"
+                                                  class="flex items-center px-2"
+                                                  href="/album">Album</Link>
                                         </li>
                                         <li class="flex">
                                             <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer"

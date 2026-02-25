@@ -6,7 +6,7 @@ export const MyDecks = component$(() => {
     const d = useContext(DECK_LIST_CONTEXT);
 
     return (
-            <div class="flex p-2 flex-wrap xl:gap-[2rem] md:gap-4 justify-center">
+            <div class="grid auto-rows-fr gap-4 grid-cols-[repeat(auto-fill,minmax(350px,1fr))] fade-in-children">
                 {d.decks.map(d => {
                     return (
                             <DeckCard path="/decks/create" id={d.deckId} name={d.name} splashArt={d.splashArt} key={d.deckId}/>

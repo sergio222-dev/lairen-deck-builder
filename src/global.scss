@@ -6,37 +6,54 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .fade-in-children {
+    & > * {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+      transform: translateY(1rem);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    overflow: hidden;
-    color: white;
-    background-color: #181A1B;
-    height: 100%;
+  overflow: hidden;
+  color: white;
+  background-color: #181A1B;
+  height: 100%;
 }
 
 button {
-    color: black;
+  color: black;
 }
 
 input {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .theme-dark {
-    --qwik-primary: rgb(33 37 41);
-    --qwik-secondary: #E7AE32;
+  --qwik-primary: rgb(33 37 41);
+  --qwik-secondary: #E7AE32;
 }
 
 .theme-light {
-    --qwik-primary: #E7AE32;
-    --qwik-secondary: rgb(33 37 41);
+  --qwik-primary: #E7AE32;
+  --qwik-secondary: rgb(33 37 41);
 }
 
 
@@ -51,13 +68,13 @@ input {
     }
 
     &:hover {
-        .control-button {
-            display: flex;
-        }
+      .control-button {
+        display: flex;
+      }
 
-        .control-art {
-            display: inline;
-        }
+      .control-art {
+        display: inline;
+      }
     }
   }
 

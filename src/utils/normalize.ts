@@ -21,6 +21,20 @@ export function normalizeData<T extends { id: number; }>(value: Array<T>): Recor
   }, {} as Record<string, T>);
 }
 
+export function normalize<
+  K extends PropertyKey,
+  T extends Record<K, string | number>
+>(
+  key: K,
+  values: T[]
+): Record<string | number, T> {
+  return values.reduce((acc, item) => {
+    const k = item[key];
+    acc[k] = item;
+    return acc;
+  }, {} as Record<string | number, T>);
+}
+
 export function denormalizeEntity<T extends Entity>(value: NormalizedModel<T>): Array<T> {
   const array: Array<T> = [];
 

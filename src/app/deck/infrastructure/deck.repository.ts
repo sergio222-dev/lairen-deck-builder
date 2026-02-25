@@ -16,7 +16,11 @@ export class DeckRepository {
   public async listPublicDeck(): Promise<Deck[]> {
     const { data, error } = await this.supabase.from('decks').select(`
     *, deck_face ( image, id )
-    `).eq('is_public', true);
+    `)
+      .order('created_at', {
+        ascending: false,
+      })
+      .eq('is_public', true);
 
     if (error) {
       Logger.error(error, `Error fetching public decks`);
@@ -38,6 +42,9 @@ export class DeckRepository {
       *,
       deck_face ( image, id )
       `)
+      .order('created_at', {
+        ascending: false,
+      })
       .eq('owner', owner.value);
 
     if (error) {

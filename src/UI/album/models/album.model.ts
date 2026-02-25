@@ -94,6 +94,7 @@ export interface AlbumViewStoreState extends UIAlbum {
 
 export interface AlbumViewStoreAction {
   queryCards: QRL<(this: AlbumViewStoreState, query: string) => void>;
+  resetResults: QRL<(this: AlbumViewStoreState) => void>;
   applyFilter: QRL<(this: AlbumViewStoreState, text: string) => void>
   addCard: QRL<(this: AlbumViewStoreState, cardId: number) => void>;
   increaseQuantity: QRL<(this: AlbumViewStoreState, cardId: number, tag: number) => void>;
