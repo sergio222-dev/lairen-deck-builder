@@ -1,24 +1,23 @@
-import type { Album }           from '~/app/album/domain/models/album.model';
-import type { AlbumRepository } from '~/app/album/infrastructure/album.repository';
+import { AlbumFinder }     from '~/app/album/application/finder/album.finder';
+import { AlbumProjection } from '~/app/album/application/projection/album.projection';
+import { AuthService }     from '~/app/shared/application/auth.service';
 
-import type { Card }  from '~/app/card/domain/models/card.model';
-import type CardRepository from '~/app/card/infrastructure/card.repository';
-
-import { TOKENS }        from '~/app/shared/binds/TOKENS';
-import { IdValueObject } from '~/app/shared/domain/VO/id.valueObject';
+import { TOKENS }            from '~/app/shared/binds/TOKENS';
+import { IdValueObject }     from '~/app/shared/domain/VO/id.valueObject';
+import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
 
 export class GetAlbum {
-  static readonly inject = [TOKENS.ALBUM_REPOSITORY, TOKENS.CARD_REPOSITORY];
+  static readonly inject = [TOKENS.ALBUM_FINDER, TOKENS.AUTH_SERVICE];
 
-  constructor(private albumRepository: AlbumRepository,
-              private cardRepository: CardRepository) {
+  constructor(private readonly albumFinder: AlbumFinder,
+              private readonly authService: AuthService
+  ) {
   }
 
-  async execute(albumId: number): Promise<[Album, Card[]]> {
+  async execute(albumId: number): Promise<AlbumProjection> {
+    const user      = await this.authService.authenticate();
     const albumIdVo = new IdValueObject(albumId);
-    const album     = await this.albumRepository.getAlbumById(albumIdVo);
-    const cards     = await this.cardRepository.getCardsByAlbumId(albumIdVo);
 
-    return [album, cards];
+    return await this.albumFinder.findAlbumProjection(new UserIdValueObject(user.id), albumIdVo);
   }
 }

@@ -1,16 +1,18 @@
-import type { AlbumRawDto }  from '~/app/album/domain/DTO/albumRaw.dto';
-import { AlbumCreatedEvent } from '~/app/album/domain/events/albumCreated.event';
+import type { AlbumRawDto }       from '~/app/album/domain/DTO/albumRaw.dto';
+import { AlbumCreatedEvent }      from '~/app/album/domain/events/albumCreated.event';
 import { AlbumCard }              from '~/app/album/domain/models/albumCard.model';
 import { AlbumCardTag }           from '~/app/album/domain/models/albumCardTag.model';
 import { AlbumTag }               from '~/app/album/domain/models/albumTag.model';
 import { AlbumChangeValueObject } from '~/app/album/domain/VO/albumChange.ValueObject';
 import { CurrentValueObject }     from '~/app/album/domain/VO/current.ValueObject';
-import { SetValueObject } from '~/app/album/domain/VO/set.valueObject';
-import { AggregateRoot }   from '~/app/shared/domain/models/aggregateRoot';
-import { IdValueObject }   from '~/app/shared/domain/VO/id.valueObject';
-import { NameValueObject } from '~/app/shared/domain/VO/name.ValueObject';
-import { NumberValueObject } from '~/app/shared/domain/VO/number.valueObject';
-import { UserIdValueObject } from '~/app/shared/domain/VO/userId.valueObject';
+import { SetValueObject }         from '~/app/album/domain/VO/set.valueObject';
+import { AggregateRoot }          from '~/app/shared/domain/models/aggregateRoot';
+import { IdValueObject }          from '~/app/shared/domain/VO/id.valueObject';
+import { NameValueObject }        from '~/app/shared/domain/VO/name.ValueObject';
+import { NumberValueObject }      from '~/app/shared/domain/VO/number.valueObject';
+import { StringValueObject }      from '~/app/shared/domain/VO/string.valueObject';
+import { UserIdValueObject }      from '~/app/shared/domain/VO/userId.valueObject';
+import { Logger }                 from '~/lib/logger';
 
 interface AlbumConstructProps {
   id: IdValueObject;
@@ -72,28 +74,16 @@ export class Album extends AggregateRoot {
     );
 
     const cardMap = data.album_cards
-      .toSorted((a, b) => a.cards!.name.localeCompare(b.cards!.name))
       .reduce(
         (a, v) => {
-          if (!v.cards) throw new Error('invalid card');
-          if (!v.album_tags) throw new Error('invalid album_tags');
-
           let albumCard: AlbumCard;
 
-          // TODO change this line for type guards
-          if (!a[v.cards.name]) {
-            albumCard = new AlbumCard(new IdValueObject(v.cards.id));
-            a[v.cards.name] = albumCard;
-          } else {
-            albumCard = a[v.cards.name];
+          if (!a[v.cards.id]) {
+            albumCard = new AlbumCard(
+              new IdValueObject(v.cards.id),
+            );
+            a[v.cards.id]   = albumCard;
           }
-          const albumCardTag = new AlbumCardTag(
-            new IdValueObject(v.album_tags.id),
-            new NameValueObject(v.album_tags.name),
-            new NumberValueObject(v.quantity)
-          );
-
-          albumCard.addTag(albumCardTag);
 
           return a;
         },
@@ -148,13 +138,11 @@ export class Album extends AggregateRoot {
       throw new Error('Card already exists in the album');
     }
 
-    // const changes: AlbumChangeValueObject;
-
     this.tags.forEach((t) => {
       const change = new AlbumChangeValueObject(cardId.value, t.id.value, 0);
       this._changes.push(change);
-      const tag = new AlbumCardTag(t.id, t.name, NumberValueObject.ZERO);
-      card.addTag(tag);
+      // const tag = new AlbumCardTag(t.id, t.name, NumberValueObject.ZERO);
+      // card.addTag(tag);
     });
 
     this._cards.push(card);
@@ -162,11 +150,11 @@ export class Album extends AggregateRoot {
     // this._events.push(new AlbumCardAttachedEvent(this.id.value, id.value));
   }
 
-  addChanges(changes: AlbumChangeValueObject[]) {
-    changes.forEach((change) => {
-      this.addChange(change);
-    });
-  }
+  // addChanges(changes: AlbumChangeValueObject[]) {
+  //   changes.forEach((change) => {
+  //     this.addChange(change);
+  //   });
+  // }
 
   addChange(change: AlbumChangeValueObject) {
     const cardId = change.props.cardId;
@@ -177,7 +165,7 @@ export class Album extends AggregateRoot {
 
     if (!card) {
       throw new Error(
-        `Cannot add card: ${cardId.value} because the card is not in the album`
+        `Cannot change quantity card: ${cardId.value} because the card is not in the album`
       );
     }
 

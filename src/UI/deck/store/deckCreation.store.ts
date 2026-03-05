@@ -215,13 +215,13 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
               break;
             case CARD_TYPES.TESORO:
               this.quantityInTreasureDeck--;
+              this.treasurePoints -= cardData.cost;
               break;
             case CARD_TYPES.ARMA:
               this.quantityMonumentsWeaponsCards--;
               break;
             case CARD_TYPES.MONUMENTO:
               this.quantityMonumentsWeaponsCards--;
-              this.treasurePoints -= cardData.cost;
               break;
             default:
               break;

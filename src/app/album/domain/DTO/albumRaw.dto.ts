@@ -12,16 +12,16 @@ export interface AlbumRawDto {
   }[];
 
   album_cards: {
-    quantity: number;
+    // quantity: number;
     cards: {
-             id: number;
-             name: string;
-             image: string;
-           } | null; // pueden venir null si la relación falla
-    album_tags: {
-      name: string;
       id: number;
-    } | null;
+      // name: string;
+      // image: string;
+    }
+    // tags: {
+    //   name: string;
+    //   id: number;
+    // }[];
   }[];
 }
 

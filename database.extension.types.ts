@@ -1,11 +1,12 @@
-import type { MergeDeep }                from 'type-fest';
-import type { Database as MainDatabase } from './database.types';
-import type { DeckSaveRpc_Deck_Data }    from '~/app/deck/infrastructure/deckSaveRpcDeckData';
+import type { MergeDeep }                      from 'type-fest';
+import type { Database as MainDatabase, Json } from './database.types';
+import type { DeckSaveRpc_Deck_Data }          from '~/app/deck/infrastructure/deckSaveRpcDeckData';
 
 export type Database = MergeDeep<MainDatabase, {
   public: {
     Functions: {
-      deck_save: { Args: { deck_data: DeckSaveRpc_Deck_Data }; Returns: number }
+      deck_save: { Args: { deck_data: DeckSaveRpc_Deck_Data }; Returns: number },
+      get_albums_cards: { Args: { p_album_id: number }; Returns: Album_Get_Rpc_Data },
     }
   }
 }>

@@ -1,58 +1,63 @@
 import type { RequestEvent, RequestEventBase } from '@builder.io/qwik-city';
 import type { SupabaseClient }                 from '@supabase/supabase-js';
 
-import { AddCardToAlbum }                  from '~/app/album/application/addCardToAlbum';
-import { CreateAlbum }                     from '~/app/album/application/createAlbum';
-import { DeleteAlbum }                     from '~/app/album/application/deleteAlbum';
-import type { AlbumFinder }                from '~/app/album/application/finder/album.finder';
-import { GetAlbum }                        from '~/app/album/application/getAlbum';
-import { GetAlbums }                       from '~/app/album/application/getAlbums';
-import { GetAllCardAlbum }                 from '~/app/album/application/getAllCardAlbum';
-import { SaveAlbumChanges }                from '~/app/album/application/saveAlbumChanges';
-import { AlbumRepository }                 from '~/app/album/infrastructure/album.repository';
-import { SupabaseAlbumFinder }             from '~/app/album/infrastructure/supabaseAlbum.finder';
-import { AddCardToAlbumPresenter }         from '~/app/album/presenter/addCardToAlbum.presenter';
-import { CreateAlbumPresenter }            from '~/app/album/presenter/createAlbum.presenter';
-import { DeleteAlbumPresenter }            from '~/app/album/presenter/deleteAlbum.presenter';
-import { GetAlbumsPresenter }              from '~/app/album/presenter/getAlbums.presenter';
-import { GetAlbumViewStatePresenter }      from '~/app/album/presenter/getAlbumViewState.presenter';
-import { SaveAlbumChangesPresenter }       from '~/app/album/presenter/saveAlbumChanges.presenter';
-import { FindCard }                        from '~/app/card/application/findCard';
-import type { CardFinder }                 from '~/app/card/application/finder/card.finder';
-import type { CardFilterOptionsFinder }    from '~/app/card/application/finder/cardFilterOptions.finder';
-import { GetAvailableSet }                 from '~/app/card/application/getAvailableSet';
-import { GetCardById }                     from '~/app/card/application/getCardById';
-import { GetCardFilterOptions }            from '~/app/card/application/getCardFilterOptions';
-import { ImportDeckCards }                 from '~/app/card/application/importDeckCards';
-import { QueryCards }                      from '~/app/card/application/queryCards';
-import { DeckParserService }               from '~/app/card/application/serviecs/deckParser.service';
-import CardRepository                      from '~/app/card/infrastructure/card.repository';
-import { SetFinderRepository }             from '~/app/card/infrastructure/setFinder.repository';
-import { SupabaseCardFinder }              from '~/app/card/infrastructure/supabaseCard.finder';
-import { SupabaseCardFilterOptionsFinder } from '~/app/card/infrastructure/supabaseCardFilterOptions.finder';
-import { FindCardByFiltersPresenter }      from '~/app/card/presenter/findCardByFilters.presenter';
-import { GetAllFiltersOptionsPresenter }   from '~/app/card/presenter/getAllFiltersOptions.presenter';
-import { GetCardByIdPresenter }            from '~/app/card/presenter/getCardByIdPresenter';
-import { ImportDeckPresenter }             from '~/app/card/presenter/ImportDeck.presenter';
-import { QueryCardsPresenter }             from '~/app/card/presenter/queryCards.presenter';
-import { CreateDeck }                      from '~/app/deck/application/createDeck';
-import { DeleteDeck }                 from '~/app/deck/application/deleteDeck';
-import { GetDeck }                         from '~/app/deck/application/getDeck';
-import { ListPublicDecks }                 from '~/app/deck/application/listPublicDecks';
-import { ListUserDecks }                   from '~/app/deck/application/listUserDecks';
-import { UpdateDeck }                      from '~/app/deck/application/updateDeck';
-import { DeckRepository }                  from '~/app/deck/infrastructure/deck.repository';
-import { DeleteDeckPresenter }        from '~/app/deck/presentation/deleteDeck.presenter';
-import { GetDeckPresenter }                from '~/app/deck/presentation/getDeck.presenter';
-import { ListPublicDeckPresenter }         from '~/app/deck/presentation/listPublicDeck.presenter';
-import { ListUserDeckPresenter }           from '~/app/deck/presentation/listUserDeck.presenter';
-import { SaveDeckPresenter }               from '~/app/deck/presentation/saveDeck.presenter';
-import type { AuthService }                from '~/app/shared/application/auth.service';
-import type { FlagsService }               from '~/app/shared/application/flags.service';
-import { TOKENS }                          from '~/app/shared/binds/TOKENS';
-import { GetCurrentUser }                  from '~/app/shared/infrastructure/getCurrentUser';
-import { PgFlagService }                   from '~/app/shared/infrastructure/pgFlag.service';
-import { SupabaseAuthService }             from '~/app/shared/infrastructure/supabaseAuth.service';
+import { AddCardToAlbum }                      from '~/app/album/application/addCardToAlbum';
+import { CreateAlbum }                         from '~/app/album/application/createAlbum';
+import { DeleteAlbum }                         from '~/app/album/application/deleteAlbum';
+import type { AlbumFinder }                    from '~/app/album/application/finder/album.finder';
+import { GetAlbum }                            from '~/app/album/application/getAlbum';
+import { GetAlbums }                           from '~/app/album/application/getAlbums';
+import { GetAlbumStats }                       from '~/app/album/application/getAlbumStats';
+import { GetAllCardAlbum }                     from '~/app/album/application/getAllCardAlbum';
+import { GetNextAlbumCards }                   from '~/app/album/application/getNextAlbumCards';
+import { SaveAlbumChanges }                    from '~/app/album/application/saveAlbumChanges';
+import { AlbumCardInitializerService }         from '~/app/album/application/services/albumCardInitializer.service';
+import { AlbumRepository }                     from '~/app/album/infrastructure/album.repository';
+import { SupabaseAlbumFinder }                 from '~/app/album/infrastructure/supabaseAlbum.finder';
+import { SupabaseAlbumCardInitializerService } from '~/app/album/infrastructure/supabaseAlbumCardInitializer.service';
+import { AddCardToAlbumPresenter }             from '~/app/album/presenter/addCardToAlbum.presenter';
+import { CreateAlbumPresenter }                from '~/app/album/presenter/createAlbum.presenter';
+import { DeleteAlbumPresenter }                from '~/app/album/presenter/deleteAlbum.presenter';
+import { GetAlbumsPresenter }                  from '~/app/album/presenter/getAlbums.presenter';
+import { GetAlbumViewStatsPresenter }          from '~/app/album/presenter/getAlbumViewStatsPresenter';
+import { GetNextCardAlbumPresenter }           from '~/app/album/presenter/getNextCardAlbum.presenter';
+import { SaveAlbumChangesPresenter }           from '~/app/album/presenter/saveAlbumChanges.presenter';
+import { FindCard }                            from '~/app/card/application/findCard';
+import type { CardFinder }                     from '~/app/card/application/finder/card.finder';
+import type { CardFilterOptionsFinder }        from '~/app/card/application/finder/cardFilterOptions.finder';
+import { GetAvailableSet }                     from '~/app/card/application/getAvailableSet';
+import { GetCardById }                         from '~/app/card/application/getCardById';
+import { GetCardFilterOptions }                from '~/app/card/application/getCardFilterOptions';
+import { ImportDeckCards }                     from '~/app/card/application/importDeckCards';
+import { QueryCards }                          from '~/app/card/application/queryCards';
+import { DeckParserService }                   from '~/app/card/application/serviecs/deckParser.service';
+import CardRepository                          from '~/app/card/infrastructure/card.repository';
+import { SetFinderRepository }                 from '~/app/card/infrastructure/setFinder.repository';
+import { SupabaseCardFinder }                  from '~/app/card/infrastructure/supabaseCard.finder';
+import { SupabaseCardFilterOptionsFinder }     from '~/app/card/infrastructure/supabaseCardFilterOptions.finder';
+import { FindCardByFiltersPresenter }          from '~/app/card/presenter/findCardByFilters.presenter';
+import { GetAllFiltersOptionsPresenter }       from '~/app/card/presenter/getAllFiltersOptions.presenter';
+import { GetCardByIdPresenter }                from '~/app/card/presenter/getCardByIdPresenter';
+import { ImportDeckPresenter }                 from '~/app/card/presenter/ImportDeck.presenter';
+import { QueryCardsPresenter }                 from '~/app/card/presenter/queryCards.presenter';
+import { CreateDeck }                          from '~/app/deck/application/createDeck';
+import { DeleteDeck }                          from '~/app/deck/application/deleteDeck';
+import { GetDeck }                             from '~/app/deck/application/getDeck';
+import { ListPublicDecks }                     from '~/app/deck/application/listPublicDecks';
+import { ListUserDecks }                       from '~/app/deck/application/listUserDecks';
+import { UpdateDeck }                          from '~/app/deck/application/updateDeck';
+import { DeckRepository }                      from '~/app/deck/infrastructure/deck.repository';
+import { DeleteDeckPresenter }                 from '~/app/deck/presentation/deleteDeck.presenter';
+import { GetDeckPresenter }                    from '~/app/deck/presentation/getDeck.presenter';
+import { ListPublicDeckPresenter }             from '~/app/deck/presentation/listPublicDeck.presenter';
+import { ListUserDeckPresenter }               from '~/app/deck/presentation/listUserDeck.presenter';
+import { SaveDeckPresenter }                   from '~/app/deck/presentation/saveDeck.presenter';
+import type { AuthService }                    from '~/app/shared/application/auth.service';
+import type { FlagsService }                   from '~/app/shared/application/flags.service';
+import { TOKENS }                              from '~/app/shared/binds/TOKENS';
+import { GetCurrentUser }                      from '~/app/shared/infrastructure/getCurrentUser';
+import { PgFlagService }                       from '~/app/shared/infrastructure/pgFlag.service';
+import { SupabaseAuthService }                 from '~/app/shared/infrastructure/supabaseAuth.service';
 
 import { IoC }                from '~/lib/IoC';
 import { Logger }             from '~/lib/logger';
@@ -67,6 +72,7 @@ export interface TOKEN_MAP {
   [TOKENS.DECK_PARSER]: DeckParserService;
   [TOKENS.AUTH_SERVICE]: AuthService;
   [TOKENS.FLAG_SERVICE]: FlagsService;
+  [TOKENS.ALBUM_INITIALIZER]: AlbumCardInitializerService;
   // finder
   [TOKENS.CARD_FINDER]: CardFinder;
   [TOKENS.ALBUM_FINDER]: AlbumFinder;
@@ -80,6 +86,8 @@ export interface TOKEN_MAP {
   [TOKENS.CREATE_ALBUM]: CreateAlbum;
   [TOKENS.GET_ALBUMS]: GetAlbums;
   [TOKENS.GET_ALBUM]: GetAlbum;
+  [TOKENS.GET_ALBUM_STATS]: GetAlbumStats;
+  [TOKENS.GET_NEXT_ALBUM_CARDS]: GetNextAlbumCards;
   [TOKENS.GET_AVAILABLE_SET]: GetAvailableSet;
   [TOKENS.QUERY_CARDS]: QueryCards;
   [TOKENS.ADD_CARD_TO_ALBUM]: AddCardToAlbum;
@@ -101,7 +109,8 @@ export interface TOKEN_MAP {
   [TOKENS.QUERY_CARDS_PRESENTER]: QueryCardsPresenter;
   [TOKENS.ADD_CARD_TO_ALBUM_PRESENTER]: AddCardToAlbumPresenter;
   [TOKENS.GET_ALBUMS_PRESENTER]: GetAlbumsPresenter;
-  [TOKENS.GET_ALBUM_VIEW_STATE_PRESENTER]: GetAlbumViewStatePresenter;
+  [TOKENS.GET_ALBUM_VIEW_STATE_PRESENTER]: GetAlbumViewStatsPresenter;
+  [TOKENS.GET_NEXT_CARD_ALBUM_PRESENTER]: GetNextCardAlbumPresenter;
   [TOKENS.SAVE_CHANGES_PRESENTER]: SaveAlbumChangesPresenter;
   [TOKENS.GET_CARD_BY_ID_PRESENTER]: GetCardByIdPresenter;
   [TOKENS.DELETE_ALBUM_PRESENTER]: DeleteAlbumPresenter;
@@ -128,6 +137,7 @@ export function createContainer(req: RequestEvent) {
     .provide(TOKENS.DECK_PARSER, DeckParserService)
     .provide(TOKENS.AUTH_SERVICE, SupabaseAuthService)
     .provide(TOKENS.FLAG_SERVICE, PgFlagService)
+    .provide(TOKENS.ALBUM_INITIALIZER, SupabaseAlbumCardInitializerService)
     // Repositories
     .provide(TOKENS.ALBUM_REPOSITORY, AlbumRepository)
     .provide(TOKENS.CARD_REPOSITORY, CardRepository)
@@ -141,6 +151,8 @@ export function createContainer(req: RequestEvent) {
     .provide(TOKENS.CREATE_ALBUM, CreateAlbum)
     .provide(TOKENS.GET_ALBUMS, GetAlbums)
     .provide(TOKENS.GET_ALBUM, GetAlbum)
+    .provide(TOKENS.GET_ALBUM_STATS, GetAlbumStats)
+    .provide(TOKENS.GET_NEXT_ALBUM_CARDS, GetNextAlbumCards)
     .provide(TOKENS.GET_AVAILABLE_SET, GetAvailableSet)
     .provide(TOKENS.QUERY_CARDS, QueryCards)
     .provide(TOKENS.ADD_CARD_TO_ALBUM, AddCardToAlbum)
@@ -162,8 +174,9 @@ export function createContainer(req: RequestEvent) {
     .provide(TOKENS.GET_CARD_BY_ID_PRESENTER, GetCardByIdPresenter)
     .provide(TOKENS.QUERY_CARDS_PRESENTER, QueryCardsPresenter)
     .provide(TOKENS.ADD_CARD_TO_ALBUM_PRESENTER, AddCardToAlbumPresenter)
-    .provide(TOKENS.GET_ALBUM_VIEW_STATE_PRESENTER, GetAlbumViewStatePresenter)
+    .provide(TOKENS.GET_ALBUM_VIEW_STATE_PRESENTER, GetAlbumViewStatsPresenter)
     .provide(TOKENS.GET_ALBUMS_PRESENTER, GetAlbumsPresenter)
+    .provide(TOKENS.GET_NEXT_CARD_ALBUM_PRESENTER, GetNextCardAlbumPresenter)
     .provide(TOKENS.SAVE_CHANGES_PRESENTER, SaveAlbumChangesPresenter)
     .provide(TOKENS.DELETE_ALBUM_PRESENTER, DeleteAlbumPresenter)
     .provide(TOKENS.DELETE_DECK_PRESENTER, DeleteDeckPresenter)

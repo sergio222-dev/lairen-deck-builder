@@ -5,9 +5,10 @@ import type { NormalizedModel } from '~/utils/normalize';
 // Album Creation
 
 export const albumCreationValidator = zod$({
-  name: z.string(),
-  sets: z.array(z.string()),
-  tags: z.array(z.string())
+  name:            z.string(),
+  sets:            z.array(z.string()),
+  tags:            z.array(z.string()),
+  initializeCards: z.string().optional()
 });
 
 
@@ -37,14 +38,31 @@ export interface UIAlbumCard {
   tags: NormalizedModel<UIAlbumCardTag>;
 }
 
-export interface UIAlbum {
+interface UIAlbumTag {
+  id: number;
+  total: number;
+  name: string;
+}
+
+export interface UIAlbumTagStats {
+  tags: NormalizedModel<UIAlbumTag>;
+  tagsById: Array<number>;
+}
+
+export interface UIAlbumCardStats {
+  cards: NormalizedModel<UIAlbumCard>;
+  cardsById: Array<number>;
+  cursor: string | null;
+}
+
+export type UIAlbumStats = UIAlbumTagStats & UIAlbumCardStats;
+
+export interface UIAlbum extends UIAlbumStats {
   id: number;
   name: string;
   total: number;
   current: number;
   sets: string[];
-  tags: string[];
-  cards: NormalizedModel<UIAlbumCard>;
 }
 
 export type AlbumChange = 'ADDITION' | 'REMOTION';
@@ -83,24 +101,21 @@ export type ALBUM_CREATE_STORE = AlbumCreateStoreState & AlbumCreateStoreAction;
 
 export interface AlbumViewStoreState extends UIAlbum {
   resultCards: NormalizedModel<UIAlbumCardSimple>,
-  addedCards: number[];
   editMode: boolean;
-  changes: Record<string,  UIAlbumChange>;
-  cardTags: Record<string, UIAlbumCardTag>;
-  totalTags: Record<string, number>;
-  filteredCards: number[];
+  changes: Record<string, UIAlbumChange>;
   filterText: string;
 }
 
 export interface AlbumViewStoreAction {
   queryCards: QRL<(this: AlbumViewStoreState, query: string) => void>;
   resetResults: QRL<(this: AlbumViewStoreState) => void>;
-  applyFilter: QRL<(this: AlbumViewStoreState, text: string) => void>
+  applyFilter: QRL<(this: AlbumViewStoreState, text: string) => void>;
   addCard: QRL<(this: AlbumViewStoreState, cardId: number) => void>;
-  increaseQuantity: QRL<(this: AlbumViewStoreState, cardId: number, tag: number) => void>;
-  decreaseQuantity: QRL<(this: AlbumViewStoreState, cardId: number, tag: number) => void>;
+  increaseQuantity: QRL<(this: AlbumViewStoreState, cardId: number, tagId: number) => void>;
+  decreaseQuantity: QRL<(this: AlbumViewStoreState, cardId: number, tagId: number) => void>;
   resetChanges: QRL<(this: AlbumViewStoreState) => void>;
   saveChanges: QRL<(this: AlbumViewStoreState) => void>;
+  fetchNext: QRL<(this: AlbumViewStoreState) => void>;
 }
 
 export type ALBUM_VIEW_STORE = AlbumViewStoreState & AlbumViewStoreAction;

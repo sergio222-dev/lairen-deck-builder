@@ -24,7 +24,6 @@ export class SupabaseAuthService implements AuthService {
       }
     }
 
-    Logger.debug(`VALIDATE WITH JWT: ${jwt}`)
     const { data, error } = await this.supabaseClient.auth.getUser(jwt);
 
     if (error) {
