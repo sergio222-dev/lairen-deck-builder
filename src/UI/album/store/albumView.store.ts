@@ -1,32 +1,32 @@
 import { $, createContextId, useStore }               from '@builder.io/qwik';
 import { Logger }                                     from '~/lib/logger';
 import type { ALBUM_VIEW_STORE, AlbumViewStoreState } from '~/UI/album/models/album.model';
-import { addCardToAlbumServer } from '~/UI/album/service/addCardToAlbum.server';
-import { getAlbumServer }    from '~/UI/album/service/getAlbum.server';
-import { queryCardServer }   from '~/UI/album/service/queryCard.server';
-import { saveChangesServer } from '~/UI/album/service/saveChanges.server';
-import { normalizeData }     from '~/utils/normalize';
+import { addCardToAlbumServer }                       from '~/UI/album/service/addCardToAlbum.server';
+import { fetchNextServer }                            from '~/UI/album/service/fetchNext.server';
+import { getAlbumServer }                             from '~/UI/album/service/getAlbum.server';
+import { queryCardServer }                            from '~/UI/album/service/queryCard.server';
+import { saveChangesServer }                          from '~/UI/album/service/saveChanges.server';
+import { normalizeData }                              from '~/utils/normalize';
 
 export function getUIDCard(cardId: number, tagId: number | string): string {
   return `${cardId}_${tagId}`;
 }
 
 export const albumViewStoreInitialState: AlbumViewStoreState = {
-  total:       0,
-  current:     0,
-  name:        '',
-  sets:        [],
-  id:          0,
-  cards:       {},
-  resultCards: {},
-  tags:        [],
-  addedCards:  [],
-  editMode:    false,
-  changes:     {},
-  cardTags:    {},
-  totalTags:   {},
-  filteredCards: [],
-  filterText: '',
+  total:         0,
+  current:       0,
+  name:          '',
+  sets:          [],
+  id:            0,
+  cards:         {},
+  cardsById:     [],
+  resultCards:   {},
+  tags:          {},
+  tagsById:      [],
+  editMode:      false,
+  changes:       {},
+  filterText:    '',
+  cursor:        null
 };
 
 export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = null) => {
@@ -42,35 +42,45 @@ export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = nul
       const r          = await queryCardServer(query, this.sets);
       this.resultCards = normalizeData(r);
     }),
-    resetResults: $(function (this){
+    fetchNext: $(async function(this) {
+      const c = await fetchNextServer(this.id, this.filterText, this.cursor);
+
+      this.cursor = c.cursor;
+      Object.values(c.cards).forEach(x => this.cards[x.id] = x)
+      c.cardsById.forEach(x => this.cardsById.push(x))
+    }),
+    resetResults:     $(function(this) {
       this.resultCards = {};
     }),
-    applyFilter: $(function (this, text) {
-      if (text === '') this.filteredCards = this.addedCards;
+    applyFilter:      $(async function(this, text) {
+      this.cursor = null
+      this.filterText = text;
 
-      this.filteredCards = this.addedCards.filter(id => {
-        return this.cards[id].name.toLowerCase().includes(text.toLowerCase());
-      });
+      const c = await fetchNextServer(this.id, text, this.cursor)
+      this.cursor = c.cursor;
+      this.cards = c.cards;
+      this.cardsById = c.cardsById;
     }),
     addCard:          $(async function(this, cardId: number) {
       this.resultCards = {};
-      if (this.addedCards.includes(cardId)) return;
+      if (this.cardsById.includes(cardId)) return;
 
       try {
         await addCardToAlbumServer(this.id, cardId);
 
         const album = await getAlbumServer(this.id);
 
-        this.cards = album.cards;
-        this.filteredCards = this.addedCards = album.addedCards;
-        this.cardTags = album.cardTags;
+        this.cards         = album.cards;
+        this.cardsById     = album.cardsById;
+        this.tags          = album.tags;
+        this.tagsById      = album.tagsById;
 
       } catch (error) {
         Logger.error(error);
       }
     }),
     increaseQuantity: $(async function(this, cardId, tagId) {
-      const uiCT       = `${cardId}_${tagId}`;
+      const uiCT       = getUIDCard(cardId, tagId);
       const prevChange = this.changes[uiCT];
 
       if (!prevChange) {
@@ -87,7 +97,7 @@ export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = nul
     }),
     decreaseQuantity: $(function(this, cardId, tagId) {
       const uiCT       = `${cardId}_${tagId}`;
-      const cardTag    = this.cardTags[uiCT];
+      const cardTag    = this.cards[cardId].tags[tagId];
       const prevChange = this.changes[uiCT];
 
 
@@ -122,10 +132,12 @@ export const useAlbumViewStore = (initialState: AlbumViewStoreState | null = nul
 
       const album = await getAlbumServer(this.id);
 
-      this.cardTags = album.cardTags;
-      this.changes  = {};
-      this.editMode = false;
-      this.totalTags = album.totalTags;
+      this.cards = album.cards;
+      this.cardsById = album.cardsById;
+      this.tags = album.tags;
+      this.tagsById = album.tagsById;
+      this.changes   = {};
+      this.editMode  = false;
     })
   });
 };

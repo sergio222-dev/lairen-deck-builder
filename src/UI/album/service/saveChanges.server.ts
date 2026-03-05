@@ -10,5 +10,10 @@ export const saveChangesServer = server$<SaveChangesServerType>(async (albumId, 
 
   const saveChanges = ioc.resolve(TOKENS.SAVE_CHANGES_PRESENTER);
 
-  await saveChanges.execute(albumId, changes);
+  try {
+    await saveChanges.execute(albumId, changes);
+  } catch (err) {
+    console.log(changes)
+    console.error(err);
+  }
 });

@@ -62,6 +62,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "user_card_tag_by_album"
+            referencedColumns: ["album_id"]
+          },
+          {
             foreignKeyName: "album_cards_card_id_fkey"
             columns: ["card_id"]
             isOneToOne: false
@@ -80,6 +87,13 @@ export type Database = {
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "album_tags"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "user_card_tag_by_album"
             referencedColumns: ["id"]
           },
         ]
@@ -107,6 +121,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "albums"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_tags_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "user_card_tag_by_album"
+            referencedColumns: ["album_id"]
           },
         ]
       }
@@ -398,6 +419,16 @@ export type Database = {
         }
         Relationships: []
       }
+      user_card_tag_by_album: {
+        Row: {
+          album_id: number | null
+          id: number | null
+          name: string | null
+          owner: string | null
+          total: number | null
+        }
+        Relationships: []
+      }
       user_cards_by_album: {
         Row: {
           album_id: number | null
@@ -425,6 +456,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "albums"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "album_cards_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "user_card_tag_by_album"
+            referencedColumns: ["album_id"]
           },
           {
             foreignKeyName: "album_cards_card_id_fkey"
@@ -480,6 +518,14 @@ export type Database = {
         Returns: undefined
       }
       deck_save: { Args: { deck_data: Json }; Returns: number }
+      get_albums_cards: {
+        Args: { p_album_id: number; p_cursor?: string; p_limit?: number }
+        Returns: Json
+      }
+      initialize_album_cards: {
+        Args: { p_album_id: number }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

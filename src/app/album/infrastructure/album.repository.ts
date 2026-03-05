@@ -8,8 +8,8 @@ import { UserIdValueObject }    from '~/app/shared/domain/VO/userId.valueObject'
 import { POSTGREST_ERROR_CODE } from '~/app/shared/infrastructure/postgress/errorCode';
 
 import { Logger } from '~/lib/logger';
+import { Database } from '../../../../database.extension.types';
 
-import type { Database } from '../../../../database.types';
 
 export class AlbumRepository {
   public static inject = [TOKENS.SUPABASE];
@@ -31,24 +31,14 @@ export class AlbumRepository {
     album_tags:album_tags!album_tags_album_id_fkey (
       id,
       name
-    ),
-    album_cards (
-      quantity,
-      cards (
-        id,
-        name,
-        image
-      ),
-      album_tags:album_tags!album_cards_tag_id_fkey (
-        id,
-        name
-      )
     )
     `
       )
       .eq('id', id.value)
+      .limit(10000)
       // .order('cards.name', { referencedTable: 'album_cards', ascending: true })
       .single();
+
 
     if (error) {
       if (error.code === POSTGREST_ERROR_CODE.FOUND_ITEMS_DIFFERENT_OF_ONE) {
@@ -66,7 +56,18 @@ export class AlbumRepository {
     }
 
     // order cards by name
-    return Album.HYDRATE(data);
+    const { data: cards, error: cardsError} = await this.supabase.from('user_cards_by_album').select('*').order('name');
+
+    if (cardsError) {
+      Logger.error(error);
+
+      throw cardsError;
+    }
+
+    return Album.HYDRATE({
+      ...data,
+      album_cards: cards.map(x => ({ cards: { id: x.card_id! }}))
+    });
   }
 
   async deleteAlbumById(id: IdValueObject) {
@@ -99,7 +100,7 @@ export class AlbumRepository {
     });
   }
 
-  async saveAlbum(album: Album) {
+  async saveAlbum(album: Album): Promise<IdValueObject> {
     let idAlbum = album.id;
 
     if (album.id.value === 0) {
@@ -137,6 +138,8 @@ export class AlbumRepository {
         throw albumUpdateError;
       }
     }
+
+    return idAlbum;
   }
 
 }

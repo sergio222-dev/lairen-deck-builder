@@ -1,5 +1,5 @@
-import { component$, useContext } from "@builder.io/qwik";
-import { Link }                   from "@builder.io/qwik-city";
+import { $, component$, Signal, useContext, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { Link }                                                          from "@builder.io/qwik-city";
 
 import { Button } from "~/components/button";
 import { Chip }   from "~/components/chip/Chip";
@@ -7,32 +7,69 @@ import { Chip }   from "~/components/chip/Chip";
 import { CardCell }         from "~/features/albums/components/CardCell";
 import { CardSearchToAdd }  from "~/features/albums/components/CardSearchToAdd";
 import { CollectionSearch } from "~/features/albums/components/CollectionSearch";
+import { AppContext }       from "~/stores/appContext";
 
 import { ALBUM_VIEW_CONTEXT } from "~/UI/album/store/albumView.store";
 import { CARD_VIEW_CONTEXT }  from "~/UI/card/store/cardViewer.storet";
 
 import styles from "./styles.module.scss";
 
+const TableRow = component$<{ cardId: number, forwardRef: Signal<HTMLTableRowElement | undefined> | undefined}>(({ cardId, forwardRef}) => {
+    const v   = useContext(CARD_VIEW_CONTEXT)
+    const a   = useContext(ALBUM_VIEW_CONTEXT);
+
+    return (
+            <tr ref={forwardRef}>
+                <th class={`cursor-pointer`} onClick$={() => v.showCard(cardId)}>{a.cards[cardId].name}</th>
+                <CardCell cardId={cardId}/>
+            </tr>
+    )
+})
+
 const TableCard = component$(() => {
-    const a = useContext(ALBUM_VIEW_CONTEXT);
-    const v = useContext(CARD_VIEW_CONTEXT)
+    const app = useContext(AppContext);
+    const a   = useContext(ALBUM_VIEW_CONTEXT);
+
+    const ref = useSignal<HTMLTableRowElement>();
+
+    const handleObserver = $(async (entries: IntersectionObserverEntry[]) => {
+        if (!entries[0].isIntersecting) return;
+        if (app.isLoading) return;
+        app.isLoading = true;
+        await a.fetchNext()
+        app.isLoading = false
+    });
+
+    useVisibleTask$(({track}) => {
+        track(ref)
+
+        const option = {
+            root:       null,
+            rootMargin: "200px",
+            threshold:  1,
+        }
+
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (ref.value) observer.observe(ref.value);
+
+        return () => {
+            if (ref.value) observer.disconnect();
+        }
+    })
 
     return (
             <table class={`${styles['table-collection']} w-full`}>
                 <thead>
                 <tr>
                     <th>Name</th>
-                    {a.tags.map((t, i) => (
-                            <th key={i}>{t}</th>
+                    {a.tagsById.map((t) => (
+                            <th key={t}>{a.tags[t].name}</th>
                     ))}
                 </tr>
                 </thead>
                 <tbody>
-                {a.filteredCards.map(c => (
-                        <tr key={c}>
-                            <th class={`cursor-pointer`} onClick$={() => v.showCard(c)}>{a.cards[c].name}</th>
-                            <CardCell cardId={c}/>
-                        </tr>
+                {a.cardsById.map((c, i) => (
+                       <TableRow forwardRef={i === a.cardsById.length - 1 ?  ref : undefined}  key={c} cardId={c} />
                 ))}
                 </tbody>
             </table>
@@ -88,10 +125,10 @@ export const EditAlbum = component$(() => {
                             ))}
                         </div>
                         <div class="flex flex-wrap gap-2 mt-2">
-                            {a.tags.map(tag => (
+                            {a.tagsById.map(tag => (
                                     <Chip key={tag}>
-                                        {tag} <span class="bg-black text-white rounded-full px-2">{a.totalTags[tag] ??
-                                            0}</span>
+                                        {a.tags[tag].name} <span
+                                            class="bg-black text-white rounded-full px-2">{a.tags[tag].total}</span>
                                     </Chip>
                             ))}
                         </div>

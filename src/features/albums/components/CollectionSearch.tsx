@@ -1,12 +1,16 @@
 import { $, component$, useContext } from "@builder.io/qwik";
+import { AppContext }                from "~/stores/appContext";
 import { ALBUM_VIEW_CONTEXT }        from "~/UI/album/store/albumView.store";
 import { useDebounce }               from "~/utils/useDebounce";
 
 export const CollectionSearch = component$(() => {
     const a = useContext(ALBUM_VIEW_CONTEXT);
+    const app = useContext(AppContext);
 
     const onDebounce = useDebounce(800, $(async (value: string) => {
-        void a.applyFilter(value);
+        app.isLoading = true;
+        await a.applyFilter(value);
+        app.isLoading = false;
     }))
 
     return (

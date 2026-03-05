@@ -4,6 +4,7 @@ import { routeLoader$ }                   from "@builder.io/qwik-city";
 import { TOKENS }    from "~/app/shared/binds/TOKENS";
 import { EditAlbum } from "~/features/albums/EditAlbum";
 import { IoC }       from "~/lib/IoC";
+import { Logger }    from "~/lib/logger";
 
 import type { AlbumViewStoreState }              from "~/UI/album/models/album.model";
 import { ALBUM_VIEW_CONTEXT, useAlbumViewStore } from "~/UI/album/store/albumView.store";
@@ -22,6 +23,7 @@ export const useAlbumViewLoader = routeLoader$<AlbumViewStoreState>(async ({ par
 
         album = await getAlbum.execute(parseInt(albumId));
     } catch (err) {
+        Logger.error(err)
         throw redirect(302, '/album');
     }
 

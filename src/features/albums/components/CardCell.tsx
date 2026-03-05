@@ -10,23 +10,20 @@ type CardCellProps = {
 export const CardCell = component$<CardCellProps>(({ cardId }) => {
     const a    = useContext(ALBUM_VIEW_CONTEXT)
 
-    const card = a.cards[cardId];
-    const tags = Object.keys(card.tags).map(tag => getUIDCard(cardId, tag));
-
     return (
             <>
-                {tags.map(tag => (
-                        <th key={tag}>
+                {a.tagsById.map(tag => (
+                        <th key={getUIDCard(cardId, tag)}>
                             <Button
                                     class={`${styles['btn-action']} mx-1`}
-                                    onClick$={() => a.increaseQuantity(cardId, a.cardTags[tag].id)}
+                                    onClick$={() => a.increaseQuantity(cardId, tag)}
                             >
                                 +
                             </Button>
-                            {a.cardTags[tag].quantity + (a.changes?.[tag]?.amount ?? 0)}
+                            {a.cards[cardId].tags[tag].quantity + (a.changes?.[getUIDCard(cardId, tag)]?.amount ?? 0)}
                             <Button
                                     class={`${styles['btn-action']} mx-1`}
-                                    onClick$={() => a.decreaseQuantity(cardId, a.cardTags[tag].id)}
+                                    onClick$={() => a.decreaseQuantity(cardId, tag)}
                             >
                                 -
                             </Button>
