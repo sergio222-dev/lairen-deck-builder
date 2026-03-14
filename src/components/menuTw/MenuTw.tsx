@@ -79,7 +79,7 @@ export const MenuTw = component$<MenuProps>(({ onChange, form }) => {
                         </div>
                     </div>
                     <div
-                        class={`${isOpen.value ? '' : 'hidden'} absolute shadow top-[100%] bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto`}>
+                        class={`${isOpen.value ? '' : 'hidden'} absolute shadow top-full bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto`}>
                         <div role="listbox" class="flex flex-col w-full">
                             <Slot />
                         </div>

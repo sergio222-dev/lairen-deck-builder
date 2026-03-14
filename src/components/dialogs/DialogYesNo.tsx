@@ -1,4 +1,4 @@
-import styleContetn from './DialogYesNo.scss?inline';
+import styleContent from './DialogYesNo.css?inline';
 
 export class DialogYesNoNo extends HTMLElement {
     private readonly dialog: HTMLDialogElement;
@@ -10,7 +10,7 @@ export class DialogYesNoNo extends HTMLElement {
 
         // load sync styles for this component in the shadowRealm
         const sheet = new CSSStyleSheet()
-        sheet.replaceSync(styleContetn)
+        sheet.replaceSync(styleContent)
         shadowRoot.adoptedStyleSheets = [sheet]
 
         this.dialog           = document.createElement("dialog");

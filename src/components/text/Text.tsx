@@ -5,6 +5,6 @@ type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export const Text = component$<InputProps>(({ ...props }) => {
   return (
-    <input {...props} type="text" class={`ring-2 outline-none p-2 focus:ring-[var(--qwik-secondary)] rounded ${props.class}`}/>
+    <input {...props} type="text" class={`ring-2 outline-none p-2 focus:ring-(--qwik-secondary) rounded ${props.class}`}/>
   )
 });

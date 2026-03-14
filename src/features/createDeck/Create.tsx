@@ -11,8 +11,9 @@ export const Create = component$(() => {
 
     return (
             <div class="h-full flex flex-col md:flex-row w-full">
-                <div hidden={selectedSection.value !== 0}
-                     class="h-full md:basis-[50%] xl:basis-[61.8%] overflow-y-hidden md:block px-2 pt-2">
+                <div
+                        data-section-selected={selectedSection.value}
+                        class="h-full md:basis-[50%] xl:basis-[61.8%] data-[section-selected=1]:max-md:hidden overflow-y-hidden px-2 pt-2">
                     <div class="flex flex-col h-full">
                         <div>
                             <CardFilter mobileListDeckRef={mobileListDeckRef}/>
@@ -22,8 +23,9 @@ export const Create = component$(() => {
                         </div>
                     </div>
                 </div>
-                <div hidden={selectedSection.value !== 1}
-                     class="h-full md:basis-[50%] xl:basis-[38.2%] overflow-y-auto py-2 md:block">
+                <div
+                        data-section-selected={selectedSection.value}
+                        class="h-full md:basis-[50%] xl:basis-[38.2%] data-[section-selected=0]:max-md:hidden overflow-y-auto py-2">
                     <div class="">
                         <CreateForm/>
                     </div>

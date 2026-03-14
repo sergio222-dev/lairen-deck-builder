@@ -17,7 +17,7 @@ export const CardDeckInfo = component$(() => {
     return (
             <div class="p-2 shadow-lg">
                 <div class="flex justify-around flex-wrap">
-                    <div class="border-[var(--qwik-secondary)] border-2 p-4 flex flex-col items-center rounded">
+                    <div class="border-(--qwik-secondary) border-2 p-4 flex flex-col items-center rounded">
                         Collection
                         <span class="text-green-400">{Math.round(deck.ownedPercent * 100)}% </span>
                     </div>
@@ -25,7 +25,7 @@ export const CardDeckInfo = component$(() => {
                         <Switch name="show-info" value={showInfo.value} onChange={handleShowInfo}/>
                         Info
                     </div>
-                    <div class="border-[var(--qwik-secondary)] border-2 p-4 flex flex-col items-center rounded">
+                    <div class="border-(--qwik-secondary) border-2 p-4 flex flex-col items-center rounded">
                         Cards
                         <span class="text-green-400"> {deck.quantityInMainDeck}</span>
                     </div>

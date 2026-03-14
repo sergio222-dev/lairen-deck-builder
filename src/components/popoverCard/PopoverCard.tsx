@@ -12,7 +12,7 @@ export const PopoverCard = component$<PopoverCardProps>(({ref, show, image}) => 
   return (
     <div
       ref={ref}
-      class={`z-10 aspect-[3/4] w-[400px] bg-no-repeat bg-[length:100%_100%] border-secondary border-2 m-0 fixed ${show ?
+      class={`z-10 aspect-3/4 w-[400px] bg-no-repeat bg-size-[100%_100%] border-secondary border-2 m-0 fixed ${show ?
         '' :
         'hidden'} top-0 left-0`}
       style={{ backgroundImage: `url(${image})` }}>

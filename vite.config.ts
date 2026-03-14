@@ -8,6 +8,7 @@ import { defineConfig, type UserConfig } from "vite";
 import inspect from "vite-plugin-inspect";
 import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "./package.json";
+// @ts-ignore
 import tailwindcss from "@tailwindcss/vite";
 
 

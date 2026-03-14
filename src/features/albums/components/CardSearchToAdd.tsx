@@ -52,7 +52,7 @@ export const CardSearchToAdd = component$(() => {
                 <select ref={resultsRefs} data-is-open="false" id="results" tabIndex={1}
                         size={Math.max(2, Math.min(10, results.length))}
                         hidden={results.length === 0}
-                        class="absolute py-1 px-2 max-h-[50vh] top-[100%] w-[calc(100%_-_2rem)] bg-white text-black overflow-y-auto z-10">
+                        class="absolute py-1 px-2 max-h-[50vh] top-full w-[calc(100%-2rem)] bg-white text-black overflow-y-auto z-10">
                     {results.length > 0 && Object.values(a.resultCards).map((c => (
                             <option onClick$={async () => {
                                 app.isLoading = true;

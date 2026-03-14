@@ -86,7 +86,7 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
                         Filters
                         <Icon name="art" width={16} height={16} class="fill-primary"/>
                         <span
-                                class="absolute top-[-0.25rem] right-[-0.25rem] text-xs text-white bg-primary ring-1 ring-black rounded-[50%] w-4 h-4 z-10">
+                                class="absolute -top-1 -right-1 text-xs text-white bg-primary ring-1 ring-black rounded-[50%] w-4 h-4 z-10">
             {numberOfFilters.value}
           </span>
                     </Button>

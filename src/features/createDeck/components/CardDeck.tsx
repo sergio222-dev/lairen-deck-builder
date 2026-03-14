@@ -30,8 +30,8 @@ export const CardDeck = component$<CardDeckProps>(({ cardId }) => {
     return (
             <div class="">
                 <div
-                        class={`select-none relative aspect-[2.5/3.5] cursor-pointer rounded-card bg-[length:100%_auto] bg-[50%_25%]
-       bg-no-repeat ring-secondary transition-all hover:md:animate-wiggle hover:bg-[length:100%_auto] hover:shadow-[0px_0px_10px_3px] hover:shadow-secondary hover:ring-1`}
+                        class={`select-none relative aspect-2.5/3.5 cursor-pointer rounded-card bg-size-[100%_auto] bg-position-[50%_25%]
+       bg-no-repeat ring-secondary transition-all hover:md:animate-wiggle hover:bg-size-[100%_auto] hover:shadow-[0px_0px_10px_3px] hover:shadow-secondary hover:ring-1`}
                         style={{
                             backgroundImage:    `url(${f.cardStack[cardId].image})`,
                             backgroundSize:     "calc(100% + 3px) auto",
