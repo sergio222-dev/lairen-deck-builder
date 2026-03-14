@@ -9,7 +9,7 @@ export const DeckList = component$(() => {
     <div class="grid auto-rows-fr gap-4 grid-cols-[repeat(auto-fill,minmax(350px,1fr))] fade-in-children">
       {dl.decks.map(d => {
         return (
-          <DeckCard id={d.deckId} name={d.name} splashArt={d.splashArt} key={d.deckId}/>
+          <DeckCard type1={d.type1} type2={d.type2} id={d.deckId} name={d.name} splashArt={d.splashArt} key={d.deckId}/>
         );
       })}
     </div>

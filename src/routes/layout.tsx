@@ -84,9 +84,9 @@ export default component$(() => {
                     )}
 
                     {isInMaintenance.value && (
-                            <div class="flex flex-1 justify-center h-[100vh]">
-                                <div class="max-w-md mt-[10rem]">
-                                    <h1 class="text-3xl text-[var(--qwik-secondary)]">Actualizando/Arreglando cosas</h1>
+                            <div class="flex flex-1 justify-center h-screen">
+                                <div class="max-w-md mt-40">
+                                    <h1 class="text-3xl text-(--qwik-secondary)">Actualizando/Arreglando cosas</h1>
                                     <hr/>
                                     <p class="mt-2">
                                         Probablemente estoy arreglando algo que se rompio, si necesitas un deck urgente

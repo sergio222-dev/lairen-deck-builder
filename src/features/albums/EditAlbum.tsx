@@ -140,7 +140,7 @@ export const EditAlbum = component$(() => {
                 <div class="flex justify-center">
                     <div
                             data-edit={a.editMode ? "true" : "false"}
-                            class={`${styles['card-list']} max-w-screen-2xl flex-1 overflow-x-scroll`}>
+                            class={`${styles['card-list']} max-w-(--breakpoint-2xl) flex-1 overflow-x-scroll`}>
                         <TableCard/>
                     </div>
                 </div>

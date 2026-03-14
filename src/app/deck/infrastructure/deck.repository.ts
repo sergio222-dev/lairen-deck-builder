@@ -42,7 +42,7 @@ export class DeckRepository {
       *,
       deck_face ( image, id )
       `)
-      .order('created_at', {
+      .order('updated_at', {
         ascending: false,
       })
       .eq('owner', owner.value);

@@ -20,7 +20,7 @@ export default component$(() => {
                 {/*<div>*/}
                 {/*    <img*/}
                 {/*            src="https://i.postimg.cc/4d8HSNdH/nicol-huelga.webp" alt="Nicol Huelga"*/}
-                {/*            class="container mx-auto aspect-[16/9] max-w-[400px] rounded-lg shadow-md"/>*/}
+                {/*            class="container mx-auto aspect-video max-w-[400px] rounded-lg shadow-md"/>*/}
                 {/*</div>*/}
             </div>
     );

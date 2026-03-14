@@ -12,7 +12,7 @@ export const CardList = component$<CardListProps>(() => {
     return (
             <div class="sm:p-0 shadow-lg grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {f.cards.map((id) => (
-                        <div class="p-4 aspect-[2.5/3.5] flex" key={id} onClick$={() => {
+                        <div class="p-4 aspect-2.5/3.5 flex" key={id} onClick$={() => {
                             void cardViewer.setCard(f.cardStack[id]);
                             cardViewer.isOpen = true;
                         }}>

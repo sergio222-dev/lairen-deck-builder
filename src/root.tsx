@@ -7,7 +7,7 @@ import {
 import { DialogYesNoNo }               from "~/components/dialogs/DialogYesNo";
 import { RouterHead } from "./components/router-head/router-head";
 
-import "./global.scss";
+import "./global.css";
 
 export default component$(() => {
   /**

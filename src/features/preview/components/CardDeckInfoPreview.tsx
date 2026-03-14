@@ -11,7 +11,7 @@ export const CardDeckInfoPreview = component$(() => {
     return (
             <div class="shadow-lg m-4">
                 <div class="flex justify-center gap-4">
-                    <div class="border-[var(--qwik-secondary)] border-2 p-4 flex flex-col items-center rounded">
+                    <div class="border-(--qwik-secondary) border-2 p-4 flex flex-col items-center rounded">
                         Cards in deck <span class="text-green-400 text-[2rem]">{d.quantityInMainDeck}</span>
                     </div>
                 </div>

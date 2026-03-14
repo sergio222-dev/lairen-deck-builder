@@ -23,12 +23,12 @@
 //     return (
 //             <div
 //                     class={`
-//       flex justify-between items-center h-[40px] rounded-2xl bg-primary bg-no-repeat bg-[right_20%] bg-[length:70%_1000%]
+//       flex justify-between items-center h-[40px] rounded-2xl bg-primary bg-no-repeat bg-position-[right_20%] bg-size-[70%_1000%]
 //        ${d.deckData.splashArtId === card.id ?
 //                             'border-secondary' :
 //                             'border-primary'} border-4`}
 //             >
-//                 <div class="flex flex-1 select-none items-center gap-2 min-w-[0]">
+//                 <div class="flex flex-1 select-none items-center gap-2 min-w-0">
 //                     <div>
 //                         <ButtonIcon disabled={d.deckData.splashArt === card.image}
 //                                     onClick$={() => d.setSplashArt(card.image, card.id)}>
@@ -43,7 +43,7 @@
 //                             }}
 //                     >
 //                         <h3
-//                                 class="text-white text-sm font-bold drop-shadow-lg whitespace-nowrap overflow-hidden overflow-ellipsis">{card.name}</h3>
+//                                 class="text-white text-sm font-bold drop-shadow-lg whitespace-nowrap overflow-hidden text-ellipsis">{card.name}</h3>
 //                     </div>
 //                 </div>
 //                 <div class="flex gap-1">

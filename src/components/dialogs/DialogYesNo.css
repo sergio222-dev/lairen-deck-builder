@@ -1,3 +1,5 @@
+@reference '../../global.css';
+
 .dialog_button {
   @apply bg-secondary rounded px-5 py-2 disabled:bg-gray-400
 }
