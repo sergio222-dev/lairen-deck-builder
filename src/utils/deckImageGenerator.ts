@@ -8,7 +8,7 @@ import { parseToText }                                   from '~/utils/parser';
 const NUM_COLS                      = 5;
 const SPACE_BETWEEN_TITLE_AND_CARDS = 20;
 const CARD_HEIGHT                   = 270;
-const STATING_HEIGHT_CARD_ZONE      = 150;
+const STARTING_HEIGHT_CARD_ZONE      = 150;
 
 function splitChunk(array: any[], chunkSize: number) {
   const result = [];
@@ -24,13 +24,14 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
   const name = deck.name;
 
   let cardZoneHeight = 0;
-  cardZoneHeight += calculateHeightOfCardZone(deck.quantityUnitsCards);
-  cardZoneHeight += calculateHeightOfCardZone(deck.quantityActionsCards);
-  cardZoneHeight += calculateHeightOfCardZone(deck.quantityMonumentsWeaponsCards);
-  cardZoneHeight += calculateHeightOfCardZone(deck.quantityInTreasureDeck);
-  cardZoneHeight += calculateHeightOfCardZone(deck.quantityInSideDeck);
+  cardZoneHeight += calculateHeightOfCardZone(deck.orderedUnitCards.length);
+  cardZoneHeight += calculateHeightOfCardZone(deck.orderedActionCards.length);
+  if (deck.quantityMonumentsWeaponsCards > 0)
+    cardZoneHeight += calculateHeightOfCardZone(deck.orderedMonumentWeaponCards.length);
+  cardZoneHeight += calculateHeightOfCardZone(deck.orderedTreasureCards.length);
+  cardZoneHeight += calculateHeightOfCardZone(deck.orderedSideCards.length);
 
-  const height = cardZoneHeight + STATING_HEIGHT_CARD_ZONE;
+  const height = cardZoneHeight + STARTING_HEIGHT_CARD_ZONE;
 
   const canvas  = document.createElement('canvas');
   canvas.height = height;
@@ -60,45 +61,43 @@ export async function generateDeckImage(deck: DeckCreationStoreState): Promise<v
       ...deck.cardStack[id]
     };
   });
-  await printCards(ctx, units, 'Unidades', STATING_HEIGHT_CARD_ZONE);
+  await printCards(ctx, units, 'Unidades', STARTING_HEIGHT_CARD_ZONE);
+  let yHeight                                                    = calculateHeightOfCardZone(units.length);
 
   // print all actions
   const actions: Array<UICardStackItem & UICardInDeckItem>       = deck.orderedActionCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
-  let yHeight                                                    = calculateHeightOfCardZone(units.length);
-  await printCards(ctx, actions, 'Acciones', STATING_HEIGHT_CARD_ZONE + yHeight);
+  await printCards(ctx, actions, 'Acciones', STARTING_HEIGHT_CARD_ZONE + yHeight);
+  yHeight += calculateHeightOfCardZone(actions.length);
 
   // print all monuments and weapons
   if (deck.quantityMonumentsWeaponsCards > 0) {
-    yHeight += calculateHeightOfCardZone(actions.length);
     const monumentsAndWeapons: Array<UICardInDeckItem & UICardStackItem> = deck.orderedMonumentWeaponCards.map(id => ({
       ...deck.cardInDeck[id],
       ...deck.cardStack[id]
     }));
-    await printCards(ctx, monumentsAndWeapons, 'Monumentos y armas', STATING_HEIGHT_CARD_ZONE + yHeight);
+    await printCards(ctx, monumentsAndWeapons, 'Monumentos y armas', STARTING_HEIGHT_CARD_ZONE + yHeight);
+    yHeight += calculateHeightOfCardZone(monumentsAndWeapons.length);
   }
 
   // print all treasures
-
-  yHeight +=
-    calculateHeightOfCardZone(deck.quantityMonumentsWeaponsCards > 0 ?
-      deck.quantityMonumentsWeaponsCards :
-      deck.quantityActionsCards);
   const treasures: Array<UICardInDeckItem & UICardStackItem>     = deck.orderedTreasureCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
-  await printCards(ctx, treasures, 'Tesoros', STATING_HEIGHT_CARD_ZONE + yHeight);
+  await printCards(ctx, treasures, 'Tesoros', STARTING_HEIGHT_CARD_ZONE + yHeight);
+  yHeight +=
+    calculateHeightOfCardZone(treasures.length);
 
   // print all side deck
-  yHeight += calculateHeightOfCardZone(treasures.length);
   const sideDeckCards: Array<UICardInDeckItem & UICardStackItem> = deck.orderedSideCards.map(id => ({
     ...deck.cardInDeck[id],
     ...deck.cardStack[id]
   }));
-  await printCards(ctx, sideDeckCards, 'Side deck', STATING_HEIGHT_CARD_ZONE + yHeight);
+  await printCards(ctx, sideDeckCards, 'Side deck', STARTING_HEIGHT_CARD_ZONE + yHeight);
+  // yHeight += calculateHeightOfCardZone(treasures.length);
 
   const dataUrl = canvas.toDataURL('image/jpeg');
 
