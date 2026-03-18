@@ -23,6 +23,7 @@ const deckPreviewStoreInitialState: DeckPreviewStoreState = {
   type1:                         null,
   type2:                         null,
   ownedPercent:                  0,
+  types: [],
   collection:                    {}
 };
 
