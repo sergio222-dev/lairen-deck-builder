@@ -175,4 +175,12 @@ export class Deck extends AggregateRoot {
     this._isPublic = isPublic;
   }
 
+  changeType1(type: StringValueObject) {
+    this._type1 = type;
+  }
+
+  changeType2(type: StringValueObject) {
+    this._type2 = type;
+  }
+
 }

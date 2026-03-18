@@ -10,7 +10,6 @@
         & > * {
             opacity: 0;
             animation: fadeIn 0.5s forwards;
-            transform: translateY(1rem);
         }
     }
 }
@@ -18,7 +17,6 @@
 @keyframes fadeIn {
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -31,10 +29,6 @@ body {
     color: white;
     background-color: #181A1B;
     height: 100%;
-}
-
-button {
-    color: black;
 }
 
 input {

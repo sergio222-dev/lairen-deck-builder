@@ -48,12 +48,12 @@ export const DeckImporter = component$<DeckImporterProps>(({ isOpen, onClose }) 
     })
 
     return (
-            <dialog ref={dialogRef} class="p-4 container max-w-xl">
+            <dialog ref={dialogRef} class="p-4 max-w-xl w-full m-auto rounded shadow-lg shadow-black">
                 <textarea disabled={app.isLoading} ref={textAreaRef} class="w-full h-full p-4" rows={10}
                           placeholder="Paste your deck here..."/>
                 <div class="flex items-center justify-end gap-2 mt-2">
-                    <Button disabled={app.isLoading} onClick$={() => onClose()}>Cancel</Button>
-                    <Button disabled={app.isLoading} onClick$={() => handleImport()}>Import</Button>
+                    <Button disabled={app.isLoading} onClick$={() => onClose()}>Cancelar</Button>
+                    <Button disabled={app.isLoading} onClick$={() => handleImport()}>Importar</Button>
                 </div>
             </dialog>
     );

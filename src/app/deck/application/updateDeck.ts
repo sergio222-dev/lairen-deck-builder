@@ -41,7 +41,13 @@ export class UpdateDeck {
       deck.assignSplashArt(new SplashArt(new IdValueObject(command.splashArtId), StringValueObject.EMPTY));
     }
 
-    // TODO replace type_1 type_2
+    if (command.type1) {
+      deck.changeType1(new StringValueObject(command.type1));
+    }
+
+    if (command.type2) {
+      deck.changeType2(new StringValueObject(command.type2));
+    }
 
     const cards = command.cards.map(c => {
       return new DeckCard(

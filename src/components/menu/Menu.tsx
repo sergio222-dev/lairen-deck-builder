@@ -18,7 +18,7 @@ export const Menu = component$<MenuProps>(({ onClick, right }) => {
 
   return (
     <div class="relative inline-block">
-      <button onClick$={handleToggle} class={`px-4 py-2 bg-secondary rounded flex gap-2 items-center`}>
+      <button onClick$={handleToggle} class={`px-4 py-2 bg-secondary text-black hover:cursor-pointer rounded flex gap-2 items-center`}>
         <Slot name="label"/>
         {isOpen.value
           ? <Icon name="up" width={12} height={12} class="fill-primary"/>

@@ -59,8 +59,8 @@ export default component$(() => {
     return (
             <div class="overflow-y-auto w-full">
                 <div class="flex w-full justify-between py-4 px-2">
-                    <h1 class="text-2xl font-bold">My Albums</h1>
-                    <Button onClick$={() => isOpen.value = !isOpen.value}>Create Album</Button>
+                    <h1 class="text-2xl font-bold">Mis albums</h1>
+                    <Button onClick$={() => isOpen.value = !isOpen.value}>Crear Album</Button>
                 </div>
                 <CreateAlbum onClose={onClose} isOpen={isOpen.value} availableSets={albumState.value.availableSets}/>
                 <ListAlbums/>

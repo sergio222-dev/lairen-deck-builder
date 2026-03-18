@@ -1,5 +1,6 @@
 import type { GetAllCardAlbum } from '~/app/album/application/getAllCardAlbum';
 import type { GetDeck } from '~/app/deck/application/getDeck';
+import { GetUnitTypes }         from '~/app/deck/application/getUnitTypes';
 import type { User }    from '~/app/shared/application/DTO/user.dto';
 
 import type { CardInfoProection } from '~/app/shared/application/projections/cardInfo.proection';
@@ -11,10 +12,11 @@ import { UnauthorizedException }   from '~/exceptions/UnauthorizedException';
 import type { UIDeckInformation, UIDeckStats, UIUserCollection } from '~/UI/deck/models/deck.store.model';
 
 export class GetDeckPresenter {
-  static readonly inject = [TOKENS.GET_DECK, TOKENS.GET_ALL_CARD_ALBUM, TOKENS.CURRENT_USER];
+  static readonly inject = [TOKENS.GET_DECK, TOKENS.GET_ALL_CARD_ALBUM, TOKENS.GET_UNIT_TYPES, TOKENS.CURRENT_USER];
 
   constructor(private readonly getDeck: GetDeck,
               private readonly getAllCardAlbum: GetAllCardAlbum,
+              private readonly getUnitTypes: GetUnitTypes,
               private readonly getCurrentUser: () => User | null) {
   }
 
@@ -25,6 +27,8 @@ export class GetDeckPresenter {
     if (!currentUser) {
       throw new UnauthorizedException('');
     }
+
+    const unitTypes = await this.getUnitTypes.execute();
 
     const allAlbumCards = await this.getAllCardAlbum.execute(new UserIdValueObject(currentUser.id));
 
@@ -46,6 +50,7 @@ export class GetDeckPresenter {
         type1:       null,
         type2:       null,
         splashArt:   undefined,
+        types: unitTypes.types,
         ...stats
       };
     }
@@ -89,6 +94,7 @@ export class GetDeckPresenter {
       type1:       deck.type1?.value ?? null,
       type2:       deck.type2?.value ?? null,
       splashArtId:   deck.splashArt?.cardId.value ?? undefined,
+      types: unitTypes.types,
       ...stats
     };
   }

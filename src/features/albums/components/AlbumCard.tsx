@@ -1,5 +1,5 @@
 import { $, component$, useContext } from "@builder.io/qwik";
-import { useNavigate }               from "@builder.io/qwik-city";
+import { Link, useNavigate }         from "@builder.io/qwik-city";
 import { AppContext }                from "~/stores/appContext";
 import { ALBUM_LIST_CONTEXT }        from "~/UI/album/store/albumList.store";
 
@@ -27,12 +27,12 @@ export const AlbumCard = component$<AlbumCardProps>(({ name, current, total, id 
     });
 
     return (
-            <div onClick$={() => nav(`/album/${id}`)}
-                 class="rounded cursor-pointer flex flex-col gap-2 p-2 min-h-[50px] border-primary border-2 hover:border-secondary text-white">
+            <Link href={`/album/${id}`}
+                  class="rounded cursor-pointer flex flex-col gap-2 p-2 min-h-[50px] border-primary border-2 hover:border-secondary text-white">
                 <div class="flex gap-2 justify-between">
                     <h2 class="self-start">{name}</h2>
                     <button stoppropagation:click onClick$={() => deleteAlbum()}
-                            class="bg-secondary rounded px-4 disabled:bg-gray-400">Delete
+                            class="bg-secondary text-black rounded px-4 disabled:bg-gray-400">Delete
                     </button>
                 </div>
                 <div>
@@ -41,6 +41,6 @@ export const AlbumCard = component$<AlbumCardProps>(({ name, current, total, id 
                         <div class="h-[18px] bg-secondary rounded-2xl" style={{ width: `${ratio}%` }}></div>
                     </div>
                 </div>
-            </div>
+            </Link>
     );
 })

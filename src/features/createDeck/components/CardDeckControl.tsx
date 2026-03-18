@@ -21,7 +21,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
 
     return (
             <div
-                    class={` md:group aspect-2.5/3.5 border-4 overflow-hidden rounded-[5%/3.571428571428571%] bg-cover ${deck.splashArtId ===
+                    class={`group aspect-2.5/3.5 border-4 overflow-hidden rounded-[5%/3.571428571428571%] bg-cover ${deck.splashArtId ===
                     cardId ?
                             'border-secondary' :
                             'border-[#181A1B]'} ${orientation === 'horizontal' ?
@@ -35,7 +35,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
                         cardViewer.isOpen = true;
                     }}
             >
-                <div class="md:hidden md:group-hover:inline inline top-[30%] right-[10%] z-10 absolute">
+                <div class="md:opacity-0 md:group-hover:opacity-100 inline top-[30%] right-[10%] z-10 absolute">
                     <ButtonIcon disabled={deck.splashArtId === card.id}
                                 onClick$={() => deck.setSplashArt(card.id)}
                                 stoppropagation:click
@@ -53,7 +53,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
 
 
                 <div
-                        class="md:hidden md:group-hover:flex absolute flex bottom-0 w-full h-[32px] justify-around flex-row-reverse gap-1 p-[4px]"
+                        class="md:opacity-0 md:group-hover:opacity-100 absolute flex bottom-0 w-full h-[32px] justify-around flex-row-reverse gap-1 p-[4px]"
                 >
                     <div
                             class={`flex select-none items-center ${isSide ?
