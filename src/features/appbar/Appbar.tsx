@@ -44,18 +44,18 @@ export const Appbar = component$(() => {
                             <ul class="items-stretch space-x-3 flex">
                                 <li class="flex">
                                     <Link rel="noopener noreferrer" href="/cards"
-                                          class="flex items-center px-4 ">Cards</Link>
+                                          class="flex items-center px-4 ">Cartas</Link>
                                 </li>
                                 <li class="flex">
                                     <Link rel="noopener noreferrer" href="/decks"
-                                          class="flex items-center px-4 ">Decks</Link>
+                                          class="flex items-center px-4 ">Mazos</Link>
                                 </li>
                                 {!userStore.user &&
                                         (<>
                                                     <li class="flex cursor-pointer">
                                                         <Link onClick$={() => isMenuOpen.value = false}
                                                               rel="noopener noreferrer" href="/decks/create"
-                                                              class="flex items-center px-2 ">Create Deck</Link>
+                                                              class="flex items-center px-2 ">Crear Mazo</Link>
                                                     </li>
                                                     <li class="flex cursor-pointer">
                       <span class="flex items-center gap-2" onClick$={async () => {
@@ -87,7 +87,7 @@ export const Appbar = component$(() => {
                                         (<>
                                                     <li class="flex">
                                                         <Link rel="noopener noreferrer" href="/mydecks"
-                                                              class="flex items-center px-4 ">My decks</Link>
+                                                              class="flex items-center px-4 ">Mis Mazos</Link>
                                                     </li>
                                                     <li class="flex">
                                                         <Link rel="noopener noreferrer" href="/album"
@@ -159,7 +159,7 @@ export const Appbar = component$(() => {
                                         <li class="flex">
                                             <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer"
                                                   href="/mydecks"
-                                                  class="flex items-center px-2 ">My decks</Link>
+                                                  class="flex items-center px-2 ">Mis mazos</Link>
                                         </li>
                                         <li class="flex">
                                             <Link onClick$={() => isMenuOpen.value = false} rel="noopener noreferrer"

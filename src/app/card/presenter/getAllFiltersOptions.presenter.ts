@@ -95,7 +95,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id: CATEGORY_FILTERS.COST,
         field: ['cost'],
-        label: 'Cost',
+        label: 'Costo',
         type: FilterType.IN,
         availableValues: Array.from({ length: 10}, (x, i) => i).map<UIFilterValues>(x => ({
           value: x.toString(),
@@ -106,7 +106,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id:              CATEGORY_FILTERS.SUB_TYPE,
         field:           ['subtype', 'subtype2'],
-        label:           'Sub Type',
+        label:           'Sub Tipo',
         type:            FilterType.IN,
         availableValues: list['SUB_TYPE'],
         currentValues:   [],
@@ -115,7 +115,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id:              CATEGORY_FILTERS.TYPE,
         field:           ['type'],
-        label:           'Type',
+        label:           'Tipo',
         type:            FilterType.IN,
         availableValues: list['TYPE'],
         currentValues:   []
@@ -123,7 +123,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id:              CATEGORY_FILTERS.SUPER_TYPE,
         field:           ['supertype'],
-        label:           'Super type',
+        label:           'Super tipo',
         type:            FilterType.IN,
         availableValues: list['SUPER_TYPE'],
         currentValues:   []
@@ -139,7 +139,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id:              CATEGORY_FILTERS.TEXT,
         field:           ['name', 'text'],
-        label:           'Name',
+        label:           'Nombre',
         type:            FilterType.ILIKE,
         availableValues: [],
         currentValues:   [],
@@ -148,7 +148,7 @@ export class GetAllFiltersOptionsPresenter {
       {
         id:              CATEGORY_FILTERS.RARITY,
         field:           ['rarity'],
-        label:           'Rarity',
+        label:           'Rareza',
         type:            FilterType.IN,
         availableValues: rarity,
         currentValues:   []

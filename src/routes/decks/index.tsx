@@ -34,10 +34,10 @@ export default component$(() => {
     return (
             <div class="overflow-y-auto w-full">
                 <div class="flex w-full justify-between py-4 px-2">
-                    <h1 class="text-2xl font-bold">Decks List</h1>
+                    <h1 class="text-2xl font-bold">Lista de Mazos</h1>
                     {userStore.user && (
                             <Link href="/decks/create/">
-                                <Button>Create Deck</Button>
+                                <Button>Crear Mazo</Button>
                             </Link>
                     )}
                 </div>

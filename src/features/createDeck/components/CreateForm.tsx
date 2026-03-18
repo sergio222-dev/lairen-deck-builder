@@ -5,6 +5,7 @@ import { Icon }                                 from "~/components/icons/Icon";
 import { Menu }                                 from "~/components/menu";
 import { Switch }                               from '~/components/switch/Switch';
 import { Text }                                 from '~/components/text';
+import { DeckTypesConfigurator }                from "~/features/createDeck/components/DeckTypesConfigurator";
 import { DeckImporter }                         from "~/features/importer/DeckImporter";
 import { AppContext }                           from "~/stores/appContext";
 import { DECK_CREATION_CONTEXT }                from "~/UI/deck/store/deckCreation.store";
@@ -41,7 +42,7 @@ export const CreateForm = component$(() => {
     return (
             <div class="p-2">
                 <div class="flex flex-wrap items-center justify-between py-2">
-                    <Text value={d.name} placeholder="Deck Name" onInput$={handleNameChange}/>
+                    <Text value={d.name} placeholder="Nombre del mazo" onInput$={handleNameChange}/>
                     {userStore.user && (
                             <div>
                                 <Switch
@@ -50,7 +51,7 @@ export const CreateForm = component$(() => {
                                         value={d.isPublic}
                                         onChange={handleChange}
                                 />
-                                is public?
+                                es publico?
                             </div>
                     )}
                 </div>
@@ -59,7 +60,7 @@ export const CreateForm = component$(() => {
                         <div class="flex py-2">
                             <Text
                                     value={d.description}
-                                    placeholder="Description"
+                                    placeholder="Descripcion"
                                     class="w-full"
                                     type="text"
                                     onInput$={handleDescriptionName}
@@ -89,7 +90,7 @@ export const CreateForm = component$(() => {
                                                 }
                                             })}
                                     >
-                                        {d.deckId !== 0 ? "Update" : "Create"}
+                                        {d.deckId !== 0 ? "Actualizar" : "Crear"}
                                     </Button>
                             )}
                             <div class="flex gap-2">
@@ -158,13 +159,13 @@ export const CreateForm = component$(() => {
                                         app.isLoading = false;
                                     }}
                             >
-                                Generate Image
+                                Generar Imagen
                             </Button>
                         </div>
                     </Menu>
-                    {/*<DeckTypesConfigurator/>*/}
+                    <DeckTypesConfigurator />
                     <Menu right>
-                        <div q:slot="label">View</div>
+                        <div q:slot="label">Vista</div>
                         <div class="flex gap-2 text-black">
                             <Button> <Icon name="gallery" width={24} height={24}/> </Button>
                             <Button disabled> <Icon name="list" width={24} height={24}/> </Button>

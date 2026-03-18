@@ -83,15 +83,15 @@ export const CardFilter = component$<CardFilterProps>(({ mobileListDeckRef }) =>
                         ))}
                     </FilterField>
                     <Button onClick$={handleDialogOpen} class="px-2 py-3 flex items-baseline text-black gap-2 relative">
-                        Filters
+                        Filtros
                         <Icon name="art" width={16} height={16} class="fill-primary"/>
                         <span
                                 class="absolute -top-1 -right-1 text-xs text-white bg-primary ring-1 ring-black rounded-[50%] w-4 h-4 z-10">
             {numberOfFilters.value}
-          </span>
+                        </span>
                     </Button>
                 </div>
-                <dialog ref={refDialog} class="p-4 container max-w-xl">
+                <dialog ref={refDialog} class="p-4 max-w-xl w-full m-auto rounded shadow-lg shadow-black">
                     <div class="flex gap-2">
                         <h2 class="text-xl flex-1">Filter</h2>
                         <div>

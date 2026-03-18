@@ -60,7 +60,7 @@ export const FilterField = component$<FilterFieldProps>(
                                     autocomplete="off"
                                     class="focus:outline-none bg-transparent flex-1 w-full"
                                     type="text"
-                                    placeholder="Type to filter..."
+                                    placeholder="Ingresa para filtrar..."
                                     onKeyDown$={handleClear}
                             />
                         </form>

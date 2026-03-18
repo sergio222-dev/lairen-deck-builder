@@ -28,7 +28,7 @@ export const Accordion = component$<AccordionProps>(({ title, quantity, isExclus
                     )}
                     <p>{quantity}</p>
                 </div>
-                <div hidden={!isOpen.value} class="px-2">
+                <div hidden={!isOpen.value} class="p-2">
                     <Slot/>
                 </div>
                 <hr/>

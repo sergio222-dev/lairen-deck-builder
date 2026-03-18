@@ -42,11 +42,14 @@ import { ImportDeckPresenter }                 from '~/app/card/presenter/Import
 import { QueryCardsPresenter }                 from '~/app/card/presenter/queryCards.presenter';
 import { CreateDeck }                          from '~/app/deck/application/createDeck';
 import { DeleteDeck }                          from '~/app/deck/application/deleteDeck';
+import { CardTypesFinder }                     from '~/app/deck/application/finder/cardTypes.finder';
 import { GetDeck }                             from '~/app/deck/application/getDeck';
+import { GetUnitTypes }                        from '~/app/deck/application/getUnitTypes';
 import { ListPublicDecks }                     from '~/app/deck/application/listPublicDecks';
 import { ListUserDecks }                       from '~/app/deck/application/listUserDecks';
 import { UpdateDeck }                          from '~/app/deck/application/updateDeck';
 import { DeckRepository }                      from '~/app/deck/infrastructure/deck.repository';
+import { SupabaseCardTypesFinder }             from '~/app/deck/infrastructure/supabaseCardTypes.finder';
 import { DeleteDeckPresenter }                 from '~/app/deck/presentation/deleteDeck.presenter';
 import { GetDeckPresenter }                    from '~/app/deck/presentation/getDeck.presenter';
 import { ListPublicDeckPresenter }             from '~/app/deck/presentation/listPublicDeck.presenter';
@@ -77,6 +80,7 @@ export interface TOKEN_MAP {
   [TOKENS.CARD_FINDER]: CardFinder;
   [TOKENS.ALBUM_FINDER]: AlbumFinder;
   [TOKENS.CARD_FILTER_OPTIONS_FINDER]: CardFilterOptionsFinder;
+  [TOKENS.CARD_TYPES_FINDER]: CardTypesFinder;
   // infrastructure
   [TOKENS.CARD_REPOSITORY]: CardRepository;
   [TOKENS.SET_FINDER_REPOSITORY]: SetFinderRepository;
@@ -104,6 +108,7 @@ export interface TOKEN_MAP {
   [TOKENS.GET_ALL_CARD_ALBUM]: GetAllCardAlbum;
   [TOKENS.GET_FILTER_OPTIONS]: GetCardFilterOptions;
   [TOKENS.FIND_CARDS]: FindCard;
+  [TOKENS.GET_UNIT_TYPES]: GetUnitTypes;
   // presenter
   [TOKENS.CREATE_ALBUM_PRESENTER]: CreateAlbumPresenter;
   [TOKENS.QUERY_CARDS_PRESENTER]: QueryCardsPresenter;
@@ -147,6 +152,7 @@ export function createContainer(req: RequestEvent) {
     .provide(TOKENS.CARD_FINDER, SupabaseCardFinder)
     .provide(TOKENS.ALBUM_FINDER, SupabaseAlbumFinder)
     .provide(TOKENS.CARD_FILTER_OPTIONS_FINDER, SupabaseCardFilterOptionsFinder)
+    .provide(TOKENS.CARD_TYPES_FINDER, SupabaseCardTypesFinder)
     // Application Services
     .provide(TOKENS.CREATE_ALBUM, CreateAlbum)
     .provide(TOKENS.GET_ALBUMS, GetAlbums)
@@ -169,6 +175,7 @@ export function createContainer(req: RequestEvent) {
     .provide(TOKENS.GET_ALL_CARD_ALBUM, GetAllCardAlbum)
     .provide(TOKENS.GET_FILTER_OPTIONS, GetCardFilterOptions)
     .provide(TOKENS.FIND_CARDS, FindCard)
+    .provide(TOKENS.GET_UNIT_TYPES, GetUnitTypes)
     // Presenters
     .provide(TOKENS.CREATE_ALBUM_PRESENTER, CreateAlbumPresenter)
     .provide(TOKENS.GET_CARD_BY_ID_PRESENTER, GetCardByIdPresenter)

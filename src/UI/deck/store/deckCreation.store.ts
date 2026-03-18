@@ -71,16 +71,17 @@ const deckCreationStoreInitialState: DeckCreationStoreState = {
   ownedPercent:                  0,
   type1:                         null,
   type2:                         null,
-  collection:                    {}
+  collection:                    {},
+  types:                         []
 };
 
 export const useDeckCreationStore = (initialState: DeckCreationStoreState | null) => {
 
   return useStore<DECK_STORE>({
     ...initialState ?? deckCreationStoreInitialState,
-    cardStack:  initialState ? initialState.cardStack : {},
-    cardInDeck: initialState ? initialState.cardInDeck : {},
-    addCard:    $(function(this, cardData, side = false) {
+    cardStack:    initialState ? initialState.cardStack : {},
+    cardInDeck:   initialState ? initialState.cardInDeck : {},
+    addCard:      $(function(this, cardData, side = false) {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!this.cardStack[cardData.id]) {
         this.cardStack[cardData.id] = cardData;
@@ -175,7 +176,7 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
       Logger.info(this.orderedActionCards);
       Logger.info(`Finished Order`);
     }),
-    removeCard: $(function(this: DeckCreationStoreState, cardId: number, side = false) {
+    removeCard:   $(function(this: DeckCreationStoreState, cardId: number, side = false) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         const quantity       = this.cardInDeck[cardId]?.quantity ?? 0;
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -268,19 +269,19 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
         }
       }
     ),
-    saveDeck:   $(async function(this) {
+    saveDeck:     $(async function(this) {
       const result = await saveDeckServer(this, Object.values(this.cardInDeck));
 
       this.deckId = result;
 
       return result;
     }),
-    deleteDeck: $(async function(this) {
+    deleteDeck:   $(async function(this) {
       if (this.deckId < 1) return;
 
       await deleteDeckServer(this.deckId);
     }),
-    resetDeck:  $(function(this) {
+    resetDeck:    $(function(this) {
       this.orderedActionCards            = [];
       this.orderedSideCards              = [];
       this.orderedTreasureCards          = [];
@@ -298,7 +299,7 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
       this.cardStack                     = deckCreationStoreInitialState.cardStack;
       this.ownedPercent                  = 0;
     }),
-    importDeck: $(async function(this, text: string) {
+    importDeck:   $(async function(this, text: string) {
       const d = await importDeckServer(text);
 
       this.cardStack  = d.cardStack;
@@ -322,7 +323,7 @@ export const useDeckCreationStore = (initialState: DeckCreationStoreState | null
 
       this.ownedPercent = recalculateCollection(d.collection, d.cardInDeck);
     }),
-    copyDeck:   $(function(this) {
+    copyDeck:     $(function(this) {
 
     }),
     setSplashArt: $(function(this, cardId) {

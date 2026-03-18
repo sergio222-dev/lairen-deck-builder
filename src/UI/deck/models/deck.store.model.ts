@@ -23,12 +23,17 @@ export interface UIDeckCardInformation {
   cardInDeck: Record<string, UICardInDeckItem>;
 }
 
-export interface UIDeckInformation extends UIBasicDeckInformation, UIDeckCardInformation, UIUserCollection {
-}
-
 export interface UIUserCollection {
   collection: Record<string, number>
 }
+
+export interface UIDeckTypes {
+  types: string[];
+}
+
+export interface UIDeckInformation extends UIBasicDeckInformation, UIDeckCardInformation, UIUserCollection, UIDeckTypes {
+}
+
 
 
 export interface UIDeckStats {

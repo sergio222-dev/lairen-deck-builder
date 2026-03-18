@@ -73,8 +73,8 @@ export const Pagination = component$<PaginationProps>(({ mobileListDeckRef }) =>
                     <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between">
                         <div class="px-2">
                             <p class="text-sm text-white">
-                                Showing {(f.pagination.page - 1) * f.pagination.size + 1} to {!isLastPage.value ? f.pagination.page * f.pagination.size : f.count} results
-                                of {f.count}
+                                Mostrando {(f.pagination.page - 1) * f.pagination.size + 1} a {!isLastPage.value ? f.pagination.page * f.pagination.size : f.count} resultados
+                                de {f.count}
                             </p>
                         </div>
                         <div>
