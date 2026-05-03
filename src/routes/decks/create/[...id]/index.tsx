@@ -3,6 +3,8 @@ import type { FailReturn, RequestHandler } from '@builder.io/qwik-city';
 import { routeLoader$ }                    from '@builder.io/qwik-city';
 import { TOKENS }            from "~/app/shared/binds/TOKENS";
 import { NotFoundException } from "~/app/shared/domain/exceptions/notFound.exception";
+import { DeckNotOwnedByTheUserException } from "~/exceptions/DeckNotOwnedByTheUserException";
+import { UnauthorizedException }          from "~/exceptions/UnauthorizedException";
 
 import { Create }                      from '~/features/createDeck';
 import { IoC }                         from "~/lib/IoC";
@@ -36,6 +38,14 @@ export const useDeckStoreLoader = routeLoader$<DeckCreationStoreState | FailRetu
     } catch (error) {
         if (error instanceof NotFoundException) {
             return requestEnv.fail(404, {})
+        }
+
+        if (error instanceof UnauthorizedException) {
+            throw requestEnv.redirect(302, '/');
+        }
+
+        if (error instanceof DeckNotOwnedByTheUserException) {
+            throw requestEnv.redirect(302, '/');
         }
 
         return requestEnv.fail(500, {})
