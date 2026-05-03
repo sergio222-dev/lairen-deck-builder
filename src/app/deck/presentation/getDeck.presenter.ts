@@ -7,6 +7,7 @@ import type { CardInfoProection } from '~/app/shared/application/projections/car
 import { TOKENS }             from '~/app/shared/binds/TOKENS';
 import { UserIdValueObject }  from '~/app/shared/domain/VO/userId.valueObject';
 import { calculateDeckStats } from '~/app/shared/presenter/utils/calculateDeckStats';
+import { DeckNotOwnedByTheUserException } from '~/exceptions/DeckNotOwnedByTheUserException';
 import { UnauthorizedException }   from '~/exceptions/UnauthorizedException';
 
 import type { UIDeckInformation, UIDeckStats, UIUserCollection } from '~/UI/deck/models/deck.store.model';
@@ -24,13 +25,15 @@ export class GetDeckPresenter {
 
     const currentUser = this.getCurrentUser();
 
-    if (!currentUser) {
+    if (deckId !== null && !currentUser) {
       throw new UnauthorizedException('');
     }
 
     const unitTypes = await this.getUnitTypes.execute();
 
-    const allAlbumCards = await this.getAllCardAlbum.execute(new UserIdValueObject(currentUser.id));
+    const allAlbumCards = currentUser
+      ? await this.getAllCardAlbum.execute(new UserIdValueObject(currentUser.id))
+      : [];
 
     const collection = allAlbumCards.reduce<Record<string, number>>((a, v) => {
       a[v.id] = v.quantity;
@@ -56,6 +59,10 @@ export class GetDeckPresenter {
     }
 
     const [deck, cards] = await this.getDeck.execute(deckId);
+
+    if (deck.owner?.value !== currentUser!.id) {
+      throw new DeckNotOwnedByTheUserException();
+    }
 
     const cardInfoProjection = cards.map<CardInfoProection>(c => {
       return {
