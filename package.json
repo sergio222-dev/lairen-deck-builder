@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.19.1",
-    "@builder.io/qwik-city": "1.19.1",
+    "@builder.io/qwik-city": "1.19.2",
     "@eslint/js": "^10.0.1",
     "@fastify/compress": "^6.5.0",
     "@fastify/static": "^6.12.0",
@@ -44,7 +44,7 @@
     "dotenv": "^16.6.1",
     "eslint": "9.26.0",
     "eslint-plugin-qwik": "^1.19.0",
-    "fastify": "5.8.1",
+    "fastify": "5.8.5",
     "fastify-plugin": "^4.5.1",
     "globals": "^17.3.0",
     "jose": "^6.1.3",
@@ -63,7 +63,7 @@
     "typed-inject": "^5.0.0",
     "typescript": "5.3.3",
     "typescript-eslint": "^8.56.0",
-    "vite": "^7.3.1",
+    "vite": "^7.3.3",
     "vite-plugin-inspect": "0.8.4",
     "vite-tsconfig-paths": "^4.3.2",
     "wrangler": "4.59.1"
