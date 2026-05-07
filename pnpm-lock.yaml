@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@qwik-ui/headless':
         specifier: ^0.3.8
-        version: 0.3.8(@builder.io/qwik@1.19.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)))
+        version: 0.3.8(@builder.io/qwik@1.19.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)))
       '@supabase/ssr':
         specifier: ^0.8.0
         version: 0.8.0(@supabase/supabase-js@2.97.0)
@@ -44,10 +44,10 @@ importers:
     devDependencies:
       '@builder.io/qwik':
         specifier: 1.19.1
-        version: 1.19.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
+        version: 1.19.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
       '@builder.io/qwik-city':
-        specifier: 1.19.1
-        version: 1.19.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.59.0)(sass@1.97.0)(typescript@5.3.3)(yaml@2.8.2)
+        specifier: 1.19.2
+        version: 1.19.2(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.59.0)(sass@1.97.0)(typescript@5.3.3)(yaml@2.8.2)
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.26.0(jiti@2.6.1))
@@ -62,7 +62,7 @@ importers:
         version: 1.21.4
       '@tailwindcss/vite':
         specifier: ^4.2.1
-        version: 4.2.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
+        version: 4.2.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -85,8 +85,8 @@ importers:
         specifier: ^1.19.0
         version: 1.19.0(eslint@9.26.0(jiti@2.6.1))(typescript@5.3.3)
       fastify:
-        specifier: 5.8.1
-        version: 5.8.1
+        specifier: 5.8.5
+        version: 5.8.5
       fastify-plugin:
         specifier: ^4.5.1
         version: 4.5.1
@@ -142,14 +142,14 @@ importers:
         specifier: ^8.56.0
         version: 8.56.0(eslint@9.26.0(jiti@2.6.1))(typescript@5.3.3)
       vite:
-        specifier: ^7.3.1
-        version: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
+        specifier: ^7.3.3
+        version: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
       vite-plugin-inspect:
         specifier: 0.8.4
-        version: 0.8.4(rollup@4.59.0)(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
+        version: 0.8.4(rollup@4.59.0)(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
       vite-tsconfig-paths:
         specifier: ^4.3.2
-        version: 4.3.2(typescript@5.3.3)(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
+        version: 4.3.2(typescript@5.3.3)(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
       wrangler:
         specifier: 4.59.1
         version: 4.59.1
@@ -159,8 +159,8 @@ packages:
   '@antfu/utils@0.7.10':
     resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
 
-  '@builder.io/qwik-city@1.19.1':
-    resolution: {integrity: sha512-rSwcf1yY/D6UdG5l/AukW9+VLdBIWiyWDQvMWKu52QFGBOKXGoj2WEGtw31RoTuz9N4/hRplfoOPsi0UAPuiCg==}
+  '@builder.io/qwik-city@1.19.2':
+    resolution: {integrity: sha512-RueRitP3EExdvxUTwIukknEkFmvW47/V8p9u3fUMv2S7tUryDC5hopklwBY5pGCohXy2h2WYURvEzN+OOOWeCQ==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
 
   '@builder.io/qwik@1.19.1':
@@ -1290,10 +1290,6 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@trysound/sax@0.2.0':
-    resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
-    engines: {node: '>=10.13.0'}
-
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1437,6 +1433,7 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -2050,8 +2047,8 @@ packages:
   fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
 
-  fastify@5.8.1:
-    resolution: {integrity: sha512-y0kicFvvn7CYWoPOVLOcvn4YyKQz03DIY7UxmyOy21/J8eXm09R+tmb+tVDBW5h+pja30cHI5dqUcSlvY86V2A==}
+  fastify@5.8.5:
+    resolution: {integrity: sha512-Yqptv59pQzPgQUSIm87hMqHJmdkb1+GPxdE6vW6FRyVE9G86mt7rOghitiU4JHRaTyDUk9pfeKmDeu70lAwM4Q==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -3203,6 +3200,10 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  sax@1.6.0:
+    resolution: {integrity: sha512-6R3J5M4AcbtLUdZmRv2SygeVaM7IhrLXu9BmnOGmmACak8fiUtOsYNWUS4uK7upbmHIBbLBeFeI//477BKLBzA==}
+    engines: {node: '>=11.0.0'}
+
   secure-json-parse@2.7.0:
     resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
 
@@ -3361,8 +3362,8 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
-  svgo@3.3.2:
-    resolution: {integrity: sha512-OoohrmuUlBs8B8o6MB2Aevn+pRIH9zDALSR+6hhqVfa6fRwG/Qw9VUMSMW9VNg2CFc/MTIfabtdOVl9ODIJjpw==}
+  svgo@3.3.3:
+    resolution: {integrity: sha512-+wn7I4p7YgJhHs38k2TNjy1vCfPIfLIJWR5MnCStsN8WuuTcBnRKcMHQLMM2ijxGZmDoZwNv8ipl5aTTen62ng==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -3588,8 +3589,8 @@ packages:
       vite:
         optional: true
 
-  vite@7.3.1:
-    resolution: {integrity: sha512-w+N7Hifpc3gRjZ63vYBXA56dvvRlNWRczTdmCBBa+CotUzAPf5b7YMdMR/8CQoeYE5LX3W4wj6RYTgonm1b9DA==}
+  vite@7.3.3:
+    resolution: {integrity: sha512-/4XH147Ui7OGTjg3HbdWe5arnZQSbfuRzdr9Ec7TQi5I7R+ir0Rlc9GIvD4v0XZurELqA035KVXJXpR61xhiTA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -3754,16 +3755,16 @@ snapshots:
 
   '@antfu/utils@0.7.10': {}
 
-  '@builder.io/qwik-city@1.19.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.59.0)(sass@1.97.0)(typescript@5.3.3)(yaml@2.8.2)':
+  '@builder.io/qwik-city@1.19.2(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.59.0)(sass@1.97.0)(typescript@5.3.3)(yaml@2.8.2)':
     dependencies:
       '@mdx-js/mdx': 3.1.1
       '@types/mdx': 2.0.13
       source-map: 0.7.6
-      svgo: 3.3.2
+      svgo: 3.3.3
       undici: 7.18.2
       valibot: 1.2.0(typescript@5.3.3)
       vfile: 6.0.3
-      vite: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
+      vite: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
       vite-imagetools: 9.0.2(rollup@4.59.0)
       zod: 3.25.48
     transitivePeerDependencies:
@@ -3782,12 +3783,12 @@ snapshots:
       - typescript
       - yaml
 
-  '@builder.io/qwik@1.19.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))':
+  '@builder.io/qwik@1.19.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))':
     dependencies:
       csstype: 3.2.3
       launch-editor: 2.12.0
       rollup: 4.59.0
-      vite: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
+      vite: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
 
   '@cloudflare/kv-asset-handler@0.4.1':
     dependencies:
@@ -4411,9 +4412,9 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.19.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)))':
+  '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.19.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)))':
     dependencies:
-      '@builder.io/qwik': 1.19.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
+      '@builder.io/qwik': 1.19.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))
 
   '@rollup/pluginutils@5.3.0(rollup@4.59.0)':
     dependencies:
@@ -4614,14 +4615,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.2.1
       '@tailwindcss/oxide-win32-x64-msvc': 4.2.1
 
-  '@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))':
+  '@tailwindcss/vite@4.2.1(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2))':
     dependencies:
       '@tailwindcss/node': 4.2.1
       '@tailwindcss/oxide': 4.2.1
       tailwindcss: 4.2.1
-      vite: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
-
-  '@trysound/sax@0.2.0': {}
+      vite: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
 
   '@types/debug@4.1.12':
     dependencies:
@@ -5563,7 +5562,7 @@ snapshots:
 
   fastify-plugin@4.5.1: {}
 
-  fastify@5.8.1:
+  fastify@5.8.5:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
       '@fastify/error': 4.2.0
@@ -7003,6 +7002,8 @@ snapshots:
     optionalDependencies:
       '@parcel/watcher': 2.5.1
 
+  sax@1.6.0: {}
+
   secure-json-parse@2.7.0: {}
 
   secure-json-parse@4.1.0: {}
@@ -7221,15 +7222,15 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  svgo@3.3.2:
+  svgo@3.3.3:
     dependencies:
-      '@trysound/sax': 0.2.0
       commander: 7.2.0
       css-select: 5.2.2
       css-tree: 2.3.1
       css-what: 6.2.2
       csso: 5.0.5
       picocolors: 1.1.1
+      sax: 1.6.0
 
   tagged-tag@1.0.0: {}
 
@@ -7448,7 +7449,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  vite-plugin-inspect@0.8.4(rollup@4.59.0)(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)):
+  vite-plugin-inspect@0.8.4(rollup@4.59.0)(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.3.0(rollup@4.59.0)
@@ -7459,23 +7460,23 @@ snapshots:
       perfect-debounce: 1.0.0
       picocolors: 1.1.1
       sirv: 2.0.4
-      vite: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
+      vite: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
 
-  vite-tsconfig-paths@4.3.2(typescript@5.3.3)(vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)):
+  vite-tsconfig-paths@4.3.2(typescript@5.3.3)(vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
       tsconfck: 3.1.6(typescript@5.3.3)
     optionalDependencies:
-      vite: 7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
+      vite: 7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@7.3.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2):
+  vite@7.3.3(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.31.1)(sass@1.97.0)(yaml@2.8.2):
     dependencies:
       esbuild: 0.27.0
       fdir: 6.5.0(picomatch@4.0.3)

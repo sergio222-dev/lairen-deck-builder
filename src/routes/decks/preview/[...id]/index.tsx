@@ -21,7 +21,7 @@ export const useDeckPreviewStoreLoader = routeLoader$<DeckPreviewStoreState | Fa
     const deckPresenter = instance.resolve(TOKENS.GET_DECK_PRESENTER);
 
     try {
-        return await deckPresenter.execute(parseInt(deckId))
+        return await deckPresenter.execute(parseInt(deckId), 'preview')
     } catch (e: any) {
         if (e instanceof NotFoundException) {
             return requestEnv.fail(404, {});
