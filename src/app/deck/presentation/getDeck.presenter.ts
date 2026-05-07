@@ -21,11 +21,11 @@ export class GetDeckPresenter {
               private readonly getCurrentUser: () => User | null) {
   }
 
-  async execute(deckId: number | null): Promise<UIDeckInformation & UIDeckStats & UIUserCollection> {
+  async execute(deckId: number | null, mode: 'edit' | 'preview' = 'edit'): Promise<UIDeckInformation & UIDeckStats & UIUserCollection> {
 
     const currentUser = this.getCurrentUser();
 
-    if (deckId !== null && !currentUser) {
+    if (deckId !== null && !currentUser && mode === 'edit') {
       throw new UnauthorizedException('');
     }
 
@@ -60,7 +60,13 @@ export class GetDeckPresenter {
 
     const [deck, cards] = await this.getDeck.execute(deckId);
 
-    if (deck.owner?.value !== currentUser!.id) {
+    const isOwner = !!currentUser && deck.owner?.value === currentUser.id;
+
+    if (mode === 'edit' && !isOwner) {
+      throw new DeckNotOwnedByTheUserException();
+    }
+
+    if (mode === 'preview' && !isOwner && !deck.isPublic) {
       throw new DeckNotOwnedByTheUserException();
     }
 
