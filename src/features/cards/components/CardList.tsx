@@ -16,7 +16,7 @@ export const CardList = component$<CardListProps>(() => {
                             void cardViewer.setCard(f.cardStack[id]);
                             cardViewer.isOpen = true;
                         }}>
-                            <img class="rounded-[5%/3.571428571428571%]" loading='lazy' width={400} height={400}
+                            <img loading='lazy' width={800} height={400}
                                  alt={f.cardStack[id].name} src={f.cardStack[id].image}/>
                         </div>
                 ))}
