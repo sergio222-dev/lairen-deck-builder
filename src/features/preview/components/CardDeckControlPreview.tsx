@@ -23,7 +23,7 @@ export const CardDeckControlPreview = component$<CardDeckControlProps>((
 
     return (
             <div
-                    class={`aspect-2.5/3.5 rounded-[5%/3.571428571428571%] ${orientation === 'horizontal' ?
+                    class={`aspect-2.5/3.5 ${orientation === 'horizontal' ?
                             'md:w-[25%] sm:w-[33%] w-1/2 lg:w-[16.6%] xl:w-[12.5%] 2xl:w-[10%]' :
                             'md:w-[50%] sm:w-[33%] w-1/2 lg:w-[33%] xl:w-[25%] 2xl:w-[20%]'} bg-no-repeat bg-size-[100%_100%] relative flex flex-col`}
                     style={{

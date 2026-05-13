@@ -21,7 +21,7 @@ export const CardDeckControl = component$<CardDeckControlProps>(({ cardId, orien
 
     return (
             <div
-                    class={`group aspect-2.5/3.5 border-4 overflow-hidden rounded-[5%/3.571428571428571%] bg-cover ${deck.splashArtId ===
+                    class={`group aspect-2.5/3.5 border-4 overflow-hidden bg-cover ${deck.splashArtId ===
                     cardId ?
                             'border-secondary' :
                             'border-[#181A1B]'} ${orientation === 'horizontal' ?
