@@ -8,7 +8,7 @@ export const onPost: RequestHandler<PlatformCloudflarePages> = async (request) =
   const client = IoC.instance.resolve(TOKENS.SUPABASE);
 
   const { data, error } = await client.auth.signInWithOAuth({
-    provider: 'google', options: {
+    provider: 'custom:authentik-portal', options: {
       redirectTo:          request.url.origin + '/api/callback',
       skipBrowserRedirect: true,
     }
